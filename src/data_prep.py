@@ -285,6 +285,40 @@ def calibration_table(cities: pd.DataFrame, params: dict) -> pd.DataFrame:
     return out
 
 
+def clean_raw(params: dict) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    """Read the raw files and apply every §4.2 fix: (cities, districts, states)."""
+    cities = clean_cities(
+        read_raw("final_cities.csv"), read_raw("manual_fixes/city_coords_patch.csv"), params
+    )
+    districts = clean_districts(read_raw("final_districts.csv"), params)
+    states = clean_states(
+        read_raw("final_states.csv"), read_raw("manual_fixes/state_population_patch.csv"), params
+    )
+    return cities, districts, states
+
+
+def plant_table(plants: list[dict]) -> pd.DataFrame:
+    """Plants from a YAML list (plants.list, or an S8 footprint) as a PLANT_COLUMNS table."""
+    return pd.DataFrame(plants).rename(columns={"id": "plant_id", "share": "share_frac"})[
+        PLANT_COLUMNS
+    ]
+
+
+def build_network_data(
+    zones: pd.DataFrame, dcs: pd.DataFrame, plants: pd.DataFrame, params: dict
+) -> NetworkData:
+    """NetworkData with road distances computed for these sites (spec §5)."""
+
+    def km(rows: pd.DataFrame, row_id: str) -> pd.DataFrame:
+        return pd.DataFrame(
+            road_distance_km(rows, dcs, params),
+            index=pd.Index(rows[row_id]),
+            columns=pd.Index(dcs["dc_id"]),
+        )
+
+    return NetworkData(zones, dcs, plants, km(zones, "zone_id"), km(plants, "plant_id"))
+
+
 def print_sanity_report(
     population: dict[str, float],
     zones: pd.DataFrame,
@@ -366,11 +400,7 @@ def main() -> None:
     params = load_params()
 
     raw_states = read_raw("final_states.csv")
-    cities = clean_cities(
-        read_raw("final_cities.csv"), read_raw("manual_fixes/city_coords_patch.csv"), params
-    )
-    districts = clean_districts(read_raw("final_districts.csv"), params)
-    states = clean_states(raw_states, read_raw("manual_fixes/state_population_patch.csv"), params)
+    cities, districts, states = clean_raw(params)
 
     # Excluded states carry the same names in the raw states file
     excluded = raw_states["state"].isin(params["demand"]["excluded_states"]["value"])
@@ -390,9 +420,7 @@ def main() -> None:
     candidates = pd.DataFrame(params["candidate_dcs"]).rename(
         columns={"id": "dc_id", "rent": "rent_inr_sqft_month"}
     )[CANDIDATE_COLUMNS]
-    plants = pd.DataFrame(params["plants"]["list"]).rename(
-        columns={"id": "plant_id", "share": "share_frac"}
-    )[PLANT_COLUMNS]
+    plants = plant_table(params["plants"]["list"])
     calibration = calibration_table(cities, params)
     cog_lat_lon = centre_of_gravity(zones["lat"], zones["lon"], zones["demand_t_yr"])
 

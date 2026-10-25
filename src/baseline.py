@@ -9,8 +9,8 @@ import numpy as np
 import pandas as pd
 
 from src.config import with_overrides
-from src.data_prep import CANDIDATE_COLUMNS, NetworkData
-from src.geo import haversine_km, road_distance_km
+from src.data_prep import CANDIDATE_COLUMNS, NetworkData, build_network_data
+from src.geo import haversine_km
 from src.model import Solution, build_and_solve
 
 logger = logging.getLogger(__name__)
@@ -49,13 +49,8 @@ def as_is_network(params: dict, data: NetworkData) -> tuple[NetworkData, pd.Seri
         )
     depots = depots[CANDIDATE_COLUMNS]
 
-    zones, plants = data.zones, data.plants
-    zone_dc_km = pd.DataFrame(
-        road_distance_km(zones, depots, params), index=zones["zone_id"], columns=depots["dc_id"]
-    )
-    plant_dc_km = pd.DataFrame(
-        road_distance_km(plants, depots, params), index=plants["plant_id"], columns=depots["dc_id"]
-    )
+    as_is = build_network_data(data.zones, depots, data.plants, params)
+    zones, zone_dc_km = as_is.zones, as_is.zone_dc_km
 
     state_depot = {state: d["id"] for d in cfg["list"] for state in d["states"]}
     assignment = pd.Series(zones["state"].map(state_depot).to_numpy(), index=zones["zone_id"])
@@ -66,7 +61,7 @@ def as_is_network(params: dict, data: NetworkData) -> tuple[NetworkData, pd.Seri
             sorted(zones.loc[unlisted.to_numpy(), "state"].unique()),
         )
         assignment[unlisted] = zone_dc_km[unlisted].idxmin(axis=1)
-    return NetworkData(zones, depots, plants, zone_dc_km, plant_dc_km), assignment.rename("dc_id")
+    return as_is, assignment.rename("dc_id")
 
 
 def solve_as_is(params: dict, data: NetworkData) -> Solution:

@@ -1,0 +1,4 @@
+plant_id,name,state,lat,lon,share_frac
+P_HDW,Haridwar (Uttarakhand),Uttarakhand,29.945,78.164,0.4
+P_SLV,Silvassa (DNH),Dadra and Nagar Haveli and Daman and Diu,20.274,73.008,0.35
+P_PDY,Puducherry,Puducherry,11.941,79.808,0.25

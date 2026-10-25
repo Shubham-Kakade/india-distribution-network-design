@@ -1,0 +1,20 @@
+dc_id,name,state,lat,lon,metro_group,rent_inr_sqft_month
+MUM_BHW,Mumbai - Bhiwandi,Maharashtra,19.296,73.063,MUM,25.0
+PUN_CHK,Pune - Chakan,Maharashtra,18.76,73.862,PUN,26.0
+NCR_FRN,Delhi NCR - Farrukhnagar,Haryana,28.447,76.823,NCR,24.0
+BLR_HSK,Bengaluru - Hoskote,Karnataka,13.07,77.798,BLR,26.0
+BLR_HSR,Bengaluru - Hosur (Attibele-Bommasandra),Tamil Nadu,12.74,77.825,BLR,24.0
+CHN_SPB,Chennai - Sriperumbudur / Oragadam,Tamil Nadu,12.968,79.946,CHN,27.0
+HYD_MDC,Hyderabad - Medchal,Telangana,17.63,78.481,HYD,23.0
+HYD_SMB,Hyderabad - Shamshabad,Telangana,17.25,78.43,HYD,24.0
+AMD_CHG,Ahmedabad - Changodar,Gujarat,22.93,72.44,AMD,23.5
+KOL_DNK,Kolkata - Dankuni,West Bengal,22.68,88.29,KOL,22.0
+NAG_MHN,Nagpur - MIHAN / Wardha Road,Maharashtra,21.04,79.05,NAG,20.0
+LKO_KNP,Lucknow - Kanpur Road,Uttar Pradesh,26.75,80.88,LKO,20.0
+GAU_CHS,Guwahati - Changsari (NH-27),Assam,26.29,91.69,GAU,20.5
+IDR_PTH,Indore - Pithampur,Madhya Pradesh,22.61,75.68,IDR,18.0
+JAI_BGR,Jaipur - Bagru / Ajmer Road,Rajasthan,26.82,75.55,JAI,18.0
+PNJ_RJP,Punjab - Rajpura,Punjab,30.48,76.59,PNJ,19.0
+PAT_BHT,Patna - Bihta,Bihar,25.56,84.87,PAT,17.0
+COK_KLM,Kochi - Kalamassery / Aluva,Kerala,10.05,76.32,COK,18.0
+BBS_KHD,Bhubaneswar - Khurda,Odisha,20.18,85.62,BBS,16.0

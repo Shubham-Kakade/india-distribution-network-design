@@ -311,9 +311,9 @@ plants:
     value: 1.15
     unit: plant capacity = share x national volume x headroom
   list:
-    - {id: P_HDW, name: "Haridwar (Uttarakhand)",  lat: 29.945, lon: 78.164, share: 0.40}
-    - {id: P_SLV, name: "Silvassa (DNH)",          lat: 20.274, lon: 73.008, share: 0.35}
-    - {id: P_PDY, name: "Puducherry",              lat: 11.941, lon: 79.808, share: 0.25}
+    - {id: P_HDW, name: "Haridwar (Uttarakhand)",  lat: 29.945, lon: 78.164, state: Uttarakhand, share: 0.40}
+    - {id: P_SLV, name: "Silvassa (DNH)",          lat: 20.274, lon: 73.008, state: "Dadra and Nagar Haveli and Daman and Diu", share: 0.35}
+    - {id: P_PDY, name: "Puducherry",              lat: 11.941, lon: 79.808, state: Puducherry, share: 0.25}
 
 # ---------------------------------------------------------------------
 # 8. Candidate DC sites (greenfield) - rents are Grade A, INR/sq ft/month
@@ -322,6 +322,7 @@ plants:
 candidate_dcs:
   - id: MUM_BHW
     name: Mumbai - Bhiwandi
+    state: Maharashtra
     lat: 19.296
     lon: 73.063
     metro_group: MUM
@@ -331,6 +332,7 @@ candidate_dcs:
     confidence: medium
   - id: PUN_CHK
     name: Pune - Chakan
+    state: Maharashtra
     lat: 18.760
     lon: 73.862
     metro_group: PUN
@@ -341,6 +343,7 @@ candidate_dcs:
     note: "Tightest market: vacancy 3.2% (Savills H1 2026) -> real-estate availability risk"
   - id: NCR_FRN
     name: Delhi NCR - Farrukhnagar
+    state: Haryana
     lat: 28.447
     lon: 76.823
     metro_group: NCR
@@ -350,6 +353,7 @@ candidate_dcs:
     confidence: high
   - id: BLR_HSK
     name: Bengaluru - Hoskote
+    state: Karnataka
     lat: 13.070
     lon: 77.798
     metro_group: BLR
@@ -359,6 +363,7 @@ candidate_dcs:
     confidence: high
   - id: BLR_HSR
     name: Bengaluru - Hosur (Attibele-Bommasandra)
+    state: Tamil Nadu
     lat: 12.740
     lon: 77.825
     metro_group: BLR
@@ -368,6 +373,7 @@ candidate_dcs:
     confidence: high
   - id: CHN_SPB
     name: Chennai - Sriperumbudur / Oragadam
+    state: Tamil Nadu
     lat: 12.968
     lon: 79.946
     metro_group: CHN
@@ -377,6 +383,7 @@ candidate_dcs:
     confidence: high
   - id: HYD_MDC
     name: Hyderabad - Medchal
+    state: Telangana
     lat: 17.630
     lon: 78.481
     metro_group: HYD
@@ -386,6 +393,7 @@ candidate_dcs:
     confidence: high
   - id: HYD_SMB
     name: Hyderabad - Shamshabad
+    state: Telangana
     lat: 17.250
     lon: 78.430
     metro_group: HYD
@@ -395,6 +403,7 @@ candidate_dcs:
     confidence: high
   - id: AMD_CHG
     name: Ahmedabad - Changodar
+    state: Gujarat
     lat: 22.930
     lon: 72.440
     metro_group: AMD
@@ -404,6 +413,7 @@ candidate_dcs:
     confidence: high
   - id: KOL_DNK
     name: Kolkata - Dankuni
+    state: West Bengal
     lat: 22.680
     lon: 88.290
     metro_group: KOL
@@ -413,6 +423,7 @@ candidate_dcs:
     confidence: medium
   - id: NAG_MHN
     name: Nagpur - MIHAN / Wardha Road
+    state: Maharashtra
     lat: 21.040
     lon: 79.050
     metro_group: NAG
@@ -422,6 +433,7 @@ candidate_dcs:
     confidence: medium
   - id: LKO_KNP
     name: Lucknow - Kanpur Road
+    state: Uttar Pradesh
     lat: 26.750
     lon: 80.880
     metro_group: LKO
@@ -431,6 +443,7 @@ candidate_dcs:
     confidence: low
   - id: GAU_CHS
     name: Guwahati - Changsari (NH-27)
+    state: Assam
     lat: 26.290
     lon: 91.690
     metro_group: GAU
@@ -440,6 +453,7 @@ candidate_dcs:
     confidence: high
   - id: IDR_PTH
     name: Indore - Pithampur
+    state: Madhya Pradesh
     lat: 22.610
     lon: 75.680
     metro_group: IDR
@@ -449,6 +463,7 @@ candidate_dcs:
     confidence: low
   - id: JAI_BGR
     name: Jaipur - Bagru / Ajmer Road
+    state: Rajasthan
     lat: 26.820
     lon: 75.550
     metro_group: JAI
@@ -458,6 +473,7 @@ candidate_dcs:
     confidence: low
   - id: PNJ_RJP
     name: Punjab - Rajpura
+    state: Punjab
     lat: 30.480
     lon: 76.590
     metro_group: PNJ
@@ -467,6 +483,7 @@ candidate_dcs:
     confidence: low
   - id: PAT_BHT
     name: Patna - Bihta
+    state: Bihar
     lat: 25.560
     lon: 84.870
     metro_group: PAT
@@ -477,6 +494,7 @@ candidate_dcs:
 
   - id: COK_KLM
     name: Kochi - Kalamassery / Aluva
+    state: Kerala
     lat: 10.050
     lon: 76.320
     metro_group: COK
@@ -486,6 +504,7 @@ candidate_dcs:
     confidence: low
   - id: BBS_KHD
     name: Bhubaneswar - Khurda
+    state: Odisha
     lat: 20.180
     lon: 85.620
     metro_group: BBS
@@ -544,3 +563,41 @@ scenarios:
   diesel_shock: 0.20
   rent_shock: [-0.20, 0.20]
   disruption_months: 1
+
+# ---------------------------------------------------------------------
+# 12. Data checks (consumed by src/data_prep.py). Reference values the
+#     cleaned data must reproduce; not model inputs. Spec §4.2, §5, §13.
+# ---------------------------------------------------------------------
+checks:
+  census_2011_population:
+    value: 1210854977
+    unit: persons (All-India, including the excluded island territories)
+    source: Census of India 2011, final population totals
+    confidence: high
+  population_tolerance_frac:
+    value: 0.005
+    unit: fraction; cleaned national population vs Census net of excluded states
+    source: BUILD_SPEC_v2 §4.2
+  max_zone_share_frac:
+    value: 0.05
+    unit: fraction of national demand in any one zone
+    source: BUILD_SPEC_v2 §4.3 and §13 (Checkpoint A)
+  calibration_tolerance_frac:
+    value: 0.15
+    unit: fraction; |model road km / reference road km - 1|
+    source: BUILD_SPEC_v2 §5
+  calibration_pairs:
+    unit: "[city_a, city_b, reference road km]; city names as in the cleaned city table"
+    source: BUILD_SPEC_v2 §5 reference road distances
+    value:
+      - [Greater Mumbai, DMC, 1420]
+      - [BBMP, Chennai, 345]
+      - [DMC, Lucknow, 555]
+      - [GHMC, BBMP, 570]
+      - [Greater Mumbai, Pune, 150]
+      - [Greater Mumbai, Ahmadabad, 530]
+      - [Kolkata, Guwahati, 1030]
+  prototype_centre_of_gravity:
+    value: [21.7, 79.0]
+    unit: "[lat, lon] degrees"
+    source: Supervisor prototype (BUILD_SPEC_v2 §3, §13); calibration only, not for deliverables

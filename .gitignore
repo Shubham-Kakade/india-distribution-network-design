@@ -1,0 +1,25 @@
+# secrets
+.env
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+
+# generated (reproducible from data/raw + assumptions.yaml)
+outputs/scenario_cache/
+*.lp
+*.mps
+
+# editors / OS
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+
+# Claude Code local state (skills' source of truth is tooling/claude-skills/)
+.claude/settings.local.json
+.claude/skills/

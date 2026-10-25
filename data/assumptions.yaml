@@ -1,0 +1,546 @@
+# =====================================================================
+# India Distribution Network Design: master assumptions file
+# ---------------------------------------------------------------------
+# Every number the model uses lives here. Code must never hard-code a
+# parameter. Each entry carries: value, unit, source, confidence
+# (high / medium / low) and, where useful, a [low, high] range that the
+# sensitivity / tornado analysis sweeps.
+#
+# Confidence key
+#   high   = published research figure for that exact cluster/metric
+#   medium = city-level research figure or credible market data applied
+#            to a cluster
+#   low    = analyst assumption or broker indication; flagged in README
+#
+# Prepared: 25 Oct 2026. See docs/BUILD_SPEC_v2.md for rationale.
+# =====================================================================
+
+meta:
+  currency: INR
+  crore: 1.0e7            # 1 Cr = 10,000,000 INR
+  base_year: 2026
+  population_vintage: 2011  # Census 2011; only relative shares are used
+  disclaimer: >
+    Independent portfolio project. Not affiliated with or endorsed by
+    Cushman & Wakefield or any client. Company and network are hypothetical.
+
+# ---------------------------------------------------------------------
+# 1. Company (hypothetical client)
+# ---------------------------------------------------------------------
+company:
+  name: "Hypothetical national FMCG brand ('ClientCo')"
+  annual_revenue_cr:
+    value: 6000
+    unit: INR Cr / yr
+    source: Analyst assumption (mid-size national FMCG player)
+    confidence: low
+  annual_volume_tonnes:
+    value: 300000
+    unit: tonnes / yr shipped to market
+    source: Derived = revenue / avg realisation (6000 Cr / 200 INR per kg)
+    confidence: low
+    range: [240000, 360000]
+  avg_realisation_inr_per_kg:
+    value: 200
+    unit: INR / kg (net sales value)
+    source: Analyst assumption, blended home & personal care + foods
+    confidence: low
+  cogs_share_of_realisation:
+    value: 0.60
+    unit: fraction
+    source: Analyst assumption; used to value inventory at cost
+    confidence: low
+
+# ---------------------------------------------------------------------
+# 2. Demand model
+# ---------------------------------------------------------------------
+demand:
+  method: >
+    State population (authoritative total) split into (a) cities with
+    population >= 1 lakh and (b) rest-of-state (rural + towns < 1 lakh).
+    Each layer gets a per-capita consumption index; national demand is
+    scaled to company.annual_volume_tonnes. See BUILD_SPEC_v2 section 4.
+  n_demand_zones:
+    value: 150
+    unit: count
+    source: Brief (100-150 cities); 150 keeps CBC solve times in seconds
+    confidence: high
+  min_one_zone_per_state_pop_above:
+    value: 1000000
+    unit: persons
+    source: Design rule so small states / NE are not silently dropped
+    confidence: high
+  residual_share_target:
+    value: 0.55
+    unit: fraction of national demand from rest-of-state layer
+    source: >
+      Calibration target. IBEF (via Indian Retailer, Dec 2023) puts rural at
+      ~45% of FMCG revenue; add ~10 pts for towns < 1 lakh, which sit in the
+      same layer.
+    confidence: medium
+    range: [0.45, 0.65]
+  per_capita_index_city:
+    value: auto
+    note: Solved so the residual layer hits residual_share_target; log result
+  per_capita_index_rest:
+    value: 1.0
+    note: Numeraire (multiplies state rural MPCE index)
+  state_consumption_index:
+    method: >
+      Per-capita demand of a layer in a state = (state MPCE / All-India MPCE)
+      ^ elasticity, using URBAN MPCE for the city layer and RURAL MPCE for the
+      rest-of-state layer. States not listed use the All-India value.
+      Without this, Bihar/UP towns rank as top demand zones on headcount alone.
+    elasticity:
+      value: 1.0
+      range: [0.6, 1.0]
+      confidence: low
+      note: FMCG tonnage rises less than proportionally with spend; 1.0 = proportional
+    source: "MoSPI HCES 2023-24 press note (27 Dec 2024), avg MPCE without imputation, INR/month"
+    confidence: high
+    mpce_inr_month:   # State: [rural, urban]
+      All-India:       [4122, 6996]
+      Andhra Pradesh:  [5327, 7182]
+      Assam:           [3793, 6794]
+      Bihar:           [3670, 5080]
+      Chhattisgarh:    [2739, 4927]
+      Gujarat:         [4116, 7175]
+      Haryana:         [5377, 8428]
+      Jharkhand:       [2946, 5393]
+      Karnataka:       [4903, 8076]
+      Kerala:          [6611, 7783]
+      Madhya Pradesh:  [3441, 5538]
+      Maharashtra:     [4145, 7363]
+      Odisha:          [3357, 5825]
+      Punjab:          [5817, 7359]
+      Rajasthan:       [4510, 6574]
+      Tamil Nadu:      [5701, 8165]
+      Telangana:       [5435, 8978]
+      Uttar Pradesh:   [3481, 5395]
+      West Bengal:     [3620, 5775]
+      Chandigarh:      [8857, 13425]
+      Sikkim:          [9377, 13927]
+  excluded_states:
+    value: ["Andaman and Nicobar Islands", "Lakshadweep"]
+    reason: Island territories served by sea/air; < 0.05% of population
+  metro_uplift:
+    value: 1.3
+    applies_to: [Greater Mumbai, DMC, BBMP, GHMC, Chennai, Kolkata, Pune, Ahmadabad]
+    unit: multiplier on city-layer per-capita index for the 8 metros
+    source: Analyst assumption (higher modern-trade and per-capita FMCG spend in metros)
+    confidence: low
+    range: [1.0, 1.5]
+  intra_zone_min_distance_km:
+    value: 25
+    unit: km
+    source: >
+      Design rule. A DC located inside a demand zone still drives to the
+      distributor/stockist; prevents zero-cost local delivery.
+    confidence: medium
+
+# ---------------------------------------------------------------------
+# 3. Distance model
+# ---------------------------------------------------------------------
+distance:
+  method: haversine x circuity, with Siliguri waypoint for North-East
+  circuity_factor:
+    value: 1.25
+    unit: road km / great-circle km
+    source: >
+      Calibrated on 6 mainland pairs (Mumbai-Delhi 1.23, Bengaluru-Chennai
+      1.20, Delhi-Lucknow 1.33, Hyderabad-Bengaluru 1.14, Mumbai-Pune 1.24,
+      Mumbai-Ahmedabad 1.20); brief assumed 1.3
+    confidence: medium
+    range: [1.15, 1.40]
+  northeast_waypoint:
+    name: Siliguri
+    lat: 26.727
+    lon: 88.395
+    applies_to_states: [Assam, Meghalaya, Tripura, Mizoram, Manipur, Nagaland,
+                        Arunachal Pradesh, Sikkim]
+    rule: >
+      If exactly one endpoint is in these states (Sikkim counts as NE),
+      distance = hav(a, Siliguri) + hav(Siliguri, b), then x circuity.
+      Without this, Kolkata-Guwahati comes out at 681 km vs ~1,030 km by road.
+  osrm_optional:
+    enabled: false
+    note: >
+      Stretch: replace haversine with OSRM table API road distances, cached to
+      data/processed/road_km.csv. Model must run identically offline.
+
+# ---------------------------------------------------------------------
+# 4. Transport
+# ---------------------------------------------------------------------
+transport:
+  primary_ftl_inr_per_tkm:
+    value: 5.5
+    unit: INR / tonne-km (plant -> DC, 32 ft MXL closed container)
+    source: >
+      FR8 market rate Mumbai-Delhi 32ft MXL INR 92,000 for 1,439 km
+      (= INR 64/truck-km; INR 4.26/t-km at full 15 t payload). FMCG cubes out
+      before weight, so effective load ~11.5 t -> ~INR 5.5/t-km.
+      Cross-check: NCAER/DPIIT (Sep 2025) all-road average INR 3.78/t-km,
+      heavy 55 t trucks INR 1.51 (bulk cargo; not FMCG).
+    confidence: medium
+    range: [4.3, 6.5]
+  secondary_inr_per_tkm:
+    value: 9.0
+    unit: INR / tonne-km (DC -> distributor, 20-24 ft container, part-route)
+    source: >
+      FR8 Mumbai-Delhi 20-24 ft container INR 48,050 / 1,439 km (= INR 33/truck-km
+      long-haul). Short-haul secondary runs at higher per-km rates (empty
+      return, waiting at distributor) ~INR 40/km on ~4.5 t effective load.
+      Cross-check: NCAER light-truck figure INR 11.03/t-km.
+    confidence: medium
+    range: [7.0, 11.0]
+  diesel_share_of_freight_cost:
+    value: 0.55
+    unit: fraction
+    source: IISD Global Subsidies Initiative study on Indian trucking (~55%)
+    confidence: medium
+    range: [0.35, 0.55]
+    note: >
+      Diesel shock: freight multiplier = 1 + share x shock. +20% diesel ->
+      +11% freight. TrucksBuses (Aug 2026) cites one-third to one-half.
+
+# ---------------------------------------------------------------------
+# 5. Service level
+# ---------------------------------------------------------------------
+service:
+  next_day_radius_km:
+    value: 400
+    unit: road km from serving DC
+    source: >
+      CRISIL (Nov 2017): trucks average ~300-325 km/day post-GST. An evening
+      dispatch for a next-day noon delivery allows ~16-18 h -> ~400 km.
+      Brief's 500 km is kept as a sensitivity.
+    confidence: medium
+    sensitivities: [300, 400, 500]
+  min_share_within_radius:
+    value: 0.80
+    unit: fraction of national demand (alpha)
+    source: >
+      Client-style target; swept in scenarios. Supervisor prototype (25 Oct 2026)
+      showed 400 km / 90% needs 12 DCs and 400 km / 95% is infeasible with the
+      original 17 candidates, so the base is set at 80% and the final
+      recommendation is picked from the cost-vs-service frontier.
+    confidence: low
+    sensitivities: [0.80, 0.85, 0.90, 0.95]
+  two_day_radius_km:
+    value: 900
+    unit: km
+    note: Reported only (not constrained); for the service ring map
+
+# ---------------------------------------------------------------------
+# 6. Warehousing (the real-estate block; the C&W angle)
+# ---------------------------------------------------------------------
+warehousing:
+  storage_density_t_per_sqft:
+    value: 0.05
+    unit: tonnes stored per sq ft of gross leasable area
+    source: >
+      Analyst benchmark: racked FMCG DC ~8-10 sq ft GLA per pallet position,
+      400-500 kg per FMCG pallet
+    confidence: low
+    range: [0.04, 0.07]
+  space_utilisation:
+    value: 0.85
+    unit: fraction of GLA usable at peak
+    source: Industry rule of thumb (design at 85% to absorb peaks)
+    confidence: medium
+  cycle_stock_days:
+    value: 7
+    unit: days of demand held as cycle stock at DC (average)
+    source: Analyst assumption (weekly FTL replenishment from plants -> ~3.5 d avg,
+            plus ~3.5 d in-transit/receiving buffer)
+    confidence: low
+    range: [5, 10]
+  safety_stock_days_single_dc:
+    value: 6
+    unit: days of national demand if the whole country ran from ONE DC
+    source: >
+      Analyst assumption. Scaled per DC by the square-root law:
+      SS_j = SS_1 x sqrt(D_j / D_total). Total SS rises with DC count.
+    confidence: low
+    range: [4, 9]
+  inventory_carrying_rate:
+    value: 0.14
+    unit: fraction of inventory value at cost per year
+    source: ~12% cost of capital + ~2% insurance/shrink/obsolescence (analyst)
+    confidence: medium
+  opex_inr_per_sqft_month:
+    value: 10
+    unit: INR / sq ft / month (CAM, power, security, insurance, upkeep)
+    source: Address Advisors 2026 guide worked example (~INR 10/sq ft add-on charges)
+    confidence: low
+    range: [7, 14]
+  handling_inr_per_tonne:
+    value: 220
+    unit: INR / tonne throughput (inbound + pick/pack + dispatch labour, MHE)
+    source: Analyst assumption
+    confidence: low
+    range: [150, 300]
+  fixed_cost_per_dc_cr_per_yr:
+    value: 3.0
+    unit: INR Cr / yr per open DC
+    source: >
+      Analyst assumption: ~1.5 Cr site overheads (management, WMS/IT, compliance,
+      minimum staffing) + ~1.5 Cr/yr amortised fit-out (racking, MHE, ~9 Cr capex
+      over 6 yrs)
+    confidence: low
+    range: [1.5, 4.5]
+  max_dc_size_sqft:
+    value: 500000
+    unit: sq ft GLA
+    source: Upper end of single-occupier Grade A leases (e.g. DHL Bhiwandi 4.18 lakh sq ft)
+    confidence: medium
+  min_dc_size_sqft:
+    value: 50000
+    unit: sq ft GLA (floor on space charged for any open DC)
+    confidence: low
+  grade_b_rent_discount:
+    value: 0.20
+    unit: fraction below Grade A (used only for the as-is state depots)
+    confidence: low
+
+# ---------------------------------------------------------------------
+# 7. Plants (sources) - hypothetical, placed in real FMCG manufacturing hubs
+# ---------------------------------------------------------------------
+plants:
+  capacity_headroom:
+    value: 1.15
+    unit: plant capacity = share x national volume x headroom
+  list:
+    - {id: P_HDW, name: "Haridwar (Uttarakhand)",  lat: 29.945, lon: 78.164, share: 0.40}
+    - {id: P_SLV, name: "Silvassa (DNH)",          lat: 20.274, lon: 73.008, share: 0.35}
+    - {id: P_PDY, name: "Puducherry",              lat: 11.941, lon: 79.808, share: 0.25}
+
+# ---------------------------------------------------------------------
+# 8. Candidate DC sites (greenfield) - rents are Grade A, INR/sq ft/month
+#    metro_group: at most one site per group may open
+# ---------------------------------------------------------------------
+candidate_dcs:
+  - id: MUM_BHW
+    name: Mumbai - Bhiwandi
+    lat: 19.296
+    lon: 73.063
+    metro_group: MUM
+    rent: 25.0
+    rent_range: [22, 30]
+    source: "Knight Frank IWMR 2025 Mumbai wtd avg 25.2 (2025); DHL Bhiwandi lease ~22 (Business Standard, Nov 2025)"
+    confidence: medium
+  - id: PUN_CHK
+    name: Pune - Chakan
+    lat: 18.760
+    lon: 73.862
+    metro_group: PUN
+    rent: 26.0
+    rent_range: [22, 30]
+    source: "Knight Frank IWMR 2025 Pune wtd avg 28.0; Chakan-Talegaon 22-35 (GRI Institute citing H1 2026 consultancy data)"
+    confidence: medium
+    note: "Tightest market: vacancy 3.2% (Savills H1 2026) -> real-estate availability risk"
+  - id: NCR_FRN
+    name: Delhi NCR - Farrukhnagar
+    lat: 28.447
+    lon: 76.823
+    metro_group: NCR
+    rent: 24.0
+    rent_range: [21, 28]
+    source: "Colliers India via Outlook Business (May 2026): Farukh Nagar & NH-48 INR 21-28 (Q1 2026); KF NCR wtd avg 21.9 (2025)"
+    confidence: high
+  - id: BLR_HSK
+    name: Bengaluru - Hoskote
+    lat: 13.070
+    lon: 77.798
+    metro_group: BLR
+    rent: 26.0
+    rent_range: [25, 27]
+    source: "Knight Frank IWMR 2025"
+    confidence: high
+  - id: BLR_HSR
+    name: Bengaluru - Hosur (Attibele-Bommasandra)
+    lat: 12.740
+    lon: 77.825
+    metro_group: BLR
+    rent: 24.0
+    rent_range: [22, 26]
+    source: "Knight Frank IWMR 2025"
+    confidence: high
+  - id: CHN_SPB
+    name: Chennai - Sriperumbudur / Oragadam
+    lat: 12.968
+    lon: 79.946
+    metro_group: CHN
+    rent: 27.0
+    rent_range: [26, 28]
+    source: "Knight Frank IWMR 2025"
+    confidence: high
+  - id: HYD_MDC
+    name: Hyderabad - Medchal
+    lat: 17.630
+    lon: 78.481
+    metro_group: HYD
+    rent: 23.0
+    rent_range: [22, 24]
+    source: "Knight Frank IWMR 2025"
+    confidence: high
+  - id: HYD_SMB
+    name: Hyderabad - Shamshabad
+    lat: 17.250
+    lon: 78.430
+    metro_group: HYD
+    rent: 24.0
+    rent_range: [22, 26]
+    source: "Knight Frank IWMR 2025"
+    confidence: high
+  - id: AMD_CHG
+    name: Ahmedabad - Changodar
+    lat: 22.930
+    lon: 72.440
+    metro_group: AMD
+    rent: 23.5
+    rent_range: [22, 25]
+    source: "Knight Frank IWMR 2025 (Sanand 23-27 as alternative)"
+    confidence: high
+  - id: KOL_DNK
+    name: Kolkata - Dankuni
+    lat: 22.680
+    lon: 88.290
+    metro_group: KOL
+    rent: 22.0
+    rent_range: [18, 25]
+    source: "Knight Frank via PTI/NewsDrum: Dankuni & suburban Grade A INR 18-25, NH-16 18-27; KF city wtd avg 25.0 (2025)"
+    confidence: medium
+  - id: NAG_MHN
+    name: Nagpur - MIHAN / Wardha Road
+    lat: 21.040
+    lon: 79.050
+    metro_group: NAG
+    rent: 20.0
+    rent_range: [18, 22]
+    source: "Knight Frank IWMR 2023 via The Hitavada: MIHAN & MIDC INR 194-237/sq m/month (= ~18-22/sq ft). 2023 data; refresh if possible"
+    confidence: medium
+  - id: LKO_KNP
+    name: Lucknow - Kanpur Road
+    lat: 26.750
+    lon: 80.880
+    metro_group: LKO
+    rent: 20.0
+    rent_range: [16, 24]
+    source: "No published cluster rent found; analyst estimate. CBRE (2023) cites ~5.2 mn sq ft regional stock"
+    confidence: low
+  - id: GAU_CHS
+    name: Guwahati - Changsari (NH-27)
+    lat: 26.290
+    lon: 91.690
+    metro_group: GAU
+    rent: 20.5
+    rent_range: [19, 22]
+    source: "Knight Frank IWMR 2025 Guwahati cluster table: Changsari Grade A 19-22"
+    confidence: high
+  - id: IDR_PTH
+    name: Indore - Pithampur
+    lat: 22.610
+    lon: 75.680
+    metro_group: IDR
+    rent: 18.0
+    rent_range: [15, 22]
+    source: "No published cluster rent found; analyst estimate"
+    confidence: low
+  - id: JAI_BGR
+    name: Jaipur - Bagru / Ajmer Road
+    lat: 26.820
+    lon: 75.550
+    metro_group: JAI
+    rent: 18.0
+    rent_range: [15, 22]
+    source: "No published cluster rent found; analyst estimate"
+    confidence: low
+  - id: PNJ_RJP
+    name: Punjab - Rajpura
+    lat: 30.480
+    lon: 76.590
+    metro_group: PNJ
+    rent: 19.0
+    rent_range: [16, 23]
+    source: "No published cluster rent found; analyst estimate"
+    confidence: low
+  - id: PAT_BHT
+    name: Patna - Bihta
+    lat: 25.560
+    lon: 84.870
+    metro_group: PAT
+    rent: 17.0
+    rent_range: [14, 21]
+    source: "No published cluster rent found; analyst estimate"
+    confidence: low
+
+  - id: COK_KLM
+    name: Kochi - Kalamassery / Aluva
+    lat: 10.050
+    lon: 76.320
+    metro_group: COK
+    rent: 18.0
+    rent_range: [15, 22]
+    source: "No published cluster rent found; analyst estimate. Added after prototype showed Kerala outside every 400 km ring"
+    confidence: low
+  - id: BBS_KHD
+    name: Bhubaneswar - Khurda
+    lat: 20.180
+    lon: 85.620
+    metro_group: BBS
+    rent: 16.0
+    rent_range: [13, 20]
+    source: "No published cluster rent found; analyst estimate. Added after prototype showed Odisha poorly covered"
+    confidence: low
+
+# ---------------------------------------------------------------------
+# 9. As-is network (hypothetical pre-GST style: one C&F depot per state
+#    or state group, Grade B space). Used for the "savings vs today" story.
+# ---------------------------------------------------------------------
+as_is_depots:
+  note: >
+    Zones are served by the depot of their own state; states not listed map
+    to the nearest depot. Rent = nearest candidate cluster rent x (1 - grade_b
+    discount) where one exists in the same metro, else 17.
+  list:
+    - {id: AS_MUM, name: Bhiwandi,    lat: 19.296, lon: 73.063, states: [Maharashtra, Goa]}
+    - {id: AS_DEL, name: Kundli,      lat: 28.870, lon: 77.120, states: [Delhi, Haryana]}
+    - {id: AS_LKO, name: Lucknow,     lat: 26.850, lon: 80.950, states: [Uttar Pradesh, Uttarakhand]}
+    - {id: AS_PAT, name: Patna,       lat: 25.594, lon: 85.137, states: [Bihar, Jharkhand]}
+    - {id: AS_KOL, name: Dankuni,     lat: 22.680, lon: 88.290, states: [West Bengal, Sikkim]}
+    - {id: AS_GAU, name: Guwahati,    lat: 26.144, lon: 91.736, states: [Assam, Meghalaya, Tripura, Mizoram, Manipur, Nagaland, Arunachal Pradesh]}
+    - {id: AS_BBS, name: Bhubaneswar, lat: 20.296, lon: 85.825, states: [Odisha]}
+    - {id: AS_HYD, name: Hyderabad,   lat: 17.385, lon: 78.487, states: [Telangana, Andhra Pradesh]}
+    - {id: AS_BLR, name: Bengaluru,   lat: 12.972, lon: 77.594, states: [Karnataka]}
+    - {id: AS_CHN, name: Chennai,     lat: 13.083, lon: 80.270, states: [Tamil Nadu, Puducherry]}
+    - {id: AS_COK, name: Kochi,       lat: 10.050, lon: 76.350, states: [Kerala]}
+    - {id: AS_AMD, name: Ahmedabad,   lat: 23.022, lon: 72.571, states: [Gujarat, "Dadra and Nagar Haveli and Daman and Diu"]}
+    - {id: AS_JAI, name: Jaipur,      lat: 26.912, lon: 75.787, states: [Rajasthan]}
+    - {id: AS_IDR, name: Indore,      lat: 22.720, lon: 75.858, states: [Madhya Pradesh, Chhattisgarh]}
+    - {id: AS_LDH, name: Ludhiana,    lat: 30.901, lon: 75.857, states: [Punjab, Himachal Pradesh, Chandigarh, Jammu and Kashmir, Ladakh]}
+
+# ---------------------------------------------------------------------
+# 10. Solver
+# ---------------------------------------------------------------------
+solver:
+  name: CBC
+  mip_gap: 0.005
+  time_limit_s: 300
+  threads: 4
+  log: false
+
+# ---------------------------------------------------------------------
+# 11. Scenario defaults (consumed by src/scenarios.py)
+# ---------------------------------------------------------------------
+scenarios:
+  dc_count_sweep: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  demand_growth:
+    uniform: 0.30
+    regional_skew:   # optional variant: faster growth in under-served regions
+      East: 0.45      # Bihar, Jharkhand, Odisha, West Bengal, NE
+      Central: 0.35   # MP, Chhattisgarh, UP
+      Rest: 0.25
+  diesel_shock: 0.20
+  rent_shock: [-0.20, 0.20]
+  disruption_months: 1

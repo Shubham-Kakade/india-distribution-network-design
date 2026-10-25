@@ -1,0 +1,15 @@
+City,State_in_source,Latitude,Longitude,Note,Population_override
+Greater Mumbai,Maharashtra,19.076,72.877,source has 0/0,
+DMC,Delhi,28.651,77.231,Delhi Municipal Corporation; source has 0/0,
+Mandoli,Delhi,28.710,77.310,source has 0/0,
+BBMP,Karnataka,12.972,77.594,Bengaluru; source has 0/0,
+GHMC,Andhra Pradesh,17.385,78.487,Hyderabad; 25 ward rows in source -> collapse to one city; ward rows sum to 8.27 mn > Hyderabad UA 7.75 mn (double count) -> override to GHMC M.Corp 2011 6809970; state -> Telangana,6809970
+GVMC,Andhra Pradesh,17.687,83.218,Visakhapatnam; source population duplicates GHMC first row (1730320) - keep but flag,
+Nanded Waghala,Maharashtra,19.153,77.305,source has 0/0,
+Navi Mumbai Panvel Raigarh,Maharashtra,19.033,73.030,source has 0/0,
+Nizamabad,Andhra Pradesh,18.672,78.094,source has 0/0; state -> Telangana,
+Hubli-Dharwad,Karnataka,15.364,75.124,source has 0/0,
+Jamalpur (Nagar Parishad),Bihar,25.312,86.490,source has 0/0,
+Dabgram,West Bengal,26.700,88.430,Siliguri area; source has 0/0,
+Adityapur (Nagar Parishad),Jharkhand,22.783,86.150,source has 0/0,
+Nagda,Madhya Pradesh,23.458,75.417,source has 0/0,

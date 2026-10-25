@@ -1,0 +1,36 @@
+[project]
+name = "india-network-design"
+version = "0.1.0"
+description = "India distribution network design: facility-location MILP, scenarios and a Claude tool-use agent"
+requires-python = ">=3.11"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = [".claude", "notebooks"]
+
+[tool.ruff.lint]
+# E/W pycodestyle, F pyflakes, I isort, B bugbear, UP pyupgrade,
+# N naming, SIM simplify, PD pandas-vet, NPY numpy, T20 no print, PL pylint (subset), RUF ruff
+select = ["E", "W", "F", "I", "B", "UP", "N", "SIM", "PD", "NPY", "T20", "PLR0911", "PLR0912", "PLR0915", "RUF"]
+ignore = [
+  "N803", "N806",  # allow math-style names (D, F, S) in formulas that mirror the spec
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["T20", "PLR"]
+"app/**" = ["T20"]
+# print() is allowed in src only inside print_sanity_report() functions, marked `# noqa: T201`
+
+[tool.ruff.lint.pylint]
+max-branches = 12
+max-statements = 50
+max-returns = 6
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra -m 'not slow'"
+markers = ["slow: full-India runs (deselected by default; run with -m slow)"]

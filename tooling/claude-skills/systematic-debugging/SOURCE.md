@@ -1,0 +1,1 @@
+Vendored from https://github.com/obra/superpowers (commit 2ce8aa1, MIT) on 2026-10-25. Edited: two cross-references to skills not vendored here now point to local equivalents; condition-based-waiting (async test timing, not relevant here), the TypeScript example, shell script and pressure-test files were not copied.

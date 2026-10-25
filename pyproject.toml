@@ -35,3 +35,5 @@ testpaths = ["tests"]
 pythonpath = ["."]
 addopts = "-ra -m 'not slow'"
 markers = ["slow: full-India runs (deselected by default; run with -m slow)"]
+# PuLP 3.x warns about its 4.0 API; we pin pulp<4 because 4.x ships no CBC (D-005)
+filterwarnings = ["ignore::DeprecationWarning:pulp"]

@@ -385,8 +385,8 @@ Run each prompt in a fresh Claude Code session in the project folder, or in the 
 **Phase 0: Setup (about 30 minutes)**
 ```
 Read CLAUDE.md, PROJECT_BRIEF.md and docs/BUILD_SPEC_v2.md in full. Do Phase 0 only:
-1. Install the project skills: copy every folder in tooling/claude-skills/ into
-   .claude/skills/ (keep LICENSE and SOURCE.md files), then list .claude/skills/
+1. Check the project skills: they are committed in .claude/skills/ (see D-012;
+   originally staged in tooling/claude-skills/). List .claude/skills/
    and confirm the seven skills are visible to you.
 2. Load the scnd-python-standards and ponytail skills and follow them from here on.
 3. Create a Python 3.11 venv outside OneDrive (C:\venvs\scnd) and pip install -r
@@ -458,7 +458,7 @@ Write README.md as the case study following spec §14, export
 docs/case_study.pdf (2 pages), add the disclaimer, record the demo GIF and
 prepare the repository to go public: scan the full history for secrets
 (git log -p | findstr /i "sk-ant api_key"), confirm the disclaimer is present.
-Do not change visibility; the supervisor approves that after Checkpoint E.
+The repo is already public (D-011); confirm no secrets in history before announcing it.
 Stop at Checkpoint E.
 ```
 

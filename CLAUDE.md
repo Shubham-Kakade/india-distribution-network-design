@@ -20,7 +20,7 @@ This is a portfolio-grade supply-chain network design study for a job applicatio
 - **Ask, don't guess** when the spec is silent on something that changes results. Put the question in the checkpoint hand-back rather than inventing an assumption. Small engineering choices, such as a helper's name, are yours to make.
 - **No silent deviations.** If you depart from the spec, say so in the hand-back and log it in `docs/DECISIONS.md`.
 
-## Skills to use (in `.claude/skills/`; source copies in `tooling/claude-skills/`, installed in Phase 0)
+## Skills to use (committed in `.claude/skills/`)
 
 | Skill | Use when |
 |---|---|
@@ -54,10 +54,14 @@ This is a portfolio-grade supply-chain network design study for a job applicatio
 - **Before every push:** `git status` must show no `.env`, no data outside `data/raw` and `data/processed`, and no file over 5 MB. Run `git diff --cached --stat` and read it.
 - Never force-push, rewrite published history, or change repo visibility without Shubham's explicit instruction.
 
+## Where Claude Code runs
+
+Sessions run either **locally** on Shubham's Windows laptop, or **in the cloud** at claude.ai/code (Linux VM; the repo is cloned from GitHub, and branches and PRs are pushed through the Claude GitHub App). The rules are the same in both places. In a cloud session, skip the Windows venv: dependencies come from the environment setup script (`pip install -r requirements.txt`), and paths are POSIX.
+
 ## Commands
 
 ```bash
-# one-time (venv lives OUTSIDE OneDrive)
+# one-time, local Windows only (venv lives OUTSIDE OneDrive)
 py -3.11 -m venv C:\venvs\scnd
 C:\venvs\scnd\Scripts\activate
 pip install -r requirements.txt

@@ -16,6 +16,8 @@ Modelling and engineering decisions, newest first. Each entry records the contex
 
 **D-005 PuLP pinned below 4.** PuLP 4.2.0 ships no CBC binary; 3.3.2 does (tested 25 Oct 2026). *Rejected:* HiGHS via `highspy` (works, but adds a dependency and departs from the brief's CBC).
 
+**D-012 Skills committed in `.claude/skills/` (2026-10-26).** Moved from `tooling/claude-skills/` and un-ignored, so cloud sessions at claude.ai/code, which only see the repo, load the same skills as local sessions. This supersedes the "copy in Phase 0, git-ignore the copy" part of D-006. Local setups must delete their untracked `.claude/skills/` copy before pulling.
+
 **D-011 Repository is public from day one (owner decision, 2026-10-25).** This supersedes the "private until Phase 5" part of D-007. Consequences: the pre-push secret and large-file check is mandatory on every push; GitHub secret-scanning push protection applies; work-in-progress branches are visible, so commit messages and PR descriptions are written for an outside reader.
 
 **D-007 GitHub workflow: one branch and one pull request per phase.** Each phase is built on its own branch, pushed at the checkpoint and opened as a PR into `main`. GitHub Actions runs ruff and pytest on every push. The supervisor reviews the PR, and Shubham merges and tags `phase-N`. The repo stays private until Phase 5. *Rejected:* committing straight to `main` (no review point, messier history to show recruiters).

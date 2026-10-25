@@ -20,6 +20,5 @@ outputs/scenario_cache/
 Thumbs.db
 desktop.ini
 
-# Claude Code local state (skills' source of truth is tooling/claude-skills/)
+# Claude Code local state (project skills in .claude/skills/ ARE committed)
 .claude/settings.local.json
-.claude/skills/

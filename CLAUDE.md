@@ -20,7 +20,7 @@ This is a portfolio-grade supply-chain network design study for a job applicatio
 - **Ask, don't guess** when the spec is silent on something that changes results. Put the question in the checkpoint hand-back rather than inventing an assumption. Small engineering choices, such as a helper's name, are yours to make.
 - **No silent deviations.** If you depart from the spec, say so in the hand-back and log it in `docs/DECISIONS.md`.
 
-## Skills to use (in `.claude/skills/`; source copies in `tooling/claude-skills/`, installed in Phase 0)
+## Skills to use (committed in `.claude/skills/`)
 
 | Skill | Use when |
 |---|---|
@@ -42,11 +42,11 @@ This is a portfolio-grade supply-chain network design study for a job applicatio
 6. **Vectorise** with numpy/pandas. No `iterrows` in `src/` on large tables, and no `print` in library code (use `logging`).
 7. **Every formula and constraint cites its spec section** in a docstring or a one-line comment.
 8. **Evidence before claims.** Show the actual `pytest` / `ruff` / run output.
-9. **Never commit secrets.** The API key lives in `.env`, which is git-ignored. Do not push to GitHub until the supervisor approves (Phase 5).
+9. **Never commit secrets.** The repo is public. The API key lives only in `.env`, which is git-ignored; never paste a key into code, tests, notebooks, logs or PR text.
 
 ## Git and GitHub workflow
 
-- **Remote:** private GitHub repo `Shubham-Kakade/india-distribution-network-design`, created in Phase 0. It stays private until the Phase 5 supervisor approval, then becomes public.
+- **Remote:** **public** GitHub repo `Shubham-Kakade/india-distribution-network-design` (public by owner decision, D-011). Every push is visible to anyone, so the pre-push safety check below is mandatory.
 - **One branch per phase:** `phase-0-setup`, `phase-1-data`, `phase-2-model`, `phase-3-scenarios`, `phase-4-agent`, `phase-5-delivery`. Create the branch from an up-to-date `main` at the start of the phase. Never commit directly to `main` after Phase 0's initial commit.
 - **Small commits within a phase**, each one a working state (tests and ruff green), using Conventional Commit messages: `feat(demand): two-layer state demand model`, `fix(geo): route NE pairs via Siliguri`, `test(costs): evaluator matches MILP`, `docs: update PROGRESS for checkpoint A`, `chore: pin pulp<4`. The subject stays under 72 characters, written in the imperative; the body says *why*.
 - **At the checkpoint** (`scnd-checkpoint` skill): push the branch, open a pull request into `main` with `gh pr create`, using the hand-back report as the PR description, and stop. The supervisor reviews the PR.
@@ -54,10 +54,14 @@ This is a portfolio-grade supply-chain network design study for a job applicatio
 - **Before every push:** `git status` must show no `.env`, no data outside `data/raw` and `data/processed`, and no file over 5 MB. Run `git diff --cached --stat` and read it.
 - Never force-push, rewrite published history, or change repo visibility without Shubham's explicit instruction.
 
+## Where Claude Code runs
+
+Sessions run either **locally** on Shubham's Windows laptop, or **in the cloud** at claude.ai/code (Linux VM; the repo is cloned from GitHub, and branches and PRs are pushed through the Claude GitHub App). The rules are the same in both places. In a cloud session, skip the Windows venv: dependencies come from the environment setup script (`pip install -r requirements.txt`), and paths are POSIX.
+
 ## Commands
 
 ```bash
-# one-time (venv lives OUTSIDE OneDrive)
+# one-time, local Windows only (venv lives OUTSIDE OneDrive)
 py -3.11 -m venv C:\venvs\scnd
 C:\venvs\scnd\Scripts\activate
 pip install -r requirements.txt

@@ -24,3 +24,6 @@
 - MoSPI HCES 2023-24 press note, state MPCE — https://www.mospi.gov.in/sites/default/files/press_release/HCES_Press_Note_2023-24_27122024_rev.pdf
 - Indian Retailer citing IBEF, rural share of FMCG revenue — https://indianretailer.com/article/retail-business/fmcg/will-rural-india-steal-major-slice-fmcg-retail-sales
 - Address Advisors, warehouse add-on charges (2026) — https://addressadvisors.com/blog/understanding-warehouse-rent-factors-in-india-and-calculation
+
+## Raw data snapshot (downloaded 25 Oct 2026)
+- `data/raw/final_cities.csv`, `final_districts.csv`, `final_states.csv` from GitHub `recurze/IndianCities`, pinned at commit `b93d980cfc2f01e0a981f4b765c8da0e36de53d5` (committed 2020-06-08). URL pattern: `https://raw.githubusercontent.com/recurze/IndianCities/b93d980cfc2f01e0a981f4b765c8da0e36de53d5/<file>.csv`. Defects are listed in BUILD_SPEC_v2 §4.2 and handled in Phase 1.

@@ -95,7 +95,9 @@ IDs use the codes in `assumptions.yaml` (`MUM_BHW`, `P_HDW`, `AS_DEL`). Never in
 - **Docstrings** (Google style, short) on every public function: one-line summary, then `Args`/`Returns` only when not obvious from names and hints. For any formula, write the formula and cite the spec section:
 
   ```python
-  def safety_stock_t(dc_demand_t_yr: float, national_demand_t_yr: float, ss_days_single_dc: float) -> float:
+  def safety_stock_t(
+      dc_demand_t_yr: float, national_demand_t_yr: float, ss_days_single_dc: float
+  ) -> float:
       """Safety stock held at one DC under the square-root law (spec §6).
 
       SS_j = (ss_days_1 / 365) * D_total * sqrt(D_j / D_total)

@@ -4,13 +4,14 @@ Run from the project root: python -m src.data_prep
 """
 
 import logging
+from dataclasses import dataclass
 
 import numpy as np
 import pandas as pd
 
 from src.cog import centre_of_gravity
 from src.config import PROJECT_ROOT, load_params
-from src.demand import build_demand_points, build_zones
+from src.demand import ZONE_COLUMNS, build_demand_points, build_zones
 from src.geo import haversine_km, road_distance_km
 from src.viz import plot_demand_map
 
@@ -55,6 +56,59 @@ TELANGANA_DISTRICTS = [
 ]
 CANDIDATE_COLUMNS = ["dc_id", "name", "state", "lat", "lon", "metro_group", "rent_inr_sqft_month"]
 PLANT_COLUMNS = ["plant_id", "name", "state", "lat", "lon", "share_frac"]
+
+
+@dataclass(frozen=True)
+class NetworkData:
+    """Inputs shared by every solve and evaluation (spec §6, §7). Distances are road km.
+
+    `dcs` holds the DC sites on offer: the candidates, or the as-is depots (spec §8).
+    """
+
+    zones: pd.DataFrame  # ZONE_COLUMNS
+    dcs: pd.DataFrame  # CANDIDATE_COLUMNS
+    plants: pd.DataFrame  # PLANT_COLUMNS
+    zone_dc_km: pd.DataFrame  # index zone_id, one column per dc_id
+    plant_dc_km: pd.DataFrame  # index plant_id, one column per dc_id
+
+
+def assert_columns(df: pd.DataFrame, columns: list[str], table: str) -> None:
+    """Fail early when a processed table lacks a column its consumers rely on."""
+    missing = [c for c in columns if c not in df.columns]
+    if missing:
+        raise ValueError(f"{table} is missing columns {missing}")
+
+
+def load_network_data() -> NetworkData:
+    """Read the Phase 1 processed tables into one validated bundle (run src.data_prep first)."""
+    tables = {
+        name: pd.read_csv(PROCESSED_DIR / f"{name}.csv")
+        for name in ("zones", "candidates", "plants", "dist_zone_dc", "dist_plant_dc")
+    }
+    expected = {
+        "zones": ZONE_COLUMNS,
+        "candidates": CANDIDATE_COLUMNS,
+        "plants": PLANT_COLUMNS,
+        "dist_zone_dc": ["zone_id", "dc_id", "dist_km"],
+        "dist_plant_dc": ["plant_id", "dc_id", "dist_km"],
+    }
+    for name, columns in expected.items():
+        assert_columns(tables[name], columns, name)
+    zones, dcs, plants = tables["zones"], tables["candidates"], tables["plants"]
+
+    def wide_km(long: pd.DataFrame, row_id: str, rows: pd.Series) -> pd.DataFrame:
+        if long.duplicated([row_id, "dc_id"]).any():
+            raise ValueError(f"Duplicate ({row_id}, dc_id) pairs in the distance table")
+        wide = long.pivot_table(index=row_id, columns="dc_id", values="dist_km", aggfunc="first")
+        return wide.loc[rows, dcs["dc_id"]]  # fails loudly if a pair is missing
+
+    return NetworkData(
+        zones=zones,
+        dcs=dcs,
+        plants=plants,
+        zone_dc_km=wide_km(tables["dist_zone_dc"], "zone_id", zones["zone_id"]),
+        plant_dc_km=wide_km(tables["dist_plant_dc"], "plant_id", plants["plant_id"]),
+    )
 
 
 def read_raw(file_name: str) -> pd.DataFrame:

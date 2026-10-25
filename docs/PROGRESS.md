@@ -57,3 +57,33 @@ One entry per checkpoint: phase, what was built, headline numbers, deviations fr
 - Proxy gap: at most 1.8% in absolute value in the sweep and as-is. The base case is at +3.2% because the free-run k_ref = 6 sizes each DC's safety stock for 6 DCs while 9 open. This is open question 1 for the supervisor.
 - Tests: 49 fast (costs 6, model 9, baseline 3, config 7, plus the Phase 1 tests) and 2 slow, all passing.
 - Decisions D-019 to D-026; spec §7 amended (D-021, D-022).
+
+---
+
+## 2026-10-25 — Phase 3 (scenarios), Checkpoint C
+
+- Checkpoint B approved and PR #3 merged (merged in this session on the supervisor's approval; it was still open). Proxy-gap decision logged as D-027.
+- `src/scenarios.py`: `python -m src.scenarios` rebuilds the processed data from raw and solves every scenario in dependency order:
+  - S0 (as-is), S1 (cost only) and S2 (k = 1..12);
+  - S3, the 3 × 6 service frontier, with infeasible cells kept;
+  - the knee, which becomes the recommended network;
+  - S4 to S8 and S9 (14-parameter tornado) at the recommended service target;
+  - S7 rent switching points by bisection;
+  - R (no-regret core vs swing sites);
+  - the k-COG comparison (D-018, D-033).
+
+  Outputs: 82 JSON scenario records plus R, S7 and S9 tables, `outputs/scenario_summary.csv` (82 rows), six §12 charts and five network maps.
+- `src/viz.py`: the six §12 charts (INR Cr axes, footnote, hypothetical-client note, greyscale-legible) and the per-scenario network maps.
+- `src/cog.py`: k-weighted centres of gravity with deterministic k-means++ seeding.
+- Headline numbers:
+  - **Recommended network:** 9 DCs at 400 km / 80% (the knee), INR 244.1 Cr, 80.1% next-day, saving 28.5 Cr against as-is. The Phase 2 base figures are unchanged.
+  - **R:** no-regret core of Mumbai, NCR, Bengaluru–Hosur, Hyderabad–Shamshabad, Ahmedabad, Kolkata and Patna; the swing is Indore vs Nagpur (rent vs freight).
+  - **Infeasible:** 300 km at 85%, 90% and 95%.
+  - **S5a:** an NCR outage costs about 2.4 Cr a month and drops next-day coverage from 80% to 64%.
+  - **S5b:** losing NCR permanently costs 2.2 Cr a year.
+  - **S9:** fixed cost per DC moves the saving from 19.2 to 37.5 Cr.
+  - **S7:** Patna stays open even at three times its rent.
+  - **k-COG:** costs 3–11% more than the MILP at the same k.
+- Full run: about 7.3 min (spec limit 15 min); two runs from raw give identical outputs apart from solve times.
+- Decisions D-027 to D-033. Open questions for the supervisor: knee sensitivity at 400 km / 85% (D-028), the S8 footprint assumptions (D-031), and the S5a costing convention (D-029).
+- Chore: pytest filters PuLP's 4.0 deprecation warnings (pinned below 4, D-005).

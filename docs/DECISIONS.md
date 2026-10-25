@@ -4,6 +4,26 @@ Modelling and engineering decisions, newest first. Each entry records the contex
 
 ---
 
+## 2026-10-25 — Phase 2 (model)
+
+**D-019 Supervisor answers to the Checkpoint A questions.** The Bihar zones stay as they are. That only 4 Bihar cities anchor zones of 18–36 mn people each is a stated limitation ("lumpy rural zones"), to be named in the case study. The DNH & DD zone stays.
+
+**D-020 As-is depots carry `state` and `metro_group` in the YAML; Ludhiana takes the default rent.** `state` serves North-East routing, as D-013 did for candidates. `metro_group` makes "same metro" in the §8 rent rule explicit. Each depot takes the nearest candidate in its group, less the 20% Grade B discount, which gives Bhiwandi 20.0, Kundli 19.2, Hyderabad 19.2 (Shamshabad is nearer than Medchal) and Bengaluru 20.8 (Hoskote). Ludhiana has no candidate in its metro, so it uses the new `as_is_depots.default_rent` of 17, taken as the final Grade B rent with no further discount (the literal reading of the YAML note). *Rejected:* a distance threshold for "same metro" (another magic number).
+
+**D-021 CBC runs single-threaded (`solver.threads: 1`).** With 4 threads, repeated base-case solves returned different assignments within the 0.5% gap: the same 9 sites, but primary and secondary freight moved by about 0.1 Cr. Spec §11 requires deterministic results, and the case study's numbers must reproduce exactly. With 1 thread, repeat runs are identical, the base case reaches a 0.03% gap in about 2.5 s, and the whole Phase 2 run takes 34 s. Spec §7 is amended. *Rejected:* keeping 4 threads and rounding the reports (hides rather than removes the variation).
+
+**D-022 The safety-stock proxy also charges the space safety stock occupies.** With the §7 v2 proxy (carrying cost only), the MILP objective sat 3.6–7.2% below the evaluator, outside the 3% fidelity limit. The missing term is the safety stock's floor space: at k = 4 the gap of 9.2 Cr equals the evaluator's safety-stock space cost of 9.3 Cr. The proxy is now `SS_ref × (carrying cost + area per tonne × (rent_j + opex) × 12)`, which is site-specific and still linear in y. Gaps fell to at most 1.2% in the sweep and 1.8% for the as-is network. The remaining negative gap at high k is the 50,000 sq ft minimum size, which a linear proxy cannot see. Spec §7 is amended.
+
+**D-023 The MILP objective omits network-independent constants; the fidelity check adds them back.** Cycle-stock carrying cost (`i · v · cycle_days/365 · D_total`, 9.66 Cr) is the same for every network, so §7 leaves it out of the objective. The proxy-vs-evaluator comparison adds it back before comparing. Handling is constant too, but stays in the objective as §7 writes it. The evaluator applies no fuel multiplier; scenario S6 will scale the freight rates through overrides (§9).
+
+**D-024 As-is plant flows come from the same MILP with the network pinned.** §8 asks for "a small LP" for plant-to-depot flows. `baseline.solve_as_is` calls `build_and_solve` with every depot forced open and every zone fixed to its state depot, which leaves only the flows free, so the as-is network passes through the same constraints (plant capacity, flow balance) and the same evaluator. The service target is switched off for this run, because today's network is evaluated, not constrained. This needed `fixed_assignment`, so the full §11 `build_and_solve` signature is built now.
+
+**D-025 Processed tables load into a frozen `NetworkData` bundle.** `data_prep.load_network_data()` validates the columns of the five Phase 1 CSVs and returns zones, DC sites, plants, and wide zone-DC and plant-DC distance tables. The as-is network uses the same structure, with depots as the DC sites. Engineering only.
+
+**D-026 `meta.crore` written as 10000000.** PyYAML reads `1.0e7` (an exponent without a sign) as the string `"1.0e7"`. Nothing used it before Phase 2. A regression test now checks that it loads as a number. No value change.
+
+---
+
 ## 2026-10-25 — Phase 1 (data)
 
 **D-013 Each candidate DC and plant carries its `state` in `assumptions.yaml`.** The North-East waypoint rule (spec §5) needs to know whether each endpoint is in the North-East, and sites only had coordinates. An explicit field is easier to audit than guessing the state from the nearest district centroid. No number changes. As-is depots will need the same field in Phase 2. *Rejected:* nearest-district lookup (a hidden data step, and wrong near state borders).

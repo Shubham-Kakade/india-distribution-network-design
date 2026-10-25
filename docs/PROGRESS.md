@@ -39,3 +39,21 @@ One entry per checkpoint: phase, what was built, headline numbers, deviations fr
 - Tests: 30 pass (geo 6, demand 6, data_prep 10, cog 2, config 6).
 - Decisions D-013 to D-018.
 - **Open:** two Bihar zones (Muzaffarpur 1.89%, Bhagalpur 1.67%) are in the top 10, because only 4 Bihar cities make the top 150 and each zone gathers 18 to 36 mn mostly rural people. The supervisor needs to decide whether this is acceptable.
+
+---
+
+## 2026-10-25 — Phase 2 (model), Checkpoint B
+
+- Checkpoint A approved and PR #2 merged. The Bihar zones and the DNH & DD zone are kept (D-019).
+- `src/costs.py`: `evaluate_network` returns a frozen `CostBreakdown` (six components, next-day and two-day share, share of revenue, and a warning outside 3.5–5.5%). The per-unit helpers it uses also build the MILP proxy.
+- `src/model.py`: the spec §7 MILP in PuLP with CBC, all 8 constraint groups, and `build_and_solve(params, data, k, forced_open, forced_closed, fixed_assignment)`. Every solution is re-costed by the evaluator. Status, objective, bound, gap, time and proxy gap are reported, and infeasibility is returned as a status. `python -m src.model` prints the Checkpoint B report.
+- `src/baseline.py`: 15 as-is depots at Grade B rents with state-based assignment; flows from the same MILP with the network pinned.
+- Headline numbers (evaluator, INR Cr/yr):
+  - Base case (400 km / 80%): 9 DCs (MUM_BHW, NCR_FRN, BLR_HSR, HYD_SMB, AMD_CHG, KOL_DNK, LKO_KNP, IDR_PTH, PAT_BHT), **244.1 Cr**, 4.07% of revenue, 80.1% next-day. Prototype: 9 DCs, 244.0 Cr.
+  - As-is: **272.6 Cr**, 81.4% next-day. Prototype: 272.7 Cr, 81%.
+  - Saving, base case vs as-is: **28.5 Cr (10.5%)**.
+  - Sweep for k = 1–12: every total within 0.1% of the prototype; minimum at k = 4 (231.2 Cr), flat to k = 9 (238.1 Cr).
+- Every solve is Optimal; the largest MIP gap is 0.12% (k = 5); the slowest solve is 17 s (k = 2); the full run takes 34 s and is deterministic (D-021).
+- Proxy gap: at most 1.8% in absolute value in the sweep and as-is. The base case is at +3.2% because the free-run k_ref = 6 sizes each DC's safety stock for 6 DCs while 9 open. This is open question 1 for the supervisor.
+- Tests: 49 fast (costs 6, model 9, baseline 3, config 7, plus the Phase 1 tests) and 2 slow, all passing.
+- Decisions D-019 to D-026; spec §7 amended (D-021, D-022).

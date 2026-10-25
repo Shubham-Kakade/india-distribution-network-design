@@ -180,12 +180,12 @@ The breakdown is returned as a dataclass and also expressed as a percentage of r
 **Objective (linear proxy).**
 
 ```
-min  Σ_j (F + SS_proxy) · y_j
+min  Σ_j (F + SS_proxy_j) · y_j
    + Σ_z Σ_j D_z · ( r_s · d̃_zj + h + s_j ) · x_zj
    + Σ_p Σ_j r_p · d_pj · f_pj
 ```
 
-where `d̃_zj = max(d_zj, 25)`; `s_j = (cycle_days/365) / density / utilisation × (rent_j + opex) × 12` is the space cost per tonne of throughput at site *j*; and `SS_proxy = i · v · (ss_days_1/365) · D_total / √k_ref` is the average safety-stock carrying cost per DC. Use `k_ref` = k in the DC-count sweep and 6 in free runs.
+where `d̃_zj = max(d_zj, 25)`; `s_j = (cycle_days/365) / density / utilisation × (rent_j + opex) × 12` is the space cost per tonne of throughput at site *j*; and `SS_proxy_j = SS_ref · (i · v + (rent_j + opex) × 12 / density / utilisation)`, with `SS_ref = (ss_days_1/365) · D_total / √k_ref`, is the carrying **and space** cost of an average DC's safety stock at site *j*. Use `k_ref` = k in the DC-count sweep and 6 in free runs. *(Amended in Phase 2, D-022: the v2 proxy charged carrying only and missed the space that safety stock occupies, a 4–7% proxy gap.)*
 
 **Constraints.**
 1. Σ_j x_zj = 1 for every zone.
@@ -197,7 +197,7 @@ where `d̃_zj = max(d_zj, 25)`; `s_j = (cycle_days/365) / density / utilisation 
 7. Σ_{j∈m} y_j ≤ 1 for each metro group *m*.
 8. Optional: Σ_j y_j = k (sweep); y_j = 0 for forced closures; y_j = 1 for forced opens; x fixed for operational-recourse runs.
 
-**Solver settings.** CBC with a relative gap of 0.5%, a 300 s time limit and 4 threads, all from `assumptions.yaml`. Report status, objective, best bound, gap and wall-clock time for every solve. A solve that returns anything other than Optimal must be reported as such (for example "infeasible at 300 km / 85%"), never silently dropped, because infeasibility is itself an insight.
+**Solver settings.** CBC with a relative gap of 0.5%, a 300 s time limit and 1 thread (4 threads returned different solutions within the gap on repeat runs, breaking §11 determinism; D-021), all from `assumptions.yaml`. Report status, objective, best bound, gap and wall-clock time for every solve. A solve that returns anything other than Optimal must be reported as such (for example "infeasible at 300 km / 85%"), never silently dropped, because infeasibility is itself an insight.
 
 **Expected scale.** About 158 × 19 ≈ 3,000 binaries plus 57 continuous variables. The prototype solved most instances in under 2 seconds, with a worst case of about 30 seconds.
 

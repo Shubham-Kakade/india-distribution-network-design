@@ -45,3 +45,8 @@ def test_validate_rejects_value_outside_own_range(params):
     broken = with_overrides(params, {"company.annual_volume_tonnes.value": 1})
     with pytest.raises(ValueError, match="outside range"):
         validate_params(broken)
+
+
+def test_numbers_in_yaml_load_as_numbers(params):
+    # PyYAML reads an exponent without a sign (1.0e7) as a string; crore must be numeric
+    assert isinstance(params["meta"]["crore"], int | float)

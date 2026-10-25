@@ -42,11 +42,11 @@ This is a portfolio-grade supply-chain network design study for a job applicatio
 6. **Vectorise** with numpy/pandas. No `iterrows` in `src/` on large tables, and no `print` in library code (use `logging`).
 7. **Every formula and constraint cites its spec section** in a docstring or a one-line comment.
 8. **Evidence before claims.** Show the actual `pytest` / `ruff` / run output.
-9. **Never commit secrets.** The API key lives in `.env`, which is git-ignored. Do not push to GitHub until the supervisor approves (Phase 5).
+9. **Never commit secrets.** The repo is public. The API key lives only in `.env`, which is git-ignored; never paste a key into code, tests, notebooks, logs or PR text.
 
 ## Git and GitHub workflow
 
-- **Remote:** private GitHub repo `Shubham-Kakade/india-distribution-network-design`, created in Phase 0. It stays private until the Phase 5 supervisor approval, then becomes public.
+- **Remote:** **public** GitHub repo `Shubham-Kakade/india-distribution-network-design` (public by owner decision, D-011). Every push is visible to anyone, so the pre-push safety check below is mandatory.
 - **One branch per phase:** `phase-0-setup`, `phase-1-data`, `phase-2-model`, `phase-3-scenarios`, `phase-4-agent`, `phase-5-delivery`. Create the branch from an up-to-date `main` at the start of the phase. Never commit directly to `main` after Phase 0's initial commit.
 - **Small commits within a phase**, each one a working state (tests and ruff green), using Conventional Commit messages: `feat(demand): two-layer state demand model`, `fix(geo): route NE pairs via Siliguri`, `test(costs): evaluator matches MILP`, `docs: update PROGRESS for checkpoint A`, `chore: pin pulp<4`. The subject stays under 72 characters, written in the imperative; the body says *why*.
 - **At the checkpoint** (`scnd-checkpoint` skill): push the branch, open a pull request into `main` with `gh pr create`, using the hand-back report as the PR description, and stop. The supervisor reviews the PR.

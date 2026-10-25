@@ -45,7 +45,7 @@ def validate_params(params: dict) -> None:
     for name, sites in site_lists.items():
         if not sites:
             raise ValueError(f"assumptions.yaml section '{name}' is empty")
-    for dotted_key, entry in _entries_with_range(params):
+    for dotted_key, entry in entries_with_range(params):
         low, high = entry["range"]
         if not low <= entry["value"] <= high:
             raise ValueError(f"{dotted_key}: value {entry['value']} outside range [{low}, {high}]")
@@ -71,14 +71,14 @@ def with_overrides(params: dict, overrides: dict[str, object]) -> dict:
     return out
 
 
-def _entries_with_range(node: object, prefix: str = ""):
+def entries_with_range(node: object, prefix: str = ""):
     """Yield (dotted_key, entry) for every numeric {value, range} entry in the tree."""
     if isinstance(node, dict):
         value, rng = node.get("value"), node.get("range")
         if isinstance(value, int | float) and isinstance(rng, list) and len(rng) == 2:
             yield prefix, node
         for key, child in node.items():
-            yield from _entries_with_range(child, f"{prefix}.{key}" if prefix else key)
+            yield from entries_with_range(child, f"{prefix}.{key}" if prefix else key)
     elif isinstance(node, list):
         for i, child in enumerate(node):
-            yield from _entries_with_range(child, f"{prefix}[{i}]")
+            yield from entries_with_range(child, f"{prefix}[{i}]")

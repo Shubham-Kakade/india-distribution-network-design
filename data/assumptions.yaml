@@ -566,15 +566,40 @@ solver:
 # ---------------------------------------------------------------------
 scenarios:
   dc_count_sweep: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]   # spec §9 S2: k = 1..12
+  service_frontier_alphas: [0.70, 0.75, 0.80, 0.85, 0.90, 0.95]   # spec §9 S3; radii from service.next_day_radius_km.sensitivities
   demand_growth:
     uniform: 0.30
     regional_skew:   # optional variant: faster growth in under-served regions
       East: 0.45      # Bihar, Jharkhand, Odisha, West Bengal, NE
       Central: 0.35   # MP, Chhattisgarh, UP
       Rest: 0.25
-  diesel_shock: 0.20
+    regions:          # states per region (zone state = anchor state); every other state is Rest
+      East: [Bihar, Jharkhand, Odisha, West Bengal, Sikkim, Assam, Meghalaya, Tripura, Mizoram,
+             Manipur, Nagaland, Arunachal Pradesh]
+      Central: [Madhya Pradesh, Chhattisgarh, Uttar Pradesh]
+  diesel_shock: [0.20, 0.40]    # spec §9 S6: freight x (1 + diesel share x shock)
   rent_shock: [-0.20, 0.20]
   disruption_months: 1
+  disruption_capacity_surge:
+    value: 0.20
+    unit: fraction of extra throughput capacity at the remaining DCs during an outage
+    source: BUILD_SPEC_v2 §9 S5a (overtime, extra shifts, temporary overflow space)
+  rent_switch_search:
+    max_multiplier: 3.0   # S7 bisection: search a site's rent up to this multiple of today's
+    tolerance_inr_sqft_month: 0.25
+  plant_footprints:     # spec §9 S8; analyst assumptions, flagged in the Phase 3 hand-back
+    note: >
+      Shares are renormalised so plant capacity (share x demand x headroom) still covers
+      demand. The eastern plant is placed at Uluberia (Howrah), an existing FMCG cluster
+      close to the Bihar, West Bengal and Odisha demand it would serve.
+    no_puducherry:
+      - {id: P_HDW, name: "Haridwar (Uttarakhand)", lat: 29.945, lon: 78.164, state: Uttarakhand, share: 0.5333}
+      - {id: P_SLV, name: "Silvassa (DNH)", lat: 20.274, lon: 73.008, state: "Dadra and Nagar Haveli and Daman and Diu", share: 0.4667}
+    add_east:
+      - {id: P_HDW, name: "Haridwar (Uttarakhand)", lat: 29.945, lon: 78.164, state: Uttarakhand, share: 0.32}
+      - {id: P_SLV, name: "Silvassa (DNH)", lat: 20.274, lon: 73.008, state: "Dadra and Nagar Haveli and Daman and Diu", share: 0.28}
+      - {id: P_PDY, name: "Puducherry", lat: 11.941, lon: 79.808, state: Puducherry, share: 0.20}
+      - {id: P_ULB, name: "Uluberia (Howrah)", lat: 22.470, lon: 88.110, state: West Bengal, share: 0.20}
 
 # ---------------------------------------------------------------------
 # 12. Data checks (consumed by src/data_prep.py). Reference values the

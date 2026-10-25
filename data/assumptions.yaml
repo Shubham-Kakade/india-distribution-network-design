@@ -17,7 +17,7 @@
 
 meta:
   currency: INR
-  crore: 1.0e7            # 1 Cr = 10,000,000 INR
+  crore: 10000000         # 1 Cr = 10,000,000 INR (written out: PyYAML reads 1.0e7 as a string)
   base_year: 2026
   population_vintage: 2011  # Census 2011; only relative shares are used
   disclaimer: >
@@ -521,23 +521,30 @@ as_is_depots:
   note: >
     Zones are served by the depot of their own state; states not listed map
     to the nearest depot. Rent = nearest candidate cluster rent x (1 - grade_b
-    discount) where one exists in the same metro, else 17.
+    discount) where one exists in the same metro, else default_rent.
+    `state` is the depot's own state (North-East routing, spec §5);
+    `metro_group` matches the candidate groups and defines "same metro".
+  default_rent:
+    value: 17
+    unit: INR / sq ft / month (Grade B, used as is; no further discount)
+    source: Analyst assumption (spec §8); applies to depots with no candidate cluster in their metro (Ludhiana)
+    confidence: low
   list:
-    - {id: AS_MUM, name: Bhiwandi,    lat: 19.296, lon: 73.063, states: [Maharashtra, Goa]}
-    - {id: AS_DEL, name: Kundli,      lat: 28.870, lon: 77.120, states: [Delhi, Haryana]}
-    - {id: AS_LKO, name: Lucknow,     lat: 26.850, lon: 80.950, states: [Uttar Pradesh, Uttarakhand]}
-    - {id: AS_PAT, name: Patna,       lat: 25.594, lon: 85.137, states: [Bihar, Jharkhand]}
-    - {id: AS_KOL, name: Dankuni,     lat: 22.680, lon: 88.290, states: [West Bengal, Sikkim]}
-    - {id: AS_GAU, name: Guwahati,    lat: 26.144, lon: 91.736, states: [Assam, Meghalaya, Tripura, Mizoram, Manipur, Nagaland, Arunachal Pradesh]}
-    - {id: AS_BBS, name: Bhubaneswar, lat: 20.296, lon: 85.825, states: [Odisha]}
-    - {id: AS_HYD, name: Hyderabad,   lat: 17.385, lon: 78.487, states: [Telangana, Andhra Pradesh]}
-    - {id: AS_BLR, name: Bengaluru,   lat: 12.972, lon: 77.594, states: [Karnataka]}
-    - {id: AS_CHN, name: Chennai,     lat: 13.083, lon: 80.270, states: [Tamil Nadu, Puducherry]}
-    - {id: AS_COK, name: Kochi,       lat: 10.050, lon: 76.350, states: [Kerala]}
-    - {id: AS_AMD, name: Ahmedabad,   lat: 23.022, lon: 72.571, states: [Gujarat, "Dadra and Nagar Haveli and Daman and Diu"]}
-    - {id: AS_JAI, name: Jaipur,      lat: 26.912, lon: 75.787, states: [Rajasthan]}
-    - {id: AS_IDR, name: Indore,      lat: 22.720, lon: 75.858, states: [Madhya Pradesh, Chhattisgarh]}
-    - {id: AS_LDH, name: Ludhiana,    lat: 30.901, lon: 75.857, states: [Punjab, Himachal Pradesh, Chandigarh, Jammu and Kashmir, Ladakh]}
+    - {id: AS_MUM, name: Bhiwandi,    lat: 19.296, lon: 73.063, state: Maharashtra, metro_group: MUM, states: [Maharashtra, Goa]}
+    - {id: AS_DEL, name: Kundli,      lat: 28.870, lon: 77.120, state: Haryana, metro_group: NCR, states: [Delhi, Haryana]}
+    - {id: AS_LKO, name: Lucknow,     lat: 26.850, lon: 80.950, state: Uttar Pradesh, metro_group: LKO, states: [Uttar Pradesh, Uttarakhand]}
+    - {id: AS_PAT, name: Patna,       lat: 25.594, lon: 85.137, state: Bihar, metro_group: PAT, states: [Bihar, Jharkhand]}
+    - {id: AS_KOL, name: Dankuni,     lat: 22.680, lon: 88.290, state: West Bengal, metro_group: KOL, states: [West Bengal, Sikkim]}
+    - {id: AS_GAU, name: Guwahati,    lat: 26.144, lon: 91.736, state: Assam, metro_group: GAU, states: [Assam, Meghalaya, Tripura, Mizoram, Manipur, Nagaland, Arunachal Pradesh]}
+    - {id: AS_BBS, name: Bhubaneswar, lat: 20.296, lon: 85.825, state: Odisha, metro_group: BBS, states: [Odisha]}
+    - {id: AS_HYD, name: Hyderabad,   lat: 17.385, lon: 78.487, state: Telangana, metro_group: HYD, states: [Telangana, Andhra Pradesh]}
+    - {id: AS_BLR, name: Bengaluru,   lat: 12.972, lon: 77.594, state: Karnataka, metro_group: BLR, states: [Karnataka]}
+    - {id: AS_CHN, name: Chennai,     lat: 13.083, lon: 80.270, state: Tamil Nadu, metro_group: CHN, states: [Tamil Nadu, Puducherry]}
+    - {id: AS_COK, name: Kochi,       lat: 10.050, lon: 76.350, state: Kerala, metro_group: COK, states: [Kerala]}
+    - {id: AS_AMD, name: Ahmedabad,   lat: 23.022, lon: 72.571, state: Gujarat, metro_group: AMD, states: [Gujarat, "Dadra and Nagar Haveli and Daman and Diu"]}
+    - {id: AS_JAI, name: Jaipur,      lat: 26.912, lon: 75.787, state: Rajasthan, metro_group: JAI, states: [Rajasthan]}
+    - {id: AS_IDR, name: Indore,      lat: 22.720, lon: 75.858, state: Madhya Pradesh, metro_group: IDR, states: [Madhya Pradesh, Chhattisgarh]}
+    - {id: AS_LDH, name: Ludhiana,    lat: 30.901, lon: 75.857, state: Punjab, metro_group: LDH, states: [Punjab, Himachal Pradesh, Chandigarh, Jammu and Kashmir, Ladakh]}
 
 # ---------------------------------------------------------------------
 # 10. Solver
@@ -546,14 +553,19 @@ solver:
   name: CBC
   mip_gap: 0.005
   time_limit_s: 300
-  threads: 4
+  threads: 1                # spec §11 determinism: CBC with 4 threads returned different
+                             # solutions within the gap on repeat runs (D-021)
   log: false
+  ss_proxy_k_ref_free_runs:
+    value: 6
+    unit: DC count used to size the per-DC safety-stock proxy when k is not fixed
+    source: BUILD_SPEC_v2 §7 (k_ref = k in the DC-count sweep, 6 in free runs)
 
 # ---------------------------------------------------------------------
 # 11. Scenario defaults (consumed by src/scenarios.py)
 # ---------------------------------------------------------------------
 scenarios:
-  dc_count_sweep: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  dc_count_sweep: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]   # spec §9 S2: k = 1..12
   demand_growth:
     uniform: 0.30
     regional_skew:   # optional variant: faster growth in under-served regions
@@ -601,3 +613,34 @@ checks:
     value: [21.7, 79.0]
     unit: "[lat, lon] degrees"
     source: Supervisor prototype (BUILD_SPEC_v2 §3, §13); calibration only, not for deliverables
+  logistics_cost_share_band:
+    value: [0.035, 0.055]
+    unit: fraction of revenue; total logistics cost outside this band logs a warning
+    source: BUILD_SPEC_v2 §6 (plausibility band for Indian FMCG)
+  proxy_gap_tolerance_frac:
+    value: 0.03
+    unit: fraction; |MILP objective (plus constant terms) / evaluator total - 1|
+    source: BUILD_SPEC_v2 §7 (proxy fidelity check)
+  prototype_tolerance_frac:
+    value: 0.05
+    unit: fraction; differences from the supervisor prototype above this must be explained
+    source: BUILD_SPEC_v2 §3, §13 (Checkpoint B)
+  prototype_k_sweep:
+    unit: "k: [primary, secondary, space, handling, inventory, fixed, total] INR Cr / yr, then share of demand within 400 km"
+    source: Supervisor prototype, BUILD_SPEC_v2 §3 (no service constraint); calibration only, not for deliverables
+    value:
+      1: [148.2, 280.6, 8.4, 6.6, 18.0, 3.0, 464.8, 0.10]
+      2: [64.0, 207.4, 12.6, 6.6, 21.4, 6.0, 317.9, 0.30]
+      3: [32.6, 165.0, 14.1, 6.6, 23.9, 9.0, 251.3, 0.40]
+      4: [57.5, 113.9, 14.8, 6.6, 26.2, 12.0, 231.0, 0.49]
+      6: [61.3, 100.9, 16.8, 6.6, 29.4, 18.0, 232.9, 0.60]
+      9: [66.8, 83.4, 20.0, 6.6, 34.1, 27.0, 237.9, 0.70]
+      12: [79.3, 62.9, 24.5, 6.6, 37.6, 36.0, 247.0, 0.80]
+  prototype_base_case:
+    unit: "[DC count, total INR Cr / yr] at 400 km / 80%"
+    source: Supervisor prototype, BUILD_SPEC_v2 §3
+    value: [9, 244.0]
+  prototype_as_is:
+    unit: "[total INR Cr / yr, share of demand within 400 km]"
+    source: Supervisor prototype, BUILD_SPEC_v2 §3
+    value: [272.7, 0.81]

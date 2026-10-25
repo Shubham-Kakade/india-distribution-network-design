@@ -4,6 +4,31 @@ Modelling and engineering decisions, newest first. Each entry records the contex
 
 ---
 
+## 2026-10-25 — Phase 3 (scenarios)
+
+**D-027 The proxy fidelity limit applies to sweep runs only (supervisor decision).** The 3% limit binds where `k_ref = k` (the DC-count sweep and other fixed-k solves). Free runs size the proxy at `k_ref = 6` and report their gap as information, not pass/fail: the proxy only guides the search, and the reported cost is always the exact evaluator figure. The self-consistent re-solve was rejected because it found a worse exact base network (244.4 vs 244.1). `model.py` warns only when k is fixed.
+
+**D-028 The recommended service level is the knee of the 400 km frontier, found by the "Kneedle" rule.** Spec §9 asks for the knee but gives no rule. Both axes are scaled to 0–1 between the first and last feasible points, and the knee is the point furthest below the straight line joining them: past it, each further point of service costs more than the average point before it. On the 400 km curve this gives **80%** (9 DCs, INR 244.1 Cr), the Phase 2 base case. *Sensitivity, flagged for review:* the free-run proxy (D-027) leaves about 1.8 Cr on the table at 400 km / 85%. Sizing the proxy for 8–11 DCs finds 248.3 Cr (11 DCs) there, against 250.1 Cr with `k_ref = 6`, and with that cell the same rule picks 85%. *Rejected:* a fixed INR-per-point threshold (another magic number).
+
+**D-029 S5a operational outage: freight only, open set fixed, surge as larger capacity.** The busiest recommended DC is closed for `disruption_months`. The other DCs stay open, with no new sites (`forced_open` with k = n − 1). Its zones are re-assigned with no service target, and the 20% surge raises every DC's capacity by raising `max_dc_size_sqft` by 20% for that solve. The outage cost is the change in primary plus secondary freight × months/12. Rent, fixed cost and stock are treated as unchanged for a one-month outage (the closed site still pays rent), so the evaluator's lower fixed and space cost for the smaller network is not counted as a saving. At 300,000 t no DC comes near capacity, so the surge never binds (see insights). S5b re-optimises with the site excluded and the service target kept.
+
+**D-030 R classifies sites on the stress tests of the recommended network only.** No-regret core: open in the recommended network and in every S4, S6, S7 and S8 run at its service target. Swing: open in some of them. The heatmap also shows S1, every feasible S3 cell and S5b as context columns that do not classify: S1 and S3 ask for different service levels, and S5b removes a site by design (counting it made NCR a "swing" site purely by construction). S5a is left out because its open set is fixed.
+
+**D-031 S8 plant footprints are analyst assumptions.** *No Puducherry:* the remaining shares are renormalised to 0.5333 / 0.4667; without this, plant capacity (share × demand × 1.15) covers only 86% of demand and the model is infeasible. *Eastern plant:* Uluberia (Howrah), an existing FMCG cluster near the Bihar, West Bengal and Odisha demand, with a 20% share; the other three plants scale ×0.8. Both lists are in `scenarios.plant_footprints`.
+
+**D-032 Scenario conventions where §9 is silent.**
+- (a) S4–S9 and R run at the recommended service target, so each one stress-tests the recommendation.
+- (b) S4 growth applies by the zone's anchor state, using the region lists in `scenarios.demand_growth.regions`. Revenue scales with volume at the same realisation, so the share of revenue stays comparable.
+- (c) S6 multiplies both freight rates by (1 + 0.55 × shock) through parameter overrides; the evaluator has no fuel multiplier of its own (D-023).
+- (d) S7 switching rents move one site's rent at a time, with the others fixed. Bisection between 1× and 3× today's rent, to INR 0.25; NaN means the site is still open at 3×. The search assumes a site, once dropped, stays dropped at higher rents.
+- (e) The S9 tornado covers the 14 low/medium-confidence parameters with a range. Candidate rents are covered by S7, not here. Demand parameters rebuild zone demand from the cleaned raw data (the zone set is checked unchanged), and circuity rebuilds the distances. Each end also re-costs the as-is network, so the saving's sensitivity shows. The diesel share has no effect without a fuel shock, and its zero bar says so.
+- (f) Scenario JSON records carry the overrides, the data changes and the SHA-256 of `assumptions.yaml`, not a full copy of the parameters.
+- (g) Network maps are drawn for S0, S1, the recommended network, S5a and S5b. Next-day rings use the road radius ÷ circuity as a great-circle radius.
+
+**D-033 The k-COG comparison builds a real network from each set of centres.** The k-weighted centres of gravity use a deterministic k-means++ seed, nearest-centre assignment and a Weiszfeld centre per cluster. Each centre then snaps to the nearest candidate whose metro group is still free (heaviest cluster first). Every zone goes to its nearest chosen site, and plant flows come from the MILP with that network pinned. The result is costed by the same evaluator as the MILP at the same k. The seeding replaced "k heaviest points" after a test showed two seeds landing in one cluster.
+
+---
+
 ## 2026-10-25 — Phase 2 (model)
 
 **D-019 Supervisor answers to the Checkpoint A questions.** The Bihar zones stay as they are. That only 4 Bihar cities anchor zones of 18–36 mn people each is a stated limitation ("lumpy rural zones"), to be named in the case study. The DNH & DD zone stays.

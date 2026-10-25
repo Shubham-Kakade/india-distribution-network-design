@@ -211,7 +211,9 @@ def build_and_solve(
     total_t_yr = data.zones["demand_t_yr"].sum()
     constant_inr = carrying_cost_inr_per_t_yr(params) * cycle_stock_t(total_t_yr, params)
     proxy_gap_frac = (objective_inr + constant_inr) / cost.total_inr - 1
-    if abs(proxy_gap_frac) > params["checks"]["proxy_gap_tolerance_frac"]["value"]:
+    # D-027: the 3% limit binds where k_ref = k (sweep runs); free runs report the gap only
+    tolerance = params["checks"]["proxy_gap_tolerance_frac"]["value"]
+    if k is not None and abs(proxy_gap_frac) > tolerance:
         logger.warning(
             "Solve k=%s: MILP proxy differs from evaluator by %+.1f%%", k, 100 * proxy_gap_frac
         )

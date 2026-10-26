@@ -5,9 +5,10 @@ import dataclasses
 import pandas as pd
 import pytest
 
+from src import model
 from src.config import with_overrides
 from src.costs import evaluate_network
-from src.model import build_and_solve, dc_capacity_t_yr
+from src.model import Solution, build_and_solve, dc_capacity_t_yr
 
 OPTIMAL = "Optimal Solution Found"
 
@@ -113,3 +114,36 @@ def test_full_india_base_case_optimal_within_gap_and_proxy_tolerance(params):
     assert sol.status == OPTIMAL
     assert sol.gap_frac <= params["solver"]["mip_gap"]
     assert sol.cost.next_day_share_frac >= params["service"]["min_share_within_radius"]["value"]
+
+
+def test_free_solve_keeps_the_cheaper_exact_pass_and_records_both(params, tiny):
+    # D-034: k_ref = 6 first, then re-sized for the DCs opened; the lower exact cost wins
+    sol = build_and_solve(params, tiny)
+    assert 1 <= len(sol.passes) <= 2
+    assert sol.passes[0]["k_ref"] == params["solver"]["ss_proxy_k_ref_free_runs"]["value"]
+    if len(sol.passes) == 2:
+        assert sol.passes[1]["k_ref"] == sol.passes[0]["n_dcs"]
+    assert sol.cost.total_inr == pytest.approx(min(p["total_inr"] for p in sol.passes))
+    assert sol.solve_time_s == pytest.approx(sum(p["solve_time_s"] for p in sol.passes))
+
+
+@pytest.mark.parametrize(
+    ("first_total", "second_total", "kept_k_ref"), [(100.0, 90.0, 3), (90.0, 100.0, 6)]
+)
+def test_two_pass_rule_keeps_the_lower_exact_cost(
+    params, tiny, monkeypatch, first_total, second_total, kept_k_ref
+):
+    def fake_solve_once(params, data, k, k_ref, *rest):
+        total = first_total if k_ref == 6 else second_total
+        cost = type("Cost", (), {"total_inr": total})()
+        return Solution("ok", 1.0, 1.0, 0.0, 1.0, ("D1", "D2", "D3"), None, None, cost, 0.0)
+
+    monkeypatch.setattr(model, "solve_once", fake_solve_once)
+    sol = model.build_and_solve(params, tiny)
+    assert [p["k_ref"] for p in sol.passes] == [6, 3]  # pass 2 sized for the 3 DCs opened
+    assert sol.cost.total_inr == min(first_total, second_total)
+    assert sol.passes[[6, 3].index(kept_k_ref)]["total_inr"] == sol.cost.total_inr
+
+
+def test_fixed_k_solve_is_single_pass(params, tiny):
+    assert build_and_solve(params, tiny, k=2).passes == ()

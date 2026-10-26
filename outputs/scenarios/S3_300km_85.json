@@ -1,0 +1,31 @@
+{
+ "scenario_id": "S3_300km_85",
+ "group": "S3",
+ "question": "What does service cost?",
+ "inputs": {
+  "service.next_day_radius_km.value": 300,
+  "service.min_share_within_radius.value": 0.85
+ },
+ "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+ "status": "No Solution Exists",
+ "solve": {
+  "objective_cr": null,
+  "best_bound_cr": null,
+  "mip_gap_frac": null,
+  "proxy_gap_frac": null,
+  "solve_time_s": 0.10194587707519531,
+  "passes": [
+   {
+    "k_ref": 6,
+    "status": "No Solution Exists",
+    "n_dcs": 0,
+    "open_dcs": [],
+    "proxy_gap_frac": null,
+    "solve_time_s": 0.10194587707519531,
+    "total_cr": null
+   }
+  ]
+ },
+ "open_dcs": [],
+ "extra": {}
+}

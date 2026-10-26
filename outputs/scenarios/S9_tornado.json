@@ -1,0 +1,156 @@
+[
+ {
+  "parameter":"company.annual_volume_tonnes",
+  "label":"annual_volume_tonnes [240000 to 360000]",
+  "low_total":202.7998357943,
+  "high_total":286.2240981405,
+  "low_saving":28.7089209886,
+  "high_saving":28.0725321562,
+  "low_dcs":9,
+  "high_dcs":9,
+  "swing_cr":83.4242623463
+ },
+ {
+  "parameter":"distance.circuity_factor",
+  "label":"circuity_factor [1.15 to 1.4]",
+  "low_total":229.3834950804,
+  "high_total":264.2567074392,
+  "low_saving":30.969574783,
+  "high_saving":26.7878865586,
+  "low_dcs":8,
+  "high_dcs":11,
+  "swing_cr":34.8732123588
+ },
+ {
+  "parameter":"transport.primary_ftl_inr_per_tkm",
+  "label":"primary_ftl_inr_per_tkm [4.3 to 6.5]",
+  "low_total":225.5258011917,
+  "high_total":259.7470804708,
+  "low_saving":26.0411699664,
+  "high_saving":30.4289847821,
+  "low_dcs":9,
+  "high_dcs":9,
+  "swing_cr":34.2212792791
+ },
+ {
+  "parameter":"transport.secondary_inr_per_tkm",
+  "label":"secondary_inr_per_tkm [7.0 to 11.0]",
+  "low_total":228.0590592024,
+  "high_total":260.1443627354,
+  "low_saving":31.5383334734,
+  "high_saving":25.5111986448,
+  "low_dcs":9,
+  "high_dcs":9,
+  "swing_cr":32.0853035329
+ },
+ {
+  "parameter":"warehousing.fixed_cost_per_dc_cr_per_yr",
+  "label":"fixed_cost_per_dc_cr_per_yr [1.5 to 4.5]",
+  "low_total":230.6022483641,
+  "high_total":257.5772082703,
+  "low_saving":19.5242286639,
+  "high_saving":37.5492687577,
+  "low_dcs":9,
+  "high_dcs":9,
+  "swing_cr":26.9749599062
+ },
+ {
+  "parameter":"warehousing.safety_stock_days_single_dc",
+  "label":"safety_stock_days_single_dc [4 to 9]",
+  "low_total":234.3358987845,
+  "high_total":260.9855119858,
+  "low_saving":27.2898543635,
+  "high_saving":30.2148435955,
+  "low_dcs":9,
+  "high_dcs":9,
+  "swing_cr":26.6496132014
+ },
+ {
+  "parameter":"demand.residual_share_target",
+  "label":"residual_share_target [0.45 to 0.65]",
+  "low_total":239.4581329987,
+  "high_total":249.4835060487,
+  "low_saving":28.6657328588,
+  "high_saving":27.9897747354,
+  "low_dcs":8,
+  "high_dcs":9,
+  "swing_cr":10.02537305
+ },
+ {
+  "parameter":"warehousing.cycle_stock_days",
+  "label":"cycle_stock_days [5 to 10]",
+  "low_total":240.332534854,
+  "high_total":249.885139571,
+  "low_saving":29.2009857441,
+  "high_saving":27.4953640417,
+  "low_dcs":9,
+  "high_dcs":9,
+  "swing_cr":9.5526047169
+ },
+ {
+  "parameter":"warehousing.storage_density_t_per_sqft",
+  "label":"storage_density_t_per_sqft [0.04 to 0.07]",
+  "low_total":247.3249318412,
+  "high_total":241.8232396773,
+  "low_saving":26.8625502139,
+  "high_saving":30.2197059215,
+  "low_dcs":9,
+  "high_dcs":9,
+  "swing_cr":5.5016921639
+ },
+ {
+  "parameter":"warehousing.handling_inr_per_tonne",
+  "label":"handling_inr_per_tonne [150 to 300]",
+  "low_total":241.9772082703,
+  "high_total":246.4772082703,
+  "low_saving":28.5492687577,
+  "high_saving":28.5492687577,
+  "low_dcs":9,
+  "high_dcs":9,
+  "swing_cr":4.5
+ },
+ {
+  "parameter":"warehousing.opex_inr_per_sqft_month",
+  "label":"opex_inr_per_sqft_month [7 to 14]",
+  "low_total":242.2749781778,
+  "high_total":246.6642638117,
+  "low_saving":27.5890084043,
+  "high_saving":29.6455338107,
+  "low_dcs":9,
+  "high_dcs":9,
+  "swing_cr":4.3892856339
+ },
+ {
+  "parameter":"demand.metro_uplift",
+  "label":"metro_uplift [1.0 to 1.5]",
+  "low_total":246.5026066981,
+  "high_total":242.875075658,
+  "low_saving":28.238544645,
+  "high_saving":28.5244665831,
+  "low_dcs":9,
+  "high_dcs":9,
+  "swing_cr":3.62753104
+ },
+ {
+  "parameter":"demand.state_consumption_index.elasticity",
+  "label":"elasticity [0.6 to 1.0]",
+  "low_total":246.9701760952,
+  "high_total":244.0772082703,
+  "low_saving":29.0194399864,
+  "high_saving":28.5492687577,
+  "low_dcs":9,
+  "high_dcs":9,
+  "swing_cr":2.8929678249
+ },
+ {
+  "parameter":"transport.diesel_share_of_freight_cost",
+  "label":"diesel_share_of_freight_cost [0.35 to 0.55]",
+  "low_total":244.0772082703,
+  "high_total":244.0772082703,
+  "low_saving":28.5492687577,
+  "high_saving":28.5492687577,
+  "low_dcs":9,
+  "high_dcs":9,
+  "swing_cr":0.0
+ }
+]

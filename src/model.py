@@ -6,6 +6,7 @@ evaluator, and that exact figure is the one reported.
 Run from the project root: python -m src.model   (Checkpoint B report)
 """
 
+import dataclasses
 import logging
 import re
 import tempfile
@@ -51,6 +52,7 @@ class Solution:
     flows: pd.DataFrame | None  # plant_id, dc_id, flow_t_yr
     cost: CostBreakdown | None  # exact cost from evaluate_network
     proxy_gap_frac: float | None  # (objective + constant terms) / evaluator total - 1
+    passes: tuple[dict, ...] = ()  # free runs: one summary per proxy pass (D-034)
 
 
 def dc_capacity_t_yr(params: dict) -> float:
@@ -73,11 +75,15 @@ def build_problem(
     params: dict,
     data: NetworkData,
     k: int | None,
+    k_ref: int,
     forced_open: Sequence[str],
     forced_closed: Sequence[str],
     fixed_assignment: pd.Series | None,
 ) -> tuple[pulp.LpProblem, dict, dict, dict]:
-    """The spec §7 MILP and its y (open), x (zone -> DC) and f (plant -> DC) variables."""
+    """The spec §7 MILP and its y (open), x (zone -> DC) and f (plant -> DC) variables.
+
+    k_ref is the DC count the safety-stock proxy is sized for (spec §7, D-022, D-034).
+    """
     zones = data.zones.set_index("zone_id")
     demand_t_yr = zones["demand_t_yr"]
     total_t_yr = demand_t_yr.sum()
@@ -102,7 +108,6 @@ def build_problem(
     space_inr_sqft_yr = space_cost_inr_sqft_yr(dcs["rent_inr_sqft_month"], params)
     # Safety stock of an average DC when demand splits over k_ref DCs; the proxy charges its
     # carrying cost and, at each site's rent, its space (D-022: space was missing in §7 v2)
-    k_ref = k if k is not None else params["solver"]["ss_proxy_k_ref_free_runs"]["value"]
     ss_ref_t = safety_stock_t(total_t_yr / k_ref, total_t_yr, params)
     per_dc_inr = (
         wh["fixed_cost_per_dc_cr_per_yr"]["value"] * params["meta"]["crore"]
@@ -159,20 +164,20 @@ def build_problem(
     return prob, y, x, f
 
 
-def build_and_solve(
+def solve_once(
     params: dict,
     data: NetworkData,
-    k: int | None = None,
-    forced_open: Sequence[str] = (),
-    forced_closed: Sequence[str] = (),
-    fixed_assignment: pd.Series | None = None,
+    k: int | None,
+    k_ref: int,
+    forced_open: Sequence[str],
+    forced_closed: Sequence[str],
+    fixed_assignment: pd.Series | None,
 ) -> Solution:
-    """Solve the spec §7 MILP with CBC, then cost the solution exactly with evaluate_network.
-
-    k fixes the number of open DCs (and sizes the safety-stock proxy); fixed_assignment pins
-    each zone (indexed by zone_id) to a DC. Solver settings come from params["solver"].
-    """
-    prob, y, x, f = build_problem(params, data, k, forced_open, forced_closed, fixed_assignment)
+    """One CBC solve of the spec §7 MILP with the proxy sized for k_ref DCs, then the exact cost
+    of its solution from evaluate_network."""
+    prob, y, x, f = build_problem(
+        params, data, k, k_ref, forced_open, forced_closed, fixed_assignment
+    )
     cfg = params["solver"]
     with tempfile.TemporaryDirectory() as tmp:
         log_path = Path(tmp) / "cbc.log"
@@ -188,7 +193,7 @@ def build_and_solve(
         cbc_log = log_path.read_text()
     status = pulp.LpSolution[prob.sol_status]
     if prob.sol_status not in (pulp.LpSolutionOptimal, pulp.LpSolutionIntegerFeasible):
-        logger.info("Solve k=%s: %s in %.1f s", k, status, prob.solutionTime)
+        logger.info("Solve k=%s k_ref=%s: %s in %.1f s", k, k_ref, status, prob.solutionTime)
         return Solution(status, None, None, None, prob.solutionTime, (), None, None, None, None)
 
     objective_inr = pulp.value(prob.objective)
@@ -211,13 +216,16 @@ def build_and_solve(
     total_t_yr = data.zones["demand_t_yr"].sum()
     constant_inr = carrying_cost_inr_per_t_yr(params) * cycle_stock_t(total_t_yr, params)
     proxy_gap_frac = (objective_inr + constant_inr) / cost.total_inr - 1
-    if abs(proxy_gap_frac) > params["checks"]["proxy_gap_tolerance_frac"]["value"]:
+    # D-027: the 3% limit binds where k_ref = k (sweep runs); free runs report the gap only
+    tolerance = params["checks"]["proxy_gap_tolerance_frac"]["value"]
+    if k is not None and abs(proxy_gap_frac) > tolerance:
         logger.warning(
             "Solve k=%s: MILP proxy differs from evaluator by %+.1f%%", k, 100 * proxy_gap_frac
         )
     logger.info(
-        "Solve k=%s: %s, %d DCs, INR %.1f Cr, gap %.2f%%, %.1f s",
+        "Solve k=%s k_ref=%s: %s, %d DCs, INR %.1f Cr, gap %.2f%%, %.1f s",
         k,
+        k_ref,
         status,
         len(open_dcs),
         to_crore(cost.total_inr, params),
@@ -236,6 +244,54 @@ def build_and_solve(
         cost=cost,
         proxy_gap_frac=proxy_gap_frac,
     )
+
+
+def pass_summary(solution: Solution, k_ref: int) -> dict:
+    """What one proxy pass found, for the scenario record (D-034)."""
+    return {
+        "k_ref": k_ref,
+        "status": solution.status,
+        "n_dcs": len(solution.open_dcs),
+        "open_dcs": list(solution.open_dcs),
+        "total_inr": solution.cost.total_inr if solution.cost else None,
+        "proxy_gap_frac": solution.proxy_gap_frac,
+        "solve_time_s": solution.solve_time_s,
+    }
+
+
+def build_and_solve(
+    params: dict,
+    data: NetworkData,
+    k: int | None = None,
+    forced_open: Sequence[str] = (),
+    forced_closed: Sequence[str] = (),
+    fixed_assignment: pd.Series | None = None,
+) -> Solution:
+    """Solve the spec §7 MILP with CBC; every reported cost is the exact evaluate_network figure.
+
+    k fixes the number of open DCs and sizes the safety-stock proxy for it. A free run (k None)
+    is two-pass (D-034): the proxy is first sized for ss_proxy_k_ref_free_runs DCs, then re-sized
+    for the k* DCs that pass opened, and the solution with the lower EXACT cost is kept (ties
+    keep the first), so a mis-sized proxy cannot choose a costlier network. Both passes are
+    recorded in Solution.passes. fixed_assignment pins each zone (indexed by zone_id) to a DC.
+    """
+    if k is not None:
+        return solve_once(params, data, k, k, forced_open, forced_closed, fixed_assignment)
+    k_ref = params["solver"]["ss_proxy_k_ref_free_runs"]["value"]
+    first = solve_once(params, data, None, k_ref, forced_open, forced_closed, fixed_assignment)
+    passes = [pass_summary(first, k_ref)]
+    best = first
+    # The proxy changes only the objective, so an infeasible first pass stays infeasible
+    if first.cost is not None and len(first.open_dcs) != k_ref:
+        k_star = len(first.open_dcs)
+        second = solve_once(
+            params, data, None, k_star, forced_open, forced_closed, fixed_assignment
+        )
+        passes.append(pass_summary(second, k_star))
+        if second.cost is not None and second.cost.total_inr < first.cost.total_inr:
+            best = second
+    total_time_s = sum(p["solve_time_s"] for p in passes)
+    return dataclasses.replace(best, solve_time_s=total_time_s, passes=tuple(passes))
 
 
 def breakdown_cr(cost: CostBreakdown, params: dict) -> list[float]:

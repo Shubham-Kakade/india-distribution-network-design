@@ -4,6 +4,49 @@ Modelling and engineering decisions, newest first. Each entry records the contex
 
 ---
 
+## 2026-10-25 — Phase 3 (scenarios)
+
+**D-027 The proxy fidelity limit applies to sweep runs only (supervisor decision).** The 3% limit binds where `k_ref = k` (the DC-count sweep and other fixed-k solves). Free runs size the proxy at `k_ref = 6` and report their gap as information, not pass/fail: the proxy only guides the search, and the reported cost is always the exact evaluator figure. The self-consistent re-solve was rejected because it found a worse exact base network (244.4 vs 244.1). `model.py` warns only when k is fixed. *Superseded in part by D-034:* free runs now also try the re-sized proxy, and the lower exact cost is kept, so the base case keeps the 244.1 network either way (on the single-thread solver the re-sized pass gives 244.16; the 244.4 above came from the earlier four-thread runs).
+
+**D-028 The recommended network is the cheapest network at service comparable to today's; higher targets are priced upgrade options (rewritten after the Checkpoint C review).** Rule: on the base-radius (400 km) frontier, take the highest target that the as-is network already meets (today's network is at 81.4% next-day, so 80%), and recommend the cheapest network at that target. Every feasible target above it is reported as an upgrade option, with its extra cost, extra service points, extra DCs, and the sites added and dropped against the recommendation (`outputs/scenarios/S3_upgrade_options.json`). The "Kneedle" knee (the point furthest below the line joining the frontier's ends, both axes scaled to 0–1) is still computed and reported openly, but it does not decide. *Why:* a knee rule lets small cost noise pick the service level, and service policy is the client's choice. This rule asks the like-for-like question (what does today's service cost on the best network?) and prices each step beyond it. S4–S9 and R stay built around the recommended network. *Superseded:* the first version of D-028, which picked the Kneedle knee (80% under the single-pass proxy, 85% once two-pass solves fixed the 85% cell, D-034).
+
+**D-029 S5a operational outage: freight only, open set fixed, surge as larger capacity.** The busiest recommended DC is closed for `disruption_months`. The other DCs stay open, with no new sites (`forced_open` with k = n − 1). Its zones are re-assigned with no service target, and the 20% surge raises every DC's capacity by raising `max_dc_size_sqft` by 20% for that solve. The outage cost is the change in primary plus secondary freight × months/12. Rent, fixed cost and stock are treated as unchanged for a one-month outage (the closed site still pays rent), so the evaluator's lower fixed and space cost for the smaller network is not counted as a saving. At 300,000 t no DC comes near capacity, so the surge never binds (see insights). S5b re-optimises with the site excluded and the service target kept.
+
+**D-030 R classifies sites on the stress tests of the recommended network only.** No-regret core: open in the recommended network and in every S4, S6, S7 and S8 run at its service target. Swing: open in some of them. The heatmap also shows S1, every feasible S3 cell and S5b as context columns that do not classify: S1 and S3 ask for different service levels, and S5b removes a site by design (counting it made NCR a "swing" site purely by construction). S5a is left out because its open set is fixed.
+
+**D-031 S8 plant footprints are analyst assumptions.** *No Puducherry:* the remaining shares are renormalised to 0.5333 / 0.4667; without this, plant capacity (share × demand × 1.15) covers only 86% of demand and the model is infeasible. *Eastern plant:* Uluberia (Howrah), an existing FMCG cluster near the Bihar, West Bengal and Odisha demand, with a 20% share; the other three plants scale ×0.8. Both lists are in `scenarios.plant_footprints`.
+
+**D-032 Scenario conventions where §9 is silent.**
+- (a) S4–S9 and R run at the recommended service target, so each one stress-tests the recommendation.
+- (b) S4 growth applies by the zone's anchor state, using the region lists in `scenarios.demand_growth.regions`. Revenue scales with volume at the same realisation, so the share of revenue stays comparable.
+- (c) S6 multiplies both freight rates by (1 + 0.55 × shock) through parameter overrides; the evaluator has no fuel multiplier of its own (D-023).
+- (d) S7 switching rents move one site's rent at a time, with the others fixed. Bisection between 1× and 3× today's rent, to INR 0.25; NaN means the site is still open at 3×. The search assumes a site, once dropped, stays dropped at higher rents.
+- (e) The S9 tornado covers the 14 low/medium-confidence parameters with a range. Candidate rents are covered by S7, not here. Demand parameters rebuild zone demand from the cleaned raw data (the zone set is checked unchanged), and circuity rebuilds the distances. Each end also re-costs the as-is network, so the saving's sensitivity shows. The diesel share has no effect without a fuel shock, and its zero bar says so.
+- (f) Scenario JSON records carry the overrides, the data changes and the SHA-256 of `assumptions.yaml`, not a full copy of the parameters.
+- (g) Network maps are drawn for S0, S1, the recommended network, S5a and S5b. Next-day rings use the road radius ÷ circuity as a great-circle radius.
+
+**D-033 The k-COG comparison builds a real network from each set of centres.** The k-weighted centres of gravity use a deterministic k-means++ seed, nearest-centre assignment and a Weiszfeld centre per cluster. Each centre then snaps to the nearest candidate whose metro group is still free (heaviest cluster first). Every zone goes to its nearest chosen site, and plant flows come from the MILP with that network pinned. The result is costed by the same evaluator as the MILP at the same k. The seeding replaced "k heaviest points" after a test showed two seeds landing in one cluster.
+
+**D-034 Every free solve is two-pass; the lower EXACT cost is kept (supervisor decision, Checkpoint C).** `build_and_solve` with no fixed k solves once with the safety-stock proxy sized for `k_ref = 6`. It then re-solves with `k_ref = k*`, the number of DCs the first pass opened, and keeps the solution with the lower exact `evaluate_network` cost (on a tie, the first). Both passes are recorded in `Solution.passes` and in each scenario JSON (`solve.passes`). Fixed-k solves stay single-pass with `k_ref = k`. *Why:* a mis-sized proxy chose a costlier network at 400 km / 85% (250.1 Cr with 10 DCs, against 248.3 Cr with 11), and a proxy that can choose a costlier network must not decide the frontier. Taking the lower exact cost can only improve a reported network, so the base case stays at 244.1 Cr (pass 1: 244.08; pass 2: 244.16). This applies to every free solve: S1, S3, S4–S9, S5b and the S7 bisection.
+
+**D-035 The scenario code is split by job (supervisor request, Checkpoint C).**
+- `scenarios.py` holds the `Run` record, the scenario definitions and the run loop.
+- `robustness.py` holds the pure "how robust is the answer" functions: the knee, the comparable-service rule, upgrade pricing, R classification and the k-COG network.
+- `reporting.py` holds the JSON and CSV records, the charts and maps, and the printed report.
+
+The split changed no behaviour: a full re-run matched the pre-split outputs file for file (JSON and summary CSV without solve times, PNG charts byte for byte, HTML maps with folium's random ids masked).
+
+**D-036 Supervisor answers at Checkpoint C.**
+- The S8 footprints (D-031) are accepted. Renormalising after removing Puducherry answers "where does the volume come from", not a capacity shortfall. Both footprints stay labelled as analyst assumptions.
+- The S5a costing (D-029) is accepted as the correct one-month view. The write-up states that lost sales and stock stranded in the closed DC are not costed, so the outage cost is a floor and the service drop is the headline.
+- The phase tags are created on GitHub by the owner.
+
+**D-037 The S7 site searches run in parallel.** Two-pass free solves took the full run to 1,030 s, past the 15-minute limit (spec §14). Model building is not the bottleneck; CBC is, and the S7 rent bisection (one search per recommended site, each about 7 free solves) took about 575 s. Each site's search is independent, so `rent_switching_points` runs them in a process pool (`concurrent.futures`, standard library, no new dependency). The pool uses the "spawn" start method because Python 3.12 warns about forking a process that holds threads. Each solve stays single-threaded (D-021), so results do not depend on the worker count. The full run fell to 635 s, and its outputs matched the serial run file for file (same comparison as D-035).
+
+**D-038 A staging run toward the first upgrade option.** The 85% upgrade network does not contain the whole 80% network: it adds Guwahati, Nagpur and Rajpura and drops Pithampur (Indore). `s3_staging` re-solves the recommended 80% target with the sites that the next upgrade drops closed (`forced_closed`). It records the extra cost and whether the result is nested in the upgrade network. Result: Nagpur replaces Indore at the 80% target for +INR 0.33 Cr a year (244.4 Cr), and the 85% upgrade then only adds Guwahati and Rajpura. The run is reported with S3 (`S3_400km_80_staged`); it is not part of R and does not change the recommendation. Indore stays recommended as the cheapest site at 80%; the staged network is the option to take if the client already expects to buy the 85% upgrade.
+
+---
+
 ## 2026-10-25 — Phase 2 (model)
 
 **D-019 Supervisor answers to the Checkpoint A questions.** The Bihar zones stay as they are. That only 4 Bihar cities anchor zones of 18–36 mn people each is a stated limitation ("lumpy rural zones"), to be named in the case study. The DNH & DD zone stays.

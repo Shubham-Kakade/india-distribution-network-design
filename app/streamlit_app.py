@@ -18,7 +18,7 @@ import streamlit.components.v1 as components
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # `streamlit run` from the root
 
 from src import viz
-from src.agent import Agent, OfflineAgent
+from src.agent import Agent, OfflineAgent, check_connection
 from src.agent_offline import LIBRARY_PATH
 from src.agent_tools import ToolBox
 from src.config import load_params
@@ -75,6 +75,7 @@ def use_key(toolbox: ToolBox, public: bool) -> None:
     finally:
         st.session_state.key_input = ""  # the key is kept once, in user_config, not in the field
     st.session_state.agent = new_agent(toolbox, public)
+    st.session_state.connection = None  # an earlier test was of other settings
 
 
 def forget_key(toolbox: ToolBox, public: bool) -> None:
@@ -82,6 +83,11 @@ def forget_key(toolbox: ToolBox, public: bool) -> None:
     st.session_state.key_input = ""
     st.session_state.key_error = None
     st.session_state.agent = new_agent(toolbox, public)
+    st.session_state.connection = None
+
+
+def test_connection() -> None:
+    st.session_state.connection = check_connection(st.session_state.agent.config)
 
 
 def live_mode_panel(toolbox: ToolBox, public: bool) -> None:
@@ -100,6 +106,10 @@ def live_mode_panel(toolbox: ToolBox, public: bool) -> None:
     forget.button("Forget key", on_click=forget_key, args=(toolbox, public))
     if st.session_state.get("key_error"):
         st.error(st.session_state.key_error)
+    st.button("Test connection", on_click=test_connection)  # one tiny request (D-056)
+    connection = st.session_state.get("connection")
+    if connection:
+        (st.success if connection.startswith("Connected") else st.warning)(connection)
 
 
 def network_panel(toolbox: ToolBox, scenario_id: str) -> None:

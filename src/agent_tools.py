@@ -118,6 +118,19 @@ def accepted_bounds(entry: dict) -> tuple[float, float]:
     return floor, ceiling
 
 
+def overrides_from_items(items: list) -> dict:
+    """The run_scenario tool argument, a list of {"key", "value"} items (D-055), as the
+    {key: value} dict that validate_overrides checks."""
+    if not isinstance(items, list) or not all(
+        isinstance(i, dict) and set(i) == {"key", "value"} for i in items
+    ):
+        raise ValueError('overrides must be a list of {"key": parameter, "value": number}')
+    overrides = {str(i["key"]): i["value"] for i in items}
+    if len(overrides) < len(items):
+        raise ValueError("overrides name the same parameter twice")
+    return overrides
+
+
 def validate_overrides(params: dict, overrides: dict) -> dict[str, float]:
     """Check overrides against assumptions.yaml before any solve (spec §10 guardrail).
 
@@ -182,7 +195,7 @@ TOOL_SCHEMAS = [
             "name": "list_parameters",
             "description": "List the parameters that run_scenario can override, with current "
             "value, assumptions range, accepted override range, unit and confidence.",
-            "parameters": {"type": "object", "properties": {}},
+            # No "parameters": Gemini rejects an object schema with empty properties (D-055)
         },
     },
     {
@@ -191,16 +204,27 @@ TOOL_SCHEMAS = [
             "name": "run_scenario",
             "description": "Re-optimise the network with parameter overrides at the recommended "
             "service target, and compare it with the recommended network. Example overrides: "
-            '{"diesel_shock_frac": 0.2} for diesel +20%, '
-            '{"service.min_share_within_radius": 0.85} for 85% next-day, '
-            '{"warehousing.fixed_cost_per_dc_cr_per_yr": 4.0}.',
+            '[{"key": "diesel_shock_frac", "value": 0.2}] for diesel +20%, '
+            '[{"key": "service.min_share_within_radius", "value": 0.85}] for 85% next-day, '
+            '[{"key": "warehousing.fixed_cost_per_dc_cr_per_yr", "value": 4.0}].',
             "parameters": {
                 "type": "object",
                 "properties": {
                     "name": {"type": "string", "description": "Short label, e.g. diesel_20"},
-                    "overrides": {
-                        "type": "object",
-                        "description": "{parameter key from list_parameters: number}",
+                    "overrides": {  # a list, not a free-form object, for Gemini (D-055)
+                        "type": "array",
+                        "description": "Parameters to change, one item each",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "key": {
+                                    "type": "string",
+                                    "description": "Parameter key from list_parameters",
+                                },
+                                "value": {"type": "number"},
+                            },
+                            "required": ["key", "value"],
+                        },
                     },
                 },
                 "required": ["name", "overrides"],
@@ -269,7 +293,7 @@ TOOL_SCHEMAS = [
             "name": "rank_assumptions",
             "description": "The S9 tornado: which uncertain assumptions move total cost, the DC "
             "count and the saving against today's network most (D-040).",
-            "parameters": {"type": "object", "properties": {}},
+            # No "parameters", as for list_parameters (D-055)
         },
     },
 ]
@@ -469,9 +493,10 @@ class ToolBox:
             ]
         }
 
-    def run_scenario(self, name: str, overrides: dict) -> dict:
-        """Re-optimise with validated overrides (two-pass free solve, D-034) at the base target."""
-        clean = validate_overrides(self.params, overrides)
+    def run_scenario(self, name: str, overrides: list) -> dict:
+        """Re-optimise with validated overrides (two-pass free solve, D-034) at the base target.
+        overrides is the tool's list of {"key", "value"} items (D-055)."""
+        clean = validate_overrides(self.params, overrides_from_items(overrides))
         slug = re.sub(r"[^A-Za-z0-9]+", "_", name).strip("_")[:24] or "run"
 
         def make_run() -> Run:

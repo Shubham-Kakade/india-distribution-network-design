@@ -96,8 +96,9 @@ S4_uniform and S4_regional_skew (growth), S6_diesel_20 and S6_diesel_40, S7_rent
 S7_rent_plus_20, S8_no_puducherry and S8_add_east (plant footprint), COG_kNN (centre of gravity).
 - A site shut for weeks or months is simulate_disruption with mode "operational"; a site lost \
 for good is mode "strategic". The recommended Bengaluru site is Hosur (BLR_HSR).
-- A fuel price change is run_scenario with overrides {{"diesel_shock_frac": <rise as a \
-fraction>}}. Which assumptions matter most is rank_assumptions.
+- run_scenario takes overrides as a list of {{"key": ..., "value": ...}} items. A fuel price \
+change is overrides [{{"key": "diesel_shock_frac", "value": <rise as a fraction>}}]. Which \
+assumptions matter most is rank_assumptions.
 - If a tool refuses an input, explain the refusal and the accepted range.
 
 Two worked examples. Their numbers come from those tool results only; never reuse them for \
@@ -247,6 +248,52 @@ def retry_delay(err: Exception, attempt: int) -> float | None:
     return min(wait_s, MAX_RETRY_AFTER_S)
 
 
+def provider_error(err: Exception) -> str:
+    """The provider's own error text: the response body when there is one (Gemini sends
+    [{"error": {"message": ...}}], which the SDK's message reduces to "Error code: 400"; D-056),
+    else the SDK message. Not redacted: callers redact before showing or logging it."""
+    body = getattr(err, "body", None)
+    if isinstance(body, list) and len(body) == 1:
+        body = body[0]
+    if isinstance(body, dict):
+        inner = body.get("error", body)
+        message = inner.get("message") if isinstance(inner, dict) else None
+        return str(message) if message else json.dumps(body)
+    if body:
+        return str(body)
+    return getattr(err, "message", None) or str(err)
+
+
+def make_client(config: LLMConfig) -> openai.OpenAI:
+    return openai.OpenAI(
+        base_url=config.base_url,
+        api_key=config.api_key,
+        max_retries=0,  # retries follow RETRY_STATUS / RETRY_BACKOFF_S instead (D-051)
+        timeout=REQUEST_TIMEOUT_S,
+    )
+
+
+def check_connection(config: LLMConfig, client=None) -> str:
+    """Send one tiny request carrying every tool schema, so a provider that rejects the key, the
+    model or the schemas says so at once (D-056). Returns the line the app shows."""
+    if not config.live:
+        return "No live settings: enter a key and press Use this key."
+    client = client or make_client(config)
+    try:
+        client.chat.completions.create(
+            model=config.model,
+            messages=[{"role": "user", "content": "Reply with OK."}],
+            tools=TOOL_SCHEMAS,
+        )
+    except openai.APIError as err:
+        status = getattr(err, "status_code", None)
+        reason = type(err).__name__ + (f" (HTTP {status})" if status else "")
+        detail = redact(f"{reason}: {provider_error(err)[:MAX_ERROR_CHARS]}", config.api_key)
+        logger.warning("Connection test failed: %s", detail)
+        return f"Connection failed: {detail}"
+    return f"Connected: {config.model} accepted tools"
+
+
 class MalformedToolCallError(Exception):
     """The model asked for an unknown tool or sent arguments that are not a JSON object."""
 
@@ -312,12 +359,7 @@ class Agent:
         self.config, self.toolbox, self.offline = config, toolbox, offline
         self.client = client
         if client is None and config.live:
-            self.client = openai.OpenAI(
-                base_url=config.base_url,
-                api_key=config.api_key,
-                max_retries=0,  # retries follow RETRY_STATUS / RETRY_BACKOFF_S instead (D-051)
-                timeout=REQUEST_TIMEOUT_S,
-            )
+            self.client = make_client(config)
         self.sleep = time.sleep  # replaced in tests
         prompt = SYSTEM_PROMPT.format(
             rec=offline.library["recommended_id"], examples=worked_examples(offline.library)
@@ -449,8 +491,7 @@ class Agent:
         if status:
             reason += f" (HTTP {status})"
         # The provider's own words help the visitor fix a bad key; never echo a key (D-045)
-        detail = getattr(err, "message", None) or str(err)
-        reason = redact(f"{reason}: {detail[:MAX_ERROR_CHARS]}", self.config.api_key)
+        reason = redact(f"{reason}: {provider_error(err)[:MAX_ERROR_CHARS]}", self.config.api_key)
         logger.warning("Live model unavailable: %s; answering offline", reason)
         reply = self.offline.ask(question)
         reply.notice = f"Live model unavailable ({reason}); answered from the offline library."

@@ -143,7 +143,12 @@ def test_key_stays_out_of_cache_logs_history_and_transcripts(
     capsys,
 ):
     script = [
-        tool_reply(("run_scenario", '{"name": "x", "overrides": {"diesel_shock_frac": 0.2}}')),
+        tool_reply(
+            (
+                "run_scenario",
+                '{"name": "x", "overrides": [{"key": "diesel_shock_frac", "value": 0.2}]}',
+            )
+        ),
         text_reply("Done."),
     ]
     bot = Agent(visitor(), toolbox, offline, client=FakeClient(script))

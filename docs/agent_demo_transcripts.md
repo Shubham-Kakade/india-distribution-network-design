@@ -118,7 +118,7 @@ Answers come from the pre-computed library (`outputs/agent_library.json`, 20 que
 
 **Source:** AG_diesel_20_000d57
 
-*offline · tools: run_scenario({"name": "diesel_20", "overrides": {"diesel_shock_frac": 0.2}}) · grounding: offline · scenarios: AG_diesel_20_000d57*
+*offline · tools: run_scenario({"name": "diesel_20", "overrides": [{"key": "diesel_shock_frac", "value": 0.2}]}) · grounding: offline · scenarios: AG_diesel_20_000d57*
 
 **Q5. Which of our assumptions should I worry about most?**
 

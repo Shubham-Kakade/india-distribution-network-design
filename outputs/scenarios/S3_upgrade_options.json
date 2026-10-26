@@ -1,0 +1,111 @@
+{
+ "rule": "Recommended = cheapest network at the highest S3 target that today's network already meets; every higher target is an upgrade option (D-028)",
+ "radius_km": 400,
+ "as_is_next_day_share_frac": 0.8136241991896586,
+ "recommended": {
+  "scenario_id": "S3_400km_80",
+  "alpha": 0.8
+ },
+ "kneedle_knee_alpha": 0.85,
+ "options": [
+  {
+   "scenario_id": "S3_400km_85",
+   "alpha": 0.85,
+   "n_dcs": 11,
+   "extra_dcs": 2,
+   "extra_points": 4.999999999999993,
+   "added": [
+    "GAU_CHS",
+    "NAG_MHN",
+    "PNJ_RJP"
+   ],
+   "dropped": [
+    "IDR_PTH"
+   ],
+   "sites": [
+    "MUM_BHW",
+    "NCR_FRN",
+    "BLR_HSR",
+    "HYD_SMB",
+    "AMD_CHG",
+    "KOL_DNK",
+    "NAG_MHN",
+    "LKO_KNP",
+    "GAU_CHS",
+    "PNJ_RJP",
+    "PAT_BHT"
+   ],
+   "extra_cost_cr": 4.401203940119887
+  },
+  {
+   "scenario_id": "S3_400km_90",
+   "alpha": 0.9,
+   "n_dcs": 12,
+   "extra_dcs": 3,
+   "extra_points": 9.999999999999998,
+   "added": [
+    "CHN_SPB",
+    "COK_KLM",
+    "GAU_CHS",
+    "JAI_BGR",
+    "NAG_MHN",
+    "PNJ_RJP"
+   ],
+   "dropped": [
+    "BLR_HSR",
+    "IDR_PTH",
+    "NCR_FRN"
+   ],
+   "sites": [
+    "MUM_BHW",
+    "CHN_SPB",
+    "HYD_SMB",
+    "AMD_CHG",
+    "KOL_DNK",
+    "NAG_MHN",
+    "LKO_KNP",
+    "GAU_CHS",
+    "JAI_BGR",
+    "PNJ_RJP",
+    "PAT_BHT",
+    "COK_KLM"
+   ],
+   "extra_cost_cr": 11.309706452928019
+  },
+  {
+   "scenario_id": "S3_400km_95",
+   "alpha": 0.95,
+   "n_dcs": 14,
+   "extra_dcs": 5,
+   "extra_points": 14.999999999999991,
+   "added": [
+    "BBS_KHD",
+    "COK_KLM",
+    "GAU_CHS",
+    "JAI_BGR",
+    "NAG_MHN",
+    "PNJ_RJP"
+   ],
+   "dropped": [
+    "NCR_FRN"
+   ],
+   "sites": [
+    "MUM_BHW",
+    "BLR_HSR",
+    "HYD_SMB",
+    "AMD_CHG",
+    "KOL_DNK",
+    "NAG_MHN",
+    "LKO_KNP",
+    "GAU_CHS",
+    "IDR_PTH",
+    "JAI_BGR",
+    "PNJ_RJP",
+    "PAT_BHT",
+    "COK_KLM",
+    "BBS_KHD"
+   ],
+   "extra_cost_cr": 20.08591713114643
+  }
+ ]
+}

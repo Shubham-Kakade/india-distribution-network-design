@@ -2,24 +2,24 @@
  {
   "parameter":"company.annual_volume_tonnes",
   "label":"annual_volume_tonnes [240000 to 360000]",
-  "low_total":202.8048085301,
+  "low_total":202.7998357943,
   "high_total":286.2240981405,
-  "low_saving":28.7039482528,
+  "low_saving":28.7089209886,
   "high_saving":28.0725321562,
   "low_dcs":9,
   "high_dcs":9,
-  "swing_cr":83.4192896105
+  "swing_cr":83.4242623463
  },
  {
   "parameter":"distance.circuity_factor",
   "label":"circuity_factor [1.15 to 1.4]",
-  "low_total":229.5564538263,
-  "high_total":264.3251783481,
-  "low_saving":30.7966160371,
-  "high_saving":26.7194156498,
+  "low_total":229.3834950804,
+  "high_total":264.2567074392,
+  "low_saving":30.969574783,
+  "high_saving":26.7878865586,
   "low_dcs":8,
   "high_dcs":11,
-  "swing_cr":34.7687245218
+  "swing_cr":34.8732123588
  },
  {
   "parameter":"transport.primary_ftl_inr_per_tkm",
@@ -46,24 +46,24 @@
  {
   "parameter":"warehousing.fixed_cost_per_dc_cr_per_yr",
   "label":"fixed_cost_per_dc_cr_per_yr [1.5 to 4.5]",
-  "low_total":230.9112968362,
-  "high_total":257.6022483641,
-  "low_saving":19.2151801918,
-  "high_saving":37.5242286639,
+  "low_total":230.6022483641,
+  "high_total":257.5772082703,
+  "low_saving":19.5242286639,
+  "high_saving":37.5492687577,
   "low_dcs":9,
   "high_dcs":9,
-  "swing_cr":26.6909515279
+  "swing_cr":26.9749599062
  },
  {
   "parameter":"warehousing.safety_stock_days_single_dc",
   "label":"safety_stock_days_single_dc [4 to 9]",
-  "low_total":234.3377614937,
+  "low_total":234.3358987845,
   "high_total":260.9855119858,
-  "low_saving":27.2879916543,
+  "low_saving":27.2898543635,
   "high_saving":30.2148435955,
   "low_dcs":9,
   "high_dcs":9,
-  "swing_cr":26.6477504922
+  "swing_cr":26.6496132014
  },
  {
   "parameter":"demand.residual_share_target",

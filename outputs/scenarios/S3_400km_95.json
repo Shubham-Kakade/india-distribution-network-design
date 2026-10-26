@@ -13,7 +13,57 @@
   "best_bound_cr": 273.9483535334,
   "mip_gap_frac": 0.0021125940453369766,
   "proxy_gap_frac": 0.07582795070730253,
-  "solve_time_s": 0.6976683139801025
+  "solve_time_s": 1.6991360187530518,
+  "passes": [
+   {
+    "k_ref": 6,
+    "status": "Optimal Solution Found",
+    "n_dcs": 14,
+    "open_dcs": [
+     "MUM_BHW",
+     "BLR_HSR",
+     "HYD_SMB",
+     "AMD_CHG",
+     "KOL_DNK",
+     "NAG_MHN",
+     "LKO_KNP",
+     "GAU_CHS",
+     "IDR_PTH",
+     "JAI_BGR",
+     "PNJ_RJP",
+     "PAT_BHT",
+     "COK_KLM",
+     "BBS_KHD"
+    ],
+    "proxy_gap_frac": 0.07582795070730253,
+    "solve_time_s": 1.1629493236541748,
+    "total_cr": 264.1631254014433
+   },
+   {
+    "k_ref": 14,
+    "status": "Optimal Solution Found",
+    "n_dcs": 14,
+    "open_dcs": [
+     "MUM_BHW",
+     "BLR_HSR",
+     "HYD_SMB",
+     "AMD_CHG",
+     "KOL_DNK",
+     "NAG_MHN",
+     "LKO_KNP",
+     "GAU_CHS",
+     "IDR_PTH",
+     "JAI_BGR",
+     "PNJ_RJP",
+     "PAT_BHT",
+     "COK_KLM",
+     "BBS_KHD"
+    ],
+    "proxy_gap_frac": -0.017779601087437924,
+    "solve_time_s": 0.536186695098877,
+    "total_cr": 264.1956070314491
+   }
+  ]
  },
  "open_dcs": [
   "MUM_BHW",

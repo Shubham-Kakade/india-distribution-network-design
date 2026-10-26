@@ -13,7 +13,8 @@
   "best_bound_cr": 455.2138588672043,
   "mip_gap_frac": 0.0,
   "proxy_gap_frac": 2.220446049250313e-16,
-  "solve_time_s": 4.377654552459717
+  "solve_time_s": 7.130346298217773,
+  "passes": []
  },
  "open_dcs": [
   "IDR_PTH"

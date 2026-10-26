@@ -12,7 +12,47 @@
   "best_bound_cr": 239.5019925052,
   "mip_gap_frac": 0.0020925436350560747,
   "proxy_gap_frac": 0.03179124596204708,
-  "solve_time_s": 2.1648483276367188
+  "solve_time_s": 5.902612209320068,
+  "passes": [
+   {
+    "k_ref": 6,
+    "status": "Optimal Solution Found",
+    "n_dcs": 9,
+    "open_dcs": [
+     "MUM_BHW",
+     "NCR_FRN",
+     "BLR_HSR",
+     "HYD_SMB",
+     "AMD_CHG",
+     "KOL_DNK",
+     "LKO_KNP",
+     "IDR_PTH",
+     "PAT_BHT"
+    ],
+    "proxy_gap_frac": 0.03179124596204708,
+    "solve_time_s": 2.891907215118408,
+    "total_cr": 241.9772082702969
+   },
+   {
+    "k_ref": 9,
+    "status": "Optimal Solution Found",
+    "n_dcs": 9,
+    "open_dcs": [
+     "MUM_BHW",
+     "NCR_FRN",
+     "BLR_HSR",
+     "HYD_SMB",
+     "AMD_CHG",
+     "KOL_DNK",
+     "NAG_MHN",
+     "LKO_KNP",
+     "PAT_BHT"
+    ],
+    "proxy_gap_frac": -0.004046967118701006,
+    "solve_time_s": 3.01070499420166,
+    "total_cr": 242.35794634470787
+   }
+  ]
  },
  "open_dcs": [
   "MUM_BHW",

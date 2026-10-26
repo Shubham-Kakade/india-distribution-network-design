@@ -2,8 +2,8 @@
  {
   "dc_id":"MUM_BHW",
   "rent":25.0,
-  "switch_rent":54.296875,
-  "headroom_frac":1.171875
+  "switch_rent":56.640625,
+  "headroom_frac":1.265625
  },
  {
   "dc_id":"NCR_FRN",
@@ -20,20 +20,20 @@
  {
   "dc_id":"HYD_SMB",
   "rent":24.0,
-  "switch_rent":33.1875,
-  "headroom_frac":0.3828125
+  "switch_rent":33.5625,
+  "headroom_frac":0.3984375
  },
  {
   "dc_id":"AMD_CHG",
   "rent":23.5,
-  "switch_rent":43.6953125,
-  "headroom_frac":0.859375
+  "switch_rent":44.0625,
+  "headroom_frac":0.875
  },
  {
   "dc_id":"KOL_DNK",
   "rent":22.0,
-  "switch_rent":62.5625,
-  "headroom_frac":1.84375
+  "switch_rent":null,
+  "headroom_frac":null
  },
  {
   "dc_id":"LKO_KNP",

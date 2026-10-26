@@ -25,11 +25,51 @@
  "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
  "status": "Optimal Solution Found",
  "solve": {
-  "objective_cr": 270.5495304059799,
-  "best_bound_cr": 269.41221835289997,
-  "mip_gap_frac": 0.004203711059388337,
-  "proxy_gap_frac": 0.028189219596093773,
-  "solve_time_s": 2.0659801959991455
+  "objective_cr": 261.9513236351386,
+  "best_bound_cr": 261.9513236351386,
+  "mip_gap_frac": 0.0,
+  "proxy_gap_frac": -0.003329040739385114,
+  "solve_time_s": 5.1625754833221436,
+  "passes": [
+   {
+    "k_ref": 6,
+    "status": "Optimal Solution Found",
+    "n_dcs": 9,
+    "open_dcs": [
+     "MUM_BHW",
+     "NCR_FRN",
+     "BLR_HSR",
+     "HYD_SMB",
+     "AMD_CHG",
+     "KOL_DNK",
+     "NAG_MHN",
+     "LKO_KNP",
+     "PAT_BHT"
+    ],
+    "proxy_gap_frac": 0.028189219596093773,
+    "solve_time_s": 2.6444473266601562,
+    "total_cr": 272.5327969697204
+   },
+   {
+    "k_ref": 9,
+    "status": "Optimal Solution Found",
+    "n_dcs": 9,
+    "open_dcs": [
+     "MUM_BHW",
+     "NCR_FRN",
+     "BLR_HSR",
+     "HYD_SMB",
+     "AMD_CHG",
+     "KOL_DNK",
+     "NAG_MHN",
+     "LKO_KNP",
+     "PAT_BHT"
+    ],
+    "proxy_gap_frac": -0.003329040739385114,
+    "solve_time_s": 2.5181281566619873,
+    "total_cr": 272.52432162897225
+   }
+  ]
  },
  "open_dcs": [
   "MUM_BHW",
@@ -51,19 +91,19 @@
   ]
  },
  "cost_cr": {
-  "primary": 112.78230606791091,
-  "secondary": 71.9763828844642,
-  "space": 20.272465054342444,
+  "primary": 112.81518196889162,
+  "secondary": 71.95427283911219,
+  "space": 20.26675049335943,
   "handling": 6.6,
-  "inventory": 33.90164296300279,
+  "inventory": 33.88811632760901,
   "fixed": 27.0,
-  "total": 272.5327969697204
+  "total": 272.52432162897225
  },
  "service": {
-  "next_day_share_frac": 0.8002991314351363,
+  "next_day_share_frac": 0.8001094542478919,
   "two_day_share_frac": 0.9872554334167354
  },
- "share_of_revenue_frac": 0.04542213282828673,
+ "share_of_revenue_frac": 0.04542072027149537,
  "assignment": {
   "Z001": "MUM_BHW",
   "Z002": "NCR_FRN",
@@ -129,7 +169,7 @@
   "Z062": "BLR_HSR",
   "Z063": "MUM_BHW",
   "Z064": "NCR_FRN",
-  "Z065": "KOL_DNK",
+  "Z065": "PAT_BHT",
   "Z066": "LKO_KNP",
   "Z067": "HYD_SMB",
   "Z068": "NAG_MHN",
@@ -183,7 +223,7 @@
   "Z116": "PAT_BHT",
   "Z117": "NCR_FRN",
   "Z118": "KOL_DNK",
-  "Z119": "MUM_BHW",
+  "Z119": "HYD_SMB",
   "Z120": "KOL_DNK",
   "Z121": "MUM_BHW",
   "Z122": "NCR_FRN",
@@ -233,7 +273,7 @@
   {
    "plant_id": "P_HDW",
    "dc_id": "KOL_DNK",
-   "flow_t_yr": 16509.275
+   "flow_t_yr": 15542.762
   },
   {
    "plant_id": "P_HDW",
@@ -243,12 +283,12 @@
   {
    "plant_id": "P_HDW",
    "dc_id": "PAT_BHT",
-   "flow_t_yr": 38608.299
+   "flow_t_yr": 39574.812
   },
   {
    "plant_id": "P_SLV",
    "dc_id": "MUM_BHW",
-   "flow_t_yr": 44042.668
+   "flow_t_yr": 43133.058
   },
   {
    "plant_id": "P_SLV",
@@ -258,7 +298,7 @@
   {
    "plant_id": "P_SLV",
    "dc_id": "HYD_SMB",
-   "flow_t_yr": 28830.095
+   "flow_t_yr": 29739.704
   },
   {
    "plant_id": "P_SLV",

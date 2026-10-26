@@ -13,7 +13,25 @@
   "best_bound_cr": 223.90130114893455,
   "mip_gap_frac": 0.0,
   "proxy_gap_frac": 0.0007232864017745477,
-  "solve_time_s": 5.43041729927063
+  "solve_time_s": 7.526859998703003,
+  "passes": [
+   {
+    "k_ref": 6,
+    "status": "Optimal Solution Found",
+    "n_dcs": 6,
+    "open_dcs": [
+     "MUM_BHW",
+     "NCR_FRN",
+     "CHN_SPB",
+     "LKO_KNP",
+     "IDR_PTH",
+     "PAT_BHT"
+    ],
+    "proxy_gap_frac": 0.0007232864017745477,
+    "solve_time_s": 7.526859998703003,
+    "total_cr": 233.39824079982347
+   }
+  ]
  },
  "open_dcs": [
   "MUM_BHW",

@@ -13,7 +13,8 @@
   "best_bound_cr": 336.1089957123739,
   "mip_gap_frac": 0.0,
   "proxy_gap_frac": -1.5795494572312663e-06,
-  "solve_time_s": 0.07099771499633789
+  "solve_time_s": 0.13017821311950684,
+  "passes": []
  },
  "open_dcs": [
   "HYD_SMB",

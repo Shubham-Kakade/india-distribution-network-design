@@ -9,11 +9,54 @@
  "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
  "status": "Optimal Solution Found",
  "solve": {
-  "objective_cr": 249.0040416510057,
-  "best_bound_cr": 248.1800853494,
-  "mip_gap_frac": 0.0033090077419728244,
-  "proxy_gap_frac": 0.04156963298574512,
-  "solve_time_s": 3.1540591716766357
+  "objective_cr": 237.21003273577395,
+  "best_bound_cr": 236.09138168899997,
+  "mip_gap_frac": 0.004715867342845541,
+  "proxy_gap_frac": -0.001493282948589525,
+  "solve_time_s": 7.636862516403198,
+  "passes": [
+   {
+    "k_ref": 6,
+    "status": "Optimal Solution Found",
+    "n_dcs": 10,
+    "open_dcs": [
+     "MUM_BHW",
+     "NCR_FRN",
+     "BLR_HSR",
+     "CHN_SPB",
+     "HYD_SMB",
+     "AMD_CHG",
+     "KOL_DNK",
+     "LKO_KNP",
+     "PAT_BHT",
+     "COK_KLM"
+    ],
+    "proxy_gap_frac": 0.04156963298574512,
+    "solve_time_s": 4.258576154708862,
+    "total_cr": 248.3461372948873
+   },
+   {
+    "k_ref": 10,
+    "status": "Optimal Solution Found",
+    "n_dcs": 11,
+    "open_dcs": [
+     "MUM_BHW",
+     "NCR_FRN",
+     "BLR_HSR",
+     "CHN_SPB",
+     "HYD_SMB",
+     "AMD_CHG",
+     "KOL_DNK",
+     "LKO_KNP",
+     "IDR_PTH",
+     "PNJ_RJP",
+     "PAT_BHT"
+    ],
+    "proxy_gap_frac": -0.001493282948589525,
+    "solve_time_s": 3.378286361694336,
+    "total_cr": 247.2449928924419
+   }
+  ]
  },
  "open_dcs": [
   "MUM_BHW",
@@ -24,24 +67,25 @@
   "AMD_CHG",
   "KOL_DNK",
   "LKO_KNP",
-  "PAT_BHT",
-  "COK_KLM"
+  "IDR_PTH",
+  "PNJ_RJP",
+  "PAT_BHT"
  ],
  "extra": {},
  "cost_cr": {
-  "primary": 82.86133443449926,
-  "secondary": 71.95430364520381,
-  "space": 21.656418087953384,
+  "primary": 81.6550213404708,
+  "secondary": 66.34602456483752,
+  "space": 23.07508564628499,
   "handling": 6.6,
-  "inventory": 35.2740811272309,
-  "fixed": 30.0,
-  "total": 248.3461372948873
+  "inventory": 36.56886134084856,
+  "fixed": 33.0,
+  "total": 247.2449928924419
  },
  "service": {
-  "next_day_share_frac": 0.7012603852911101,
-  "two_day_share_frac": 0.971178815170892
+  "next_day_share_frac": 0.7000698102983622,
+  "two_day_share_frac": 0.9842106945978354
  },
- "share_of_revenue_frac": 0.04139102288248122,
+ "share_of_revenue_frac": 0.04120749881540698,
  "assignment": {
   "Z001": "MUM_BHW",
   "Z002": "NCR_FRN",
@@ -55,16 +99,16 @@
   "Z010": "NCR_FRN",
   "Z011": "LKO_KNP",
   "Z012": "LKO_KNP",
-  "Z013": "MUM_BHW",
-  "Z014": "AMD_CHG",
+  "Z013": "IDR_PTH",
+  "Z014": "IDR_PTH",
   "Z015": "MUM_BHW",
-  "Z016": "AMD_CHG",
+  "Z016": "IDR_PTH",
   "Z017": "AMD_CHG",
   "Z018": "CHN_SPB",
   "Z019": "MUM_BHW",
   "Z020": "PAT_BHT",
   "Z021": "NCR_FRN",
-  "Z022": "NCR_FRN",
+  "Z022": "PNJ_RJP",
   "Z023": "NCR_FRN",
   "Z024": "MUM_BHW",
   "Z025": "NCR_FRN",
@@ -73,65 +117,65 @@
   "Z028": "MUM_BHW",
   "Z029": "MUM_BHW",
   "Z030": "PAT_BHT",
-  "Z031": "NCR_FRN",
+  "Z031": "PNJ_RJP",
   "Z032": "MUM_BHW",
   "Z033": "LKO_KNP",
-  "Z034": "KOL_DNK",
-  "Z035": "NCR_FRN",
+  "Z034": "PAT_BHT",
+  "Z035": "PNJ_RJP",
   "Z036": "MUM_BHW",
   "Z037": "KOL_DNK",
   "Z038": "PAT_BHT",
-  "Z039": "LKO_KNP",
+  "Z039": "IDR_PTH",
   "Z040": "AMD_CHG",
   "Z041": "NCR_FRN",
   "Z042": "BLR_HSR",
-  "Z043": "HYD_SMB",
+  "Z043": "IDR_PTH",
   "Z044": "CHN_SPB",
-  "Z045": "COK_KLM",
-  "Z046": "AMD_CHG",
-  "Z047": "NCR_FRN",
+  "Z045": "BLR_HSR",
+  "Z046": "IDR_PTH",
+  "Z047": "PNJ_RJP",
   "Z048": "PAT_BHT",
   "Z049": "MUM_BHW",
-  "Z050": "MUM_BHW",
+  "Z050": "BLR_HSR",
   "Z051": "BLR_HSR",
   "Z052": "LKO_KNP",
   "Z053": "NCR_FRN",
   "Z054": "NCR_FRN",
-  "Z055": "CHN_SPB",
+  "Z055": "PAT_BHT",
   "Z056": "NCR_FRN",
-  "Z057": "NCR_FRN",
+  "Z057": "PNJ_RJP",
   "Z058": "BLR_HSR",
   "Z059": "BLR_HSR",
   "Z060": "MUM_BHW",
   "Z061": "MUM_BHW",
-  "Z062": "COK_KLM",
+  "Z062": "BLR_HSR",
   "Z063": "MUM_BHW",
-  "Z064": "NCR_FRN",
+  "Z064": "PNJ_RJP",
   "Z065": "PAT_BHT",
   "Z066": "PAT_BHT",
   "Z067": "HYD_SMB",
-  "Z068": "MUM_BHW",
+  "Z068": "IDR_PTH",
   "Z069": "NCR_FRN",
   "Z070": "NCR_FRN",
   "Z071": "HYD_SMB",
-  "Z072": "HYD_SMB",
-  "Z073": "CHN_SPB",
+  "Z072": "IDR_PTH",
+  "Z073": "PAT_BHT",
   "Z074": "AMD_CHG",
   "Z075": "NCR_FRN",
-  "Z076": "COK_KLM",
+  "Z076": "BLR_HSR",
   "Z077": "AMD_CHG",
-  "Z078": "NCR_FRN",
-  "Z079": "NCR_FRN",
+  "Z078": "PNJ_RJP",
+  "Z079": "PNJ_RJP",
   "Z080": "KOL_DNK",
   "Z081": "PAT_BHT",
-  "Z082": "COK_KLM",
+  "Z082": "BLR_HSR",
   "Z083": "MUM_BHW",
   "Z084": "MUM_BHW",
   "Z085": "CHN_SPB",
   "Z086": "HYD_SMB",
   "Z087": "NCR_FRN",
   "Z088": "NCR_FRN",
-  "Z089": "AMD_CHG",
+  "Z089": "IDR_PTH",
   "Z090": "MUM_BHW",
   "Z091": "PAT_BHT",
   "Z092": "MUM_BHW",
@@ -141,15 +185,15 @@
   "Z096": "MUM_BHW",
   "Z097": "MUM_BHW",
   "Z098": "PAT_BHT",
-  "Z099": "COK_KLM",
+  "Z099": "BLR_HSR",
   "Z100": "CHN_SPB",
-  "Z101": "MUM_BHW",
+  "Z101": "IDR_PTH",
   "Z102": "AMD_CHG",
   "Z103": "KOL_DNK",
-  "Z104": "NCR_FRN",
+  "Z104": "PNJ_RJP",
   "Z105": "BLR_HSR",
   "Z106": "BLR_HSR",
-  "Z107": "MUM_BHW",
+  "Z107": "IDR_PTH",
   "Z108": "HYD_SMB",
   "Z109": "KOL_DNK",
   "Z110": "PAT_BHT",
@@ -159,20 +203,20 @@
   "Z114": "KOL_DNK",
   "Z115": "PAT_BHT",
   "Z116": "PAT_BHT",
-  "Z117": "NCR_FRN",
+  "Z117": "PNJ_RJP",
   "Z118": "KOL_DNK",
-  "Z119": "HYD_SMB",
+  "Z119": "MUM_BHW",
   "Z120": "KOL_DNK",
-  "Z121": "MUM_BHW",
+  "Z121": "IDR_PTH",
   "Z122": "NCR_FRN",
   "Z123": "LKO_KNP",
   "Z124": "AMD_CHG",
   "Z125": "CHN_SPB",
   "Z126": "PAT_BHT",
   "Z127": "MUM_BHW",
-  "Z128": "COK_KLM",
+  "Z128": "BLR_HSR",
   "Z129": "NCR_FRN",
-  "Z130": "LKO_KNP",
+  "Z130": "IDR_PTH",
   "Z131": "CHN_SPB",
   "Z132": "CHN_SPB",
   "Z133": "KOL_DNK",
@@ -185,20 +229,20 @@
   "Z140": "PAT_BHT",
   "Z141": "MUM_BHW",
   "Z142": "CHN_SPB",
-  "Z143": "COK_KLM",
+  "Z143": "BLR_HSR",
   "Z144": "KOL_DNK",
-  "Z145": "KOL_DNK",
+  "Z145": "PAT_BHT",
   "Z146": "CHN_SPB",
   "Z147": "HYD_SMB",
   "Z148": "MUM_BHW",
   "Z149": "NCR_FRN",
   "Z150": "BLR_HSR",
-  "Z151": "NCR_FRN",
+  "Z151": "PNJ_RJP",
   "Z152": "CHN_SPB",
   "Z153": "PAT_BHT",
   "Z154": "PAT_BHT",
   "Z155": "PAT_BHT",
-  "Z156": "NCR_FRN",
+  "Z156": "PNJ_RJP",
   "Z157": "PAT_BHT",
   "Z158": "PAT_BHT"
  },
@@ -206,62 +250,62 @@
   {
    "plant_id": "P_HDW",
    "dc_id": "NCR_FRN",
-   "flow_t_yr": 59995.351
+   "flow_t_yr": 39953.257
   },
   {
    "plant_id": "P_HDW",
    "dc_id": "KOL_DNK",
-   "flow_t_yr": 17091.036
+   "flow_t_yr": 15310.257
   },
   {
    "plant_id": "P_HDW",
    "dc_id": "LKO_KNP",
-   "flow_t_yr": 20413.217
+   "flow_t_yr": 15723.537
+  },
+  {
+   "plant_id": "P_HDW",
+   "dc_id": "PNJ_RJP",
+   "flow_t_yr": 20042.094
   },
   {
    "plant_id": "P_HDW",
    "dc_id": "PAT_BHT",
-   "flow_t_yr": 40500.396
+   "flow_t_yr": 46970.855
   },
   {
    "plant_id": "P_SLV",
    "dc_id": "MUM_BHW",
-   "flow_t_yr": 45272.38
-  },
-  {
-   "plant_id": "P_SLV",
-   "dc_id": "HYD_SMB",
-   "flow_t_yr": 3946.3458
+   "flow_t_yr": 39057.295
   },
   {
    "plant_id": "P_SLV",
    "dc_id": "AMD_CHG",
-   "flow_t_yr": 26531.274
+   "flow_t_yr": 17743.731
+  },
+  {
+   "plant_id": "P_SLV",
+   "dc_id": "IDR_PTH",
+   "flow_t_yr": 21505.454
   },
   {
    "plant_id": "P_PDY",
    "dc_id": "BLR_HSR",
-   "flow_t_yr": 25097.017
+   "flow_t_yr": 41598.795
   },
   {
    "plant_id": "P_PDY",
    "dc_id": "CHN_SPB",
-   "flow_t_yr": 27180.141
+   "flow_t_yr": 23270.578
   },
   {
    "plant_id": "P_PDY",
    "dc_id": "HYD_SMB",
-   "flow_t_yr": 18033.005
+   "flow_t_yr": 18591.642
   },
   {
    "plant_id": "P_PDY",
    "dc_id": "KOL_DNK",
-   "flow_t_yr": 1012.622
-  },
-  {
-   "plant_id": "P_PDY",
-   "dc_id": "COK_KLM",
-   "flow_t_yr": 14927.214
+   "flow_t_yr": 232.50498
   }
  ]
 }

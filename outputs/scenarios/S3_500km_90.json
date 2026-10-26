@@ -9,11 +9,51 @@
  "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
  "status": "Optimal Solution Found",
  "solve": {
-  "objective_cr": 242.78460672456208,
-  "best_bound_cr": 241.60392172989998,
-  "mip_gap_frac": 0.004863096596571196,
-  "proxy_gap_frac": 0.03094017252372705,
-  "solve_time_s": 2.6484079360961914
+  "objective_cr": 233.76381357793468,
+  "best_bound_cr": 233.10362813990002,
+  "mip_gap_frac": 0.0028241558346008837,
+  "proxy_gap_frac": -0.004239167817802425,
+  "solve_time_s": 5.090099811553955,
+  "passes": [
+   {
+    "k_ref": 6,
+    "status": "Optimal Solution Found",
+    "n_dcs": 9,
+    "open_dcs": [
+     "MUM_BHW",
+     "NCR_FRN",
+     "BLR_HSR",
+     "HYD_SMB",
+     "AMD_CHG",
+     "KOL_DNK",
+     "NAG_MHN",
+     "LKO_KNP",
+     "PAT_BHT"
+    ],
+    "proxy_gap_frac": 0.03094017252372705,
+    "solve_time_s": 3.4695956707000732,
+    "total_cr": 244.87391885333625
+   },
+   {
+    "k_ref": 9,
+    "status": "Optimal Solution Found",
+    "n_dcs": 9,
+    "open_dcs": [
+     "MUM_BHW",
+     "NCR_FRN",
+     "BLR_HSR",
+     "HYD_SMB",
+     "AMD_CHG",
+     "KOL_DNK",
+     "NAG_MHN",
+     "LKO_KNP",
+     "PAT_BHT"
+    ],
+    "proxy_gap_frac": -0.004239167817802425,
+    "solve_time_s": 1.6205041408538818,
+    "total_cr": 244.46589897407327
+   }
+  ]
  },
  "open_dcs": [
   "MUM_BHW",
@@ -28,19 +68,19 @@
  ],
  "extra": {},
  "cost_cr": {
-  "primary": 86.80245866627338,
-  "secondary": 70.18784153665935,
-  "space": 20.461523861289095,
+  "primary": 85.96947958941325,
+  "secondary": 70.60785127573128,
+  "space": 20.482521957050228,
   "handling": 6.6,
-  "inventory": 33.82209478911441,
+  "inventory": 33.80604615187849,
   "fixed": 27.0,
-  "total": 244.87391885333625
+  "total": 244.46589897407327
  },
  "service": {
-  "next_day_share_frac": 0.9069420522257864,
+  "next_day_share_frac": 0.9001234926640429,
   "two_day_share_frac": 0.9908265371141967
  },
- "share_of_revenue_frac": 0.04081231980888937,
+ "share_of_revenue_frac": 0.040744316495678876,
  "assignment": {
   "Z001": "MUM_BHW",
   "Z002": "NCR_FRN",
@@ -91,12 +131,12 @@
   "Z047": "NCR_FRN",
   "Z048": "PAT_BHT",
   "Z049": "MUM_BHW",
-  "Z050": "MUM_BHW",
+  "Z050": "BLR_HSR",
   "Z051": "BLR_HSR",
   "Z052": "NCR_FRN",
   "Z053": "NCR_FRN",
   "Z054": "NCR_FRN",
-  "Z055": "KOL_DNK",
+  "Z055": "NAG_MHN",
   "Z056": "NCR_FRN",
   "Z057": "NCR_FRN",
   "Z058": "BLR_HSR",
@@ -124,7 +164,7 @@
   "Z080": "PAT_BHT",
   "Z081": "PAT_BHT",
   "Z082": "BLR_HSR",
-  "Z083": "HYD_SMB",
+  "Z083": "MUM_BHW",
   "Z084": "MUM_BHW",
   "Z085": "BLR_HSR",
   "Z086": "HYD_SMB",
@@ -164,7 +204,7 @@
   "Z120": "KOL_DNK",
   "Z121": "MUM_BHW",
   "Z122": "NCR_FRN",
-  "Z123": "LKO_KNP",
+  "Z123": "NAG_MHN",
   "Z124": "AMD_CHG",
   "Z125": "NAG_MHN",
   "Z126": "PAT_BHT",
@@ -210,12 +250,12 @@
   {
    "plant_id": "P_HDW",
    "dc_id": "KOL_DNK",
-   "flow_t_yr": 15988.667
+   "flow_t_yr": 16358.19
   },
   {
    "plant_id": "P_HDW",
    "dc_id": "LKO_KNP",
-   "flow_t_yr": 20896.924
+   "flow_t_yr": 19943.873
   },
   {
    "plant_id": "P_HDW",
@@ -225,7 +265,7 @@
   {
    "plant_id": "P_SLV",
    "dc_id": "MUM_BHW",
-   "flow_t_yr": 41287.544
+   "flow_t_yr": 40394.672
   },
   {
    "plant_id": "P_SLV",
@@ -235,22 +275,17 @@
   {
    "plant_id": "P_SLV",
    "dc_id": "NAG_MHN",
-   "flow_t_yr": 16967.748
+   "flow_t_yr": 19284.674
   },
   {
    "plant_id": "P_PDY",
    "dc_id": "BLR_HSR",
-   "flow_t_yr": 55878.958
+   "flow_t_yr": 57453.522
   },
   {
    "plant_id": "P_PDY",
    "dc_id": "HYD_SMB",
-   "flow_t_yr": 24168.196
-  },
-  {
-   "plant_id": "P_PDY",
-   "dc_id": "KOL_DNK",
-   "flow_t_yr": 1733.3987
+   "flow_t_yr": 23486.503
   }
  ]
 }

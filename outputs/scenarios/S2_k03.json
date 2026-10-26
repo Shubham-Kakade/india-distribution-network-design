@@ -13,7 +13,8 @@
   "best_bound_cr": 242.00559300060002,
   "mip_gap_frac": 0.00021639791630670028,
   "proxy_gap_frac": 0.0008966884773551342,
-  "solve_time_s": 2.8856024742126465
+  "solve_time_s": 3.969785690307617,
+  "passes": []
  },
  "open_dcs": [
   "MUM_BHW",

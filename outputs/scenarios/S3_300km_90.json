@@ -13,7 +13,18 @@
   "best_bound_cr": null,
   "mip_gap_frac": null,
   "proxy_gap_frac": null,
-  "solve_time_s": 0.06284713745117188
+  "solve_time_s": 0.10831403732299805,
+  "passes": [
+   {
+    "k_ref": 6,
+    "status": "No Solution Exists",
+    "n_dcs": 0,
+    "open_dcs": [],
+    "proxy_gap_frac": null,
+    "solve_time_s": 0.10831403732299805,
+    "total_cr": null
+   }
+  ]
  },
  "open_dcs": [],
  "extra": {}

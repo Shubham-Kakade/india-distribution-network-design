@@ -8,11 +8,51 @@
  "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
  "status": "Optimal Solution Found",
  "solve": {
-  "objective_cr": 228.925124488021,
-  "best_bound_cr": 228.1705517582,
-  "mip_gap_frac": 0.0032961551577555177,
-  "proxy_gap_frac": 0.033257710565643306,
-  "solve_time_s": 1.7912664413452148
+  "objective_cr": 220.01427366745972,
+  "best_bound_cr": 219.8849984768,
+  "mip_gap_frac": 0.0005875763808629369,
+  "proxy_gap_frac": -0.003999185951062856,
+  "solve_time_s": 3.434516429901123,
+  "passes": [
+   {
+    "k_ref": 6,
+    "status": "Optimal Solution Found",
+    "n_dcs": 9,
+    "open_dcs": [
+     "MUM_BHW",
+     "NCR_FRN",
+     "BLR_HSR",
+     "HYD_SMB",
+     "AMD_CHG",
+     "KOL_DNK",
+     "LKO_KNP",
+     "IDR_PTH",
+     "PAT_BHT"
+    ],
+    "proxy_gap_frac": 0.033257710565643306,
+    "solve_time_s": 2.3782501220703125,
+    "total_cr": 230.91129683616404
+   },
+   {
+    "k_ref": 9,
+    "status": "Optimal Solution Found",
+    "n_dcs": 9,
+    "open_dcs": [
+     "MUM_BHW",
+     "NCR_FRN",
+     "BLR_HSR",
+     "HYD_SMB",
+     "AMD_CHG",
+     "KOL_DNK",
+     "LKO_KNP",
+     "IDR_PTH",
+     "PAT_BHT"
+    ],
+    "proxy_gap_frac": -0.003999185951062856,
+    "solve_time_s": 1.0562663078308105,
+    "total_cr": 230.6022483640583
+   }
+  ]
  },
  "open_dcs": [
   "MUM_BHW",
@@ -30,22 +70,22 @@
   "value": 1.5,
   "confidence": "low",
   "as_is_total_cr": 250.12647702796497,
-  "saving_vs_as_is_cr": 19.21518019180093
+  "saving_vs_as_is_cr": 19.52422866390667
  },
  "cost_cr": {
-  "primary": 85.34047036830981,
-  "secondary": 71.43791615357236,
-  "space": 20.175063020115857,
+  "primary": 84.92299084074668,
+  "secondary": 71.53229029004416,
+  "space": 20.17102958672574,
   "handling": 6.6,
-  "inventory": 33.857847294166035,
+  "inventory": 33.87593764654173,
   "fixed": 13.5,
-  "total": 230.91129683616404
+  "total": 230.6022483640583
  },
  "service": {
-  "next_day_share_frac": 0.8003710660038553,
+  "next_day_share_frac": 0.8002059258830667,
   "two_day_share_frac": 0.9908265371141967
  },
- "share_of_revenue_frac": 0.03848521613936067,
+ "share_of_revenue_frac": 0.038433708060676385,
  "assignment": {
   "Z001": "MUM_BHW",
   "Z002": "NCR_FRN",
@@ -129,7 +169,7 @@
   "Z080": "KOL_DNK",
   "Z081": "PAT_BHT",
   "Z082": "BLR_HSR",
-  "Z083": "HYD_SMB",
+  "Z083": "MUM_BHW",
   "Z084": "MUM_BHW",
   "Z085": "BLR_HSR",
   "Z086": "HYD_SMB",
@@ -147,7 +187,7 @@
   "Z098": "PAT_BHT",
   "Z099": "BLR_HSR",
   "Z100": "BLR_HSR",
-  "Z101": "MUM_BHW",
+  "Z101": "IDR_PTH",
   "Z102": "AMD_CHG",
   "Z103": "KOL_DNK",
   "Z104": "NCR_FRN",
@@ -176,25 +216,25 @@
   "Z127": "MUM_BHW",
   "Z128": "BLR_HSR",
   "Z129": "NCR_FRN",
-  "Z130": "LKO_KNP",
+  "Z130": "IDR_PTH",
   "Z131": "BLR_HSR",
   "Z132": "HYD_SMB",
   "Z133": "KOL_DNK",
   "Z134": "LKO_KNP",
-  "Z135": "HYD_SMB",
+  "Z135": "MUM_BHW",
   "Z136": "NCR_FRN",
   "Z137": "BLR_HSR",
   "Z138": "NCR_FRN",
   "Z139": "HYD_SMB",
   "Z140": "PAT_BHT",
-  "Z141": "MUM_BHW",
+  "Z141": "AMD_CHG",
   "Z142": "BLR_HSR",
   "Z143": "BLR_HSR",
   "Z144": "KOL_DNK",
   "Z145": "PAT_BHT",
   "Z146": "HYD_SMB",
   "Z147": "HYD_SMB",
-  "Z148": "HYD_SMB",
+  "Z148": "MUM_BHW",
   "Z149": "NCR_FRN",
   "Z150": "BLR_HSR",
   "Z151": "NCR_FRN",
@@ -215,12 +255,12 @@
   {
    "plant_id": "P_HDW",
    "dc_id": "KOL_DNK",
-   "flow_t_yr": 15951.154
+   "flow_t_yr": 16276.77
   },
   {
    "plant_id": "P_HDW",
    "dc_id": "LKO_KNP",
-   "flow_t_yr": 21864.383
+   "flow_t_yr": 21538.767
   },
   {
    "plant_id": "P_HDW",
@@ -230,22 +270,17 @@
   {
    "plant_id": "P_SLV",
    "dc_id": "MUM_BHW",
-   "flow_t_yr": 37732.438
-  },
-  {
-   "plant_id": "P_SLV",
-   "dc_id": "HYD_SMB",
-   "flow_t_yr": 431.37018
+   "flow_t_yr": 37781.98
   },
   {
    "plant_id": "P_SLV",
    "dc_id": "AMD_CHG",
-   "flow_t_yr": 17743.731
+   "flow_t_yr": 18789.393
   },
   {
    "plant_id": "P_SLV",
    "dc_id": "IDR_PTH",
-   "flow_t_yr": 19842.46
+   "flow_t_yr": 20825.497
   },
   {
    "plant_id": "P_PDY",
@@ -255,12 +290,12 @@
   {
    "plant_id": "P_PDY",
    "dc_id": "HYD_SMB",
-   "flow_t_yr": 29492.041
+   "flow_t_yr": 28170.787
   },
   {
    "plant_id": "P_PDY",
    "dc_id": "KOL_DNK",
-   "flow_t_yr": 558.1213
+   "flow_t_yr": 232.50498
   }
  ]
 }

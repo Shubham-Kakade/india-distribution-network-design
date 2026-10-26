@@ -8,11 +8,49 @@
  "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
  "status": "Optimal Solution Found",
  "solve": {
-  "objective_cr": 225.12608526648688,
-  "best_bound_cr": 224.1317659838,
-  "mip_gap_frac": 0.004416721773977914,
-  "proxy_gap_frac": 0.022806524397701367,
-  "solve_time_s": 1.841296911239624
+  "objective_cr": 219.40010782466885,
+  "best_bound_cr": 218.7212263387,
+  "mip_gap_frac": 0.0030942623169143966,
+  "proxy_gap_frac": -0.0013847283607035799,
+  "solve_time_s": 5.515446186065674,
+  "passes": [
+   {
+    "k_ref": 6,
+    "status": "Optimal Solution Found",
+    "n_dcs": 8,
+    "open_dcs": [
+     "MUM_BHW",
+     "NCR_FRN",
+     "BLR_HSR",
+     "HYD_SMB",
+     "KOL_DNK",
+     "LKO_KNP",
+     "IDR_PTH",
+     "PAT_BHT"
+    ],
+    "proxy_gap_frac": 0.022806524397701367,
+    "solve_time_s": 3.1196985244750977,
+    "total_cr": 229.55645382630502
+   },
+   {
+    "k_ref": 8,
+    "status": "Optimal Solution Found",
+    "n_dcs": 8,
+    "open_dcs": [
+     "MUM_BHW",
+     "NCR_FRN",
+     "BLR_HSR",
+     "HYD_SMB",
+     "KOL_DNK",
+     "LKO_KNP",
+     "IDR_PTH",
+     "PAT_BHT"
+    ],
+    "proxy_gap_frac": -0.0013847283607035799,
+    "solve_time_s": 2.395747661590576,
+    "total_cr": 229.38349508044158
+   }
+  ]
  },
  "open_dcs": [
   "MUM_BHW",
@@ -29,22 +67,22 @@
   "value": 1.15,
   "confidence": "medium",
   "as_is_total_cr": 260.35306986339293,
-  "saving_vs_as_is_cr": 30.79661603708792
+  "saving_vs_as_is_cr": 30.969574782951355
  },
  "cost_cr": {
-  "primary": 77.14388602699721,
-  "secondary": 70.65710768117432,
-  "space": 18.615382256708184,
+  "primary": 76.96880759582405,
+  "secondary": 70.6608267017948,
+  "space": 18.631798025932,
   "handling": 6.6,
-  "inventory": 32.54007786142528,
+  "inventory": 32.52206275689067,
   "fixed": 24.0,
-  "total": 229.55645382630502
+  "total": 229.38349508044158
  },
  "service": {
-  "next_day_share_frac": 0.804621180570266,
+  "next_day_share_frac": 0.8035038810890379,
   "two_day_share_frac": 0.9926584119962687
  },
- "share_of_revenue_frac": 0.03825940897105083,
+ "share_of_revenue_frac": 0.03823058251340693,
  "assignment": {
   "Z001": "MUM_BHW",
   "Z002": "NCR_FRN",
@@ -85,7 +123,7 @@
   "Z037": "KOL_DNK",
   "Z038": "PAT_BHT",
   "Z039": "IDR_PTH",
-  "Z040": "IDR_PTH",
+  "Z040": "NCR_FRN",
   "Z041": "NCR_FRN",
   "Z042": "BLR_HSR",
   "Z043": "IDR_PTH",
@@ -138,7 +176,7 @@
   "Z090": "MUM_BHW",
   "Z091": "PAT_BHT",
   "Z092": "MUM_BHW",
-  "Z093": "NCR_FRN",
+  "Z093": "LKO_KNP",
   "Z094": "MUM_BHW",
   "Z095": "BLR_HSR",
   "Z096": "MUM_BHW",
@@ -164,7 +202,7 @@
   "Z116": "PAT_BHT",
   "Z117": "NCR_FRN",
   "Z118": "KOL_DNK",
-  "Z119": "HYD_SMB",
+  "Z119": "MUM_BHW",
   "Z120": "KOL_DNK",
   "Z121": "MUM_BHW",
   "Z122": "NCR_FRN",
@@ -180,7 +218,7 @@
   "Z132": "HYD_SMB",
   "Z133": "KOL_DNK",
   "Z134": "LKO_KNP",
-  "Z135": "HYD_SMB",
+  "Z135": "MUM_BHW",
   "Z136": "NCR_FRN",
   "Z137": "BLR_HSR",
   "Z138": "NCR_FRN",
@@ -193,7 +231,7 @@
   "Z145": "PAT_BHT",
   "Z146": "HYD_SMB",
   "Z147": "HYD_SMB",
-  "Z148": "MUM_BHW",
+  "Z148": "HYD_SMB",
   "Z149": "NCR_FRN",
   "Z150": "BLR_HSR",
   "Z151": "NCR_FRN",
@@ -209,17 +247,17 @@
   {
    "plant_id": "P_HDW",
    "dc_id": "NCR_FRN",
-   "flow_t_yr": 62218.007
+   "flow_t_yr": 63367.131
   },
   {
    "plant_id": "P_HDW",
    "dc_id": "KOL_DNK",
-   "flow_t_yr": 13579.997
+   "flow_t_yr": 11789.03
   },
   {
    "plant_id": "P_HDW",
    "dc_id": "LKO_KNP",
-   "flow_t_yr": 20896.924
+   "flow_t_yr": 21538.767
   },
   {
    "plant_id": "P_HDW",
@@ -229,12 +267,12 @@
   {
    "plant_id": "P_SLV",
    "dc_id": "MUM_BHW",
-   "flow_t_yr": 44878.047
+   "flow_t_yr": 45855.08
   },
   {
    "plant_id": "P_SLV",
    "dc_id": "IDR_PTH",
-   "flow_t_yr": 31685.958
+   "flow_t_yr": 29894.99
   },
   {
    "plant_id": "P_PDY",
@@ -244,12 +282,12 @@
   {
    "plant_id": "P_PDY",
    "dc_id": "HYD_SMB",
-   "flow_t_yr": 29324.533
+   "flow_t_yr": 28347.5
   },
   {
    "plant_id": "P_PDY",
    "dc_id": "KOL_DNK",
-   "flow_t_yr": 232.50498
+   "flow_t_yr": 2023.4723
   }
  ]
 }

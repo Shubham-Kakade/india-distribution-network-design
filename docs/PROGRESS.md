@@ -87,3 +87,18 @@ One entry per checkpoint: phase, what was built, headline numbers, deviations fr
 - Full run: about 7.3 min (spec limit 15 min); two runs from raw give identical outputs apart from solve times.
 - Decisions D-027 to D-033. Open questions for the supervisor: knee sensitivity at 400 km / 85% (D-028), the S8 footprint assumptions (D-031), and the S5a costing convention (D-029).
 - Chore: pytest filters PuLP's 4.0 deprecation warnings (pinned below 4, D-005).
+
+## 2026-10-26 — Phase 3 (scenarios), Checkpoint C revision
+
+The supervisor approved Phase 3 with two changes. Both are on PR #4.
+- **Two-pass free solves (D-034).** Each free solve runs with `k_ref = 6`, then re-solves with `k_ref = k*`, and keeps the lower exact cost. Both passes are recorded in each scenario JSON (`solve.passes`). 13 runs changed, all cheaper or equal. The base case stays at 244.1 Cr. The 400 km / 85% cell is now 248.5 Cr with 11 DCs (it was 250.1 Cr with 10).
+- **Recommendation rule (D-028 rewritten).** The recommendation is the cheapest network at service comparable to today's: as-is is 81.4%, so the target is 80%. That gives the same 9 DCs at 244.1 Cr, 80.1% next-day and a 28.5 Cr saving. Kneedle is reported, not used: it now says 85%. The higher targets are priced as upgrade options in `S3_upgrade_options.json`:
+  - 85%: +2 DCs (+Guwahati, +Rajpura, Nagpur for Indore), +4.4 Cr/yr;
+  - 90%: 12 DCs, +11.3 Cr;
+  - 95%: 14 DCs, +20.1 Cr.
+- **Staging (D-038).** The 85% network does not contain Indore. A staging run (`S3_400km_80_staged`) puts Nagpur in Indore's place at 80% for +0.33 Cr/yr, after which the 85% upgrade only adds sites. Staged framing in the insights: 7 no-regret sites now, 9 for 80%, 11 for 85%. Above 85% the network re-shapes (NCR is dropped), so it is not a further stage.
+- **Code split (D-035).** The scenario code is now three modules: `scenarios.py` (definitions and run loop), `robustness.py` (knee, comparable-service rule, upgrade pricing, R, k-COG) and `reporting.py` (JSON/CSV, charts, maps, printed report). A re-run matched the pre-split outputs file for file.
+- **Runtime (D-037).** Two-pass solves pushed the full run to 1,030 s. The S7 site searches now run in a spawn process pool, which brings the run to 656 s (limit 900 s) with outputs identical to the serial run.
+- **Write-up.** `docs/scenario_insights.md` was rewritten for the rule, the upgrade table, the staging and the D-036 answers. That includes the S5a line: lost sales and stranded stock are not costed, so the 2.4 Cr is a floor and the service drop is the headline.
+- **Re-checked figures.** S4 skew 314.2; S6 +20% gives +17.2 with no site change; S8 no-Puducherry +28.4 (11.7%); S9 fixed-cost saving 19.5–37.5.
+- **Decisions:** D-034 to D-038. Tests: 67 fast. Phase tags are created on GitHub by the owner (D-036).

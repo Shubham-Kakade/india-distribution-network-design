@@ -41,6 +41,10 @@ The split changed no behaviour: a full re-run matched the pre-split outputs file
 - The S5a costing (D-029) is accepted as the correct one-month view. The write-up states that lost sales and stock stranded in the closed DC are not costed, so the outage cost is a floor and the service drop is the headline.
 - The phase tags are created on GitHub by the owner.
 
+**D-037 The S7 site searches run in parallel.** Two-pass free solves took the full run to 1,030 s, past the 15-minute limit (spec §14). Model building is not the bottleneck; CBC is, and the S7 rent bisection (one search per recommended site, each about 7 free solves) took about 575 s. Each site's search is independent, so `rent_switching_points` runs them in a process pool (`concurrent.futures`, standard library, no new dependency). The pool uses the "spawn" start method because Python 3.12 warns about forking a process that holds threads. Each solve stays single-threaded (D-021), so results do not depend on the worker count. The full run fell to 635 s, and its outputs matched the serial run file for file (same comparison as D-035).
+
+**D-038 A staging run toward the first upgrade option.** The 85% upgrade network does not contain the whole 80% network: it adds Guwahati, Nagpur and Rajpura and drops Pithampur (Indore). `s3_staging` re-solves the recommended 80% target with the sites that the next upgrade drops closed (`forced_closed`). It records the extra cost and whether the result is nested in the upgrade network. Result: Nagpur replaces Indore at the 80% target for +INR 0.33 Cr a year (244.4 Cr), and the 85% upgrade then only adds Guwahati and Rajpura. The run is reported with S3 (`S3_400km_80_staged`); it is not part of R and does not change the recommendation. Indore stays recommended as the cheapest site at 80%; the staged network is the option to take if the client already expects to buy the 85% upgrade.
+
 ---
 
 ## 2026-10-25 — Phase 2 (model)

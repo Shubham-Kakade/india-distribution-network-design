@@ -165,3 +165,48 @@ The supervisor approved Phase 3 with two changes. Both are on PR #4.
   - the demo GIF (spec §13 Checkpoint E);
   - the actual deployment;
   - a run of `setup_local.ps1` on Windows.
+
+## 2026-10-26 — Phase 5 follow-up: explanatory answers and provider retries
+
+- **Explanatory answers (D-049, D-050).**
+  - *Structure.* Every live, offline and templated answer has six labelled parts: headline, what happens in the network, why, what it means for the client, assumptions and limits, source.
+  - *Tool fields.* The tool results gained the fields the explanation needs: cost drivers, sites opened and closed with names, zone moves and destinations, next-day losses and gains, the diesel mechanics and cost shares.
+  - *Library.* Rebuilt: purely additive, byte-identical across two builds.
+  - *Live prompt.* Rewritten, with two worked examples built from the library records.
+  - *Guardrail.* A structure check joins the grounding check: one retry, then the template.
+- **Retries (D-051).** HTTP 429 and 5xx are retried twice (2 s, then 5 s, or Retry-After capped at 10 s) before falling back; 400, 401, 403 and 404 are never retried.
+- **Demo transcript.** The offline section of `docs/agent_demo_transcripts.md` shows the five demo answers in the new structure. The spot-check figures are unchanged: 2.9, 245.4 and 1.3, and 261.3.
+- **Tests.** 14 more, mocked clients only:
+  - all 20 library answers have the six parts, pass grounding and stay within 220 words;
+  - both worked examples pass grounding;
+  - missing structure and ungrounded replies go to retry, then template;
+  - 503 then success is live; three 503s fall back with the status;
+  - 400, 401, 403 and 404 are not retried;
+  - Retry-After is honoured and capped.
+
+  Fast suite: 128 tests in about 5.5 s.
+
+
+## 2026-10-26 — Phase 5 follow-up: plain-English answers, wording fixes, owner decision
+
+- **Owner decision (D-052).**
+  - *Removed.* References to the hiring firm, its practice name, the job post and the recruiter are gone from every current file; history is untouched. `git grep` and the PDF text both come back empty.
+  - *Disclaimer.* One disclaimer everywhere, read from `assumptions.yaml`.
+  - *Outputs.* The full scenario run was repeated for the new assumptions sha. All JSON and the summary CSV are numerically identical; the charts and maps changed only in the disclaimer footnote.
+  - *Regenerated.* The library, the offline transcripts and `docs/case_study.pdf`.
+- **Plain-English answers (D-053).**
+  - *The answer.* Every answer opens with In short, What changes, Why it costs more or less, and What to do, plus one line with the limitation and source. It is written in plain words, in at most about 120 words and five rounded numbers.
+  - *Details.* The six-part analysis sits under "Show details" in the app, live and offline.
+  - *Live.* The live prompt and its worked examples ask for both layers, and the structure check covers both.
+- **Wording fixes (D-054).**
+  - *Names.* Zones are shown by the names readers know (Bengaluru, not BBMP).
+  - *Headlines.* They name their subject instead of starting with a scenario id, and equal values read "unchanged at X".
+  - *Library.* The library rebuilds byte-identically from a cold or warm cache.
+- **Tests.**
+  - all 20 plain answers: parts in order, at most 120 words and six numbers, no ids or jargon before the Source line, grounded;
+  - the details: headlines without ids, no "X against X";
+  - a reply without the details goes to retry;
+  - rounding is accepted and invented numbers are rejected;
+  - display names.
+
+  Fast suite: 136 tests in about 5.3 s; slow: 2 passed.

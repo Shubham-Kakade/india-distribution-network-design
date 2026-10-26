@@ -21,8 +21,8 @@ meta:
   base_year: 2026
   population_vintage: 2011  # Census 2011; only relative shares are used
   disclaimer: >
-    Independent portfolio project. Not affiliated with or endorsed by
-    Cushman & Wakefield or any client. Company and network are hypothetical.
+    Independent portfolio project. The client and network are hypothetical;
+    not affiliated with or endorsed by any company named in the sources.
 
 # ---------------------------------------------------------------------
 # 1. Company (hypothetical client)
@@ -232,7 +232,7 @@ service:
     note: Reported only (not constrained); for the service ring map
 
 # ---------------------------------------------------------------------
-# 6. Warehousing (the real-estate block; the C&W angle)
+# 6. Warehousing (the real-estate block)
 # ---------------------------------------------------------------------
 warehousing:
   storage_density_t_per_sqft:

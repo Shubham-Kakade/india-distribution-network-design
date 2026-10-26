@@ -5,14 +5,14 @@
  "inputs": {
   "warehousing.opex_inr_per_sqft_month.value": 7
  },
- "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+ "assumptions_sha256": "912e99df374330db1d1ca5917e5174c7e4df4bb1f2f3c1b3fbbc583e6d7443f9",
  "status": "Optimal Solution Found",
  "solve": {
   "objective_cr": 240.1552834370428,
   "best_bound_cr": 239.57725532729998,
   "mip_gap_frac": 0.002406893162916249,
   "proxy_gap_frac": 0.03114666954326628,
-  "solve_time_s": 7.605977535247803,
+  "solve_time_s": 5.226643085479736,
   "passes": [
    {
     "k_ref": 6,
@@ -30,7 +30,7 @@
      "PAT_BHT"
     ],
     "proxy_gap_frac": 0.03114666954326628,
-    "solve_time_s": 4.504188537597656,
+    "solve_time_s": 3.0838451385498047,
     "total_cr": 242.27497817779457
    },
    {
@@ -49,7 +49,7 @@
      "PAT_BHT"
     ],
     "proxy_gap_frac": -0.0034007768587908105,
-    "solve_time_s": 3.1017889976501465,
+    "solve_time_s": 2.1427979469299316,
     "total_cr": 242.5614974029264
    }
   ]

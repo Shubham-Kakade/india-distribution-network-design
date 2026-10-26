@@ -5,14 +5,14 @@
  "inputs": {
   "warehousing.handling_inr_per_tonne.value": 150
  },
- "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+ "assumptions_sha256": "912e99df374330db1d1ca5917e5174c7e4df4bb1f2f3c1b3fbbc583e6d7443f9",
  "status": "Optimal Solution Found",
  "solve": {
   "objective_cr": 240.00421179096986,
   "best_bound_cr": 239.5019925052,
   "mip_gap_frac": 0.0020925436350560747,
   "proxy_gap_frac": 0.03179124596204708,
-  "solve_time_s": 5.902612209320068,
+  "solve_time_s": 4.221581697463989,
   "passes": [
    {
     "k_ref": 6,
@@ -30,7 +30,7 @@
      "PAT_BHT"
     ],
     "proxy_gap_frac": 0.03179124596204708,
-    "solve_time_s": 2.891907215118408,
+    "solve_time_s": 2.1944100856781006,
     "total_cr": 241.9772082702969
    },
    {
@@ -49,7 +49,7 @@
      "PAT_BHT"
     ],
     "proxy_gap_frac": -0.004046967118701006,
-    "solve_time_s": 3.01070499420166,
+    "solve_time_s": 2.0271716117858887,
     "total_cr": 242.35794634470787
    }
   ]

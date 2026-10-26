@@ -6,14 +6,14 @@
   "demand_growth": "uniform",
   "company.annual_revenue_cr.value": "scaled with volume"
  },
- "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+ "assumptions_sha256": "912e99df374330db1d1ca5917e5174c7e4df4bb1f2f3c1b3fbbc583e6d7443f9",
  "status": "Optimal Solution Found",
  "solve": {
   "objective_cr": 307.1038708017059,
   "best_bound_cr": 305.6435357758,
   "mip_gap_frac": 0.004755182740268577,
   "proxy_gap_frac": 0.039401854332105524,
-  "solve_time_s": 6.146303415298462,
+  "solve_time_s": 3.7903006076812744,
   "passes": [
    {
     "k_ref": 6,
@@ -31,7 +31,7 @@
      "PAT_BHT"
     ],
     "proxy_gap_frac": 0.039401854332105524,
-    "solve_time_s": 4.3861963748931885,
+    "solve_time_s": 2.680263042449951,
     "total_cr": 307.55126029592526
    },
    {
@@ -50,7 +50,7 @@
      "PAT_BHT"
     ],
     "proxy_gap_frac": 0.0027628565388317927,
-    "solve_time_s": 1.7601070404052734,
+    "solve_time_s": 1.1100375652313232,
     "total_cr": 308.02063073131444
    }
   ]

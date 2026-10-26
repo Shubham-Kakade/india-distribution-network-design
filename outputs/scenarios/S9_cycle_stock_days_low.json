@@ -5,14 +5,14 @@
  "inputs": {
   "warehousing.cycle_stock_days.value": 5
  },
- "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+ "assumptions_sha256": "912e99df374330db1d1ca5917e5174c7e4df4bb1f2f3c1b3fbbc583e6d7443f9",
  "status": "Optimal Solution Found",
  "solve": {
   "objective_cr": 240.6022509348446,
   "best_bound_cr": 239.49912985219999,
   "mip_gap_frac": 0.004584832761782151,
   "proxy_gap_frac": 0.02984958184798714,
-  "solve_time_s": 6.671493053436279,
+  "solve_time_s": 4.770050287246704,
   "passes": [
    {
     "k_ref": 6,
@@ -30,7 +30,7 @@
      "PAT_BHT"
     ],
     "proxy_gap_frac": 0.02984958184798714,
-    "solve_time_s": 2.672830820083618,
+    "solve_time_s": 1.928196668624878,
     "total_cr": 240.33253485402622
    },
    {
@@ -49,7 +49,7 @@
      "PAT_BHT"
     ],
     "proxy_gap_frac": -0.006327008304255255,
-    "solve_time_s": 3.998662233352661,
+    "solve_time_s": 2.841853618621826,
     "total_cr": 240.8192453924014
    }
   ]

@@ -5,14 +5,14 @@
  "inputs": {
   "warehousing.storage_density_t_per_sqft.value": 0.04
  },
- "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+ "assumptions_sha256": "912e99df374330db1d1ca5917e5174c7e4df4bb1f2f3c1b3fbbc583e6d7443f9",
  "status": "Optimal Solution Found",
  "solve": {
   "objective_cr": 247.57817215721212,
   "best_bound_cr": 246.8994965218,
   "mip_gap_frac": 0.002741257961065977,
   "proxy_gap_frac": 0.0401051105800343,
-  "solve_time_s": 7.614856958389282,
+  "solve_time_s": 5.316876411437988,
   "passes": [
    {
     "k_ref": 6,
@@ -30,7 +30,7 @@
      "PAT_BHT"
     ],
     "proxy_gap_frac": 0.0401051105800343,
-    "solve_time_s": 4.1233601570129395,
+    "solve_time_s": 2.966407060623169,
     "total_cr": 247.3249318411797
    },
    {
@@ -49,7 +49,7 @@
      "PAT_BHT"
     ],
     "proxy_gap_frac": 0.00248162984752609,
-    "solve_time_s": 3.4914968013763428,
+    "solve_time_s": 2.3504693508148193,
     "total_cr": 247.5338266777256
    }
   ]

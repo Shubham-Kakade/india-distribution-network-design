@@ -38,14 +38,14 @@
    }
   ]
  },
- "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+ "assumptions_sha256": "912e99df374330db1d1ca5917e5174c7e4df4bb1f2f3c1b3fbbc583e6d7443f9",
  "status": "Optimal Solution Found",
  "solve": {
   "objective_cr": 208.86504751203444,
   "best_bound_cr": 208.86504751203444,
   "mip_gap_frac": 0.0,
   "proxy_gap_frac": 0.03600979969706364,
-  "solve_time_s": 13.73353123664856,
+  "solve_time_s": 10.027270317077637,
   "passes": [
    {
     "k_ref": 6,
@@ -63,7 +63,7 @@
      "PAT_BHT"
     ],
     "proxy_gap_frac": 0.03600979969706364,
-    "solve_time_s": 7.6657185554504395,
+    "solve_time_s": 5.754045724868774,
     "total_cr": 210.9350712711326
    },
    {
@@ -82,7 +82,7 @@
      "PAT_BHT"
     ],
     "proxy_gap_frac": -0.004739383665419594,
-    "solve_time_s": 6.06781268119812,
+    "solve_time_s": 4.273224592208862,
     "total_cr": 210.9350712711326
    }
   ]

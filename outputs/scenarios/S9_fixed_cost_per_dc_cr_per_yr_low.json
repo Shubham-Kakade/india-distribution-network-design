@@ -5,14 +5,14 @@
  "inputs": {
   "warehousing.fixed_cost_per_dc_cr_per_yr.value": 1.5
  },
- "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+ "assumptions_sha256": "912e99df374330db1d1ca5917e5174c7e4df4bb1f2f3c1b3fbbc583e6d7443f9",
  "status": "Optimal Solution Found",
  "solve": {
   "objective_cr": 220.01427366745972,
   "best_bound_cr": 219.8849984768,
   "mip_gap_frac": 0.0005875763808629369,
   "proxy_gap_frac": -0.003999185951062856,
-  "solve_time_s": 3.434516429901123,
+  "solve_time_s": 2.5009045600891113,
   "passes": [
    {
     "k_ref": 6,
@@ -30,7 +30,7 @@
      "PAT_BHT"
     ],
     "proxy_gap_frac": 0.033257710565643306,
-    "solve_time_s": 2.3782501220703125,
+    "solve_time_s": 1.820450782775879,
     "total_cr": 230.91129683616404
    },
    {
@@ -49,7 +49,7 @@
      "PAT_BHT"
     ],
     "proxy_gap_frac": -0.003999185951062856,
-    "solve_time_s": 1.0562663078308105,
+    "solve_time_s": 0.6804537773132324,
     "total_cr": 230.6022483640583
    }
   ]

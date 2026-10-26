@@ -35,6 +35,22 @@ MAX_RANGE_WIDTHS = 2  # spec §10: refuse overrides more than 2x the range width
 MAX_OUTAGE_MONTHS = 12  # an outage is charged months/12 of a year's extra freight (D-029)
 DIESEL_KEY = "diesel_shock_frac"
 REBUILD_PREFIXES = ("demand.", "company.annual_volume", "distance.")
+TOP_COST_DRIVERS = 3  # cost components listed as "what moved" against the recommended network
+MIN_DRIVER_CR = 0.05  # smaller moves show as 0.0 Cr, so they are not drivers
+# Plain English for zone anchors that are municipal-body abbreviations or official compound
+# names. The only place these names are mapped; zone_ids and the data keep the official names.
+ZONE_DISPLAY_NAMES = {
+    "BBMP": "Bengaluru",
+    "DMC": "Delhi",
+    "GHMC": "Hyderabad",
+    "GVMC": "Visakhapatnam",
+    "Greater Mumbai": "Mumbai",
+    "Haora": "Howrah",
+    "Ahmadabad": "Ahmedabad",
+    "Nanded Waghala": "Nanded",
+    "Sangli Miraj Kupwad": "Sangli",
+    "Bhiwandi Nizampur": "Bhiwandi",
+}
 
 
 def rounded(value: object) -> object:
@@ -144,6 +160,19 @@ def cache_key(tool: str, arguments: dict, assumptions_sha256: str) -> str:
         {"tool": tool, "args": arguments, "yaml": assumptions_sha256}, sort_keys=True
     )
     return hashlib.sha256(payload.encode()).hexdigest()
+
+
+def display_name(anchor_name: str) -> str:
+    """A zone's name as a reader knows it: 'BBMP' -> 'Bengaluru'."""
+    return ZONE_DISPLAY_NAMES.get(anchor_name, anchor_name)
+
+
+def cost_drivers(cost_cr: dict, recommended_cr: dict) -> list[dict]:
+    """The cost components that move most against the recommended network, largest first."""
+    deltas = [{"component": c, "delta_cr": cost_cr[c] - recommended_cr[c]} for c in COMPONENTS]
+    deltas = [d for d in deltas if abs(d["delta_cr"]) >= MIN_DRIVER_CR]
+    deltas.sort(key=lambda d: -abs(d["delta_cr"]))
+    return deltas[:TOP_COST_DRIVERS]
 
 
 TOOL_SCHEMAS = [
@@ -384,11 +413,50 @@ class ToolBox:
                 * (
                     record["service"]["next_day_share_frac"] - rec["service"]["next_day_share_frac"]
                 ),
+                "recommended_next_day_share_frac": rec["service"]["next_day_share_frac"],
                 "added": sorted(set(record["open_dcs"]) - set(rec["open_dcs"])),
                 "dropped": sorted(set(rec["open_dcs"]) - set(record["open_dcs"])),
+                "cost_drivers": cost_drivers(record["cost_cr"], rec["cost_cr"]),
+                "zones": self.zone_changes(record),
             },
         }
+        vs = out["vs_recommended"]
+        vs["added_sites"] = self.site_names(vs["added"])
+        vs["dropped_sites"] = self.site_names(vs["dropped"])
         return out
+
+    def km_to_dc(self, assignment: pd.Series, data: NetworkData) -> pd.Series:
+        """Road km from each zone to the DC serving it, indexed like assignment."""
+        km = data.zone_dc_km.loc[assignment.index]
+        cols = km.columns.get_indexer(assignment)
+        return pd.Series(km.to_numpy()[range(len(km)), cols], index=assignment.index)
+
+    def zone_changes(self, record: dict) -> dict | None:
+        """Zones that change DC against the recommended network, where they go, and the zones
+        and demand that lose or gain next-day service (on base demand and distances).
+
+        None when the scenario's sites are not candidate sites (today's depots, S0), because
+        the two networks then share no sites to compare zone by zone.
+        """
+        if not set(record["open_dcs"]) <= set(self.data.dcs["dc_id"]):
+            return None
+        before = pd.Series(self.recommended_record["assignment"])
+        after = pd.Series(record["assignment"])[before.index]
+        demand = self.data.zones.set_index("zone_id")["demand_t_yr"].loc[before.index]
+        moved = after != before
+        before_in = self.km_to_dc(before, self.data) <= self.radius_km
+        after_in = self.km_to_dc(after, self.data) <= self.radius_km
+        losing, gaining = before_in & ~after_in, ~before_in & after_in
+        total_t = demand.sum()
+        return {
+            "moved_count": int(moved.sum()),
+            "moved_demand_frac": float(demand[moved].sum() / total_t),
+            "moved_to": after[moved].value_counts().sort_index().to_dict(),
+            "losing_next_day_count": int(losing.sum()),
+            "losing_next_day_demand_frac": float(demand[losing].sum() / total_t),
+            "gaining_next_day_count": int(gaining.sum()),
+            "gaining_next_day_demand_frac": float(demand[gaining].sum() / total_t),
+        }
 
     # --- the tools (spec §10) --------------------------------------------------------------
 
@@ -416,7 +484,15 @@ class ToolBox:
                 f"AG_{slug}_{key[:6]}", "AG", f"What if: {name}", clean, build_and_solve(p, data)
             )
 
-        return self.summary(self.cached_run("run_scenario", clean, make_run))
+        out = self.summary(self.cached_run("run_scenario", clean, make_run))
+        if clean.get(DIESEL_KEY):  # the S6 mechanics, so the answer can explain the cost rise
+            out["diesel"] = {
+                "diesel_share_of_freight_cost_frac": self.params["transport"][
+                    "diesel_share_of_freight_cost"
+                ]["value"],
+                "freight_multiplier": diesel_overrides(self.params, clean[DIESEL_KEY])[0],
+            }
+        return out
 
     def simulate_disruption(self, dc_id: str, mode: str, months: float = 1) -> dict:
         """A recommended DC shut for some months (S5a logic) or lost for good (S5b logic)."""
@@ -461,7 +537,7 @@ class ToolBox:
                 "next_day_share_before_frac": extra["next_day_share_before"],
                 "next_day_share_during_frac": extra["next_day_share_during"],
                 "zones_losing_next_day_count": len(extra["zones_losing_next_day"]),
-                "zones_losing_next_day": extra["zones_losing_next_day"],
+                "zones_losing_next_day": [display_name(z) for z in extra["zones_losing_next_day"]],
                 "demand_losing_next_day_t_yr": extra["demand_losing_next_day_t_yr"],
                 "demand_losing_next_day_frac": extra["demand_losing_next_day_t_yr"] / total_t,
                 "reassigned_zones_by_site": moved.value_counts().sort_index().to_dict(),
@@ -490,6 +566,13 @@ class ToolBox:
                             "cost_cr_per_yr": s["cost_cr_per_yr"],
                             "next_day_share_frac": s["next_day_share_frac"],
                             "delta_total_vs_recommended_cr": s["vs_recommended"]["delta_total_cr"],
+                            "recommended_next_day_share_frac": s["vs_recommended"][
+                                "recommended_next_day_share_frac"
+                            ],
+                            "added_sites": s["vs_recommended"]["added_sites"],
+                            "dropped_sites": s["vs_recommended"]["dropped_sites"],
+                            "cost_drivers": s["vs_recommended"]["cost_drivers"],
+                            "zones": s["vs_recommended"]["zones"],
                         }
                         if "cost_cr_per_yr" in s
                         else {}
@@ -513,9 +596,7 @@ class ToolBox:
         assignment = pd.Series(record["assignment"])
         data = self.data_for(record["open_dcs"])
         zones = data.zones.set_index("zone_id").loc[assignment.index]
-        km = data.zone_dc_km.loc[assignment.index]
-        assigned_km = km.to_numpy()[range(len(km)), km.columns.get_indexer(assignment)]
-        within = zones["demand_t_yr"].where(assigned_km <= self.radius_km, 0.0)
+        within = zones["demand_t_yr"].where(self.km_to_dc(assignment, data) <= self.radius_km, 0.0)
         sites = []
         for site in out["sites"]:
             j = site["dc_id"]
@@ -524,7 +605,7 @@ class ToolBox:
                 site
                 | {
                     "zones_served": len(served),
-                    "largest_zones": served["anchor_name"].head(5).tolist(),
+                    "largest_zones": served["anchor_name"].head(5).map(display_name).tolist(),
                     "throughput_t_yr": float(throughput.get(j, 0.0)),
                     "share_of_volume_frac": float(throughput.get(j, 0.0) / throughput.sum()),
                     "next_day_share_of_site_frac": float(
@@ -534,7 +615,12 @@ class ToolBox:
                     else 0.0,
                 }
             )
-        return out | {"sites": sites, "next_day_radius_km": self.radius_km}
+        cost = record["cost_cr"]
+        return out | {
+            "sites": sites,
+            "next_day_radius_km": self.radius_km,
+            "cost_share_frac": {c: cost[c] / cost["total"] for c in COMPONENTS},
+        }
 
     @property
     def radius_km(self) -> float:

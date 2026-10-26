@@ -1,6 +1,6 @@
 {
  "recommended_id": "S3_400km_80",
- "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+ "assumptions_sha256": "912e99df374330db1d1ca5917e5174c7e4df4bb1f2f3c1b3fbbc583e6d7443f9",
  "entries": [
   {
    "intent_id": "loss_BLR_HSR",
@@ -90,12 +90,57 @@
         "fixed": 3.0
        },
        "next_day_change_pts": -0.0485,
+       "recommended_next_day_share_frac": 0.8009,
        "added": [
         "CHN_SPB",
         "COK_KLM"
        ],
        "dropped": [
         "BLR_HSR"
+       ],
+       "cost_drivers": [
+        {
+         "component": "primary",
+         "delta_cr": -3.3695
+        },
+        {
+         "component": "fixed",
+         "delta_cr": 3.0
+        },
+        {
+         "component": "space",
+         "delta_cr": 1.5164
+        }
+       ],
+       "zones": {
+        "moved_count": 34,
+        "moved_demand_frac": 0.2215,
+        "moved_to": {
+         "CHN_SPB": 18,
+         "COK_KLM": 11,
+         "LKO_KNP": 1,
+         "MUM_BHW": 4
+        },
+        "losing_next_day_count": 7,
+        "losing_next_day_demand_frac": 0.0234,
+        "gaining_next_day_count": 4,
+        "gaining_next_day_demand_frac": 0.0229
+       },
+       "added_sites": [
+        {
+         "dc_id": "CHN_SPB",
+         "name": "Chennai - Sriperumbudur / Oragadam"
+        },
+        {
+         "dc_id": "COK_KLM",
+         "name": "Kochi - Kalamassery / Aluva"
+        }
+       ],
+       "dropped_sites": [
+        {
+         "dc_id": "BLR_HSR",
+         "name": "Bengaluru - Hosur (Attibele-Bommasandra)"
+        }
        ]
       },
       "closed_site": {
@@ -191,9 +236,45 @@
         "fixed": -3.0
        },
        "next_day_change_pts": -16.6902,
+       "recommended_next_day_share_frac": 0.8009,
        "added": [],
        "dropped": [
         "BLR_HSR"
+       ],
+       "cost_drivers": [
+        {
+         "component": "secondary",
+         "delta_cr": 28.9577
+        },
+        {
+         "component": "primary",
+         "delta_cr": 6.2383
+        },
+        {
+         "component": "fixed",
+         "delta_cr": -3.0
+        }
+       ],
+       "zones": {
+        "moved_count": 33,
+        "moved_demand_frac": 0.2123,
+        "moved_to": {
+         "HYD_SMB": 14,
+         "MUM_BHW": 17,
+         "NCR_FRN": 1,
+         "PAT_BHT": 1
+        },
+        "losing_next_day_count": 25,
+        "losing_next_day_demand_frac": 0.1669,
+        "gaining_next_day_count": 0,
+        "gaining_next_day_demand_frac": 0.0
+       },
+       "added_sites": [],
+       "dropped_sites": [
+        {
+         "dc_id": "BLR_HSR",
+         "name": "Bengaluru - Hosur (Attibele-Bommasandra)"
+        }
        ]
       },
       "closed_site": {
@@ -209,7 +290,7 @@
        "next_day_share_during_frac": 0.634,
        "zones_losing_next_day_count": 25,
        "zones_losing_next_day": [
-        "BBMP",
+        "Bengaluru",
         "Chennai",
         "Coimbatore",
         "Madurai",
@@ -218,7 +299,7 @@
         "Salem",
         "Durgapur",
         "Kozhikode",
-        "Nanded Waghala",
+        "Nanded",
         "Nellore",
         "Gulbarga",
         "Jhansi",
@@ -331,6 +412,7 @@
         "fixed": 0.0
        },
        "next_day_change_pts": 0.0304,
+       "recommended_next_day_share_frac": 0.8009,
        "added": [
         "NAG_MHN",
         "PNJ_RJP"
@@ -338,6 +420,56 @@
        "dropped": [
         "IDR_PTH",
         "NCR_FRN"
+       ],
+       "cost_drivers": [
+        {
+         "component": "primary",
+         "delta_cr": 1.5328
+        },
+        {
+         "component": "secondary",
+         "delta_cr": 1.0914
+        },
+        {
+         "component": "space",
+         "delta_cr": -0.555
+        }
+       ],
+       "zones": {
+        "moved_count": 49,
+        "moved_demand_frac": 0.288,
+        "moved_to": {
+         "AMD_CHG": 3,
+         "KOL_DNK": 1,
+         "LKO_KNP": 4,
+         "MUM_BHW": 2,
+         "NAG_MHN": 10,
+         "PNJ_RJP": 29
+        },
+        "losing_next_day_count": 10,
+        "losing_next_day_demand_frac": 0.0521,
+        "gaining_next_day_count": 8,
+        "gaining_next_day_demand_frac": 0.0524
+       },
+       "added_sites": [
+        {
+         "dc_id": "NAG_MHN",
+         "name": "Nagpur - MIHAN / Wardha Road"
+        },
+        {
+         "dc_id": "PNJ_RJP",
+         "name": "Punjab - Rajpura"
+        }
+       ],
+       "dropped_sites": [
+        {
+         "dc_id": "IDR_PTH",
+         "name": "Indore - Pithampur"
+        },
+        {
+         "dc_id": "NCR_FRN",
+         "name": "Delhi NCR - Farrukhnagar"
+        }
        ]
       },
       "closed_site": {
@@ -433,9 +565,47 @@
         "fixed": -3.0
        },
        "next_day_change_pts": -16.0799,
+       "recommended_next_day_share_frac": 0.8009,
        "added": [],
        "dropped": [
         "NCR_FRN"
+       ],
+       "cost_drivers": [
+        {
+         "component": "secondary",
+         "delta_cr": 21.5203
+        },
+        {
+         "component": "primary",
+         "delta_cr": 6.8631
+        },
+        {
+         "component": "fixed",
+         "delta_cr": -3.0
+        }
+       ],
+       "zones": {
+        "moved_count": 42,
+        "moved_demand_frac": 0.2333,
+        "moved_to": {
+         "AMD_CHG": 2,
+         "BLR_HSR": 1,
+         "IDR_PTH": 1,
+         "LKO_KNP": 31,
+         "MUM_BHW": 6,
+         "PAT_BHT": 1
+        },
+        "losing_next_day_count": 29,
+        "losing_next_day_demand_frac": 0.1608,
+        "gaining_next_day_count": 0,
+        "gaining_next_day_demand_frac": 0.0
+       },
+       "added_sites": [],
+       "dropped_sites": [
+        {
+         "dc_id": "NCR_FRN",
+         "name": "Delhi NCR - Farrukhnagar"
+        }
        ]
       },
       "closed_site": {
@@ -451,7 +621,7 @@
        "next_day_share_during_frac": 0.6401,
        "zones_losing_next_day_count": 29,
        "zones_losing_next_day": [
-        "DMC",
+        "Delhi",
         "Jaipur",
         "Ghaziabad",
         "Ludhiana",
@@ -463,7 +633,7 @@
         "Noida",
         "Dehradun",
         "Durgapur",
-        "Nanded Waghala",
+        "Nanded",
         "Gulbarga",
         "Ajmer",
         "Loni",
@@ -578,11 +748,46 @@
         "fixed": 0.0
        },
        "next_day_change_pts": -0.0887,
+       "recommended_next_day_share_frac": 0.8009,
        "added": [
         "PUN_CHK"
        ],
        "dropped": [
         "MUM_BHW"
+       ],
+       "cost_drivers": [
+        {
+         "component": "primary",
+         "delta_cr": 1.3446
+        },
+        {
+         "component": "secondary",
+         "delta_cr": 0.8235
+        }
+       ],
+       "zones": {
+        "moved_count": 28,
+        "moved_demand_frac": 0.1386,
+        "moved_to": {
+         "AMD_CHG": 1,
+         "PUN_CHK": 27
+        },
+        "losing_next_day_count": 2,
+        "losing_next_day_demand_frac": 0.0066,
+        "gaining_next_day_count": 2,
+        "gaining_next_day_demand_frac": 0.0058
+       },
+       "added_sites": [
+        {
+         "dc_id": "PUN_CHK",
+         "name": "Pune - Chakan"
+        }
+       ],
+       "dropped_sites": [
+        {
+         "dc_id": "MUM_BHW",
+         "name": "Mumbai - Bhiwandi"
+        }
        ]
       },
       "closed_site": {
@@ -678,9 +883,47 @@
         "fixed": -3.0
        },
        "next_day_change_pts": -10.1592,
+       "recommended_next_day_share_frac": 0.8009,
        "added": [],
        "dropped": [
         "MUM_BHW"
+       ],
+       "cost_drivers": [
+        {
+         "component": "secondary",
+         "delta_cr": 12.2561
+        },
+        {
+         "component": "primary",
+         "delta_cr": 4.072
+        },
+        {
+         "component": "fixed",
+         "delta_cr": -3.0
+        }
+       ],
+       "zones": {
+        "moved_count": 28,
+        "moved_demand_frac": 0.1375,
+        "moved_to": {
+         "AMD_CHG": 13,
+         "BLR_HSR": 6,
+         "HYD_SMB": 1,
+         "IDR_PTH": 6,
+         "NCR_FRN": 1,
+         "PAT_BHT": 1
+        },
+        "losing_next_day_count": 19,
+        "losing_next_day_demand_frac": 0.1054,
+        "gaining_next_day_count": 1,
+        "gaining_next_day_demand_frac": 0.0039
+       },
+       "added_sites": [],
+       "dropped_sites": [
+        {
+         "dc_id": "MUM_BHW",
+         "name": "Mumbai - Bhiwandi"
+        }
        ]
       },
       "closed_site": {
@@ -696,7 +939,7 @@
        "next_day_share_during_frac": 0.6993,
        "zones_losing_next_day_count": 19,
        "zones_losing_next_day": [
-        "Greater Mumbai",
+        "Mumbai",
         "Pune",
         "Thane",
         "Pimpri Chinchwad",
@@ -705,12 +948,12 @@
         "Vasai-Virar City",
         "Navi Mumbai",
         "Mira-Bhayandar",
-        "Bhiwandi Nizampur",
+        "Bhiwandi",
         "Durgapur",
         "Kolhapur",
         "Ulhasnagar",
         "Jhansi",
-        "Sangli Miraj Kupwad",
+        "Sangli",
         "Kurnool",
         "Ahmadnagar",
         "Chandrapur",
@@ -748,7 +991,7 @@
     [
      "run_scenario",
      {
-      "scenario_id": "AG_diesel_40_b2f1e8",
+      "scenario_id": "AG_diesel_40_c3aad1",
       "question": "What if: diesel_40",
       "status": "Optimal Solution Found",
       "n_dcs": 9,
@@ -819,12 +1062,58 @@
         "fixed": 0.0
        },
        "next_day_change_pts": 0.0239,
+       "recommended_next_day_share_frac": 0.8009,
        "added": [
         "NAG_MHN"
        ],
        "dropped": [
         "IDR_PTH"
+       ],
+       "cost_drivers": [
+        {
+         "component": "primary",
+         "delta_cr": 19.9297
+        },
+        {
+         "component": "secondary",
+         "delta_cr": 14.7374
+        },
+        {
+         "component": "space",
+         "delta_cr": 0.2625
+        }
+       ],
+       "zones": {
+        "moved_count": 19,
+        "moved_demand_frac": 0.0953,
+        "moved_to": {
+         "AMD_CHG": 2,
+         "MUM_BHW": 3,
+         "NAG_MHN": 12,
+         "NCR_FRN": 1,
+         "PAT_BHT": 1
+        },
+        "losing_next_day_count": 7,
+        "losing_next_day_demand_frac": 0.031,
+        "gaining_next_day_count": 4,
+        "gaining_next_day_demand_frac": 0.0312
+       },
+       "added_sites": [
+        {
+         "dc_id": "NAG_MHN",
+         "name": "Nagpur - MIHAN / Wardha Road"
+        }
+       ],
+       "dropped_sites": [
+        {
+         "dc_id": "IDR_PTH",
+         "name": "Indore - Pithampur"
+        }
        ]
+      },
+      "diesel": {
+       "diesel_share_of_freight_cost_frac": 0.55,
+       "freight_multiplier": 1.22
       }
      }
     ]
@@ -848,7 +1137,7 @@
     [
      "run_scenario",
      {
-      "scenario_id": "AG_diesel_20_f9a1ac",
+      "scenario_id": "AG_diesel_20_000d57",
       "question": "What if: diesel_20",
       "status": "Optimal Solution Found",
       "n_dcs": 9,
@@ -919,8 +1208,34 @@
         "fixed": 0.0
        },
        "next_day_change_pts": 0.0,
+       "recommended_next_day_share_frac": 0.8009,
        "added": [],
-       "dropped": []
+       "dropped": [],
+       "cost_drivers": [
+        {
+         "component": "primary",
+         "delta_cr": 9.3518
+        },
+        {
+         "component": "secondary",
+         "delta_cr": 7.8592
+        }
+       ],
+       "zones": {
+        "moved_count": 0,
+        "moved_demand_frac": 0.0,
+        "moved_to": {},
+        "losing_next_day_count": 0,
+        "losing_next_day_demand_frac": 0.0,
+        "gaining_next_day_count": 0,
+        "gaining_next_day_demand_frac": 0.0
+       },
+       "added_sites": [],
+       "dropped_sites": []
+      },
+      "diesel": {
+       "diesel_share_of_freight_cost_frac": 0.55,
+       "freight_multiplier": 1.11
       }
      }
     ]
@@ -935,9 +1250,9 @@
      {
       "ids": [
        "S3_400km_80",
-       "S3_400km_85",
        "S3_400km_90",
-       "S3_400km_95"
+       "S3_400km_95",
+       "S3_400km_85"
       ]
      }
     ]
@@ -974,37 +1289,20 @@
          "total": 244.0772
         },
         "next_day_share_frac": 0.8009,
-        "delta_total_vs_recommended_cr": 0.0
-       },
-       {
-        "scenario_id": "S3_400km_85",
-        "question": "What does service cost?",
-        "status": "Optimal Solution Found",
-        "n_dcs": 11,
-        "open_dcs": [
-         "MUM_BHW",
-         "NCR_FRN",
-         "BLR_HSR",
-         "HYD_SMB",
-         "AMD_CHG",
-         "KOL_DNK",
-         "NAG_MHN",
-         "LKO_KNP",
-         "GAU_CHS",
-         "PNJ_RJP",
-         "PAT_BHT"
-        ],
-        "cost_cr_per_yr": {
-         "primary": 88.96,
-         "secondary": 60.644,
-         "space": 22.9224,
-         "handling": 6.6,
-         "inventory": 36.352,
-         "fixed": 33.0,
-         "total": 248.4784
-        },
-        "next_day_share_frac": 0.8512,
-        "delta_total_vs_recommended_cr": 4.4012
+        "delta_total_vs_recommended_cr": 0.0,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [],
+        "dropped_sites": [],
+        "cost_drivers": [],
+        "zones": {
+         "moved_count": 0,
+         "moved_demand_frac": 0.0,
+         "moved_to": {},
+         "losing_next_day_count": 0,
+         "losing_next_day_demand_frac": 0.0,
+         "gaining_next_day_count": 0,
+         "gaining_next_day_demand_frac": 0.0
+        }
        },
        {
         "scenario_id": "S3_400km_90",
@@ -1035,7 +1333,83 @@
          "total": 255.3869
         },
         "next_day_share_frac": 0.9004,
-        "delta_total_vs_recommended_cr": 11.3097
+        "delta_total_vs_recommended_cr": 11.3097,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "CHN_SPB",
+          "name": "Chennai - Sriperumbudur / Oragadam"
+         },
+         {
+          "dc_id": "COK_KLM",
+          "name": "Kochi - Kalamassery / Aluva"
+         },
+         {
+          "dc_id": "GAU_CHS",
+          "name": "Guwahati - Changsari (NH-27)"
+         },
+         {
+          "dc_id": "JAI_BGR",
+          "name": "Jaipur - Bagru / Ajmer Road"
+         },
+         {
+          "dc_id": "NAG_MHN",
+          "name": "Nagpur - MIHAN / Wardha Road"
+         },
+         {
+          "dc_id": "PNJ_RJP",
+          "name": "Punjab - Rajpura"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "BLR_HSR",
+          "name": "Bengaluru - Hosur (Attibele-Bommasandra)"
+         },
+         {
+          "dc_id": "IDR_PTH",
+          "name": "Indore - Pithampur"
+         },
+         {
+          "dc_id": "NCR_FRN",
+          "name": "Delhi NCR - Farrukhnagar"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "secondary",
+          "delta_cr": -10.4938
+         },
+         {
+          "component": "fixed",
+          "delta_cr": 9.0
+         },
+         {
+          "component": "primary",
+          "delta_cr": 5.3265
+         }
+        ],
+        "zones": {
+         "moved_count": 88,
+         "moved_demand_frac": 0.54,
+         "moved_to": {
+          "AMD_CHG": 2,
+          "CHN_SPB": 16,
+          "COK_KLM": 11,
+          "GAU_CHS": 7,
+          "HYD_SMB": 1,
+          "JAI_BGR": 11,
+          "KOL_DNK": 1,
+          "LKO_KNP": 2,
+          "MUM_BHW": 2,
+          "NAG_MHN": 12,
+          "PNJ_RJP": 23
+         },
+         "losing_next_day_count": 5,
+         "losing_next_day_demand_frac": 0.0231,
+         "gaining_next_day_count": 22,
+         "gaining_next_day_demand_frac": 0.1226
+        }
        },
        {
         "scenario_id": "S3_400km_95",
@@ -1068,7 +1442,155 @@
          "total": 264.1631
         },
         "next_day_share_frac": 0.9515,
-        "delta_total_vs_recommended_cr": 20.0859
+        "delta_total_vs_recommended_cr": 20.0859,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "BBS_KHD",
+          "name": "Bhubaneswar - Khurda"
+         },
+         {
+          "dc_id": "COK_KLM",
+          "name": "Kochi - Kalamassery / Aluva"
+         },
+         {
+          "dc_id": "GAU_CHS",
+          "name": "Guwahati - Changsari (NH-27)"
+         },
+         {
+          "dc_id": "JAI_BGR",
+          "name": "Jaipur - Bagru / Ajmer Road"
+         },
+         {
+          "dc_id": "NAG_MHN",
+          "name": "Nagpur - MIHAN / Wardha Road"
+         },
+         {
+          "dc_id": "PNJ_RJP",
+          "name": "Punjab - Rajpura"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "NCR_FRN",
+          "name": "Delhi NCR - Farrukhnagar"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "secondary",
+          "delta_cr": -17.896
+         },
+         {
+          "component": "fixed",
+          "delta_cr": 15.0
+         },
+         {
+          "component": "primary",
+          "delta_cr": 10.7958
+         }
+        ],
+        "zones": {
+         "moved_count": 63,
+         "moved_demand_frac": 0.3564,
+         "moved_to": {
+          "BBS_KHD": 4,
+          "COK_KLM": 6,
+          "GAU_CHS": 7,
+          "HYD_SMB": 2,
+          "JAI_BGR": 11,
+          "KOL_DNK": 1,
+          "LKO_KNP": 2,
+          "MUM_BHW": 1,
+          "NAG_MHN": 6,
+          "PNJ_RJP": 23
+         },
+         "losing_next_day_count": 0,
+         "losing_next_day_demand_frac": 0.0,
+         "gaining_next_day_count": 28,
+         "gaining_next_day_demand_frac": 0.1505
+        }
+       },
+       {
+        "scenario_id": "S3_400km_85",
+        "question": "What does service cost?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 11,
+        "open_dcs": [
+         "MUM_BHW",
+         "NCR_FRN",
+         "BLR_HSR",
+         "HYD_SMB",
+         "AMD_CHG",
+         "KOL_DNK",
+         "NAG_MHN",
+         "LKO_KNP",
+         "GAU_CHS",
+         "PNJ_RJP",
+         "PAT_BHT"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 88.96,
+         "secondary": 60.644,
+         "space": 22.9224,
+         "handling": 6.6,
+         "inventory": 36.352,
+         "fixed": 33.0,
+         "total": 248.4784
+        },
+        "next_day_share_frac": 0.8512,
+        "delta_total_vs_recommended_cr": 4.4012,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "GAU_CHS",
+          "name": "Guwahati - Changsari (NH-27)"
+         },
+         {
+          "dc_id": "NAG_MHN",
+          "name": "Nagpur - MIHAN / Wardha Road"
+         },
+         {
+          "dc_id": "PNJ_RJP",
+          "name": "Punjab - Rajpura"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "IDR_PTH",
+          "name": "Indore - Pithampur"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "secondary",
+          "delta_cr": -10.8032
+         },
+         {
+          "component": "fixed",
+          "delta_cr": 6.0
+         },
+         {
+          "component": "primary",
+          "delta_cr": 3.9437
+         }
+        ],
+        "zones": {
+         "moved_count": 36,
+         "moved_demand_frac": 0.1809,
+         "moved_to": {
+          "AMD_CHG": 2,
+          "GAU_CHS": 7,
+          "MUM_BHW": 3,
+          "NAG_MHN": 11,
+          "NCR_FRN": 1,
+          "PNJ_RJP": 12
+         },
+         "losing_next_day_count": 6,
+         "losing_next_day_demand_frac": 0.026,
+         "gaining_next_day_count": 14,
+         "gaining_next_day_demand_frac": 0.0762
+        }
        }
       ]
      }
@@ -1122,7 +1644,20 @@
          "total": 244.0772
         },
         "next_day_share_frac": 0.8009,
-        "delta_total_vs_recommended_cr": 0.0
+        "delta_total_vs_recommended_cr": 0.0,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [],
+        "dropped_sites": [],
+        "cost_drivers": [],
+        "zones": {
+         "moved_count": 0,
+         "moved_demand_frac": 0.0,
+         "moved_to": {},
+         "losing_next_day_count": 0,
+         "losing_next_day_demand_frac": 0.0,
+         "gaining_next_day_count": 0,
+         "gaining_next_day_demand_frac": 0.0
+        }
        },
        {
         "scenario_id": "S3_400km_85",
@@ -1152,7 +1687,58 @@
          "total": 248.4784
         },
         "next_day_share_frac": 0.8512,
-        "delta_total_vs_recommended_cr": 4.4012
+        "delta_total_vs_recommended_cr": 4.4012,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "GAU_CHS",
+          "name": "Guwahati - Changsari (NH-27)"
+         },
+         {
+          "dc_id": "NAG_MHN",
+          "name": "Nagpur - MIHAN / Wardha Road"
+         },
+         {
+          "dc_id": "PNJ_RJP",
+          "name": "Punjab - Rajpura"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "IDR_PTH",
+          "name": "Indore - Pithampur"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "secondary",
+          "delta_cr": -10.8032
+         },
+         {
+          "component": "fixed",
+          "delta_cr": 6.0
+         },
+         {
+          "component": "primary",
+          "delta_cr": 3.9437
+         }
+        ],
+        "zones": {
+         "moved_count": 36,
+         "moved_demand_frac": 0.1809,
+         "moved_to": {
+          "AMD_CHG": 2,
+          "GAU_CHS": 7,
+          "MUM_BHW": 3,
+          "NAG_MHN": 11,
+          "NCR_FRN": 1,
+          "PNJ_RJP": 12
+         },
+         "losing_next_day_count": 6,
+         "losing_next_day_demand_frac": 0.026,
+         "gaining_next_day_count": 14,
+         "gaining_next_day_demand_frac": 0.0762
+        }
        },
        {
         "scenario_id": "S3_400km_80_staged",
@@ -1180,7 +1766,49 @@
          "total": 244.4093
         },
         "next_day_share_frac": 0.8004,
-        "delta_total_vs_recommended_cr": 0.332
+        "delta_total_vs_recommended_cr": 0.332,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "NAG_MHN",
+          "name": "Nagpur - MIHAN / Wardha Road"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "IDR_PTH",
+          "name": "Indore - Pithampur"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "primary",
+          "delta_cr": 0.9267
+         },
+         {
+          "component": "secondary",
+          "delta_cr": -0.8078
+         },
+         {
+          "component": "space",
+          "delta_cr": 0.2719
+         }
+        ],
+        "zones": {
+         "moved_count": 19,
+         "moved_demand_frac": 0.096,
+         "moved_to": {
+          "AMD_CHG": 2,
+          "MUM_BHW": 3,
+          "NAG_MHN": 12,
+          "NCR_FRN": 1,
+          "PAT_BHT": 1
+         },
+         "losing_next_day_count": 7,
+         "losing_next_day_demand_frac": 0.0317,
+         "gaining_next_day_count": 4,
+         "gaining_next_day_demand_frac": 0.0312
+        }
        }
       ]
      }
@@ -1234,7 +1862,20 @@
          "total": 244.0772
         },
         "next_day_share_frac": 0.8009,
-        "delta_total_vs_recommended_cr": 0.0
+        "delta_total_vs_recommended_cr": 0.0,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [],
+        "dropped_sites": [],
+        "cost_drivers": [],
+        "zones": {
+         "moved_count": 0,
+         "moved_demand_frac": 0.0,
+         "moved_to": {},
+         "losing_next_day_count": 0,
+         "losing_next_day_demand_frac": 0.0,
+         "gaining_next_day_count": 0,
+         "gaining_next_day_demand_frac": 0.0
+        }
        },
        {
         "scenario_id": "S4_uniform",
@@ -1262,7 +1903,49 @@
          "total": 307.5513
         },
         "next_day_share_frac": 0.8015,
-        "delta_total_vs_recommended_cr": 63.4741
+        "delta_total_vs_recommended_cr": 63.4741,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "NAG_MHN",
+          "name": "Nagpur - MIHAN / Wardha Road"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "IDR_PTH",
+          "name": "Indore - Pithampur"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "primary",
+          "delta_cr": 26.8473
+         },
+         {
+          "component": "secondary",
+          "delta_cr": 20.374
+         },
+         {
+          "component": "inventory",
+          "delta_cr": 10.08
+         }
+        ],
+        "zones": {
+         "moved_count": 18,
+         "moved_demand_frac": 0.093,
+         "moved_to": {
+          "AMD_CHG": 2,
+          "MUM_BHW": 3,
+          "NAG_MHN": 11,
+          "NCR_FRN": 1,
+          "PAT_BHT": 1
+         },
+         "losing_next_day_count": 7,
+         "losing_next_day_demand_frac": 0.0306,
+         "gaining_next_day_count": 4,
+         "gaining_next_day_demand_frac": 0.0312
+        }
        },
        {
         "scenario_id": "S4_regional_skew",
@@ -1290,7 +1973,49 @@
          "total": 314.2048
         },
         "next_day_share_frac": 0.8003,
-        "delta_total_vs_recommended_cr": 70.1276
+        "delta_total_vs_recommended_cr": 70.1276,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "NAG_MHN",
+          "name": "Nagpur - MIHAN / Wardha Road"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "IDR_PTH",
+          "name": "Indore - Pithampur"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "primary",
+          "delta_cr": 31.2932
+         },
+         {
+          "component": "secondary",
+          "delta_cr": 22.1796
+         },
+         {
+          "component": "inventory",
+          "delta_cr": 10.4544
+         }
+        ],
+        "zones": {
+         "moved_count": 20,
+         "moved_demand_frac": 0.1047,
+         "moved_to": {
+          "AMD_CHG": 3,
+          "HYD_SMB": 1,
+          "MUM_BHW": 2,
+          "NAG_MHN": 13,
+          "PAT_BHT": 1
+         },
+         "losing_next_day_count": 6,
+         "losing_next_day_demand_frac": 0.0301,
+         "gaining_next_day_count": 5,
+         "gaining_next_day_demand_frac": 0.0331
+        }
        }
       ]
      }
@@ -1306,8 +2031,8 @@
      {
       "ids": [
        "S3_400km_80",
-       "S7_rent_minus_20",
-       "S7_rent_plus_20"
+       "S7_rent_plus_20",
+       "S7_rent_minus_20"
       ]
      }
     ]
@@ -1344,35 +2069,20 @@
          "total": 244.0772
         },
         "next_day_share_frac": 0.8009,
-        "delta_total_vs_recommended_cr": 0.0
-       },
-       {
-        "scenario_id": "S7_rent_minus_20",
-        "question": "Real-estate sensitivity?",
-        "status": "Optimal Solution Found",
-        "n_dcs": 9,
-        "open_dcs": [
-         "MUM_BHW",
-         "NCR_FRN",
-         "BLR_HSR",
-         "HYD_SMB",
-         "AMD_CHG",
-         "KOL_DNK",
-         "LKO_KNP",
-         "IDR_PTH",
-         "PAT_BHT"
-        ],
-        "cost_cr_per_yr": {
-         "primary": 85.0163,
-         "secondary": 71.4472,
-         "space": 17.3769,
-         "handling": 6.6,
-         "inventory": 33.8615,
-         "fixed": 27.0,
-         "total": 241.3019
-        },
-        "next_day_share_frac": 0.8009,
-        "delta_total_vs_recommended_cr": -2.7753
+        "delta_total_vs_recommended_cr": 0.0,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [],
+        "dropped_sites": [],
+        "cost_drivers": [],
+        "zones": {
+         "moved_count": 0,
+         "moved_demand_frac": 0.0,
+         "moved_to": {},
+         "losing_next_day_count": 0,
+         "losing_next_day_demand_frac": 0.0,
+         "gaining_next_day_count": 0,
+         "gaining_next_day_demand_frac": 0.0
+        }
        },
        {
         "scenario_id": "S7_rent_plus_20",
@@ -1400,7 +2110,82 @@
          "total": 246.9305
         },
         "next_day_share_frac": 0.8025,
-        "delta_total_vs_recommended_cr": 2.8533
+        "delta_total_vs_recommended_cr": 2.8533,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [],
+        "dropped_sites": [],
+        "cost_drivers": [
+         {
+          "component": "space",
+          "delta_cr": 2.7646
+         },
+         {
+          "component": "primary",
+          "delta_cr": 0.1409
+         },
+         {
+          "component": "secondary",
+          "delta_cr": -0.0705
+         }
+        ],
+        "zones": {
+         "moved_count": 2,
+         "moved_demand_frac": 0.0049,
+         "moved_to": {
+          "KOL_DNK": 1,
+          "MUM_BHW": 1
+         },
+         "losing_next_day_count": 1,
+         "losing_next_day_demand_frac": 0.0017,
+         "gaining_next_day_count": 1,
+         "gaining_next_day_demand_frac": 0.0032
+        }
+       },
+       {
+        "scenario_id": "S7_rent_minus_20",
+        "question": "Real-estate sensitivity?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 9,
+        "open_dcs": [
+         "MUM_BHW",
+         "NCR_FRN",
+         "BLR_HSR",
+         "HYD_SMB",
+         "AMD_CHG",
+         "KOL_DNK",
+         "LKO_KNP",
+         "IDR_PTH",
+         "PAT_BHT"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 85.0163,
+         "secondary": 71.4472,
+         "space": 17.3769,
+         "handling": 6.6,
+         "inventory": 33.8615,
+         "fixed": 27.0,
+         "total": 241.3019
+        },
+        "next_day_share_frac": 0.8009,
+        "delta_total_vs_recommended_cr": -2.7753,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [],
+        "dropped_sites": [],
+        "cost_drivers": [
+         {
+          "component": "space",
+          "delta_cr": -2.7753
+         }
+        ],
+        "zones": {
+         "moved_count": 0,
+         "moved_demand_frac": 0.0,
+         "moved_to": {},
+         "losing_next_day_count": 0,
+         "losing_next_day_demand_frac": 0.0,
+         "gaining_next_day_count": 0,
+         "gaining_next_day_demand_frac": 0.0
+        }
        }
       ]
      }
@@ -1453,7 +2238,20 @@
          "total": 244.0772
         },
         "next_day_share_frac": 0.8009,
-        "delta_total_vs_recommended_cr": 0.0
+        "delta_total_vs_recommended_cr": 0.0,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [],
+        "dropped_sites": [],
+        "cost_drivers": [],
+        "zones": {
+         "moved_count": 0,
+         "moved_demand_frac": 0.0,
+         "moved_to": {},
+         "losing_next_day_count": 0,
+         "losing_next_day_demand_frac": 0.0,
+         "gaining_next_day_count": 0,
+         "gaining_next_day_demand_frac": 0.0
+        }
        },
        {
         "scenario_id": "S8_no_puducherry",
@@ -1481,7 +2279,49 @@
          "total": 272.5243
         },
         "next_day_share_frac": 0.8001,
-        "delta_total_vs_recommended_cr": 28.4471
+        "delta_total_vs_recommended_cr": 28.4471,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "NAG_MHN",
+          "name": "Nagpur - MIHAN / Wardha Road"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "IDR_PTH",
+          "name": "Indore - Pithampur"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "primary",
+          "delta_cr": 27.7989
+         },
+         {
+          "component": "secondary",
+          "delta_cr": 0.5071
+         },
+         {
+          "component": "space",
+          "delta_cr": 0.1145
+         }
+        ],
+        "zones": {
+         "moved_count": 22,
+         "moved_demand_frac": 0.111,
+         "moved_to": {
+          "AMD_CHG": 2,
+          "HYD_SMB": 2,
+          "MUM_BHW": 7,
+          "NAG_MHN": 10,
+          "NCR_FRN": 1
+         },
+         "losing_next_day_count": 8,
+         "losing_next_day_demand_frac": 0.032,
+         "gaining_next_day_count": 4,
+         "gaining_next_day_demand_frac": 0.0312
+        }
        }
       ]
      }
@@ -1534,7 +2374,20 @@
          "total": 244.0772
         },
         "next_day_share_frac": 0.8009,
-        "delta_total_vs_recommended_cr": 0.0
+        "delta_total_vs_recommended_cr": 0.0,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [],
+        "dropped_sites": [],
+        "cost_drivers": [],
+        "zones": {
+         "moved_count": 0,
+         "moved_demand_frac": 0.0,
+         "moved_to": {},
+         "losing_next_day_count": 0,
+         "losing_next_day_demand_frac": 0.0,
+         "gaining_next_day_count": 0,
+         "gaining_next_day_demand_frac": 0.0
+        }
        },
        {
         "scenario_id": "S8_add_east",
@@ -1562,7 +2415,59 @@
          "total": 210.9351
         },
         "next_day_share_frac": 0.8004,
-        "delta_total_vs_recommended_cr": -33.1421
+        "delta_total_vs_recommended_cr": -33.1421,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "NAG_MHN",
+          "name": "Nagpur - MIHAN / Wardha Road"
+         },
+         {
+          "dc_id": "PNJ_RJP",
+          "name": "Punjab - Rajpura"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "IDR_PTH",
+          "name": "Indore - Pithampur"
+         },
+         {
+          "dc_id": "LKO_KNP",
+          "name": "Lucknow - Kanpur Road"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "primary",
+          "delta_cr": -32.6645
+         },
+         {
+          "component": "secondary",
+          "delta_cr": -0.6938
+         },
+         {
+          "component": "space",
+          "delta_cr": 0.1553
+         }
+        ],
+        "zones": {
+         "moved_count": 54,
+         "moved_demand_frac": 0.3161,
+         "moved_to": {
+          "AMD_CHG": 2,
+          "KOL_DNK": 21,
+          "MUM_BHW": 3,
+          "NAG_MHN": 8,
+          "NCR_FRN": 5,
+          "PAT_BHT": 3,
+          "PNJ_RJP": 12
+         },
+         "losing_next_day_count": 8,
+         "losing_next_day_demand_frac": 0.053,
+         "gaining_next_day_count": 8,
+         "gaining_next_day_demand_frac": 0.0524
+        }
        }
       ]
      }
@@ -1793,7 +2698,59 @@
          "total": 238.0913
         },
         "next_day_share_frac": 0.6822,
-        "delta_total_vs_recommended_cr": -5.9859
+        "delta_total_vs_recommended_cr": -5.9859,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "CHN_SPB",
+          "name": "Chennai - Sriperumbudur / Oragadam"
+         },
+         {
+          "dc_id": "PNJ_RJP",
+          "name": "Punjab - Rajpura"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "HYD_SMB",
+          "name": "Hyderabad - Shamshabad"
+         },
+         {
+          "dc_id": "KOL_DNK",
+          "name": "Kolkata - Dankuni"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "primary",
+          "delta_cr": -18.0774
+         },
+         {
+          "component": "secondary",
+          "delta_cr": 12.0159
+         },
+         {
+          "component": "inventory",
+          "delta_cr": 0.1845
+         }
+        ],
+        "zones": {
+         "moved_count": 51,
+         "moved_demand_frac": 0.2892,
+         "moved_to": {
+          "CHN_SPB": 17,
+          "IDR_PTH": 1,
+          "LKO_KNP": 1,
+          "MUM_BHW": 7,
+          "NCR_FRN": 1,
+          "PAT_BHT": 12,
+          "PNJ_RJP": 12
+         },
+         "losing_next_day_count": 26,
+         "losing_next_day_demand_frac": 0.1367,
+         "gaining_next_day_count": 3,
+         "gaining_next_day_demand_frac": 0.018
+        }
        },
        {
         "scenario_id": "COG_k09",
@@ -1821,7 +2778,60 @@
          "total": 253.1683
         },
         "next_day_share_frac": 0.8182,
-        "delta_total_vs_recommended_cr": 9.0911
+        "delta_total_vs_recommended_cr": 9.0911,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "GAU_CHS",
+          "name": "Guwahati - Changsari (NH-27)"
+         },
+         {
+          "dc_id": "NAG_MHN",
+          "name": "Nagpur - MIHAN / Wardha Road"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "IDR_PTH",
+          "name": "Indore - Pithampur"
+         },
+         {
+          "dc_id": "LKO_KNP",
+          "name": "Lucknow - Kanpur Road"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "primary",
+          "delta_cr": 15.255
+         },
+         {
+          "component": "secondary",
+          "delta_cr": -6.0003
+         },
+         {
+          "component": "inventory",
+          "delta_cr": -0.1198
+         }
+        ],
+        "zones": {
+         "moved_count": 42,
+         "moved_demand_frac": 0.2427,
+         "moved_to": {
+          "AMD_CHG": 3,
+          "GAU_CHS": 8,
+          "HYD_SMB": 3,
+          "KOL_DNK": 9,
+          "MUM_BHW": 1,
+          "NAG_MHN": 10,
+          "NCR_FRN": 4,
+          "PAT_BHT": 4
+         },
+         "losing_next_day_count": 7,
+         "losing_next_day_demand_frac": 0.0499,
+         "gaining_next_day_count": 14,
+         "gaining_next_day_demand_frac": 0.0672
+        }
        }
       ]
      }
@@ -1873,7 +2883,68 @@
          "total": 231.151
         },
         "next_day_share_frac": 0.4941,
-        "delta_total_vs_recommended_cr": -12.9262
+        "delta_total_vs_recommended_cr": -12.9262,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "CHN_SPB",
+          "name": "Chennai - Sriperumbudur / Oragadam"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "AMD_CHG",
+          "name": "Ahmedabad - Changodar"
+         },
+         {
+          "dc_id": "BLR_HSR",
+          "name": "Bengaluru - Hosur (Attibele-Bommasandra)"
+         },
+         {
+          "dc_id": "HYD_SMB",
+          "name": "Hyderabad - Shamshabad"
+         },
+         {
+          "dc_id": "IDR_PTH",
+          "name": "Indore - Pithampur"
+         },
+         {
+          "dc_id": "KOL_DNK",
+          "name": "Kolkata - Dankuni"
+         },
+         {
+          "dc_id": "LKO_KNP",
+          "name": "Lucknow - Kanpur Road"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "secondary",
+          "delta_cr": 42.4432
+         },
+         {
+          "component": "primary",
+          "delta_cr": -27.3395
+         },
+         {
+          "component": "fixed",
+          "delta_cr": -15.0
+         }
+        ],
+        "zones": {
+         "moved_count": 83,
+         "moved_demand_frac": 0.5539,
+         "moved_to": {
+          "CHN_SPB": 35,
+          "MUM_BHW": 25,
+          "NCR_FRN": 8,
+          "PAT_BHT": 15
+         },
+         "losing_next_day_count": 49,
+         "losing_next_day_demand_frac": 0.3068,
+         "gaining_next_day_count": 0,
+         "gaining_next_day_demand_frac": 0.0
+        }
        },
        {
         "scenario_id": "S2_k06",
@@ -1898,7 +2969,62 @@
          "total": 233.0097
         },
         "next_day_share_frac": 0.5692,
-        "delta_total_vs_recommended_cr": -11.0675
+        "delta_total_vs_recommended_cr": -11.0675,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "CHN_SPB",
+          "name": "Chennai - Sriperumbudur / Oragadam"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "AMD_CHG",
+          "name": "Ahmedabad - Changodar"
+         },
+         {
+          "dc_id": "BLR_HSR",
+          "name": "Bengaluru - Hosur (Attibele-Bommasandra)"
+         },
+         {
+          "dc_id": "HYD_SMB",
+          "name": "Hyderabad - Shamshabad"
+         },
+         {
+          "dc_id": "KOL_DNK",
+          "name": "Kolkata - Dankuni"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "secondary",
+          "delta_cr": 29.3922
+         },
+         {
+          "component": "primary",
+          "delta_cr": -23.6103
+         },
+         {
+          "component": "fixed",
+          "delta_cr": -9.0
+         }
+        ],
+        "zones": {
+         "moved_count": 66,
+         "moved_demand_frac": 0.4181,
+         "moved_to": {
+          "CHN_SPB": 35,
+          "IDR_PTH": 2,
+          "LKO_KNP": 1,
+          "MUM_BHW": 13,
+          "NCR_FRN": 3,
+          "PAT_BHT": 12
+         },
+         "losing_next_day_count": 39,
+         "losing_next_day_demand_frac": 0.2318,
+         "gaining_next_day_count": 0,
+         "gaining_next_day_demand_frac": 0.0
+        }
        },
        {
         "scenario_id": "S2_k08",
@@ -1925,7 +3051,63 @@
          "total": 235.7397
         },
         "next_day_share_frac": 0.6401,
-        "delta_total_vs_recommended_cr": -8.3375
+        "delta_total_vs_recommended_cr": -8.3375,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "CHN_SPB",
+          "name": "Chennai - Sriperumbudur / Oragadam"
+         },
+         {
+          "dc_id": "PNJ_RJP",
+          "name": "Punjab - Rajpura"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "AMD_CHG",
+          "name": "Ahmedabad - Changodar"
+         },
+         {
+          "dc_id": "HYD_SMB",
+          "name": "Hyderabad - Shamshabad"
+         },
+         {
+          "dc_id": "KOL_DNK",
+          "name": "Kolkata - Dankuni"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "primary",
+          "delta_cr": -21.0654
+         },
+         {
+          "component": "secondary",
+          "delta_cr": 18.3934
+         },
+         {
+          "component": "fixed",
+          "delta_cr": -3.0
+         }
+        ],
+        "zones": {
+         "moved_count": 60,
+         "moved_demand_frac": 0.3568,
+         "moved_to": {
+          "CHN_SPB": 18,
+          "IDR_PTH": 3,
+          "LKO_KNP": 1,
+          "MUM_BHW": 12,
+          "NCR_FRN": 2,
+          "PAT_BHT": 12,
+          "PNJ_RJP": 12
+         },
+         "losing_next_day_count": 30,
+         "losing_next_day_demand_frac": 0.1788,
+         "gaining_next_day_count": 3,
+         "gaining_next_day_demand_frac": 0.018
+        }
        },
        {
         "scenario_id": "S2_k09",
@@ -1953,7 +3135,59 @@
          "total": 238.0913
         },
         "next_day_share_frac": 0.6822,
-        "delta_total_vs_recommended_cr": -5.9859
+        "delta_total_vs_recommended_cr": -5.9859,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "CHN_SPB",
+          "name": "Chennai - Sriperumbudur / Oragadam"
+         },
+         {
+          "dc_id": "PNJ_RJP",
+          "name": "Punjab - Rajpura"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "HYD_SMB",
+          "name": "Hyderabad - Shamshabad"
+         },
+         {
+          "dc_id": "KOL_DNK",
+          "name": "Kolkata - Dankuni"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "primary",
+          "delta_cr": -18.0774
+         },
+         {
+          "component": "secondary",
+          "delta_cr": 12.0159
+         },
+         {
+          "component": "inventory",
+          "delta_cr": 0.1845
+         }
+        ],
+        "zones": {
+         "moved_count": 51,
+         "moved_demand_frac": 0.2892,
+         "moved_to": {
+          "CHN_SPB": 17,
+          "IDR_PTH": 1,
+          "LKO_KNP": 1,
+          "MUM_BHW": 7,
+          "NCR_FRN": 1,
+          "PAT_BHT": 12,
+          "PNJ_RJP": 12
+         },
+         "losing_next_day_count": 26,
+         "losing_next_day_demand_frac": 0.1367,
+         "gaining_next_day_count": 3,
+         "gaining_next_day_demand_frac": 0.018
+        }
        },
        {
         "scenario_id": "S2_k10",
@@ -1982,7 +3216,64 @@
          "total": 240.8203
         },
         "next_day_share_frac": 0.7093,
-        "delta_total_vs_recommended_cr": -3.2569
+        "delta_total_vs_recommended_cr": -3.2569,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "CHN_SPB",
+          "name": "Chennai - Sriperumbudur / Oragadam"
+         },
+         {
+          "dc_id": "GAU_CHS",
+          "name": "Guwahati - Changsari (NH-27)"
+         },
+         {
+          "dc_id": "PNJ_RJP",
+          "name": "Punjab - Rajpura"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "HYD_SMB",
+          "name": "Hyderabad - Shamshabad"
+         },
+         {
+          "dc_id": "KOL_DNK",
+          "name": "Kolkata - Dankuni"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "primary",
+          "delta_cr": -14.8745
+         },
+         {
+          "component": "secondary",
+          "delta_cr": 5.8685
+         },
+         {
+          "component": "fixed",
+          "delta_cr": 3.0
+         }
+        ],
+        "zones": {
+         "moved_count": 58,
+         "moved_demand_frac": 0.3163,
+         "moved_to": {
+          "CHN_SPB": 17,
+          "GAU_CHS": 7,
+          "IDR_PTH": 1,
+          "LKO_KNP": 1,
+          "MUM_BHW": 7,
+          "NCR_FRN": 1,
+          "PAT_BHT": 12,
+          "PNJ_RJP": 12
+         },
+         "losing_next_day_count": 26,
+         "losing_next_day_demand_frac": 0.1367,
+         "gaining_next_day_count": 10,
+         "gaining_next_day_demand_frac": 0.045
+        }
        },
        {
         "scenario_id": "S2_k12",
@@ -2013,7 +3304,54 @@
          "total": 247.1851
         },
         "next_day_share_frac": 0.8035,
-        "delta_total_vs_recommended_cr": 3.1079
+        "delta_total_vs_recommended_cr": 3.1079,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "CHN_SPB",
+          "name": "Chennai - Sriperumbudur / Oragadam"
+         },
+         {
+          "dc_id": "GAU_CHS",
+          "name": "Guwahati - Changsari (NH-27)"
+         },
+         {
+          "dc_id": "PNJ_RJP",
+          "name": "Punjab - Rajpura"
+         }
+        ],
+        "dropped_sites": [],
+        "cost_drivers": [
+         {
+          "component": "fixed",
+          "delta_cr": 9.0
+         },
+         {
+          "component": "secondary",
+          "delta_cr": -8.4447
+         },
+         {
+          "component": "primary",
+          "delta_cr": -5.5867
+         }
+        ],
+        "zones": {
+         "moved_count": 43,
+         "moved_demand_frac": 0.2221,
+         "moved_to": {
+          "CHN_SPB": 15,
+          "GAU_CHS": 7,
+          "LKO_KNP": 1,
+          "MUM_BHW": 6,
+          "NCR_FRN": 1,
+          "PAT_BHT": 1,
+          "PNJ_RJP": 12
+         },
+         "losing_next_day_count": 11,
+         "losing_next_day_demand_frac": 0.0425,
+         "gaining_next_day_count": 10,
+         "gaining_next_day_demand_frac": 0.045
+        }
        }
       ]
      }
@@ -2061,7 +3399,68 @@
          "total": 231.151
         },
         "next_day_share_frac": 0.4941,
-        "delta_total_vs_recommended_cr": -12.9262
+        "delta_total_vs_recommended_cr": -12.9262,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "CHN_SPB",
+          "name": "Chennai - Sriperumbudur / Oragadam"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "AMD_CHG",
+          "name": "Ahmedabad - Changodar"
+         },
+         {
+          "dc_id": "BLR_HSR",
+          "name": "Bengaluru - Hosur (Attibele-Bommasandra)"
+         },
+         {
+          "dc_id": "HYD_SMB",
+          "name": "Hyderabad - Shamshabad"
+         },
+         {
+          "dc_id": "IDR_PTH",
+          "name": "Indore - Pithampur"
+         },
+         {
+          "dc_id": "KOL_DNK",
+          "name": "Kolkata - Dankuni"
+         },
+         {
+          "dc_id": "LKO_KNP",
+          "name": "Lucknow - Kanpur Road"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "secondary",
+          "delta_cr": 42.4432
+         },
+         {
+          "component": "primary",
+          "delta_cr": -27.3395
+         },
+         {
+          "component": "fixed",
+          "delta_cr": -15.0
+         }
+        ],
+        "zones": {
+         "moved_count": 83,
+         "moved_demand_frac": 0.5539,
+         "moved_to": {
+          "CHN_SPB": 35,
+          "MUM_BHW": 25,
+          "NCR_FRN": 8,
+          "PAT_BHT": 15
+         },
+         "losing_next_day_count": 49,
+         "losing_next_day_demand_frac": 0.3068,
+         "gaining_next_day_count": 0,
+         "gaining_next_day_demand_frac": 0.0
+        }
        },
        {
         "scenario_id": "S3_400km_80",
@@ -2089,7 +3488,20 @@
          "total": 244.0772
         },
         "next_day_share_frac": 0.8009,
-        "delta_total_vs_recommended_cr": 0.0
+        "delta_total_vs_recommended_cr": 0.0,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [],
+        "dropped_sites": [],
+        "cost_drivers": [],
+        "zones": {
+         "moved_count": 0,
+         "moved_demand_frac": 0.0,
+         "moved_to": {},
+         "losing_next_day_count": 0,
+         "losing_next_day_demand_frac": 0.0,
+         "gaining_next_day_count": 0,
+         "gaining_next_day_demand_frac": 0.0
+        }
        }
       ]
      }
@@ -2148,7 +3560,123 @@
          "total": 272.6265
         },
         "next_day_share_frac": 0.8136,
-        "delta_total_vs_recommended_cr": 28.5493
+        "delta_total_vs_recommended_cr": 28.5493,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "AS_AMD",
+          "name": "Ahmedabad"
+         },
+         {
+          "dc_id": "AS_BBS",
+          "name": "Bhubaneswar"
+         },
+         {
+          "dc_id": "AS_BLR",
+          "name": "Bengaluru"
+         },
+         {
+          "dc_id": "AS_CHN",
+          "name": "Chennai"
+         },
+         {
+          "dc_id": "AS_COK",
+          "name": "Kochi"
+         },
+         {
+          "dc_id": "AS_DEL",
+          "name": "Kundli"
+         },
+         {
+          "dc_id": "AS_GAU",
+          "name": "Guwahati"
+         },
+         {
+          "dc_id": "AS_HYD",
+          "name": "Hyderabad"
+         },
+         {
+          "dc_id": "AS_IDR",
+          "name": "Indore"
+         },
+         {
+          "dc_id": "AS_JAI",
+          "name": "Jaipur"
+         },
+         {
+          "dc_id": "AS_KOL",
+          "name": "Dankuni"
+         },
+         {
+          "dc_id": "AS_LDH",
+          "name": "Ludhiana"
+         },
+         {
+          "dc_id": "AS_LKO",
+          "name": "Lucknow"
+         },
+         {
+          "dc_id": "AS_MUM",
+          "name": "Bhiwandi"
+         },
+         {
+          "dc_id": "AS_PAT",
+          "name": "Patna"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "AMD_CHG",
+          "name": "Ahmedabad - Changodar"
+         },
+         {
+          "dc_id": "BLR_HSR",
+          "name": "Bengaluru - Hosur (Attibele-Bommasandra)"
+         },
+         {
+          "dc_id": "HYD_SMB",
+          "name": "Hyderabad - Shamshabad"
+         },
+         {
+          "dc_id": "IDR_PTH",
+          "name": "Indore - Pithampur"
+         },
+         {
+          "dc_id": "KOL_DNK",
+          "name": "Kolkata - Dankuni"
+         },
+         {
+          "dc_id": "LKO_KNP",
+          "name": "Lucknow - Kanpur Road"
+         },
+         {
+          "dc_id": "MUM_BHW",
+          "name": "Mumbai - Bhiwandi"
+         },
+         {
+          "dc_id": "NCR_FRN",
+          "name": "Delhi NCR - Farrukhnagar"
+         },
+         {
+          "dc_id": "PAT_BHT",
+          "name": "Patna - Bihta"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "fixed",
+          "delta_cr": 18.0
+         },
+         {
+          "component": "secondary",
+          "delta_cr": -12.8163
+         },
+         {
+          "component": "primary",
+          "delta_cr": 11.5064
+         }
+        ],
+        "zones": null
        },
        {
         "scenario_id": "S3_400km_80",
@@ -2176,7 +3704,20 @@
          "total": 244.0772
         },
         "next_day_share_frac": 0.8009,
-        "delta_total_vs_recommended_cr": 0.0
+        "delta_total_vs_recommended_cr": 0.0,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [],
+        "dropped_sites": [],
+        "cost_drivers": [],
+        "zones": {
+         "moved_count": 0,
+         "moved_demand_frac": 0.0,
+         "moved_to": {},
+         "losing_next_day_count": 0,
+         "losing_next_day_demand_frac": 0.0,
+         "gaining_next_day_count": 0,
+         "gaining_next_day_demand_frac": 0.0
+        }
        }
       ]
      }
@@ -2208,7 +3749,7 @@
         "name": "Mumbai - Bhiwandi",
         "zones_served": 23,
         "largest_zones": [
-         "Greater Mumbai",
+         "Mumbai",
          "Surat",
          "Pune",
          "Thane",
@@ -2223,7 +3764,7 @@
         "name": "Delhi NCR - Farrukhnagar",
         "zones_served": 33,
         "largest_zones": [
-         "DMC",
+         "Delhi",
          "Jaipur",
          "Bikaner",
          "Amritsar",
@@ -2238,7 +3779,7 @@
         "name": "Bengaluru - Hosur (Attibele-Bommasandra)",
         "zones_served": 25,
         "largest_zones": [
-         "BBMP",
+         "Bengaluru",
          "Chennai",
          "Kozhikode",
          "Tiruchirappalli",
@@ -2253,9 +3794,9 @@
         "name": "Hyderabad - Shamshabad",
         "zones_served": 15,
         "largest_zones": [
-         "GHMC",
+         "Hyderabad",
          "Warangal",
-         "GVMC",
+         "Visakhapatnam",
          "Vijayawada",
          "Brahmapur"
         ],
@@ -2268,7 +3809,7 @@
         "name": "Ahmedabad - Changodar",
         "zones_served": 9,
         "largest_zones": [
-         "Ahmadabad",
+         "Ahmedabad",
          "Vadodara",
          "Jodhpur",
          "Udaipur",
@@ -2365,38 +3906,95 @@
         "fixed": 0.0
        },
        "next_day_change_pts": 0.0,
+       "recommended_next_day_share_frac": 0.8009,
        "added": [],
-       "dropped": []
+       "dropped": [],
+       "cost_drivers": [],
+       "zones": {
+        "moved_count": 0,
+        "moved_demand_frac": 0.0,
+        "moved_to": {},
+        "losing_next_day_count": 0,
+        "losing_next_day_demand_frac": 0.0,
+        "gaining_next_day_count": 0,
+        "gaining_next_day_demand_frac": 0.0
+       },
+       "added_sites": [],
+       "dropped_sites": []
       },
-      "next_day_radius_km": 400
+      "next_day_radius_km": 400,
+      "cost_share_frac": {
+       "primary": 0.3483,
+       "secondary": 0.2927,
+       "space": 0.0826,
+       "handling": 0.027,
+       "inventory": 0.1387,
+       "fixed": 0.1106
+      }
      }
     ]
    ]
   }
  ],
  "records": {
-  "AG_outage_MUM_BHW_1m": {
-   "scenario_id": "AG_outage_MUM_BHW_1m",
-   "group": "S5",
-   "question": "What if a site goes down for a month?",
+  "AG_diesel_20_000d57": {
+   "scenario_id": "AG_diesel_20_000d57",
+   "group": "AG",
+   "question": "What if: diesel_20",
    "inputs": {
-    "closed_dc": "MUM_BHW",
-    "open_set": "fixed",
-    "capacity_surge": 0.2,
-    "months": 1,
-    "service.min_share_within_radius.value": 0.0
+    "diesel_shock_frac": 0.2
    },
-   "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+   "assumptions_sha256": "912e99df374330db1d1ca5917e5174c7e4df4bb1f2f3c1b3fbbc583e6d7443f9",
    "status": "Optimal Solution Found",
    "solve": {
-    "objective_cr": 244.46660468890752,
-    "best_bound_cr": 244.4657429923,
-    "mip_gap_frac": 3.5248029424656085e-06,
-    "proxy_gap_frac": -0.001606919453470912,
-    "solve_time_s": 0.09716105461120605,
-    "passes": []
+    "objective_cr": 250.73019364420904,
+    "best_bound_cr": 250.2783934834,
+    "mip_gap_frac": 0.0018019375897350167,
+    "proxy_gap_frac": -0.0034147873265715223,
+    "solve_time_s": null,
+    "passes": [
+     {
+      "k_ref": 6,
+      "status": "Optimal Solution Found",
+      "n_dcs": 9,
+      "open_dcs": [
+       "MUM_BHW",
+       "NCR_FRN",
+       "BLR_HSR",
+       "HYD_SMB",
+       "AMD_CHG",
+       "KOL_DNK",
+       "NAG_MHN",
+       "LKO_KNP",
+       "PAT_BHT"
+      ],
+      "proxy_gap_frac": 0.029064455677600298,
+      "solve_time_s": null,
+      "total_cr": 261.6936210821666
+     },
+     {
+      "k_ref": 9,
+      "status": "Optimal Solution Found",
+      "n_dcs": 9,
+      "open_dcs": [
+       "MUM_BHW",
+       "NCR_FRN",
+       "BLR_HSR",
+       "HYD_SMB",
+       "AMD_CHG",
+       "KOL_DNK",
+       "LKO_KNP",
+       "IDR_PTH",
+       "PAT_BHT"
+      ],
+      "proxy_gap_frac": -0.0034147873265715223,
+      "solve_time_s": null,
+      "total_cr": 261.28819067095253
+     }
+    ]
    },
    "open_dcs": [
+    "MUM_BHW",
     "NCR_FRN",
     "BLR_HSR",
     "HYD_SMB",
@@ -2406,86 +4004,58 @@
     "IDR_PTH",
     "PAT_BHT"
    ],
-   "extra": {
-    "closed_dc": "MUM_BHW",
-    "freight_change_cr_per_yr": 16.328123874076198,
-    "outage_cost_cr": 1.36067698950635,
-    "next_day_share_before": 0.8009290388988292,
-    "next_day_share_during": 0.6993370498495907,
-    "zones_losing_next_day": [
-     "Greater Mumbai",
-     "Pune",
-     "Thane",
-     "Pimpri Chinchwad",
-     "Nashik",
-     "Kalyan-Dombivli",
-     "Vasai-Virar City",
-     "Navi Mumbai",
-     "Mira-Bhayandar",
-     "Bhiwandi Nizampur",
-     "Durgapur",
-     "Kolhapur",
-     "Ulhasnagar",
-     "Jhansi",
-     "Sangli Miraj Kupwad",
-     "Kurnool",
-     "Ahmadnagar",
-     "Chandrapur",
-     "Parbhani"
-    ],
-    "demand_losing_next_day_t_yr": 31634.156574481443
-   },
+   "extra": {},
    "cost_cr": {
-    "primary": 89.08834702686642,
-    "secondary": 83.70325321680653,
-    "space": 18.70118123875013,
+    "primary": 94.36811504765039,
+    "secondary": 79.306343722602,
+    "space": 20.15220625861803,
     "handling": 6.6,
-    "inventory": 32.44860413540474,
-    "fixed": 24.0,
-    "total": 254.54138561782779
+    "inventory": 33.86152564208216,
+    "fixed": 27.0,
+    "total": 261.28819067095253
    },
    "service": {
-    "next_day_share_frac": 0.6993370498495907,
+    "next_day_share_frac": 0.8009290388988292,
     "two_day_share_frac": 0.9908265371141967
    },
-   "share_of_revenue_frac": 0.04242356426963797,
+   "share_of_revenue_frac": 0.04354803177849209,
    "assignment": {
-    "Z001": "AMD_CHG",
+    "Z001": "MUM_BHW",
     "Z002": "NCR_FRN",
     "Z003": "BLR_HSR",
     "Z004": "HYD_SMB",
     "Z005": "AMD_CHG",
     "Z006": "BLR_HSR",
     "Z007": "KOL_DNK",
-    "Z008": "AMD_CHG",
-    "Z009": "AMD_CHG",
+    "Z008": "MUM_BHW",
+    "Z009": "MUM_BHW",
     "Z010": "NCR_FRN",
     "Z011": "LKO_KNP",
     "Z012": "LKO_KNP",
     "Z013": "IDR_PTH",
     "Z014": "IDR_PTH",
-    "Z015": "AMD_CHG",
+    "Z015": "MUM_BHW",
     "Z016": "IDR_PTH",
     "Z017": "AMD_CHG",
     "Z018": "HYD_SMB",
-    "Z019": "AMD_CHG",
+    "Z019": "MUM_BHW",
     "Z020": "PAT_BHT",
     "Z021": "NCR_FRN",
     "Z022": "NCR_FRN",
     "Z023": "NCR_FRN",
-    "Z024": "AMD_CHG",
+    "Z024": "MUM_BHW",
     "Z025": "NCR_FRN",
     "Z026": "AMD_CHG",
     "Z027": "NCR_FRN",
-    "Z028": "AMD_CHG",
-    "Z029": "AMD_CHG",
+    "Z028": "MUM_BHW",
+    "Z029": "MUM_BHW",
     "Z030": "LKO_KNP",
     "Z031": "NCR_FRN",
-    "Z032": "IDR_PTH",
+    "Z032": "MUM_BHW",
     "Z033": "LKO_KNP",
     "Z034": "PAT_BHT",
     "Z035": "NCR_FRN",
-    "Z036": "AMD_CHG",
+    "Z036": "MUM_BHW",
     "Z037": "KOL_DNK",
     "Z038": "PAT_BHT",
     "Z039": "IDR_PTH",
@@ -2498,7 +4068,7 @@
     "Z046": "IDR_PTH",
     "Z047": "NCR_FRN",
     "Z048": "PAT_BHT",
-    "Z049": "HYD_SMB",
+    "Z049": "MUM_BHW",
     "Z050": "BLR_HSR",
     "Z051": "BLR_HSR",
     "Z052": "NCR_FRN",
@@ -2509,10 +4079,10 @@
     "Z057": "NCR_FRN",
     "Z058": "BLR_HSR",
     "Z059": "BLR_HSR",
-    "Z060": "BLR_HSR",
-    "Z061": "AMD_CHG",
+    "Z060": "MUM_BHW",
+    "Z061": "MUM_BHW",
     "Z062": "BLR_HSR",
-    "Z063": "AMD_CHG",
+    "Z063": "MUM_BHW",
     "Z064": "NCR_FRN",
     "Z065": "PAT_BHT",
     "Z066": "LKO_KNP",
@@ -2529,24 +4099,24 @@
     "Z077": "AMD_CHG",
     "Z078": "NCR_FRN",
     "Z079": "NCR_FRN",
-    "Z080": "PAT_BHT",
+    "Z080": "KOL_DNK",
     "Z081": "PAT_BHT",
     "Z082": "BLR_HSR",
     "Z083": "HYD_SMB",
-    "Z084": "BLR_HSR",
+    "Z084": "MUM_BHW",
     "Z085": "BLR_HSR",
     "Z086": "HYD_SMB",
     "Z087": "NCR_FRN",
     "Z088": "NCR_FRN",
     "Z089": "IDR_PTH",
-    "Z090": "AMD_CHG",
+    "Z090": "MUM_BHW",
     "Z091": "PAT_BHT",
-    "Z092": "AMD_CHG",
-    "Z093": "NCR_FRN",
-    "Z094": "BLR_HSR",
+    "Z092": "MUM_BHW",
+    "Z093": "LKO_KNP",
+    "Z094": "MUM_BHW",
     "Z095": "BLR_HSR",
-    "Z096": "BLR_HSR",
-    "Z097": "IDR_PTH",
+    "Z096": "MUM_BHW",
+    "Z097": "MUM_BHW",
     "Z098": "PAT_BHT",
     "Z099": "BLR_HSR",
     "Z100": "BLR_HSR",
@@ -2557,7 +4127,7 @@
     "Z105": "BLR_HSR",
     "Z106": "BLR_HSR",
     "Z107": "IDR_PTH",
-    "Z108": "BLR_HSR",
+    "Z108": "HYD_SMB",
     "Z109": "KOL_DNK",
     "Z110": "PAT_BHT",
     "Z111": "BLR_HSR",
@@ -2570,13 +4140,13 @@
     "Z118": "KOL_DNK",
     "Z119": "HYD_SMB",
     "Z120": "KOL_DNK",
-    "Z121": "IDR_PTH",
+    "Z121": "MUM_BHW",
     "Z122": "NCR_FRN",
     "Z123": "LKO_KNP",
     "Z124": "AMD_CHG",
     "Z125": "HYD_SMB",
     "Z126": "PAT_BHT",
-    "Z127": "IDR_PTH",
+    "Z127": "MUM_BHW",
     "Z128": "BLR_HSR",
     "Z129": "NCR_FRN",
     "Z130": "IDR_PTH",
@@ -2584,11 +4154,11 @@
     "Z132": "HYD_SMB",
     "Z133": "KOL_DNK",
     "Z134": "LKO_KNP",
-    "Z135": "BLR_HSR",
+    "Z135": "MUM_BHW",
     "Z136": "NCR_FRN",
     "Z137": "BLR_HSR",
     "Z138": "NCR_FRN",
-    "Z139": "IDR_PTH",
+    "Z139": "HYD_SMB",
     "Z140": "PAT_BHT",
     "Z141": "AMD_CHG",
     "Z142": "BLR_HSR",
@@ -2597,7 +4167,7 @@
     "Z145": "PAT_BHT",
     "Z146": "HYD_SMB",
     "Z147": "HYD_SMB",
-    "Z148": "IDR_PTH",
+    "Z148": "HYD_SMB",
     "Z149": "NCR_FRN",
     "Z150": "BLR_HSR",
     "Z151": "NCR_FRN",
@@ -2613,343 +4183,37 @@
     {
      "plant_id": "P_HDW",
      "dc_id": "NCR_FRN",
-     "flow_t_yr": 62218.007
+     "flow_t_yr": 61576.164
     },
     {
      "plant_id": "P_HDW",
      "dc_id": "KOL_DNK",
-     "flow_t_yr": 13579.997
+     "flow_t_yr": 15310.257
     },
     {
      "plant_id": "P_HDW",
      "dc_id": "LKO_KNP",
-     "flow_t_yr": 20896.924
+     "flow_t_yr": 21538.767
     },
     {
      "plant_id": "P_HDW",
      "dc_id": "PAT_BHT",
-     "flow_t_yr": 41305.073
-    },
-    {
-     "plant_id": "P_SLV",
-     "dc_id": "HYD_SMB",
-     "flow_t_yr": 3443.6367
-    },
-    {
-     "plant_id": "P_SLV",
-     "dc_id": "AMD_CHG",
-     "flow_t_yr": 46876.597
-    },
-    {
-     "plant_id": "P_SLV",
-     "dc_id": "IDR_PTH",
-     "flow_t_yr": 25429.766
-    },
-    {
-     "plant_id": "P_PDY",
-     "dc_id": "BLR_HSR",
-     "flow_t_yr": 61242.014
-    },
-    {
-     "plant_id": "P_PDY",
-     "dc_id": "HYD_SMB",
-     "flow_t_yr": 24775.481
-    },
-    {
-     "plant_id": "P_PDY",
-     "dc_id": "KOL_DNK",
-     "flow_t_yr": 232.50498
-    }
-   ]
-  },
-  "AG_loss_NCR_FRN": {
-   "scenario_id": "AG_loss_NCR_FRN",
-   "group": "S5",
-   "question": "What if we lose the site permanently?",
-   "inputs": {
-    "excluded_dc": "NCR_FRN"
-   },
-   "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
-   "status": "Optimal Solution Found",
-   "solve": {
-    "objective_cr": 244.42747088340383,
-    "best_bound_cr": 243.5225636073,
-    "mip_gap_frac": 0.0037021504695578466,
-    "proxy_gap_frac": 0.03176317098665615,
-    "solve_time_s": 3.9219720363616943,
-    "passes": [
-     {
-      "k_ref": 6,
-      "status": "Optimal Solution Found",
-      "n_dcs": 9,
-      "open_dcs": [
-       "MUM_BHW",
-       "BLR_HSR",
-       "HYD_SMB",
-       "AMD_CHG",
-       "KOL_DNK",
-       "NAG_MHN",
-       "LKO_KNP",
-       "PNJ_RJP",
-       "PAT_BHT"
-      ],
-      "proxy_gap_frac": 0.03176317098665615,
-      "solve_time_s": 2.197521924972534,
-      "total_cr": 246.27088023027287
-     },
-     {
-      "k_ref": 9,
-      "status": "Optimal Solution Found",
-      "n_dcs": 9,
-      "open_dcs": [
-       "MUM_BHW",
-       "BLR_HSR",
-       "HYD_SMB",
-       "AMD_CHG",
-       "KOL_DNK",
-       "NAG_MHN",
-       "LKO_KNP",
-       "PNJ_RJP",
-       "PAT_BHT"
-      ],
-      "proxy_gap_frac": -0.0028028432924488422,
-      "solve_time_s": 1.7244501113891602,
-      "total_cr": 246.62610344562043
-     }
-    ]
-   },
-   "open_dcs": [
-    "MUM_BHW",
-    "BLR_HSR",
-    "HYD_SMB",
-    "AMD_CHG",
-    "KOL_DNK",
-    "NAG_MHN",
-    "LKO_KNP",
-    "PNJ_RJP",
-    "PAT_BHT"
-   ],
-   "extra": {
-    "excluded_dc": "NCR_FRN",
-    "penalty_cr_per_yr": 2.193671959975958,
-    "added": [
-     "NAG_MHN",
-     "PNJ_RJP"
-    ],
-    "dropped": [
-     "IDR_PTH",
-     "NCR_FRN"
-    ]
-   },
-   "cost_cr": {
-    "primary": 86.54909619442745,
-    "secondary": 72.53860612154334,
-    "space": 19.597164706143325,
-    "handling": 6.6,
-    "inventory": 33.98601320815875,
-    "fixed": 27.0,
-    "total": 246.27088023027287
-   },
-   "service": {
-    "next_day_share_frac": 0.8012327530328397,
-    "two_day_share_frac": 0.9908265371141967
-   },
-   "share_of_revenue_frac": 0.04104514670504548,
-   "assignment": {
-    "Z001": "MUM_BHW",
-    "Z002": "PNJ_RJP",
-    "Z003": "BLR_HSR",
-    "Z004": "HYD_SMB",
-    "Z005": "AMD_CHG",
-    "Z006": "BLR_HSR",
-    "Z007": "KOL_DNK",
-    "Z008": "MUM_BHW",
-    "Z009": "MUM_BHW",
-    "Z010": "PNJ_RJP",
-    "Z011": "LKO_KNP",
-    "Z012": "LKO_KNP",
-    "Z013": "NAG_MHN",
-    "Z014": "AMD_CHG",
-    "Z015": "MUM_BHW",
-    "Z016": "NAG_MHN",
-    "Z017": "AMD_CHG",
-    "Z018": "HYD_SMB",
-    "Z019": "MUM_BHW",
-    "Z020": "PAT_BHT",
-    "Z021": "PNJ_RJP",
-    "Z022": "PNJ_RJP",
-    "Z023": "LKO_KNP",
-    "Z024": "MUM_BHW",
-    "Z025": "PNJ_RJP",
-    "Z026": "AMD_CHG",
-    "Z027": "PNJ_RJP",
-    "Z028": "MUM_BHW",
-    "Z029": "MUM_BHW",
-    "Z030": "LKO_KNP",
-    "Z031": "PNJ_RJP",
-    "Z032": "MUM_BHW",
-    "Z033": "LKO_KNP",
-    "Z034": "PAT_BHT",
-    "Z035": "PNJ_RJP",
-    "Z036": "MUM_BHW",
-    "Z037": "KOL_DNK",
-    "Z038": "PAT_BHT",
-    "Z039": "NAG_MHN",
-    "Z040": "AMD_CHG",
-    "Z041": "LKO_KNP",
-    "Z042": "BLR_HSR",
-    "Z043": "NAG_MHN",
-    "Z044": "HYD_SMB",
-    "Z045": "BLR_HSR",
-    "Z046": "AMD_CHG",
-    "Z047": "PNJ_RJP",
-    "Z048": "PAT_BHT",
-    "Z049": "MUM_BHW",
-    "Z050": "BLR_HSR",
-    "Z051": "BLR_HSR",
-    "Z052": "LKO_KNP",
-    "Z053": "PNJ_RJP",
-    "Z054": "PNJ_RJP",
-    "Z055": "PAT_BHT",
-    "Z056": "PNJ_RJP",
-    "Z057": "PNJ_RJP",
-    "Z058": "BLR_HSR",
-    "Z059": "BLR_HSR",
-    "Z060": "MUM_BHW",
-    "Z061": "MUM_BHW",
-    "Z062": "BLR_HSR",
-    "Z063": "MUM_BHW",
-    "Z064": "PNJ_RJP",
-    "Z065": "KOL_DNK",
-    "Z066": "LKO_KNP",
-    "Z067": "HYD_SMB",
-    "Z068": "NAG_MHN",
-    "Z069": "PNJ_RJP",
-    "Z070": "PNJ_RJP",
-    "Z071": "HYD_SMB",
-    "Z072": "NAG_MHN",
-    "Z073": "PAT_BHT",
-    "Z074": "AMD_CHG",
-    "Z075": "LKO_KNP",
-    "Z076": "BLR_HSR",
-    "Z077": "AMD_CHG",
-    "Z078": "PNJ_RJP",
-    "Z079": "PNJ_RJP",
-    "Z080": "KOL_DNK",
-    "Z081": "PAT_BHT",
-    "Z082": "BLR_HSR",
-    "Z083": "HYD_SMB",
-    "Z084": "MUM_BHW",
-    "Z085": "BLR_HSR",
-    "Z086": "HYD_SMB",
-    "Z087": "PNJ_RJP",
-    "Z088": "PNJ_RJP",
-    "Z089": "AMD_CHG",
-    "Z090": "MUM_BHW",
-    "Z091": "PAT_BHT",
-    "Z092": "MUM_BHW",
-    "Z093": "LKO_KNP",
-    "Z094": "MUM_BHW",
-    "Z095": "BLR_HSR",
-    "Z096": "MUM_BHW",
-    "Z097": "MUM_BHW",
-    "Z098": "PAT_BHT",
-    "Z099": "BLR_HSR",
-    "Z100": "BLR_HSR",
-    "Z101": "MUM_BHW",
-    "Z102": "AMD_CHG",
-    "Z103": "KOL_DNK",
-    "Z104": "PNJ_RJP",
-    "Z105": "BLR_HSR",
-    "Z106": "BLR_HSR",
-    "Z107": "NAG_MHN",
-    "Z108": "HYD_SMB",
-    "Z109": "KOL_DNK",
-    "Z110": "PAT_BHT",
-    "Z111": "BLR_HSR",
-    "Z112": "KOL_DNK",
-    "Z113": "KOL_DNK",
-    "Z114": "KOL_DNK",
-    "Z115": "PAT_BHT",
-    "Z116": "PAT_BHT",
-    "Z117": "PNJ_RJP",
-    "Z118": "KOL_DNK",
-    "Z119": "HYD_SMB",
-    "Z120": "KOL_DNK",
-    "Z121": "MUM_BHW",
-    "Z122": "PNJ_RJP",
-    "Z123": "LKO_KNP",
-    "Z124": "AMD_CHG",
-    "Z125": "NAG_MHN",
-    "Z126": "PAT_BHT",
-    "Z127": "MUM_BHW",
-    "Z128": "BLR_HSR",
-    "Z129": "PNJ_RJP",
-    "Z130": "NAG_MHN",
-    "Z131": "BLR_HSR",
-    "Z132": "HYD_SMB",
-    "Z133": "KOL_DNK",
-    "Z134": "LKO_KNP",
-    "Z135": "MUM_BHW",
-    "Z136": "PNJ_RJP",
-    "Z137": "BLR_HSR",
-    "Z138": "PNJ_RJP",
-    "Z139": "NAG_MHN",
-    "Z140": "PAT_BHT",
-    "Z141": "AMD_CHG",
-    "Z142": "BLR_HSR",
-    "Z143": "BLR_HSR",
-    "Z144": "KOL_DNK",
-    "Z145": "PAT_BHT",
-    "Z146": "HYD_SMB",
-    "Z147": "HYD_SMB",
-    "Z148": "MUM_BHW",
-    "Z149": "PNJ_RJP",
-    "Z150": "BLR_HSR",
-    "Z151": "PNJ_RJP",
-    "Z152": "BLR_HSR",
-    "Z153": "PAT_BHT",
-    "Z154": "PAT_BHT",
-    "Z155": "PAT_BHT",
-    "Z156": "PNJ_RJP",
-    "Z157": "PAT_BHT",
-    "Z158": "PAT_BHT"
-   },
-   "flows_t_yr": [
-    {
-     "plant_id": "P_HDW",
-     "dc_id": "KOL_DNK",
-     "flow_t_yr": 16276.77
-    },
-    {
-     "plant_id": "P_HDW",
-     "dc_id": "LKO_KNP",
-     "flow_t_yr": 28337.538
-    },
-    {
-     "plant_id": "P_HDW",
-     "dc_id": "PNJ_RJP",
-     "flow_t_yr": 54777.393
-    },
-    {
-     "plant_id": "P_HDW",
-     "dc_id": "PAT_BHT",
-     "flow_t_yr": 38608.299
+     "flow_t_yr": 39574.812
     },
     {
      "plant_id": "P_SLV",
      "dc_id": "MUM_BHW",
-     "flow_t_yr": 37757.708
+     "flow_t_yr": 36598.533
     },
     {
      "plant_id": "P_SLV",
      "dc_id": "AMD_CHG",
-     "flow_t_yr": 24510.711
+     "flow_t_yr": 18789.393
     },
     {
      "plant_id": "P_SLV",
-     "dc_id": "NAG_MHN",
-     "flow_t_yr": 16967.748
+     "dc_id": "IDR_PTH",
+     "flow_t_yr": 20825.497
     },
     {
      "plant_id": "P_PDY",
@@ -2959,7 +4223,7 @@
     {
      "plant_id": "P_PDY",
      "dc_id": "HYD_SMB",
-     "flow_t_yr": 26331.489
+     "flow_t_yr": 29354.233
     },
     {
      "plant_id": "P_PDY",
@@ -2968,308 +4232,21 @@
     }
    ]
   },
-  "AG_outage_NCR_FRN_1m": {
-   "scenario_id": "AG_outage_NCR_FRN_1m",
-   "group": "S5",
-   "question": "What if a site goes down for a month?",
-   "inputs": {
-    "closed_dc": "NCR_FRN",
-    "open_set": "fixed",
-    "capacity_surge": 0.2,
-    "months": 1,
-    "service.min_share_within_radius.value": 0.0
-   },
-   "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
-   "status": "Optimal Solution Found",
-   "solve": {
-    "objective_cr": 256.4899293478492,
-    "best_bound_cr": 256.4899293478492,
-    "mip_gap_frac": 0.0,
-    "proxy_gap_frac": -0.0012228688900446372,
-    "solve_time_s": 0.07657146453857422,
-    "passes": []
-   },
-   "open_dcs": [
-    "MUM_BHW",
-    "BLR_HSR",
-    "HYD_SMB",
-    "AMD_CHG",
-    "KOL_DNK",
-    "LKO_KNP",
-    "IDR_PTH",
-    "PAT_BHT"
-   ],
-   "extra": {
-    "closed_dc": "NCR_FRN",
-    "freight_change_cr_per_yr": 28.38336531611812,
-    "outage_cost_cr": 2.3652804430098433,
-    "next_day_share_before": 0.8009290388988292,
-    "next_day_share_during": 0.6401302607390194,
-    "zones_losing_next_day": [
-     "DMC",
-     "Jaipur",
-     "Ghaziabad",
-     "Ludhiana",
-     "Faridabad",
-     "Meerut",
-     "Chandigarh",
-     "Gurgaon",
-     "Saharanpur",
-     "Noida",
-     "Dehradun",
-     "Durgapur",
-     "Nanded Waghala",
-     "Gulbarga",
-     "Ajmer",
-     "Loni",
-     "Jalgaon",
-     "Patiala",
-     "Kurnool",
-     "Muzaffarnagar",
-     "Latur",
-     "Rohtak",
-     "Mathura",
-     "Alwar",
-     "Junagadh",
-     "Parbhani",
-     "Hisar",
-     "Karnal",
-     "Shimla"
-    ],
-    "demand_losing_next_day_t_yr": 48239.63344794291
-   },
-   "cost_cr": {
-    "primary": 91.87943395861915,
-    "secondary": 92.9674077270957,
-    "space": 18.695088941180014,
-    "handling": 6.6,
-    "inventory": 32.33962414871773,
-    "fixed": 24.0,
-    "total": 266.4815547756126
-   },
-   "service": {
-    "next_day_share_frac": 0.6401302607390194,
-    "two_day_share_frac": 0.9668549429311285
-   },
-   "share_of_revenue_frac": 0.0444135924626021,
-   "assignment": {
-    "Z001": "MUM_BHW",
-    "Z002": "LKO_KNP",
-    "Z003": "BLR_HSR",
-    "Z004": "HYD_SMB",
-    "Z005": "AMD_CHG",
-    "Z006": "BLR_HSR",
-    "Z007": "KOL_DNK",
-    "Z008": "MUM_BHW",
-    "Z009": "MUM_BHW",
-    "Z010": "IDR_PTH",
-    "Z011": "LKO_KNP",
-    "Z012": "LKO_KNP",
-    "Z013": "IDR_PTH",
-    "Z014": "IDR_PTH",
-    "Z015": "MUM_BHW",
-    "Z016": "IDR_PTH",
-    "Z017": "AMD_CHG",
-    "Z018": "HYD_SMB",
-    "Z019": "MUM_BHW",
-    "Z020": "PAT_BHT",
-    "Z021": "LKO_KNP",
-    "Z022": "LKO_KNP",
-    "Z023": "LKO_KNP",
-    "Z024": "MUM_BHW",
-    "Z025": "LKO_KNP",
-    "Z026": "AMD_CHG",
-    "Z027": "LKO_KNP",
-    "Z028": "MUM_BHW",
-    "Z029": "MUM_BHW",
-    "Z030": "LKO_KNP",
-    "Z031": "LKO_KNP",
-    "Z032": "MUM_BHW",
-    "Z033": "LKO_KNP",
-    "Z034": "PAT_BHT",
-    "Z035": "LKO_KNP",
-    "Z036": "MUM_BHW",
-    "Z037": "KOL_DNK",
-    "Z038": "PAT_BHT",
-    "Z039": "IDR_PTH",
-    "Z040": "AMD_CHG",
-    "Z041": "LKO_KNP",
-    "Z042": "BLR_HSR",
-    "Z043": "IDR_PTH",
-    "Z044": "HYD_SMB",
-    "Z045": "BLR_HSR",
-    "Z046": "IDR_PTH",
-    "Z047": "LKO_KNP",
-    "Z048": "PAT_BHT",
-    "Z049": "MUM_BHW",
-    "Z050": "BLR_HSR",
-    "Z051": "BLR_HSR",
-    "Z052": "LKO_KNP",
-    "Z053": "LKO_KNP",
-    "Z054": "LKO_KNP",
-    "Z055": "PAT_BHT",
-    "Z056": "LKO_KNP",
-    "Z057": "LKO_KNP",
-    "Z058": "BLR_HSR",
-    "Z059": "BLR_HSR",
-    "Z060": "MUM_BHW",
-    "Z061": "MUM_BHW",
-    "Z062": "BLR_HSR",
-    "Z063": "MUM_BHW",
-    "Z064": "LKO_KNP",
-    "Z065": "PAT_BHT",
-    "Z066": "LKO_KNP",
-    "Z067": "HYD_SMB",
-    "Z068": "IDR_PTH",
-    "Z069": "AMD_CHG",
-    "Z070": "LKO_KNP",
-    "Z071": "HYD_SMB",
-    "Z072": "IDR_PTH",
-    "Z073": "PAT_BHT",
-    "Z074": "AMD_CHG",
-    "Z075": "LKO_KNP",
-    "Z076": "BLR_HSR",
-    "Z077": "AMD_CHG",
-    "Z078": "LKO_KNP",
-    "Z079": "LKO_KNP",
-    "Z080": "PAT_BHT",
-    "Z081": "PAT_BHT",
-    "Z082": "BLR_HSR",
-    "Z083": "MUM_BHW",
-    "Z084": "MUM_BHW",
-    "Z085": "BLR_HSR",
-    "Z086": "MUM_BHW",
-    "Z087": "AMD_CHG",
-    "Z088": "LKO_KNP",
-    "Z089": "IDR_PTH",
-    "Z090": "MUM_BHW",
-    "Z091": "PAT_BHT",
-    "Z092": "MUM_BHW",
-    "Z093": "LKO_KNP",
-    "Z094": "MUM_BHW",
-    "Z095": "BLR_HSR",
-    "Z096": "MUM_BHW",
-    "Z097": "MUM_BHW",
-    "Z098": "PAT_BHT",
-    "Z099": "BLR_HSR",
-    "Z100": "BLR_HSR",
-    "Z101": "MUM_BHW",
-    "Z102": "AMD_CHG",
-    "Z103": "KOL_DNK",
-    "Z104": "LKO_KNP",
-    "Z105": "BLR_HSR",
-    "Z106": "BLR_HSR",
-    "Z107": "IDR_PTH",
-    "Z108": "BLR_HSR",
-    "Z109": "KOL_DNK",
-    "Z110": "PAT_BHT",
-    "Z111": "BLR_HSR",
-    "Z112": "KOL_DNK",
-    "Z113": "KOL_DNK",
-    "Z114": "KOL_DNK",
-    "Z115": "PAT_BHT",
-    "Z116": "PAT_BHT",
-    "Z117": "LKO_KNP",
-    "Z118": "KOL_DNK",
-    "Z119": "MUM_BHW",
-    "Z120": "KOL_DNK",
-    "Z121": "MUM_BHW",
-    "Z122": "LKO_KNP",
-    "Z123": "LKO_KNP",
-    "Z124": "AMD_CHG",
-    "Z125": "HYD_SMB",
-    "Z126": "PAT_BHT",
-    "Z127": "MUM_BHW",
-    "Z128": "BLR_HSR",
-    "Z129": "LKO_KNP",
-    "Z130": "LKO_KNP",
-    "Z131": "BLR_HSR",
-    "Z132": "HYD_SMB",
-    "Z133": "KOL_DNK",
-    "Z134": "LKO_KNP",
-    "Z135": "MUM_BHW",
-    "Z136": "LKO_KNP",
-    "Z137": "BLR_HSR",
-    "Z138": "LKO_KNP",
-    "Z139": "HYD_SMB",
-    "Z140": "PAT_BHT",
-    "Z141": "MUM_BHW",
-    "Z142": "BLR_HSR",
-    "Z143": "BLR_HSR",
-    "Z144": "KOL_DNK",
-    "Z145": "PAT_BHT",
-    "Z146": "HYD_SMB",
-    "Z147": "HYD_SMB",
-    "Z148": "MUM_BHW",
-    "Z149": "LKO_KNP",
-    "Z150": "BLR_HSR",
-    "Z151": "LKO_KNP",
-    "Z152": "BLR_HSR",
-    "Z153": "PAT_BHT",
-    "Z154": "PAT_BHT",
-    "Z155": "PAT_BHT",
-    "Z156": "LKO_KNP",
-    "Z157": "PAT_BHT",
-    "Z158": "PAT_BHT"
-   },
-   "flows_t_yr": [
-    {
-     "plant_id": "P_HDW",
-     "dc_id": "KOL_DNK",
-     "flow_t_yr": 13812.502
-    },
-    {
-     "plant_id": "P_HDW",
-     "dc_id": "LKO_KNP",
-     "flow_t_yr": 75069.811
-    },
-    {
-     "plant_id": "P_HDW",
-     "dc_id": "PAT_BHT",
-     "flow_t_yr": 41305.073
-    },
-    {
-     "plant_id": "P_SLV",
-     "dc_id": "MUM_BHW",
-     "flow_t_yr": 41704.929
-    },
-    {
-     "plant_id": "P_SLV",
-     "dc_id": "AMD_CHG",
-     "flow_t_yr": 22701.091
-    },
-    {
-     "plant_id": "P_SLV",
-     "dc_id": "IDR_PTH",
-     "flow_t_yr": 23255.836
-    },
-    {
-     "plant_id": "P_PDY",
-     "dc_id": "BLR_HSR",
-     "flow_t_yr": 57453.522
-    },
-    {
-     "plant_id": "P_PDY",
-     "dc_id": "HYD_SMB",
-     "flow_t_yr": 24697.236
-    }
-   ]
-  },
-  "AG_diesel_40_b2f1e8": {
-   "scenario_id": "AG_diesel_40_b2f1e8",
+  "AG_diesel_40_c3aad1": {
+   "scenario_id": "AG_diesel_40_c3aad1",
    "group": "AG",
    "question": "What if: diesel_40",
    "inputs": {
     "diesel_shock_frac": 0.4
    },
-   "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+   "assumptions_sha256": "912e99df374330db1d1ca5917e5174c7e4df4bb1f2f3c1b3fbbc583e6d7443f9",
    "status": "Optimal Solution Found",
    "solve": {
     "objective_cr": 268.3073930428967,
     "best_bound_cr": 267.6918442911,
     "mip_gap_frac": 0.002294192287494326,
     "proxy_gap_frac": -0.003501791936557086,
-    "solve_time_s": 2.714789867401123,
+    "solve_time_s": null,
     "passes": [
      {
       "k_ref": 6,
@@ -3287,7 +4264,7 @@
        "PAT_BHT"
       ],
       "proxy_gap_frac": 0.02749182745290768,
-      "solve_time_s": 1.6130924224853516,
+      "solve_time_s": null,
       "total_cr": 279.27946861567244
      },
      {
@@ -3306,7 +4283,7 @@
        "PAT_BHT"
       ],
       "proxy_gap_frac": -0.003501791936557086,
-      "solve_time_s": 1.1016974449157715,
+      "solve_time_s": null,
       "total_cr": 278.9499712275015
      }
     ]
@@ -3552,14 +4529,14 @@
    "inputs": {
     "excluded_dc": "BLR_HSR"
    },
-   "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+   "assumptions_sha256": "912e99df374330db1d1ca5917e5174c7e4df4bb1f2f3c1b3fbbc583e6d7443f9",
    "status": "Optimal Solution Found",
    "solve": {
     "objective_cr": 236.2191142013894,
     "best_bound_cr": 236.2191142013894,
     "mip_gap_frac": 0.0,
     "proxy_gap_frac": 0.0018725939729582475,
-    "solve_time_s": 5.119708299636841,
+    "solve_time_s": null,
     "passes": [
      {
       "k_ref": 6,
@@ -3577,7 +4554,7 @@
        "COK_KLM"
       ],
       "proxy_gap_frac": 0.03130276379353991,
-      "solve_time_s": 1.0410852432250977,
+      "solve_time_s": null,
       "total_cr": 246.15568488542547
      },
      {
@@ -3597,7 +4574,7 @@
        "COK_KLM"
       ],
       "proxy_gap_frac": 0.0018725939729582475,
-      "solve_time_s": 4.078623056411743,
+      "solve_time_s": null,
       "total_cr": 245.4252857152051
      }
     ]
@@ -3864,14 +4841,14 @@
    "inputs": {
     "excluded_dc": "MUM_BHW"
    },
-   "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+   "assumptions_sha256": "912e99df374330db1d1ca5917e5174c7e4df4bb1f2f3c1b3fbbc583e6d7443f9",
    "status": "Optimal Solution Found",
    "solve": {
     "objective_cr": 244.34876800724453,
     "best_bound_cr": 244.34876800724453,
     "mip_gap_frac": 0.0,
     "proxy_gap_frac": 0.031162700100162644,
-    "solve_time_s": 4.442672967910767,
+    "solve_time_s": null,
     "passes": [
      {
       "k_ref": 6,
@@ -3889,7 +4866,7 @@
        "PAT_BHT"
       ],
       "proxy_gap_frac": 0.031162700100162644,
-      "solve_time_s": 2.9820570945739746,
+      "solve_time_s": null,
       "total_cr": 246.33796529609558
      },
      {
@@ -3908,7 +4885,7 @@
        "PAT_BHT"
       ],
       "proxy_gap_frac": -0.003730142691951488,
-      "solve_time_s": 1.460615873336792,
+      "solve_time_s": null,
       "total_cr": 246.33796529609558
      }
     ]
@@ -4161,6 +5138,312 @@
     }
    ]
   },
+  "AG_loss_NCR_FRN": {
+   "scenario_id": "AG_loss_NCR_FRN",
+   "group": "S5",
+   "question": "What if we lose the site permanently?",
+   "inputs": {
+    "excluded_dc": "NCR_FRN"
+   },
+   "assumptions_sha256": "912e99df374330db1d1ca5917e5174c7e4df4bb1f2f3c1b3fbbc583e6d7443f9",
+   "status": "Optimal Solution Found",
+   "solve": {
+    "objective_cr": 244.42747088340383,
+    "best_bound_cr": 243.5225636073,
+    "mip_gap_frac": 0.0037021504695578466,
+    "proxy_gap_frac": 0.03176317098665615,
+    "solve_time_s": null,
+    "passes": [
+     {
+      "k_ref": 6,
+      "status": "Optimal Solution Found",
+      "n_dcs": 9,
+      "open_dcs": [
+       "MUM_BHW",
+       "BLR_HSR",
+       "HYD_SMB",
+       "AMD_CHG",
+       "KOL_DNK",
+       "NAG_MHN",
+       "LKO_KNP",
+       "PNJ_RJP",
+       "PAT_BHT"
+      ],
+      "proxy_gap_frac": 0.03176317098665615,
+      "solve_time_s": null,
+      "total_cr": 246.27088023027287
+     },
+     {
+      "k_ref": 9,
+      "status": "Optimal Solution Found",
+      "n_dcs": 9,
+      "open_dcs": [
+       "MUM_BHW",
+       "BLR_HSR",
+       "HYD_SMB",
+       "AMD_CHG",
+       "KOL_DNK",
+       "NAG_MHN",
+       "LKO_KNP",
+       "PNJ_RJP",
+       "PAT_BHT"
+      ],
+      "proxy_gap_frac": -0.0028028432924488422,
+      "solve_time_s": null,
+      "total_cr": 246.62610344562043
+     }
+    ]
+   },
+   "open_dcs": [
+    "MUM_BHW",
+    "BLR_HSR",
+    "HYD_SMB",
+    "AMD_CHG",
+    "KOL_DNK",
+    "NAG_MHN",
+    "LKO_KNP",
+    "PNJ_RJP",
+    "PAT_BHT"
+   ],
+   "extra": {
+    "excluded_dc": "NCR_FRN",
+    "penalty_cr_per_yr": 2.193671959975958,
+    "added": [
+     "NAG_MHN",
+     "PNJ_RJP"
+    ],
+    "dropped": [
+     "IDR_PTH",
+     "NCR_FRN"
+    ]
+   },
+   "cost_cr": {
+    "primary": 86.54909619442745,
+    "secondary": 72.53860612154334,
+    "space": 19.597164706143325,
+    "handling": 6.6,
+    "inventory": 33.98601320815875,
+    "fixed": 27.0,
+    "total": 246.27088023027287
+   },
+   "service": {
+    "next_day_share_frac": 0.8012327530328397,
+    "two_day_share_frac": 0.9908265371141967
+   },
+   "share_of_revenue_frac": 0.04104514670504548,
+   "assignment": {
+    "Z001": "MUM_BHW",
+    "Z002": "PNJ_RJP",
+    "Z003": "BLR_HSR",
+    "Z004": "HYD_SMB",
+    "Z005": "AMD_CHG",
+    "Z006": "BLR_HSR",
+    "Z007": "KOL_DNK",
+    "Z008": "MUM_BHW",
+    "Z009": "MUM_BHW",
+    "Z010": "PNJ_RJP",
+    "Z011": "LKO_KNP",
+    "Z012": "LKO_KNP",
+    "Z013": "NAG_MHN",
+    "Z014": "AMD_CHG",
+    "Z015": "MUM_BHW",
+    "Z016": "NAG_MHN",
+    "Z017": "AMD_CHG",
+    "Z018": "HYD_SMB",
+    "Z019": "MUM_BHW",
+    "Z020": "PAT_BHT",
+    "Z021": "PNJ_RJP",
+    "Z022": "PNJ_RJP",
+    "Z023": "LKO_KNP",
+    "Z024": "MUM_BHW",
+    "Z025": "PNJ_RJP",
+    "Z026": "AMD_CHG",
+    "Z027": "PNJ_RJP",
+    "Z028": "MUM_BHW",
+    "Z029": "MUM_BHW",
+    "Z030": "LKO_KNP",
+    "Z031": "PNJ_RJP",
+    "Z032": "MUM_BHW",
+    "Z033": "LKO_KNP",
+    "Z034": "PAT_BHT",
+    "Z035": "PNJ_RJP",
+    "Z036": "MUM_BHW",
+    "Z037": "KOL_DNK",
+    "Z038": "PAT_BHT",
+    "Z039": "NAG_MHN",
+    "Z040": "AMD_CHG",
+    "Z041": "LKO_KNP",
+    "Z042": "BLR_HSR",
+    "Z043": "NAG_MHN",
+    "Z044": "HYD_SMB",
+    "Z045": "BLR_HSR",
+    "Z046": "AMD_CHG",
+    "Z047": "PNJ_RJP",
+    "Z048": "PAT_BHT",
+    "Z049": "MUM_BHW",
+    "Z050": "BLR_HSR",
+    "Z051": "BLR_HSR",
+    "Z052": "LKO_KNP",
+    "Z053": "PNJ_RJP",
+    "Z054": "PNJ_RJP",
+    "Z055": "PAT_BHT",
+    "Z056": "PNJ_RJP",
+    "Z057": "PNJ_RJP",
+    "Z058": "BLR_HSR",
+    "Z059": "BLR_HSR",
+    "Z060": "MUM_BHW",
+    "Z061": "MUM_BHW",
+    "Z062": "BLR_HSR",
+    "Z063": "MUM_BHW",
+    "Z064": "PNJ_RJP",
+    "Z065": "KOL_DNK",
+    "Z066": "LKO_KNP",
+    "Z067": "HYD_SMB",
+    "Z068": "NAG_MHN",
+    "Z069": "PNJ_RJP",
+    "Z070": "PNJ_RJP",
+    "Z071": "HYD_SMB",
+    "Z072": "NAG_MHN",
+    "Z073": "PAT_BHT",
+    "Z074": "AMD_CHG",
+    "Z075": "LKO_KNP",
+    "Z076": "BLR_HSR",
+    "Z077": "AMD_CHG",
+    "Z078": "PNJ_RJP",
+    "Z079": "PNJ_RJP",
+    "Z080": "KOL_DNK",
+    "Z081": "PAT_BHT",
+    "Z082": "BLR_HSR",
+    "Z083": "HYD_SMB",
+    "Z084": "MUM_BHW",
+    "Z085": "BLR_HSR",
+    "Z086": "HYD_SMB",
+    "Z087": "PNJ_RJP",
+    "Z088": "PNJ_RJP",
+    "Z089": "AMD_CHG",
+    "Z090": "MUM_BHW",
+    "Z091": "PAT_BHT",
+    "Z092": "MUM_BHW",
+    "Z093": "LKO_KNP",
+    "Z094": "MUM_BHW",
+    "Z095": "BLR_HSR",
+    "Z096": "MUM_BHW",
+    "Z097": "MUM_BHW",
+    "Z098": "PAT_BHT",
+    "Z099": "BLR_HSR",
+    "Z100": "BLR_HSR",
+    "Z101": "MUM_BHW",
+    "Z102": "AMD_CHG",
+    "Z103": "KOL_DNK",
+    "Z104": "PNJ_RJP",
+    "Z105": "BLR_HSR",
+    "Z106": "BLR_HSR",
+    "Z107": "NAG_MHN",
+    "Z108": "HYD_SMB",
+    "Z109": "KOL_DNK",
+    "Z110": "PAT_BHT",
+    "Z111": "BLR_HSR",
+    "Z112": "KOL_DNK",
+    "Z113": "KOL_DNK",
+    "Z114": "KOL_DNK",
+    "Z115": "PAT_BHT",
+    "Z116": "PAT_BHT",
+    "Z117": "PNJ_RJP",
+    "Z118": "KOL_DNK",
+    "Z119": "HYD_SMB",
+    "Z120": "KOL_DNK",
+    "Z121": "MUM_BHW",
+    "Z122": "PNJ_RJP",
+    "Z123": "LKO_KNP",
+    "Z124": "AMD_CHG",
+    "Z125": "NAG_MHN",
+    "Z126": "PAT_BHT",
+    "Z127": "MUM_BHW",
+    "Z128": "BLR_HSR",
+    "Z129": "PNJ_RJP",
+    "Z130": "NAG_MHN",
+    "Z131": "BLR_HSR",
+    "Z132": "HYD_SMB",
+    "Z133": "KOL_DNK",
+    "Z134": "LKO_KNP",
+    "Z135": "MUM_BHW",
+    "Z136": "PNJ_RJP",
+    "Z137": "BLR_HSR",
+    "Z138": "PNJ_RJP",
+    "Z139": "NAG_MHN",
+    "Z140": "PAT_BHT",
+    "Z141": "AMD_CHG",
+    "Z142": "BLR_HSR",
+    "Z143": "BLR_HSR",
+    "Z144": "KOL_DNK",
+    "Z145": "PAT_BHT",
+    "Z146": "HYD_SMB",
+    "Z147": "HYD_SMB",
+    "Z148": "MUM_BHW",
+    "Z149": "PNJ_RJP",
+    "Z150": "BLR_HSR",
+    "Z151": "PNJ_RJP",
+    "Z152": "BLR_HSR",
+    "Z153": "PAT_BHT",
+    "Z154": "PAT_BHT",
+    "Z155": "PAT_BHT",
+    "Z156": "PNJ_RJP",
+    "Z157": "PAT_BHT",
+    "Z158": "PAT_BHT"
+   },
+   "flows_t_yr": [
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "KOL_DNK",
+     "flow_t_yr": 16276.77
+    },
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "LKO_KNP",
+     "flow_t_yr": 28337.538
+    },
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "PNJ_RJP",
+     "flow_t_yr": 54777.393
+    },
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "PAT_BHT",
+     "flow_t_yr": 38608.299
+    },
+    {
+     "plant_id": "P_SLV",
+     "dc_id": "MUM_BHW",
+     "flow_t_yr": 37757.708
+    },
+    {
+     "plant_id": "P_SLV",
+     "dc_id": "AMD_CHG",
+     "flow_t_yr": 24510.711
+    },
+    {
+     "plant_id": "P_SLV",
+     "dc_id": "NAG_MHN",
+     "flow_t_yr": 16967.748
+    },
+    {
+     "plant_id": "P_PDY",
+     "dc_id": "BLR_HSR",
+     "flow_t_yr": 56199.838
+    },
+    {
+     "plant_id": "P_PDY",
+     "dc_id": "HYD_SMB",
+     "flow_t_yr": 26331.489
+    },
+    {
+     "plant_id": "P_PDY",
+     "dc_id": "KOL_DNK",
+     "flow_t_yr": 232.50498
+    }
+   ]
+  },
   "AG_outage_BLR_HSR_1m": {
    "scenario_id": "AG_outage_BLR_HSR_1m",
    "group": "S5",
@@ -4172,14 +5455,14 @@
     "months": 1,
     "service.min_share_within_radius.value": 0.0
    },
-   "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+   "assumptions_sha256": "912e99df374330db1d1ca5917e5174c7e4df4bb1f2f3c1b3fbbc583e6d7443f9",
    "status": "Optimal Solution Found",
    "solve": {
     "objective_cr": 263.4409950840291,
     "best_bound_cr": 263.4409950840291,
     "mip_gap_frac": 0.0,
     "proxy_gap_frac": -0.0025802687384361978,
-    "solve_time_s": 0.1077568531036377,
+    "solve_time_s": null,
     "passes": []
    },
    "open_dcs": [
@@ -4449,64 +5732,28 @@
     }
    ]
   },
-  "AG_diesel_20_f9a1ac": {
-   "scenario_id": "AG_diesel_20_f9a1ac",
-   "group": "AG",
-   "question": "What if: diesel_20",
+  "AG_outage_MUM_BHW_1m": {
+   "scenario_id": "AG_outage_MUM_BHW_1m",
+   "group": "S5",
+   "question": "What if a site goes down for a month?",
    "inputs": {
-    "diesel_shock_frac": 0.2
+    "closed_dc": "MUM_BHW",
+    "open_set": "fixed",
+    "capacity_surge": 0.2,
+    "months": 1,
+    "service.min_share_within_radius.value": 0.0
    },
-   "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+   "assumptions_sha256": "912e99df374330db1d1ca5917e5174c7e4df4bb1f2f3c1b3fbbc583e6d7443f9",
    "status": "Optimal Solution Found",
    "solve": {
-    "objective_cr": 250.73019364420904,
-    "best_bound_cr": 250.2783934834,
-    "mip_gap_frac": 0.0018019375897350167,
-    "proxy_gap_frac": -0.0034147873265715223,
-    "solve_time_s": 4.655075311660767,
-    "passes": [
-     {
-      "k_ref": 6,
-      "status": "Optimal Solution Found",
-      "n_dcs": 9,
-      "open_dcs": [
-       "MUM_BHW",
-       "NCR_FRN",
-       "BLR_HSR",
-       "HYD_SMB",
-       "AMD_CHG",
-       "KOL_DNK",
-       "NAG_MHN",
-       "LKO_KNP",
-       "PAT_BHT"
-      ],
-      "proxy_gap_frac": 0.029064455677600298,
-      "solve_time_s": 3.5016849040985107,
-      "total_cr": 261.6936210821666
-     },
-     {
-      "k_ref": 9,
-      "status": "Optimal Solution Found",
-      "n_dcs": 9,
-      "open_dcs": [
-       "MUM_BHW",
-       "NCR_FRN",
-       "BLR_HSR",
-       "HYD_SMB",
-       "AMD_CHG",
-       "KOL_DNK",
-       "LKO_KNP",
-       "IDR_PTH",
-       "PAT_BHT"
-      ],
-      "proxy_gap_frac": -0.0034147873265715223,
-      "solve_time_s": 1.1533904075622559,
-      "total_cr": 261.28819067095253
-     }
-    ]
+    "objective_cr": 244.46660468890752,
+    "best_bound_cr": 244.4657429923,
+    "mip_gap_frac": 3.5248029424656085e-06,
+    "proxy_gap_frac": -0.001606919453470912,
+    "solve_time_s": null,
+    "passes": []
    },
    "open_dcs": [
-    "MUM_BHW",
     "NCR_FRN",
     "BLR_HSR",
     "HYD_SMB",
@@ -4516,58 +5763,86 @@
     "IDR_PTH",
     "PAT_BHT"
    ],
-   "extra": {},
+   "extra": {
+    "closed_dc": "MUM_BHW",
+    "freight_change_cr_per_yr": 16.328123874076198,
+    "outage_cost_cr": 1.36067698950635,
+    "next_day_share_before": 0.8009290388988292,
+    "next_day_share_during": 0.6993370498495907,
+    "zones_losing_next_day": [
+     "Greater Mumbai",
+     "Pune",
+     "Thane",
+     "Pimpri Chinchwad",
+     "Nashik",
+     "Kalyan-Dombivli",
+     "Vasai-Virar City",
+     "Navi Mumbai",
+     "Mira-Bhayandar",
+     "Bhiwandi Nizampur",
+     "Durgapur",
+     "Kolhapur",
+     "Ulhasnagar",
+     "Jhansi",
+     "Sangli Miraj Kupwad",
+     "Kurnool",
+     "Ahmadnagar",
+     "Chandrapur",
+     "Parbhani"
+    ],
+    "demand_losing_next_day_t_yr": 31634.156574481443
+   },
    "cost_cr": {
-    "primary": 94.36811504765039,
-    "secondary": 79.306343722602,
-    "space": 20.15220625861803,
+    "primary": 89.08834702686642,
+    "secondary": 83.70325321680653,
+    "space": 18.70118123875013,
     "handling": 6.6,
-    "inventory": 33.86152564208216,
-    "fixed": 27.0,
-    "total": 261.28819067095253
+    "inventory": 32.44860413540474,
+    "fixed": 24.0,
+    "total": 254.54138561782779
    },
    "service": {
-    "next_day_share_frac": 0.8009290388988292,
+    "next_day_share_frac": 0.6993370498495907,
     "two_day_share_frac": 0.9908265371141967
    },
-   "share_of_revenue_frac": 0.04354803177849209,
+   "share_of_revenue_frac": 0.04242356426963797,
    "assignment": {
-    "Z001": "MUM_BHW",
+    "Z001": "AMD_CHG",
     "Z002": "NCR_FRN",
     "Z003": "BLR_HSR",
     "Z004": "HYD_SMB",
     "Z005": "AMD_CHG",
     "Z006": "BLR_HSR",
     "Z007": "KOL_DNK",
-    "Z008": "MUM_BHW",
-    "Z009": "MUM_BHW",
+    "Z008": "AMD_CHG",
+    "Z009": "AMD_CHG",
     "Z010": "NCR_FRN",
     "Z011": "LKO_KNP",
     "Z012": "LKO_KNP",
     "Z013": "IDR_PTH",
     "Z014": "IDR_PTH",
-    "Z015": "MUM_BHW",
+    "Z015": "AMD_CHG",
     "Z016": "IDR_PTH",
     "Z017": "AMD_CHG",
     "Z018": "HYD_SMB",
-    "Z019": "MUM_BHW",
+    "Z019": "AMD_CHG",
     "Z020": "PAT_BHT",
     "Z021": "NCR_FRN",
     "Z022": "NCR_FRN",
     "Z023": "NCR_FRN",
-    "Z024": "MUM_BHW",
+    "Z024": "AMD_CHG",
     "Z025": "NCR_FRN",
     "Z026": "AMD_CHG",
     "Z027": "NCR_FRN",
-    "Z028": "MUM_BHW",
-    "Z029": "MUM_BHW",
+    "Z028": "AMD_CHG",
+    "Z029": "AMD_CHG",
     "Z030": "LKO_KNP",
     "Z031": "NCR_FRN",
-    "Z032": "MUM_BHW",
+    "Z032": "IDR_PTH",
     "Z033": "LKO_KNP",
     "Z034": "PAT_BHT",
     "Z035": "NCR_FRN",
-    "Z036": "MUM_BHW",
+    "Z036": "AMD_CHG",
     "Z037": "KOL_DNK",
     "Z038": "PAT_BHT",
     "Z039": "IDR_PTH",
@@ -4580,7 +5855,7 @@
     "Z046": "IDR_PTH",
     "Z047": "NCR_FRN",
     "Z048": "PAT_BHT",
-    "Z049": "MUM_BHW",
+    "Z049": "HYD_SMB",
     "Z050": "BLR_HSR",
     "Z051": "BLR_HSR",
     "Z052": "NCR_FRN",
@@ -4591,10 +5866,10 @@
     "Z057": "NCR_FRN",
     "Z058": "BLR_HSR",
     "Z059": "BLR_HSR",
-    "Z060": "MUM_BHW",
-    "Z061": "MUM_BHW",
+    "Z060": "BLR_HSR",
+    "Z061": "AMD_CHG",
     "Z062": "BLR_HSR",
-    "Z063": "MUM_BHW",
+    "Z063": "AMD_CHG",
     "Z064": "NCR_FRN",
     "Z065": "PAT_BHT",
     "Z066": "LKO_KNP",
@@ -4611,24 +5886,24 @@
     "Z077": "AMD_CHG",
     "Z078": "NCR_FRN",
     "Z079": "NCR_FRN",
-    "Z080": "KOL_DNK",
+    "Z080": "PAT_BHT",
     "Z081": "PAT_BHT",
     "Z082": "BLR_HSR",
     "Z083": "HYD_SMB",
-    "Z084": "MUM_BHW",
+    "Z084": "BLR_HSR",
     "Z085": "BLR_HSR",
     "Z086": "HYD_SMB",
     "Z087": "NCR_FRN",
     "Z088": "NCR_FRN",
     "Z089": "IDR_PTH",
-    "Z090": "MUM_BHW",
+    "Z090": "AMD_CHG",
     "Z091": "PAT_BHT",
-    "Z092": "MUM_BHW",
-    "Z093": "LKO_KNP",
-    "Z094": "MUM_BHW",
+    "Z092": "AMD_CHG",
+    "Z093": "NCR_FRN",
+    "Z094": "BLR_HSR",
     "Z095": "BLR_HSR",
-    "Z096": "MUM_BHW",
-    "Z097": "MUM_BHW",
+    "Z096": "BLR_HSR",
+    "Z097": "IDR_PTH",
     "Z098": "PAT_BHT",
     "Z099": "BLR_HSR",
     "Z100": "BLR_HSR",
@@ -4639,7 +5914,7 @@
     "Z105": "BLR_HSR",
     "Z106": "BLR_HSR",
     "Z107": "IDR_PTH",
-    "Z108": "HYD_SMB",
+    "Z108": "BLR_HSR",
     "Z109": "KOL_DNK",
     "Z110": "PAT_BHT",
     "Z111": "BLR_HSR",
@@ -4652,13 +5927,13 @@
     "Z118": "KOL_DNK",
     "Z119": "HYD_SMB",
     "Z120": "KOL_DNK",
-    "Z121": "MUM_BHW",
+    "Z121": "IDR_PTH",
     "Z122": "NCR_FRN",
     "Z123": "LKO_KNP",
     "Z124": "AMD_CHG",
     "Z125": "HYD_SMB",
     "Z126": "PAT_BHT",
-    "Z127": "MUM_BHW",
+    "Z127": "IDR_PTH",
     "Z128": "BLR_HSR",
     "Z129": "NCR_FRN",
     "Z130": "IDR_PTH",
@@ -4666,11 +5941,11 @@
     "Z132": "HYD_SMB",
     "Z133": "KOL_DNK",
     "Z134": "LKO_KNP",
-    "Z135": "MUM_BHW",
+    "Z135": "BLR_HSR",
     "Z136": "NCR_FRN",
     "Z137": "BLR_HSR",
     "Z138": "NCR_FRN",
-    "Z139": "HYD_SMB",
+    "Z139": "IDR_PTH",
     "Z140": "PAT_BHT",
     "Z141": "AMD_CHG",
     "Z142": "BLR_HSR",
@@ -4679,7 +5954,7 @@
     "Z145": "PAT_BHT",
     "Z146": "HYD_SMB",
     "Z147": "HYD_SMB",
-    "Z148": "HYD_SMB",
+    "Z148": "IDR_PTH",
     "Z149": "NCR_FRN",
     "Z150": "BLR_HSR",
     "Z151": "NCR_FRN",
@@ -4695,52 +5970,339 @@
     {
      "plant_id": "P_HDW",
      "dc_id": "NCR_FRN",
-     "flow_t_yr": 61576.164
+     "flow_t_yr": 62218.007
     },
     {
      "plant_id": "P_HDW",
      "dc_id": "KOL_DNK",
-     "flow_t_yr": 15310.257
+     "flow_t_yr": 13579.997
     },
     {
      "plant_id": "P_HDW",
      "dc_id": "LKO_KNP",
-     "flow_t_yr": 21538.767
+     "flow_t_yr": 20896.924
     },
     {
      "plant_id": "P_HDW",
      "dc_id": "PAT_BHT",
-     "flow_t_yr": 39574.812
+     "flow_t_yr": 41305.073
     },
     {
      "plant_id": "P_SLV",
-     "dc_id": "MUM_BHW",
-     "flow_t_yr": 36598.533
+     "dc_id": "HYD_SMB",
+     "flow_t_yr": 3443.6367
     },
     {
      "plant_id": "P_SLV",
      "dc_id": "AMD_CHG",
-     "flow_t_yr": 18789.393
+     "flow_t_yr": 46876.597
     },
     {
      "plant_id": "P_SLV",
      "dc_id": "IDR_PTH",
-     "flow_t_yr": 20825.497
+     "flow_t_yr": 25429.766
     },
     {
      "plant_id": "P_PDY",
      "dc_id": "BLR_HSR",
-     "flow_t_yr": 56199.838
+     "flow_t_yr": 61242.014
     },
     {
      "plant_id": "P_PDY",
      "dc_id": "HYD_SMB",
-     "flow_t_yr": 29354.233
+     "flow_t_yr": 24775.481
     },
     {
      "plant_id": "P_PDY",
      "dc_id": "KOL_DNK",
      "flow_t_yr": 232.50498
+    }
+   ]
+  },
+  "AG_outage_NCR_FRN_1m": {
+   "scenario_id": "AG_outage_NCR_FRN_1m",
+   "group": "S5",
+   "question": "What if a site goes down for a month?",
+   "inputs": {
+    "closed_dc": "NCR_FRN",
+    "open_set": "fixed",
+    "capacity_surge": 0.2,
+    "months": 1,
+    "service.min_share_within_radius.value": 0.0
+   },
+   "assumptions_sha256": "912e99df374330db1d1ca5917e5174c7e4df4bb1f2f3c1b3fbbc583e6d7443f9",
+   "status": "Optimal Solution Found",
+   "solve": {
+    "objective_cr": 256.4899293478492,
+    "best_bound_cr": 256.4899293478492,
+    "mip_gap_frac": 0.0,
+    "proxy_gap_frac": -0.0012228688900446372,
+    "solve_time_s": null,
+    "passes": []
+   },
+   "open_dcs": [
+    "MUM_BHW",
+    "BLR_HSR",
+    "HYD_SMB",
+    "AMD_CHG",
+    "KOL_DNK",
+    "LKO_KNP",
+    "IDR_PTH",
+    "PAT_BHT"
+   ],
+   "extra": {
+    "closed_dc": "NCR_FRN",
+    "freight_change_cr_per_yr": 28.38336531611812,
+    "outage_cost_cr": 2.3652804430098433,
+    "next_day_share_before": 0.8009290388988292,
+    "next_day_share_during": 0.6401302607390194,
+    "zones_losing_next_day": [
+     "DMC",
+     "Jaipur",
+     "Ghaziabad",
+     "Ludhiana",
+     "Faridabad",
+     "Meerut",
+     "Chandigarh",
+     "Gurgaon",
+     "Saharanpur",
+     "Noida",
+     "Dehradun",
+     "Durgapur",
+     "Nanded Waghala",
+     "Gulbarga",
+     "Ajmer",
+     "Loni",
+     "Jalgaon",
+     "Patiala",
+     "Kurnool",
+     "Muzaffarnagar",
+     "Latur",
+     "Rohtak",
+     "Mathura",
+     "Alwar",
+     "Junagadh",
+     "Parbhani",
+     "Hisar",
+     "Karnal",
+     "Shimla"
+    ],
+    "demand_losing_next_day_t_yr": 48239.63344794291
+   },
+   "cost_cr": {
+    "primary": 91.87943395861915,
+    "secondary": 92.9674077270957,
+    "space": 18.695088941180014,
+    "handling": 6.6,
+    "inventory": 32.33962414871773,
+    "fixed": 24.0,
+    "total": 266.4815547756126
+   },
+   "service": {
+    "next_day_share_frac": 0.6401302607390194,
+    "two_day_share_frac": 0.9668549429311285
+   },
+   "share_of_revenue_frac": 0.0444135924626021,
+   "assignment": {
+    "Z001": "MUM_BHW",
+    "Z002": "LKO_KNP",
+    "Z003": "BLR_HSR",
+    "Z004": "HYD_SMB",
+    "Z005": "AMD_CHG",
+    "Z006": "BLR_HSR",
+    "Z007": "KOL_DNK",
+    "Z008": "MUM_BHW",
+    "Z009": "MUM_BHW",
+    "Z010": "IDR_PTH",
+    "Z011": "LKO_KNP",
+    "Z012": "LKO_KNP",
+    "Z013": "IDR_PTH",
+    "Z014": "IDR_PTH",
+    "Z015": "MUM_BHW",
+    "Z016": "IDR_PTH",
+    "Z017": "AMD_CHG",
+    "Z018": "HYD_SMB",
+    "Z019": "MUM_BHW",
+    "Z020": "PAT_BHT",
+    "Z021": "LKO_KNP",
+    "Z022": "LKO_KNP",
+    "Z023": "LKO_KNP",
+    "Z024": "MUM_BHW",
+    "Z025": "LKO_KNP",
+    "Z026": "AMD_CHG",
+    "Z027": "LKO_KNP",
+    "Z028": "MUM_BHW",
+    "Z029": "MUM_BHW",
+    "Z030": "LKO_KNP",
+    "Z031": "LKO_KNP",
+    "Z032": "MUM_BHW",
+    "Z033": "LKO_KNP",
+    "Z034": "PAT_BHT",
+    "Z035": "LKO_KNP",
+    "Z036": "MUM_BHW",
+    "Z037": "KOL_DNK",
+    "Z038": "PAT_BHT",
+    "Z039": "IDR_PTH",
+    "Z040": "AMD_CHG",
+    "Z041": "LKO_KNP",
+    "Z042": "BLR_HSR",
+    "Z043": "IDR_PTH",
+    "Z044": "HYD_SMB",
+    "Z045": "BLR_HSR",
+    "Z046": "IDR_PTH",
+    "Z047": "LKO_KNP",
+    "Z048": "PAT_BHT",
+    "Z049": "MUM_BHW",
+    "Z050": "BLR_HSR",
+    "Z051": "BLR_HSR",
+    "Z052": "LKO_KNP",
+    "Z053": "LKO_KNP",
+    "Z054": "LKO_KNP",
+    "Z055": "PAT_BHT",
+    "Z056": "LKO_KNP",
+    "Z057": "LKO_KNP",
+    "Z058": "BLR_HSR",
+    "Z059": "BLR_HSR",
+    "Z060": "MUM_BHW",
+    "Z061": "MUM_BHW",
+    "Z062": "BLR_HSR",
+    "Z063": "MUM_BHW",
+    "Z064": "LKO_KNP",
+    "Z065": "PAT_BHT",
+    "Z066": "LKO_KNP",
+    "Z067": "HYD_SMB",
+    "Z068": "IDR_PTH",
+    "Z069": "AMD_CHG",
+    "Z070": "LKO_KNP",
+    "Z071": "HYD_SMB",
+    "Z072": "IDR_PTH",
+    "Z073": "PAT_BHT",
+    "Z074": "AMD_CHG",
+    "Z075": "LKO_KNP",
+    "Z076": "BLR_HSR",
+    "Z077": "AMD_CHG",
+    "Z078": "LKO_KNP",
+    "Z079": "LKO_KNP",
+    "Z080": "PAT_BHT",
+    "Z081": "PAT_BHT",
+    "Z082": "BLR_HSR",
+    "Z083": "MUM_BHW",
+    "Z084": "MUM_BHW",
+    "Z085": "BLR_HSR",
+    "Z086": "MUM_BHW",
+    "Z087": "AMD_CHG",
+    "Z088": "LKO_KNP",
+    "Z089": "IDR_PTH",
+    "Z090": "MUM_BHW",
+    "Z091": "PAT_BHT",
+    "Z092": "MUM_BHW",
+    "Z093": "LKO_KNP",
+    "Z094": "MUM_BHW",
+    "Z095": "BLR_HSR",
+    "Z096": "MUM_BHW",
+    "Z097": "MUM_BHW",
+    "Z098": "PAT_BHT",
+    "Z099": "BLR_HSR",
+    "Z100": "BLR_HSR",
+    "Z101": "MUM_BHW",
+    "Z102": "AMD_CHG",
+    "Z103": "KOL_DNK",
+    "Z104": "LKO_KNP",
+    "Z105": "BLR_HSR",
+    "Z106": "BLR_HSR",
+    "Z107": "IDR_PTH",
+    "Z108": "BLR_HSR",
+    "Z109": "KOL_DNK",
+    "Z110": "PAT_BHT",
+    "Z111": "BLR_HSR",
+    "Z112": "KOL_DNK",
+    "Z113": "KOL_DNK",
+    "Z114": "KOL_DNK",
+    "Z115": "PAT_BHT",
+    "Z116": "PAT_BHT",
+    "Z117": "LKO_KNP",
+    "Z118": "KOL_DNK",
+    "Z119": "MUM_BHW",
+    "Z120": "KOL_DNK",
+    "Z121": "MUM_BHW",
+    "Z122": "LKO_KNP",
+    "Z123": "LKO_KNP",
+    "Z124": "AMD_CHG",
+    "Z125": "HYD_SMB",
+    "Z126": "PAT_BHT",
+    "Z127": "MUM_BHW",
+    "Z128": "BLR_HSR",
+    "Z129": "LKO_KNP",
+    "Z130": "LKO_KNP",
+    "Z131": "BLR_HSR",
+    "Z132": "HYD_SMB",
+    "Z133": "KOL_DNK",
+    "Z134": "LKO_KNP",
+    "Z135": "MUM_BHW",
+    "Z136": "LKO_KNP",
+    "Z137": "BLR_HSR",
+    "Z138": "LKO_KNP",
+    "Z139": "HYD_SMB",
+    "Z140": "PAT_BHT",
+    "Z141": "MUM_BHW",
+    "Z142": "BLR_HSR",
+    "Z143": "BLR_HSR",
+    "Z144": "KOL_DNK",
+    "Z145": "PAT_BHT",
+    "Z146": "HYD_SMB",
+    "Z147": "HYD_SMB",
+    "Z148": "MUM_BHW",
+    "Z149": "LKO_KNP",
+    "Z150": "BLR_HSR",
+    "Z151": "LKO_KNP",
+    "Z152": "BLR_HSR",
+    "Z153": "PAT_BHT",
+    "Z154": "PAT_BHT",
+    "Z155": "PAT_BHT",
+    "Z156": "LKO_KNP",
+    "Z157": "PAT_BHT",
+    "Z158": "PAT_BHT"
+   },
+   "flows_t_yr": [
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "KOL_DNK",
+     "flow_t_yr": 13812.502
+    },
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "LKO_KNP",
+     "flow_t_yr": 75069.811
+    },
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "PAT_BHT",
+     "flow_t_yr": 41305.073
+    },
+    {
+     "plant_id": "P_SLV",
+     "dc_id": "MUM_BHW",
+     "flow_t_yr": 41704.929
+    },
+    {
+     "plant_id": "P_SLV",
+     "dc_id": "AMD_CHG",
+     "flow_t_yr": 22701.091
+    },
+    {
+     "plant_id": "P_SLV",
+     "dc_id": "IDR_PTH",
+     "flow_t_yr": 23255.836
+    },
+    {
+     "plant_id": "P_PDY",
+     "dc_id": "BLR_HSR",
+     "flow_t_yr": 57453.522
+    },
+    {
+     "plant_id": "P_PDY",
+     "dc_id": "HYD_SMB",
+     "flow_t_yr": 24697.236
     }
    ]
   }

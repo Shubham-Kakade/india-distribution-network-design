@@ -6,14 +6,14 @@
   "service.next_day_radius_km.value": 400,
   "service.min_share_within_radius.value": 0.9
  },
- "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+ "assumptions_sha256": "912e99df374330db1d1ca5917e5174c7e4df4bb1f2f3c1b3fbbc583e6d7443f9",
  "status": "Optimal Solution Found",
  "solve": {
   "objective_cr": 260.87177565652627,
   "best_bound_cr": 260.87177565652627,
   "mip_gap_frac": 0.0,
   "proxy_gap_frac": 0.059324160653956515,
-  "solve_time_s": 3.4807610511779785,
+  "solve_time_s": 2.589766025543213,
   "passes": [
    {
     "k_ref": 6,
@@ -34,7 +34,7 @@
      "COK_KLM"
     ],
     "proxy_gap_frac": 0.059324160653956515,
-    "solve_time_s": 2.085089921951294,
+    "solve_time_s": 1.5519516468048096,
     "total_cr": 255.38691472322492
    },
    {
@@ -56,7 +56,7 @@
      "COK_KLM"
     ],
     "proxy_gap_frac": -0.011606809859008527,
-    "solve_time_s": 1.3956711292266846,
+    "solve_time_s": 1.0378143787384033,
     "total_cr": 255.38691472322492
    }
   ]

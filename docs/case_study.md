@@ -60,7 +60,7 @@ The recommendation is the cheapest network at today's service level, so the savi
 2. Actual lane rates and road distances.
 3. Overhead per site from the client's books.
 4. A site visit for the central-India swing (Indore or Nagpur).
-5. C&W MarketBeat availability and rent checks for the low-confidence clusters.
+5. Broker availability and rent checks for the low-confidence clusters.
 6. Model plant allocation jointly with the network: the sourcing footprint is worth as much as the whole DC consolidation saving (removing the Puducherry plant costs +28.4 Cr; an eastern plant saves 33.1 Cr).
 
-*Independent portfolio project by Shubham Kakade. Not affiliated with or endorsed by Cushman & Wakefield or any client; company and network are hypothetical. Code and full results: github.com/Shubham-Kakade/india-distribution-network-design.*
+*Independent portfolio project. The client and network are hypothetical; not affiliated with or endorsed by any company named in the sources. Built by Shubham Kakade. Code and full results: github.com/Shubham-Kakade/india-distribution-network-design.*

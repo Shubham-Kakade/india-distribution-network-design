@@ -2,7 +2,7 @@
 
 **How many distribution centres should a national FMCG brand run in India, where, and which markets should each serve, at minimum landed cost with a next-day service promise?** This repository answers that question end to end. It contains a facility-location optimisation in Python, every scenario a steering committee would ask for, and a what-if agent that answers questions by running the model.
 
-> Independent portfolio project. Not affiliated with or endorsed by Cushman & Wakefield or any client. The company, its plants and today's network are hypothetical. All costs are in INR Cr a year.
+> Independent portfolio project. The client and network are hypothetical; not affiliated with or endorsed by any company named in the sources. All costs are in INR Cr a year.
 
 **Live demo:** https://india-distribution-network-design-kz6nnhvwavjuo6opn7kappq.streamlit.app/ (it opens in offline mode; live mode needs your own free key entered in the sidebar, which is never stored)
 
@@ -91,6 +91,8 @@ Guardrails:
 - **Citations.** Every answer cites its scenario ids.
 - **Refusals.** Overrides more than 2× the range width outside `assumptions.yaml` are refused, with the accepted range.
 - **Caching and limits.** Results are cached by a hash of the arguments, and the agent may make at most 6 tool calls per question.
+- **Plain-English answers.** Every answer opens with a short plain-English version for a business manager: in short, what changes, why it costs more or less, and what to do, with the main limitation and source on one line. Below it, under "Show details", is the six-part analysis: a headline (cost and service impact), what happens in the network, why (the cost drivers and their mechanism), what it means for the client, assumptions and limits, and the source scenarios. Offline answers have both layers too.
+- **Retries.** Rate limits and server errors (HTTP 429, 500, 502, 503, 504) are retried twice before the app falls back to offline with a notice.
 
 **Offline mode** is the default. It answers 20 pre-computed questions with no network and no key; see [`docs/agent_demo_transcripts.md`](docs/agent_demo_transcripts.md). **Live mode** works with any OpenAI-compatible chat API that supports tool calling.
 
@@ -167,7 +169,7 @@ The app reads only committed files: `data/processed/`, `outputs/scenarios/` and 
 2. Actual lane rates and road distances.
 3. Overhead per site from the client's books.
 4. A site visit for the central-India swing (Indore or Nagpur).
-5. C&W MarketBeat availability and rent checks for the low-confidence clusters.
+5. Broker availability and rent checks for the low-confidence clusters.
 6. Model plant allocation jointly with the network. The sourcing footprint is worth as much as the whole DC consolidation saving: losing the Puducherry plant costs +28.4 Cr a year, and an eastern plant saves 33.1 Cr.
 
 ## Repository map
@@ -188,4 +190,4 @@ scripts/                  setup_local.sh / .ps1, build_case_study_pdf.py (one-of
 
 ## Disclaimer
 
-Independent portfolio project by Shubham Kakade, not affiliated with or endorsed by Cushman & Wakefield or any client. The company, its plants, its current network and all results are hypothetical and illustrative. Public sources are listed in [`docs/sources.md`](docs/sources.md).
+Independent portfolio project. The client and network are hypothetical; not affiliated with or endorsed by any company named in the sources. Built by Shubham Kakade; the company, its plants, its current network and all results are illustrative. Public sources are listed in [`docs/sources.md`](docs/sources.md).

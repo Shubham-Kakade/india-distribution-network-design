@@ -9,14 +9,14 @@
   "months": 1,
   "service.min_share_within_radius.value": 0.0
  },
- "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+ "assumptions_sha256": "912e99df374330db1d1ca5917e5174c7e4df4bb1f2f3c1b3fbbc583e6d7443f9",
  "status": "Optimal Solution Found",
  "solve": {
   "objective_cr": 256.4899293478492,
   "best_bound_cr": 256.4899293478492,
   "mip_gap_frac": 0.0,
   "proxy_gap_frac": -0.0012228688900446372,
-  "solve_time_s": 0.15270233154296875,
+  "solve_time_s": 0.08597397804260254,
   "passes": []
  },
  "open_dcs": [

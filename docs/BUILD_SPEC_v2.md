@@ -7,7 +7,7 @@
 
 ## 0. How to use this document
 
-`PROJECT_BRIEF.md` remains the statement of purpose: the target role, the business question and the definition of done. This specification is the engineering and modelling contract. Wherever the two disagree, this document wins. Every parameter lives in `data/assumptions.yaml`, which has been populated with sourced values, confidence ratings and sensitivity ranges. Code must read from that file and never hard-code a number.
+`PROJECT_BRIEF.md` remains the statement of purpose: why the project exists, the business question and the definition of done. This specification is the engineering and modelling contract. Wherever the two disagree, this document wins. Every parameter lives in `data/assumptions.yaml`, which has been populated with sourced values, confidence ratings and sensitivity ranges. Code must read from that file and never hard-code a number.
 
 The build runs in six phases (section 15). Each phase ends at a checkpoint, where the supervisor reviews outputs against the acceptance criteria in section 13 before the next phase starts. Claude Code should stop at each checkpoint and print the sanity summary specified for that phase.
 
@@ -30,10 +30,10 @@ The original brief is sound in scope but would produce a model that a network-de
 | 9 | No as-is baseline | A network study without "savings versus today" has no business case | Hypothetical 15-depot pre-GST state C&F network evaluated on the same cost engine (section 8) |
 | 10 | Candidate set leaves Kerala, Odisha and the North outside every 400 km ring | High service targets become infeasible, which is a data artefact rather than an insight | 19 candidates, including Kochi, Bhubaneswar, Rajpura, Jaipur, Patna, Lucknow, Indore, Guwahati |
 | 11 | `pulp` unpinned | PuLP 4.x no longer bundles CBC (verified 25 Oct 2026: 4.2.0 lists no solvers, 3.3.2 lists `PULP_CBC_CMD`) | Pin `pulp>=2.8,<4` |
-| 12 | Unverified rents for Pune, NCR, Kolkata, Nagpur | The real-estate angle is the C&W hook, so weak rent data undermines it | Sourced to Knight Frank, Colliers and H1 2026 consultancy data; low-confidence rows explicitly flagged |
+| 12 | Unverified rents for Pune, NCR, Kolkata, Nagpur | The real-estate angle is central to the study, so weak rent data undermines it | Sourced to Knight Frank, Colliers and H1 2026 consultancy data; low-confidence rows explicitly flagged |
 | 13 | Disruption treated only as "force-close the top DC" | Conflates a one-month operational outage with a strategic site loss | Two disruption modes: operational recourse and strategic re-optimisation (section 9) |
 | 14 | Agent design unspecified | An LLM that computes or invents numbers would discredit the demo | Tool-only numerics, parameter guardrails, scenario cache, offline mode (section 10) |
-| 15 | No affiliation disclaimer | The project uses C&W's name and market data | README and app footer carry an "independent portfolio project, not affiliated" line |
+| 15 | No affiliation disclaimer | The project uses named firms' market data | README and app footer carry an "independent portfolio project, not affiliated" line |
 
 ---
 
@@ -81,7 +81,7 @@ Before writing this specification, the supervisor ran a throwaway prototype of t
 
 Six observations follow from the prototype. They are hypotheses that the full build should test and, if they hold, turn into the narrative of the case study.
 
-1. **The cost curve is flat-bottomed.** Total cost varies by about 3% between four and nine DCs. That spread is within the uncertainty of the low-confidence inputs, so cost alone cannot pick the DC count. Service policy and real-estate factors decide it, and that is precisely the C&W value proposition: network modelling narrows the field, then real-estate expertise selects within it.
+1. **The cost curve is flat-bottomed.** Total cost varies by about 3% between four and nine DCs. That spread is within the uncertainty of the low-confidence inputs, so cost alone cannot pick the DC count. Service policy and real-estate factors decide it, and that is precisely where network advisory adds value: network modelling narrows the field, then real-estate expertise selects within it.
 2. **Service is the binding driver.** The cost-only optimum (four DCs) reaches only about half of demand next-day. Reaching 80% at 400 km costs about INR 13 Cr per year more (about 6%), and each further five points of service costs more again. The "price of service" curve is the hero chart.
 3. **Consolidation saves about 10% against the as-is network at the same service level.** That is about INR 29 Cr per year (272.7 down to 244.0), while secondary freight rises from 58.5 to 71.4. The trade-off reads cleanly: fewer, larger DCs exchange higher last-mile freight for lower fixed, inventory and primary cost.
 4. **The savings headline depends heavily on the fixed cost per DC.** About INR 18 Cr of the INR 29 Cr saving comes from running six fewer sites at INR 3 Cr each, which is a low-confidence assumption. The tornado must show this openly; it is the first question an interviewer will ask.
@@ -225,7 +225,7 @@ Each scenario is a named parameter override applied to a deep copy of the assump
 | S5a | What if a site goes down for a month? | Highest-throughput DC closed; open set fixed; zones re-assigned; capacity +20% surge allowed | Cost and service hit × months/12 | Operational resilience; which zones lose next-day service |
 | S5b | What if we lose the site permanently? | Same DC excluded; full re-optimisation | New sites, cost | Strategic substitute site and its penalty |
 | S6 | Fuel shock? | Diesel +20% and +40% → freight × (1 + 0.55 × shock) | Cost deltas, any site changes | Whether higher freight pushes towards more DCs |
-| S7 | Real-estate sensitivity? | Rents ±20%; per-site rent switching point by bisection | Rent at which each chosen site drops out | How much rent headroom each recommended site has (the C&W angle) |
+| S7 | Real-estate sensitivity? | Rents ±20%; per-site rent switching point by bisection | Rent at which each chosen site drops out | How much rent headroom each recommended site has (the real-estate angle) |
 | S8 | Does plant footprint drive the answer? | Remove Puducherry; or add an eastern plant | Sites, cost | Separates network design from sourcing footprint |
 | S9 | Which assumptions matter? | Each low/medium-confidence parameter at its range ends | Tornado on total cost and on the recommended DC count | Which conclusions are robust and which are fragile |
 | R | Which sites are no-regret? | Across S1–S8 | Site × scenario open/closed heatmap | No-regret core sites versus swing sites |
@@ -236,7 +236,7 @@ The **recommendation** is the network at the knee of the S3 frontier, cross-chec
 
 ## 10. Agentic layer
 
-**Purpose.** The agent shows the "agentic AI in supply chain optimisation" capability named in the job post. Its job is to translate a business question into a model run and explain the trade-off. The model does the computing; the agent does the explaining.
+**Purpose.** The agent shows how agentic AI can support supply-chain optimisation. Its job is to translate a business question into a model run and explain the trade-off. The model does the computing; the agent does the explaining.
 
 **Stack** (amended 26 Oct 2026 by owner decision D-039). The agent does **not** use the Anthropic API. It talks to any OpenAI-compatible chat-completions endpoint with tool calling through the `openai` Python SDK. Configuration comes only from the environment variables `LLM_BASE_URL`, `LLM_API_KEY` and `LLM_MODEL` (or a git-ignored `.env` read by `python-dotenv`); `.env.example` lists presets for Gemini, Groq and a local Ollama model. With `LLM_BASE_URL` or `LLM_API_KEY` unset the agent runs in offline mode. Streamlit front end.
 
@@ -261,7 +261,7 @@ The **recommendation** is the network at the knee of the S3 frontier, cross-chec
 
 **User interface.** The left pane is a chat. The right pane shows a folium map of the current scenario and a cost-breakdown bar chart compared with base. A footer carries the disclaimer.
 
-**Demo script** (for the GIF and the DM):
+**Demo script** (for the demo GIF):
 1. "What's our recommended network and what does it cost?"
 2. "What if Hosur shuts for a month?" (operational disruption)
 3. "And if we lost it permanently?"
@@ -375,7 +375,7 @@ The write-up follows a situation–complication–question–answer structure an
 - **Question.** Which network minimises landed cost while meeting a next-day service promise, and how robust is that answer?
 - **Answer.** The recommended network: sites, cost, service, saving against today. This is followed by three supporting insights (the price of service, the robust core sites, and the rent headroom per site) and an honest limitations section: Census 2011 shares, a single aggregated product, haversine distances, hypothetical plants and as-is network, and the low-confidence rents named explicitly.
 
-Close with "what we would do next on a real engagement": client shipment data, SKU-level demand, actual lane rates, a site visit for the swing locations, and C&W MarketBeat availability checks for the low-confidence clusters.
+Close with "what we would do next on a real engagement": client shipment data, SKU-level demand, actual lane rates, a site visit for the swing locations, and broker availability checks for the low-confidence clusters.
 
 ---
 
@@ -467,7 +467,7 @@ Stop at Checkpoint E.
 
 ## 16. Interview defensibility: questions the project must answer
 
-These are the questions an SCLA lead is likely to ask, with where the answer lives.
+These are the questions a network-advisory lead is likely to ask, with where the answer lives.
 
 | Question | Where answered |
 |---|---|
@@ -484,7 +484,7 @@ These are the questions an SCLA lead is likely to ask, with where the answer liv
 
 ## 17. Open items still to verify
 
-1. Cluster rents for Lucknow, Indore, Jaipur, Rajpura, Patna, Kochi and Bhubaneswar are analyst estimates. A C&W or Knight Frank secondary-market note would upgrade them. The model works without them; the README flags them.
+1. Cluster rents for Lucknow, Indore, Jaipur, Rajpura, Patna, Kochi and Bhubaneswar are analyst estimates. A Knight Frank or similar secondary-market note would upgrade them. The model works without them; the README flags them.
 2. The Nagpur rent is from Knight Frank 2023. Refresh it if a 2025–26 figure surfaces.
 3. Warehouse opex, handling, fixed cost per DC, storage density and stock-days are analyst benchmarks (low confidence). They are covered by the tornado.
 4. Primary and secondary rates are derived from one marketplace's lane quotes, cross-checked against NCAER's 2025 averages. Optionally triangulate with two or three more lanes.

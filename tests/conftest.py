@@ -28,7 +28,10 @@ from src.scenarios import Run
 
 @pytest.fixture(scope="session")
 def params() -> dict:
-    return load_params()
+    # CBC's "-threads 1" (the YAML setting, D-021) starts a one-worker threaded search that can
+    # idle on a 10 s timed wait when the root node solves the MIP, which every tiny fixture does.
+    # Tests run CBC serially ("-threads 0"); India runs keep the YAML setting unchanged (D-044).
+    return with_overrides(load_params(), {"solver.threads": 0})
 
 
 @pytest.fixture

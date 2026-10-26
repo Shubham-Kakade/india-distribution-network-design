@@ -192,9 +192,14 @@ def plot_cost_curve(sweep_cr: pd.DataFrame, cog_total_cr: pd.Series) -> plt.Figu
     return fig
 
 
-def plot_service_frontier(frontier_cr: pd.DataFrame, knee: tuple[int, float, float]) -> plt.Figure:
+def plot_service_frontier(
+    frontier_cr: pd.DataFrame,
+    recommended: tuple[int, float, float],
+    knee: tuple[int, float, float],
+) -> plt.Figure:
     """S3: cheapest network cost against the next-day service target, one line per radius, with
-    infeasible targets marked and the knee annotated (spec §12, service_frontier.png).
+    infeasible targets marked, the recommended point and the Kneedle knee annotated (spec §12,
+    service_frontier.png).
 
     frontier_cr: columns radius_km, alpha, total (INR Cr, NaN when infeasible).
     """
@@ -220,14 +225,19 @@ def plot_service_frontier(frontier_cr: pd.DataFrame, knee: tuple[int, float, flo
                 color=INK_MUTED,
                 fontsize=8,
             )
-    radius_km, alpha, total = knee
-    ax.annotate(
-        f"Knee: {alpha:.0%} at {radius_km} km, INR {total:.1f} Cr",
-        xy=(100 * alpha, total),
-        xytext=(100 * alpha - 9, total + 12),
-        arrowprops={"arrowstyle": "->", "color": INK},
-        color=INK,
-    )
+    for label, (radius_km, alpha, total), dy in (
+        ("Recommended (service comparable to today)", recommended, 12),
+        ("Kneedle knee (for reference)", knee, -8),
+    ):
+        if label.startswith("Kneedle") and (radius_km, alpha) == recommended[:2]:
+            continue  # same point: one label is enough
+        ax.annotate(
+            f"{label}: {alpha:.0%} at {radius_km} km, INR {total:.1f} Cr",
+            xy=(100 * alpha, total),
+            xytext=(100 * alpha - 14, total + dy),
+            arrowprops={"arrowstyle": "->", "color": INK},
+            color=INK,
+        )
     ax.set_xlabel("Share of demand within the radius of its DC (%)")
     ax.set_ylabel("Annual logistics cost (INR Cr)")
     ax.set_title("Price of service: cost-optimal network per target (S3)", loc="left", color=INK)

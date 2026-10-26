@@ -14,7 +14,7 @@ from src.model import Solution, build_and_solve
 
 
 def knee_alpha(curve: pd.DataFrame) -> float:
-    """Knee of one radius's cost-vs-service curve (spec §9 S3; D-028).
+    """Knee of one radius's cost-vs-service curve: reported, not used to decide (D-028).
 
     With both axes scaled to 0-1 between the first and last feasible points, the knee is the
     point furthest below the straight line joining them: past it, each further point of service
@@ -25,6 +25,39 @@ def knee_alpha(curve: pd.DataFrame) -> float:
     x = (feasible["alpha"] - feasible["alpha"].min()) / np.ptp(feasible["alpha"])
     y = (feasible["total"] - feasible["total"].min()) / np.ptp(feasible["total"])
     return float(feasible["alpha"].iloc[int(np.argmax(x - y))])
+
+
+def comparable_service_alpha(alphas: list[float], as_is_share_frac: float) -> float:
+    """The service target comparable to today's: the highest frontier target that the as-is
+    network already meets (D-028). The recommended network is the cheapest network at it."""
+    met = [a for a in alphas if a <= as_is_share_frac]
+    if not met:
+        raise ValueError(f"No frontier target at or below today's service {as_is_share_frac:.1%}")
+    return max(met)
+
+
+def upgrade_options(curve: pd.DataFrame, recommended_alpha: float) -> pd.DataFrame:
+    """Every feasible frontier step above the recommended target, priced as a client option.
+
+    curve: one radius of S3 with columns scenario_id, alpha, total_inr (NaN when infeasible)
+    and open_dcs. Returns, per higher target: extra cost, extra service points, DC count and the
+    sites added and dropped relative to the recommended network (D-028).
+    """
+    feasible = curve.dropna(subset=["total_inr"]).sort_values("alpha")
+    base = feasible[feasible["alpha"] == recommended_alpha].iloc[0]
+    higher = feasible[feasible["alpha"] > recommended_alpha]
+    return pd.DataFrame(
+        {
+            "scenario_id": higher["scenario_id"],
+            "alpha": higher["alpha"],
+            "n_dcs": higher["open_dcs"].map(len),
+            "extra_dcs": higher["open_dcs"].map(len) - len(base["open_dcs"]),
+            "extra_cost_inr": higher["total_inr"] - base["total_inr"],
+            "extra_points": 100 * (higher["alpha"] - recommended_alpha),
+            "added": higher["open_dcs"].map(lambda s: sorted(set(s) - set(base["open_dcs"]))),
+            "dropped": higher["open_dcs"].map(lambda s: sorted(set(base["open_dcs"]) - set(s))),
+        }
+    ).reset_index(drop=True)
 
 
 def site_robustness(

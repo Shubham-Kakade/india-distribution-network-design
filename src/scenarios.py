@@ -28,7 +28,13 @@ from src.data_prep import (
 )
 from src.demand import build_demand_points, build_zones
 from src.model import Solution, build_and_solve, dc_capacity_t_yr
-from src.robustness import cog_network, knee_alpha, site_robustness
+from src.robustness import (
+    cog_network,
+    comparable_service_alpha,
+    knee_alpha,
+    site_robustness,
+    upgrade_options,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -457,21 +463,30 @@ def frontier_table(frontier: list[Run]) -> pd.DataFrame:
 
 
 def run_all(params: dict, data: NetworkData) -> dict:
-    """Solve every scenario in dependency order: S3's knee fixes the recommended network, which
-    S4-S9 and R stress-test at its service target."""
+    """Solve every scenario in dependency order. The recommended network is the cheapest S3
+    network at the service level comparable to today's; S4-S9 and R stress-test it at that
+    target, and every higher S3 target is priced as an upgrade option (D-028)."""
     as_is = s0_as_is(params, data)
     cost_only = s1_cost_only(params, data)
     sweep = s2_dc_count(params, data)
     frontier = s3_service_frontier(params, data)
     radius_km = params["service"]["next_day_radius_km"]["value"]
     table = frontier_table(frontier)
-    alpha = knee_alpha(
-        table[table["radius_km"] == radius_km].rename(columns={"total_inr": "total"})
+    curve = table[table["radius_km"] == radius_km]
+    alpha = comparable_service_alpha(
+        sorted(curve["alpha"]), as_is.solution.cost.next_day_share_frac
     )
+    knee = knee_alpha(curve.rename(columns={"total_inr": "total"}))
     recommended = next(
         r for r in frontier if r.inputs[RADIUS_KEY] == radius_km and r.inputs[ALPHA_KEY] == alpha
     )
-    logger.info("Recommended network: knee of the %s km frontier at %.0f%%", radius_km, 100 * alpha)
+    logger.info(
+        "Recommended: cheapest network at %.0f%% within %s km (today %.1f%%); Kneedle knee %.0f%%",
+        100 * alpha,
+        radius_km,
+        100 * as_is.solution.cost.next_day_share_frac,
+        100 * knee,
+    )
     target = at_service(params, radius_km, alpha)
     stress = [
         *s4_growth(target, data, recommended),
@@ -497,6 +512,8 @@ def run_all(params: dict, data: NetworkData) -> dict:
         "frontier_table": table,
         "recommended": recommended,
         "target": (radius_km, alpha),
+        "knee_alpha": knee,
+        "upgrades": upgrade_options(curve, alpha),
         "headroom": headroom,
         "tornado": tornado,
         "cog": cog,

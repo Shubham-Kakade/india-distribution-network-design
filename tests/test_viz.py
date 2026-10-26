@@ -34,7 +34,7 @@ def test_every_chart_saves_with_its_footnote(tmp_path):
     )
     figures = {
         "cost_curve": viz.plot_cost_curve(sweep, pd.Series([62.0, 50.0, 56.0], index=k)),
-        "frontier": viz.plot_service_frontier(frontier, (400, 0.8, 50.0)),
+        "frontier": viz.plot_service_frontier(frontier, (400, 0.8, 50.0), (400, 0.9, 55.0)),
         "waterfall": viz.plot_waterfall(
             dict.fromkeys(COMPONENTS, 10.0), dict.fromkeys(COMPONENTS, 9.0)
         ),

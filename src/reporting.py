@@ -43,6 +43,14 @@ def run_record(run: "Run", params: dict, assumptions_sha256: str) -> dict:
             "mip_gap_frac": sol.gap_frac,
             "proxy_gap_frac": sol.proxy_gap_frac,
             "solve_time_s": sol.solve_time_s,
+            # D-034: free runs record both proxy passes; the lower exact total was kept
+            "passes": [
+                {
+                    **{k: v for k, v in p.items() if k != "total_inr"},
+                    "total_cr": to_crore(p["total_inr"], params) if p["total_inr"] else None,
+                }
+                for p in sol.passes
+            ],
         },
         "open_dcs": list(sol.open_dcs),
         "extra": run.extra,
@@ -113,6 +121,26 @@ def write_outputs(results: dict, params: dict, data: NetworkData) -> None:
             indent=1,
         )
     )
+    radius_km, alpha = results["target"]
+    upgrades = results["upgrades"]
+    (SCENARIO_DIR / "S3_upgrade_options.json").write_text(
+        json.dumps(
+            {
+                "rule": "Recommended = cheapest network at the highest S3 target that today's "
+                "network already meets; every higher target is an upgrade option (D-028)",
+                "radius_km": radius_km,
+                "as_is_next_day_share_frac": results["as_is"].solution.cost.next_day_share_frac,
+                "recommended": {"scenario_id": rec.scenario_id, "alpha": alpha},
+                "kneedle_knee_alpha": results["knee_alpha"],
+                "options": upgrades.assign(
+                    extra_cost_cr=to_crore(upgrades["extra_cost_inr"], params)
+                )
+                .drop(columns="extra_cost_inr")
+                .to_dict("records"),
+            },
+            indent=1,
+        )
+    )
     (SCENARIO_DIR / "S7_switching_rents.json").write_text(
         results["headroom"].to_json(orient="records", indent=1)
     )
@@ -156,12 +184,16 @@ def write_charts(results: dict, params: dict) -> None:
     frontier = frontier.assign(total=to_crore(frontier["total_inr"], params))
     rec = results["recommended"]
     radius_km, alpha = results["target"]
-    knee = (radius_km, alpha, to_crore(rec.solution.cost.total_inr, params))
+    curve = frontier[frontier["radius_km"] == radius_km].set_index("alpha")["total"]
     viz.save_chart(
-        viz.plot_service_frontier(frontier[["radius_km", "alpha", "total"]], knee),
+        viz.plot_service_frontier(
+            frontier[["radius_km", "alpha", "total"]],
+            (radius_km, alpha, curve[alpha]),
+            (radius_km, results["knee_alpha"], curve[results["knee_alpha"]]),
+        ),
         CHART_DIR / "service_frontier.png",
         "S3: free DC count; service = share of demand whose DC is within the radius by road "
-        "(haversine x 1.25).",
+        "(haversine x 1.25). Recommended = cheapest at service comparable to today's (D-028).",
         disclaimer,
     )
     viz.save_chart(
@@ -240,7 +272,8 @@ def print_report(results: dict, params: dict, elapsed_s: float) -> None:
         "=" * 96,
         f"CHECKPOINT C REPORT (spec §9, §12, §13): {len(results['runs'])} runs, {elapsed_s:.0f} s",
         "=" * 96,
-        f"Recommended ({rec.scenario_id}, knee of the frontier): {len(rec.solution.open_dcs)} DCs, "
+        f"Recommended ({rec.scenario_id}, cheapest at service comparable to today's "
+        f"{as_is.solution.cost.next_day_share_frac:.1%}): {len(rec.solution.open_dcs)} DCs, "
         f"INR {cr(rec.solution.cost.total_inr):.1f} Cr, "
         f"next-day {rec.solution.cost.next_day_share_frac:.1%}",
         f"  Sites: {', '.join(rec.solution.open_dcs)}",
@@ -249,6 +282,15 @@ def print_report(results: dict, params: dict, elapsed_s: float) -> None:
         f"  No-regret core: {', '.join(results['robustness']['core'])}",
         f"  Swing sites: {', '.join(results['robustness']['swing'])}",
         f"Infeasible combinations: {', '.join(infeasible) or 'none'}",
+        f"Kneedle knee of the {results['target'][0]} km frontier (reported, not the decision): "
+        f"{results['knee_alpha']:.0%}",
+        "Upgrade options above the recommended target (vs recommended):",
+        *(
+            f"  {u.alpha:.0%}: {u.n_dcs} DCs ({u.extra_dcs:+d}), {cr(u.extra_cost_inr):+.1f} Cr/yr "
+            f"for {u.extra_points:+.0f} points; add {', '.join(u.added) or '-'}; "
+            f"drop {', '.join(u.dropped) or '-'}"
+            for u in results["upgrades"].itertuples()  # small table
+        ),
         "",
         f"  {'scenario':<26}{'status':<24}{'DCs':>4}{'total Cr':>10}{'d rec':>8}"
         f"{'next-day':>10}  notes",

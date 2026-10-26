@@ -1,0 +1,17 @@
+# Streamlit settings for local runs and Streamlit Community Cloud (D-046).
+[browser]
+gatherUsageStats = false   # no telemetry
+
+[server]
+headless = true
+
+[client]
+toolbarMode = "viewer"     # hide developer options from visitors
+
+[theme]
+base = "light"
+primaryColor = "#2a78d6"   # the charts' blue (src/viz.py)
+backgroundColor = "#ffffff"
+secondaryBackgroundColor = "#f3f5f8"
+textColor = "#1d2733"
+font = "sans serif"

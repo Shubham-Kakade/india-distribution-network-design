@@ -9,8 +9,11 @@ Every cost comes from costs.evaluate_network through model.build_and_solve.
 
 import dataclasses
 import logging
+import multiprocessing
 import time
+from concurrent.futures import ProcessPoolExecutor
 from dataclasses import dataclass, field
+from itertools import repeat
 
 import numpy as np
 import pandas as pd
@@ -307,29 +310,41 @@ def s7_rent_shocks(params: dict, data: NetworkData, recommended: Run) -> list[Ru
     return runs
 
 
-def rent_switching_points(params: dict, data: NetworkData, recommended: Run) -> pd.DataFrame:
-    """S7: the rent at which each recommended site drops out of the re-optimised network.
+def switching_rent(params: dict, data: NetworkData, dc: str) -> float:
+    """S7: the rent at which one site drops out of the re-optimised network.
 
     Bisection on that site's rent alone, between today's rent and max_multiplier x today's, to
     within tolerance_inr_sqft_month. NaN means the site stays open even at the upper bound.
     Assumes a site, once dropped, stays dropped at higher rents (checked only at the bounds).
     """
     cfg = params["scenarios"]["rent_switch_search"]
+    rent = data.dcs.set_index("dc_id").loc[dc, "rent_inr_sqft_month"]
+
+    def stays_open(multiplier: float) -> bool:
+        return dc in build_and_solve(params, with_rents(data, {dc: multiplier})).open_dcs
+
+    low, high = 1.0, cfg["max_multiplier"]
+    if stays_open(high):
+        return np.nan
+    while (high - low) * rent > cfg["tolerance_inr_sqft_month"]:
+        mid = (low + high) / 2
+        low, high = (mid, high) if stays_open(mid) else (low, mid)
+    return high * rent
+
+
+def rent_switching_points(params: dict, data: NetworkData, recommended: Run) -> pd.DataFrame:
+    """S7: switching rent for every recommended site (spec §9).
+
+    The site searches are independent, so they run in parallel processes (D-037); each solve
+    stays single-threaded and results come back in site order, so the output is unchanged.
+    """
+    dcs = list(recommended.solution.open_dcs)
     rents = data.dcs.set_index("dc_id")["rent_inr_sqft_month"]
+    # spawn, not fork: safe in a threaded parent, and what Windows does anyway
+    with ProcessPoolExecutor(mp_context=multiprocessing.get_context("spawn")) as pool:
+        switch = list(pool.map(switching_rent, repeat(params), repeat(data), dcs))
     rows = []
-    for dc in recommended.solution.open_dcs:
-
-        def stays_open(multiplier: float, dc: str = dc) -> bool:
-            return dc in build_and_solve(params, with_rents(data, {dc: multiplier})).open_dcs
-
-        low, high = 1.0, cfg["max_multiplier"]
-        if stays_open(high):
-            switch_rent = np.nan
-        else:
-            while (high - low) * rents[dc] > cfg["tolerance_inr_sqft_month"]:
-                mid = (low + high) / 2
-                low, high = (mid, high) if stays_open(mid) else (low, mid)
-            switch_rent = high * rents[dc]
+    for dc, switch_rent in zip(dcs, switch, strict=True):
         logger.info("S7 switching rent %s: today %.1f, drops out at %s", dc, rents[dc], switch_rent)
         rows.append({"dc_id": dc, "rent": rents[dc], "switch_rent": switch_rent})
     headroom = pd.DataFrame(rows)

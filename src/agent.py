@@ -8,13 +8,17 @@ sent back once with the offending numbers named; if it fails again, the answer i
 straight from the tool results. Rate limits, provider errors and malformed tool calls fall back
 to the offline library with a visible notice. With LLM_BASE_URL or LLM_API_KEY unset the agent
 is offline from the start (no network).
+
+Demo transcript from the project root: python -m src.agent [--offline]
 """
 
+import argparse
 import json
 import logging
 import math
 import os
 import re
+import time
 from dataclasses import dataclass, field
 from urllib.parse import urlparse
 
@@ -331,3 +335,53 @@ class Agent:
         reply = self.offline.ask(question)
         reply.notice = f"Live model unavailable ({reason}); answered from the offline library."
         return reply
+
+
+# --- Demo script (spec §10) -----------------------------------------------------------------
+
+DEMO_QUESTIONS = (
+    "What's our recommended network and what does it cost?",
+    "What if Hosur shuts for a month?",
+    "And if we lost it permanently?",
+    "Diesel just went up 20%. Should we change anything?",
+    "Which of our assumptions should I worry about most?",
+)
+
+
+def print_demo_transcript(bot: Agent, pause_s: float) -> None:
+    """Ask the five demo questions in order and print a Markdown transcript."""
+    config = bot.config
+    where = f"{config.provider}, model {config.model}" if bot.mode == "live" else "no network"
+    print(f"Mode: {bot.mode} ({where})\n")  # noqa: T201
+    for i, question in enumerate(DEMO_QUESTIONS, start=1):
+        if i > 1 and bot.mode == "live":
+            time.sleep(pause_s)  # space out live calls for free-tier rate limits
+        reply = bot.ask(question)
+        tools = "; ".join(f"{n}({json.dumps(a)})" for n, a in reply.tool_calls) or "none"
+        print(f"**Q{i}. {question}**\n")  # noqa: T201
+        if reply.notice:
+            print(f"> Notice: {reply.notice}\n")  # noqa: T201
+        print(f"{reply.text}\n")  # noqa: T201
+        print(  # noqa: T201
+            f"*{reply.mode} · tools: {tools} · grounding: {reply.grounding} · "
+            f"scenarios: {', '.join(reply.scenario_ids) or 'none'}*\n"
+        )
+
+
+def main() -> None:
+    from src.config import load_params
+    from src.data_prep import load_network_data
+
+    parser = argparse.ArgumentParser(description="Run the spec §10 demo questions.")
+    parser.add_argument("--offline", action="store_true", help="ignore LLM_* settings")
+    parser.add_argument("--pause-s", type=float, default=20.0, help="gap between live questions")
+    args = parser.parse_args()
+    logging.basicConfig(level=logging.WARNING, format="%(levelname)s %(name)s: %(message)s")
+    offline = OfflineAgent.from_file()
+    config = LLMConfig(None, None, None) if args.offline else LLMConfig.from_env()
+    toolbox = ToolBox(load_params(), load_network_data()) if config.live else None
+    print_demo_transcript(Agent(config, toolbox, offline), args.pause_s)
+
+
+if __name__ == "__main__":
+    main()

@@ -250,6 +250,7 @@ The **recommendation** is the network at the knee of the S3 frontier, cross-chec
 | `compare_scenarios(ids)` | list of scenario_ids | Side-by-side table |
 | `explain_network(scenario_id)` | id | Structured facts: each site's zones, throughput, share of cost, next-day share |
 | `get_assumption_source(key)` | key | Value, source and confidence for that parameter |
+| `rank_assumptions()` (added, D-040) | none | The S9 tornado rows, widest cost swing first, for demo question 5 |
 
 **Guardrails.**
 - The system prompt states that every number in a reply must come from a tool result in the current conversation, and that the scenario_id must be cited.

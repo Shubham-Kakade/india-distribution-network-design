@@ -145,3 +145,23 @@ The supervisor approved Phase 3 with two changes. Both are on PR #4.
   1. HTTP 500 `INTERNAL`, "Internal error encountered".
   2. HTTP 403 `PERMISSION_DENIED`, reason `API_KEY_SERVICE_BLOCKED`, on the standard key: its API restrictions blocked the Generative Language API.
   3. After the key was replaced with an AI Studio key in the network secret: HTTP 400 `INVALID_ARGUMENT`, "Missing or invalid Authorization header". The secret was not being attached; the proxy logged no relay failure for the host.
+
+## 2026-10-26 — Phase 5 (delivery, code-complete), Checkpoint E
+
+- **Bring-your-own-key (D-045).**
+  - The sidebar *Live mode* panel offers Gemini, Groq, Other OpenAI-compatible, and Local Ollama when not public; base URL and model are prefilled and editable; the key goes in a password field, with *Use this key* and *Forget key* buttons.
+  - The key lives only in `st.session_state`. `PUBLIC_DEMO=1` ignores `LLM_*` and `.env`, hides Ollama and only calls `https` on public hosts. The sidebar names the key's source, never the key. Provider errors are redacted.
+  - Driven headless in public mode, with the session's real `LLM_*` variables present: the app stayed offline, refused a localhost URL, went live on a typed key, and fell back with a redacted notice when the provider was unreachable. The key never appeared in the page HTML or the server log, and *Forget key* returned to offline.
+  - `tests/test_llm_settings.py`: 13 tests (12 new, 1 moved from `test_agent.py`), mocked clients only. Fast suite: 114 tests.
+- **Hosting (D-046).** `.streamlit/config.toml` added. A clean clone with `requirements.txt` only renders in public mode in 4.1 s, answers offline and writes no files. PuLP 3.3.2 bundles CBC for Linux x86-64 and arm64. The README *Deploy* section sets `PUBLIC_DEMO = "1"` and no API key secret.
+- **Local setup (D-047).** `scripts/setup_local.sh` and `scripts/setup_local.ps1` create the venv (outside OneDrive by default on Windows), install the requirements, check CBC and copy `.env.example` to `.env` without ever overwriting it. The shell script was run twice on a fresh clone; the PowerShell script is untested (no PowerShell here). `.env.example` has placeholders only, with Gemini as the default and a note on AI Studio keys.
+- **Write-up.**
+  - `README.md` is the case study: answer first, five insights with charts, approach, the agent, run locally, live mode with your own key, deploy, limitations, next steps, repo map and disclaimer.
+  - `docs/case_study.md` is rendered to a two-page A4 `docs/case_study.pdf` by `scripts/build_case_study_pdf.py` (one-off; `markdown` plus Playwright's Chromium, not in requirements, D-048).
+  - Every number in both documents was checked against the scenario records, the summary CSV, the insights and `data/processed/zones.csv`.
+- **Test speed (D-044).** Root cause: CBC's one-worker threaded mode (`-threads 1`) sometimes idles on a 10 s timed wait when the root node solves the MIP. Tests now run CBC serially, and `pytest -q` falls from about 25 s to about 5 s. India runs keep `threads: 1`. Serial CBC there changed 15 scenarios within the MIP gap, including the 85% site set, so it was rejected. `src/` and every committed output are unchanged. `python -m src.model` re-run: base case 9 DCs, INR 244.1 Cr, 80.1% next-day; as-is INR 272.6 Cr, 81.4%; saving 28.5 Cr. These match the committed records (244.0772 and 272.6265).
+- **Not done here** (needs Shubham's laptop):
+  - the live Gemini demo transcript (D-043);
+  - the demo GIF (spec §13 Checkpoint E);
+  - the actual deployment;
+  - a run of `setup_local.ps1` on Windows.

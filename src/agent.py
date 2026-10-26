@@ -6,8 +6,8 @@ for (at most MAX_TOOL_CALLS per question) and checks the reply: every number mus
 tool result from this conversation, allowing rounding and % formatting. A reply that fails is
 sent back once with the offending numbers named; if it fails again, the answer is templated
 straight from the tool results. Rate limits, provider errors and malformed tool calls fall back
-to the offline library with a visible notice. With LLM_BASE_URL or LLM_API_KEY unset the agent
-is offline from the start (no network).
+to the offline library with a visible notice. Without endpoint settings the agent is offline
+from the start (no network); where the settings and key come from is llm_settings.py.
 
 Demo transcript from the project root: python -m src.agent [--offline]
 """
@@ -16,14 +16,11 @@ import argparse
 import json
 import logging
 import math
-import os
 import re
 import time
 from dataclasses import dataclass, field
-from urllib.parse import urlparse
 
 import openai
-from dotenv import load_dotenv
 
 from src.agent_offline import (
     LIBRARY_PATH,
@@ -33,12 +30,14 @@ from src.agent_offline import (
     mentioned_site,
 )
 from src.agent_tools import TOOL_SCHEMAS, ToolBox
+from src.llm_settings import OFFLINE, LLMConfig, env_config, redact
 
 logger = logging.getLogger(__name__)
 
 MAX_TOOL_CALLS = 6  # per user question (spec §10)
 MAX_RETRIES = 4  # SDK retries on 429 / 5xx, with exponential backoff that honours Retry-After
 REQUEST_TIMEOUT_S = 90
+MAX_ERROR_CHARS = 200  # provider error text shown in the fallback notice
 
 SYSTEM_PROMPT = """You are a supply-chain network analyst presenting a distribution network \
 study for a hypothetical Indian FMCG client to its leadership. The optimisation model does all \
@@ -65,35 +64,6 @@ GROUNDING_RETRY = (
     "Your reply contains numbers that are not in any tool result: {numbers}. Rewrite it using "
     "only numbers that appear in the tool results (rounding is fine), and cite scenario ids."
 )
-
-
-# --- Configuration --------------------------------------------------------------------------
-
-
-@dataclass(frozen=True)
-class LLMConfig:
-    """Endpoint settings from the environment (D-039). The key is never logged or displayed."""
-
-    base_url: str | None
-    api_key: str | None = field(repr=False)
-    model: str | None
-
-    @classmethod
-    def from_env(cls) -> "LLMConfig":
-        load_dotenv()  # a git-ignored .env, if present; real environment variables win
-        return cls(
-            os.getenv("LLM_BASE_URL") or None,
-            os.getenv("LLM_API_KEY") or None,
-            os.getenv("LLM_MODEL") or None,
-        )
-
-    @property
-    def live(self) -> bool:
-        return bool(self.base_url and self.api_key and self.model)
-
-    @property
-    def provider(self) -> str:
-        return urlparse(self.base_url).hostname if self.base_url else "none"
 
 
 # --- Grounding check ------------------------------------------------------------------------
@@ -331,6 +301,9 @@ class Agent:
         status = getattr(err, "status_code", None)
         if status:
             reason += f" (HTTP {status})"
+        # The provider's own words help the visitor fix a bad key; never echo a key (D-045)
+        detail = redact(getattr(err, "message", None) or str(err), self.config.api_key)
+        reason += f": {detail[:MAX_ERROR_CHARS]}"
         logger.warning("Live model unavailable: %s; answering offline", reason)
         reply = self.offline.ask(question)
         reply.notice = f"Live model unavailable ({reason}); answered from the offline library."
@@ -378,7 +351,7 @@ def main() -> None:
     args = parser.parse_args()
     logging.basicConfig(level=logging.WARNING, format="%(levelname)s %(name)s: %(message)s")
     offline = OfflineAgent.from_file()
-    config = LLMConfig(None, None, None) if args.offline else LLMConfig.from_env()
+    config = OFFLINE if args.offline else env_config()
     toolbox = ToolBox(load_params(), load_network_data()) if config.live else None
     print_demo_transcript(Agent(config, toolbox, offline), args.pause_s)
 

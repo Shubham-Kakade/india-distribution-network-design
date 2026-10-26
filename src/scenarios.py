@@ -453,6 +453,41 @@ def cog_networks(params: dict, data: NetworkData, sweep: list[Run]) -> list[Run]
     return runs
 
 
+def s3_staging(
+    params: dict, data: NetworkData, recommended: Run, upgrades: pd.DataFrame
+) -> list[Run]:
+    """Can the recommended network grow into the first upgrade option without closing a site?
+
+    If the next upgrade drops some recommended sites, re-solve the recommended target with
+    those sites closed: the extra cost is what building toward the upgrade costs today, and
+    "nested_in_next" says whether the upgrade then only adds sites (supervisor request, D-028).
+    """
+    if upgrades.empty or not upgrades["dropped"].iloc[0]:
+        return []
+    upgrade = upgrades.iloc[0]
+    sol = build_and_solve(params, data, forced_closed=upgrade["dropped"])
+    nested = sol.cost is not None and set(sol.open_dcs) <= set(upgrade["sites"])
+    return [
+        Run(
+            f"{recommended.scenario_id}_staged",
+            "S3",
+            "Can the recommended network stage into the next upgrade?",
+            {"forced_closed": upgrade["dropped"], "toward": upgrade["scenario_id"]},
+            sol,
+            {
+                "toward": upgrade["scenario_id"],
+                "penalty_cr_per_yr": to_crore(
+                    sol.cost.total_inr - recommended.solution.cost.total_inr, params
+                )
+                if sol.cost
+                else None,
+                "nested_in_next": nested,
+                **(site_changes(sol, recommended.solution) if sol.cost else {}),
+            },
+        )
+    ]
+
+
 def open_sets(runs: list[Run]) -> dict[str, tuple[str, ...]]:
     """Open sites of each feasible run, by scenario id (the input R classifies on)."""
     return {r.scenario_id: r.solution.open_dcs for r in runs if r.solution.cost is not None}
@@ -503,6 +538,8 @@ def run_all(params: dict, data: NetworkData) -> dict:
         100 * knee,
     )
     target = at_service(params, radius_km, alpha)
+    upgrades = upgrade_options(curve, alpha)
+    staging = s3_staging(target, data, recommended, upgrades)
     stress = [
         *s4_growth(target, data, recommended),
         *s5_disruption(target, data, recommended),
@@ -518,7 +555,7 @@ def run_all(params: dict, data: NetworkData) -> dict:
         open_sets([recommended, *(r for r in stress if r.group != "S5")]),
         open_sets([cost_only, *frontier, *(r for r in stress if r.scenario_id == "S5b")]),
     )
-    runs = [as_is, cost_only, *sweep, *frontier, *stress, *tornado_runs, *cog]
+    runs = [as_is, cost_only, *sweep, *frontier, *staging, *stress, *tornado_runs, *cog]
     return {
         "runs": runs,
         "as_is": as_is,
@@ -528,7 +565,8 @@ def run_all(params: dict, data: NetworkData) -> dict:
         "recommended": recommended,
         "target": (radius_km, alpha),
         "knee_alpha": knee,
-        "upgrades": upgrade_options(curve, alpha),
+        "upgrades": upgrades,
+        "staging": staging,
         "headroom": headroom,
         "tornado": tornado,
         "cog": cog,

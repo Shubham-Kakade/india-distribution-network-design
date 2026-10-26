@@ -1,5 +1,6 @@
 """Scenario building blocks on the tiny network in conftest.py."""
 
+import pandas as pd
 import pytest
 
 from src.config import with_overrides
@@ -9,6 +10,7 @@ from src.scenarios import (
     grown_demand,
     open_sets,
     rent_switching_points,
+    s3_staging,
     s5_disruption,
     with_rents,
 )
@@ -75,3 +77,16 @@ def test_switching_rent_is_above_todays_rent_or_beyond_the_search(params, tiny):
     assert set(headroom.index) == set(rec.solution.open_dcs)
     found = headroom["switch_rent"].dropna()
     assert (found > headroom.loc[found.index, "rent"]).all()
+
+
+def test_staging_closes_the_sites_the_next_upgrade_drops(params, tiny):
+    # The recommended network is a free solve, as in run_all, so closing a site cannot beat it
+    rec = Run("REC", "S3", "q", {}, build_and_solve(params, tiny))
+    assert "D1" in rec.solution.open_dcs
+    upgrades = pd.DataFrame({"scenario_id": ["UP"], "dropped": [["D1"]], "sites": [["D2", "D3"]]})
+    (staged,) = s3_staging(params, tiny, rec, upgrades)
+    assert "D1" not in staged.solution.open_dcs
+    assert staged.extra["nested_in_next"] == set(staged.solution.open_dcs).issubset({"D2", "D3"})
+    assert staged.extra["penalty_cr_per_yr"] >= 0  # closing a site cannot make it cheaper
+    no_drop = upgrades.assign(dropped=[[]])
+    assert s3_staging(params, tiny, rec, no_drop) == []  # already nested: nothing to stage

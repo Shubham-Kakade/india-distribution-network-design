@@ -291,6 +291,13 @@ def print_report(results: dict, params: dict, elapsed_s: float) -> None:
             f"drop {', '.join(u.dropped) or '-'}"
             for u in results["upgrades"].itertuples()  # small table
         ),
+        *(
+            f"Staging toward {s.extra['toward']}: close {', '.join(s.inputs['forced_closed'])} "
+            f"now -> {', '.join(s.extra.get('added', [])) or '-'} instead, "
+            f"{s.extra['penalty_cr_per_yr']:+.2f} Cr/yr at the recommended target; upgrade then "
+            f"{'only adds sites' if s.extra['nested_in_next'] else 'still closes a site'}"
+            for s in results["staging"]
+        ),
         "",
         f"  {'scenario':<26}{'status':<24}{'DCs':>4}{'total Cr':>10}{'d rec':>8}"
         f"{'next-day':>10}  notes",

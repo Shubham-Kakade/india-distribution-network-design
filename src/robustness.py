@@ -56,6 +56,7 @@ def upgrade_options(curve: pd.DataFrame, recommended_alpha: float) -> pd.DataFra
             "extra_points": 100 * (higher["alpha"] - recommended_alpha),
             "added": higher["open_dcs"].map(lambda s: sorted(set(s) - set(base["open_dcs"]))),
             "dropped": higher["open_dcs"].map(lambda s: sorted(set(base["open_dcs"]) - set(s))),
+            "sites": higher["open_dcs"].map(list),
         }
     ).reset_index(drop=True)
 

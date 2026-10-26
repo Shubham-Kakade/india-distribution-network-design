@@ -60,13 +60,6 @@ transport.secondary_inr_per_tkm = 30 is refused: the assumptions range is [7, 11
 diesel_shock_frac = 2.5 is refused: the assumptions range is [0.2, 0.4] and an override may go at most 2x the range width beyond it, so the accepted values are [0, 0.8]
 ```
 
-## Live mode (Gemini via the session's network secret): not run, blocked by the API key
+## Live mode: verified in Phase 5 on a local machine
 
-Configuration in the cloud session: `LLM_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai/`, `LLM_MODEL=gemini-3.8-flash`, `LLM_API_KEY=proxy-injected` (the real key is a network secret the proxy attaches; it was never read or printed).
-
-- **First connectivity check** (one chat-completions call with a trivial tool, before any code was written): HTTP 500 `InternalServerError`. Google's body: `{"error": {"code": 500, "message": "Internal error encountered.", "status": "INTERNAL"}}`. That is not an authentication error, so the build went ahead.
-- **Second check, before the demo:** HTTP 403 `PermissionDeniedError`. Google's body (served by Google, `Server: scaffolding on HTTPServer2`; the session proxy logged no failure for this host): `"Requests to this API generativelanguage.googleapis.com method google.ai.generativelanguage.v1main.ModelService.ListModels are blocked."`, status `PERMISSION_DENIED`, reason `API_KEY_SERVICE_BLOCKED`.
-
-`API_KEY_SERVICE_BLOCKED` means the key's API restrictions do not allow the Generative Language API. That is an authorisation failure, so, as instructed, the live demo was not run and no other provider was tried. To unblock it, allow "Generative Language API" under the key's API restrictions in Google Cloud Console (APIs & Services → Credentials), or attach an unrestricted AI Studio key as the network secret. Then run `python -m src.agent` and paste its output here.
-
-Had the live demo run against the blocked key, the agent would have answered every question from the offline library with the notice "Live model unavailable (PermissionDeniedError (HTTP 403)); answered from the offline library." (`tests/test_agent.py` covers that fallback with a mocked client.)
+Live mode is verified in Phase 5 on Shubham's laptop, with Gemini as the provider through its OpenAI-compatible endpoint and the key in a git-ignored `.env` (D-043). Run `python -m src.agent` there and paste its output here. Until then the live loop is covered by the mocked-client tests in `tests/test_agent.py`: grounding pass, retry and template; the tool-call cap; refusals; the rate-limit and malformed-call fallbacks; and the history rollback.

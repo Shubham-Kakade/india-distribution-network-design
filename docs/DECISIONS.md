@@ -21,6 +21,8 @@ Modelling and engineering decisions, newest first. Each entry records the contex
 
 **D-042 scenarios.py pieces made reusable for the agent (no behaviour change).** `operational_outage` and `permanent_loss` (from S5), `diesel_overrides` (from S6) and `rebuild_data` (from S9). Re-solving the recommended network, S5a, S5b, S6 at 20% and 40%, and two tornado ends (circuity low, rest-of-state share low) matched the committed JSON exactly.
 
+**D-043 The live demo is verified in Phase 5 on a local machine (supervisor decision).** In the cloud session the Gemini key is a network secret the proxy should attach, but three connectivity checks failed: HTTP 500 `INTERNAL`; then 403 `API_KEY_SERVICE_BLOCKED` (the standard key's API restrictions); then, with an AI Studio key, 400 "Missing or invalid Authorization header" (the secret was not being injected). Phase 4 is therefore approved on offline mode and the mocked-client tests. The live demo (the five §10 questions, the spot check of live numbers, and any grounding retry or template fallback) moves to Phase 5. It will run on Shubham's laptop against Gemini's OpenAI-compatible endpoint, with the key in a git-ignored `.env` (D-039). No code changes: the agent already reads `.env` through `python-dotenv`.
+
 ---
 
 ## 2026-10-25 — Phase 3 (scenarios)

@@ -136,3 +136,12 @@ The supervisor approved Phase 3 with two changes. Both are on PR #4.
   The spot check of three numbers matches the records.
 - **Tests:** 35 new (102 fast, 2 slow), including grounding pass, retry and template; the cap; refusals; the 429 and malformed-call fallbacks; rollback during the retry; the cache; validation; and the offline demo end to end. All LLM calls in the tests go to a scripted fake client; CI never calls an LLM API.
 - **Open issues:** the live demo is blocked by the Gemini key restriction. A tiny-network CBC solve sometimes takes about 10 s in the fast suite; it is present on `main` too, in a different test each run.
+
+## 2026-10-26 — Checkpoint D approved; live demo deferred to Phase 5
+
+- **Checkpoint D approved** by the supervisor (PR #5).
+- **Live demo moved to Phase 5 (D-043).** It will run locally on Shubham's laptop with the Gemini key in a git-ignored `.env`. The cloud session's network secret is not reaching Google, so live mode could not be verified in the cloud. Until Phase 5, the live loop is covered by the mocked-client tests.
+- **Cloud connectivity errors seen** (each a single chat-completions call to `https://generativelanguage.googleapis.com/v1beta/openai/`, model `gemini-3.8-flash`; the key was never read or printed):
+  1. HTTP 500 `INTERNAL`, "Internal error encountered".
+  2. HTTP 403 `PERMISSION_DENIED`, reason `API_KEY_SERVICE_BLOCKED`, on the standard key: its API restrictions blocked the Generative Language API.
+  3. After the key was replaced with an AI Studio key in the network secret: HTTP 400 `INVALID_ARGUMENT`, "Missing or invalid Authorization header". The secret was not being attached; the proxy logged no relay failure for the host.

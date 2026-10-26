@@ -115,6 +115,42 @@ def answer(parts: tuple[str, str, str, str, str], result: dict) -> str:
     )
 
 
+def service_clause(new_frac: float, recommended_frac: float) -> str:
+    """'with next-day service at 85.1% against 80.1%', or 'unchanged at 80.1%' when equal."""
+    if pct(new_frac) == pct(recommended_frac):
+        return f"with next-day service unchanged at {pct(new_frac)}"
+    return f"with next-day service at {pct(new_frac)} against {pct(recommended_frac)}"
+
+
+SCENARIO_NAMES = {  # recorded scenarios as a reader would name them (no ids in headlines)
+    "S0": "Today's network",
+    "S1": "The cheapest possible network",
+    "S4_uniform": "The network with uniform demand growth",
+    "S4_regional_skew": "The network with faster growth in the East and Centre",
+    "S7_rent_plus_20": "The network with higher rents everywhere",
+    "S7_rent_minus_20": "The network with lower rents everywhere",
+    "S8_no_puducherry": "The network without the Puducherry plant",
+    "S8_add_east": "The network with an eastern plant",
+}
+
+
+def subject_name(row: dict, recommended_id: str) -> str:
+    """A scenario as a reader would name it, so headlines never start with a scenario id."""
+    sid = row["scenario_id"]
+    name = SCENARIO_NAMES.get(sid, "This scenario's network")
+    if sid == recommended_id:
+        name = "The recommended network"
+    elif sid.startswith("S2_k"):
+        name = f"The best {row['n_dcs']}-warehouse network"
+    elif sid.endswith("_staged"):
+        name = "The staged network"
+    elif sid.startswith("S3_") and "next_day_share_frac" in row:
+        name = f"The network built for {pct(row['next_day_share_frac'])} next-day service"
+    elif sid.startswith("COG_"):
+        name = "The centre-of-gravity network"
+    return name
+
+
 def cost_versus(r: dict, subject: str) -> str:
     """Headline clause: cost and service against the recommended network."""
     vs = r["vs_recommended"]
@@ -122,8 +158,8 @@ def cost_versus(r: dict, subject: str) -> str:
     return (
         f"{subject} costs {cr(delta)} a year {'more' if delta >= 0 else 'less'} than the "
         f"recommended network ({cr(r['cost_cr_per_yr']['total'])} against "
-        f"{cr(vs['recommended_total_cr'])}), with next-day service at "
-        f"{pct(r['next_day_share_frac'])} against {pct(vs['recommended_next_day_share_frac'])}."
+        f"{cr(vs['recommended_total_cr'])}), "
+        f"{service_clause(r['next_day_share_frac'], vs['recommended_next_day_share_frac'])}."
     )
 
 
@@ -203,7 +239,7 @@ def describe_network(
     if subject is None and shock:
         subject = f"With diesel prices up {pct(shock)}, the network"
     elif subject is None:
-        subject = f"With {overrides}, the network" if overrides else f"Scenario {r['scenario_id']}"
+        subject = f"With {overrides}, the network" if overrides else "This scenario's network"
     why = drivers_text(vs["cost_drivers"])
     if "diesel" in r:
         d = r["diesel"]
@@ -285,12 +321,14 @@ def describe_explain(r: dict, meaning: str | None = None, limits: str | None = N
     c, share = r["cost_cr_per_yr"], r["cost_share_frac"]
     vs = r["vs_recommended"]
     busiest = sorted(r["sites"], key=lambda s: -s["throughput_t_yr"])[:2]
+    is_rec = r["scenario_id"] == vs["recommended_id"]
     headline = (
-        f"{r['scenario_id']} runs {r['n_dcs']} DCs at {cr(c['total'])} a year "
+        f"{'The recommended network' if is_rec else 'This network'} runs {r['n_dcs']} DCs at "
+        f"{cr(c['total'])} a year "
         f"({pct(r['share_of_revenue_frac'])} of revenue) and reaches "
         f"{pct(r['next_day_share_frac'])} of demand next-day."
     )
-    if r["scenario_id"] != vs["recommended_id"]:
+    if not is_rec:
         headline += " " + cost_versus(r, "It")
     return answer(
         (
@@ -346,18 +384,19 @@ def describe_compare(r: dict, meaning: str | None = None, limits: str | None = N
     subject = next((s for s in rows if s["scenario_id"] != rec_id and "cost_cr_per_yr" in s), None)
     if subject is None:
         subject = rows[0]
+    name = subject_name(subject, rec_id)
     if "cost_cr_per_yr" in subject:
         delta = subject["delta_total_vs_recommended_cr"]
-        headline = (
-            f"{subject['scenario_id']} costs {cr(delta)} a year "
-            f"{'more' if delta >= 0 else 'less'} than the recommended network {rec_id} "
-            f"({subject['cost_cr_per_yr']['total']:.1f} Cr), with next-day service at "
-            f"{pct(subject['next_day_share_frac'])} against "
-            f"{pct(subject['recommended_next_day_share_frac'])}."
+        service = service_clause(
+            subject["next_day_share_frac"], subject["recommended_next_day_share_frac"]
         )
-        why = f"For {subject['scenario_id']}: " + drivers_text(subject["cost_drivers"])
+        headline = (
+            f"{name} costs INR {subject['cost_cr_per_yr']['total']:.1f} Cr a year, {cr(delta)} "
+            f"{'more' if delta >= 0 else 'less'} than the recommended network, {service}."
+        )
+        why = f"For {name[0].lower()}{name[1:]}: " + drivers_text(subject["cost_drivers"])
     else:
-        headline = f"{subject['scenario_id']}: {subject['status']}."
+        headline = f"{name}: {subject['status']}."
         why = "No feasible network to compare."
     return answer(
         (
@@ -502,6 +541,8 @@ class Intent:
     site: str | None = None
     meaning: str | None = None  # the client implication, from docs/scenario_insights.md
     limits: str | None = None  # None: the tool's generic limits line
+    action: str | None = None  # plain answer: the one recommendation (D-053)
+    caveat: str | None = None  # plain answer: the main limitation, in plain words
 
 
 def library_intents(recommended_id: str) -> list[Intent]:
@@ -543,10 +584,13 @@ def library_intents(recommended_id: str) -> list[Intent]:
             "service_90_95",
             "What would 90% or 95% next-day cost?",
             (r"\b9[05]\b",),
-            ((compare, {"ids": [rec, "S3_400km_85", "S3_400km_90", "S3_400km_95"]}),),
+            ((compare, {"ids": [rec, "S3_400km_90", "S3_400km_95", "S3_400km_85"]}),),
             meaning="Each step costs more than the last, and above the first upgrade the network "
             "re-shapes rather than grows (NCR gives way to Jaipur and Rajpura), so treat the "
             "highest targets as a separate network decision, not a further stage.",
+            action="Treat the highest next-day targets as a separate decision: the network would "
+            "have to be redrawn, not just extended.",
+            caveat="Costs are modelled; the next-day reach uses estimated road distances.",
         ),
         Intent(
             "service_85",
@@ -555,6 +599,9 @@ def library_intents(recommended_id: str) -> list[Intent]:
             ((compare, {"ids": [rec, "S3_400km_85", f"{rec}_staged"]}),),
             meaning="This is the first upgrade to offer. Building Nagpur instead of Indore now "
             "(the staged run) costs a little more today but makes the upgrade purely additive.",
+            action="Offer this as the first service upgrade, and build Nagpur instead of Indore "
+            "now so the upgrade only adds warehouses later.",
+            caveat="Costs are modelled; the next-day reach uses estimated road distances.",
         ),
         Intent(
             "growth",
@@ -565,16 +612,22 @@ def library_intents(recommended_id: str) -> list[Intent]:
             "central site swings from Indore to Nagpur, because more volume makes freight weigh "
             "more than rent.",
             limits="The skewed run grows the East and Centre faster; zone shares use base demand.",
+            action="No extra warehouse is needed for this growth; watch the central-India "
+            "location, which shifts from Indore to Nagpur.",
+            caveat="Growth is spread by state; customer shares use today's demand.",
         ),
         Intent(
             "rent",
             "What if rents rise 20%?",
             (r"rent|real estate|lease|warehouse cost",),
-            ((compare, {"ids": [rec, "S7_rent_minus_20", "S7_rent_plus_20"]}),),
+            ((compare, {"ids": [rec, "S7_rent_plus_20", "S7_rent_minus_20"]}),),
             meaning="Rent is a small share of cost and no site changes, so location drives the "
             "choice; a rent survey matters only for the central-India swing site.",
             limits="Every candidate rent moves together; one site at a time is the S7 "
             "switching-rent analysis.",
+            action="Location matters more than rent: survey rents only for the central-India "
+            "warehouse.",
+            caveat="All rents move together; one warehouse at a time is tested separately.",
         ),
         Intent(
             "no_puducherry",
@@ -584,6 +637,9 @@ def library_intents(recommended_id: str) -> list[Intent]:
             meaning="Sourcing drives cost far more than site choice: the core DCs survive, but "
             "the plant footprint is worth modelling jointly with the network.",
             limits="Plant shares are renormalised analyst assumptions (docs/DECISIONS.md).",
+            action="Plan factory and warehouse decisions together: where goods are made changes "
+            "cost more than where they are stored.",
+            caveat="The factory volumes are assumptions.",
         ),
         Intent(
             "east_plant",
@@ -593,6 +649,9 @@ def library_intents(recommended_id: str) -> list[Intent]:
             meaning="An eastern plant cuts inbound freight sharply and moves the swing sites; "
             "plant allocation should be decided jointly with the network.",
             limits="The plant location and share are analyst assumptions (docs/DECISIONS.md).",
+            action="Plan factory and warehouse decisions together: an eastern factory cuts "
+            "trucking from the factories sharply.",
+            caveat="The factory location and volume are assumptions.",
         ),
         Intent(
             "assumptions",
@@ -602,6 +661,9 @@ def library_intents(recommended_id: str) -> list[Intent]:
             meaning="Calibrate circuity with real road distances first, and replace fixed cost "
             "per DC with the client's own overhead data: they decide the DC count and the size "
             "of the business case.",
+            action="Check distances on real road routes first, and replace the assumed running "
+            "cost per warehouse with your own figures.",
+            caveat="One estimate changed at a time; rents are tested separately.",
         ),
         Intent(
             "cog",
@@ -610,6 +672,9 @@ def library_intents(recommended_id: str) -> list[Intent]:
             ((compare, {"ids": ["S2_k09", "COG_k09"]}),),
             meaning="Centre of gravity is a useful first sketch, but it ignores plant "
             "locations, rents and inventory pooling, so the optimised network earns its cost.",
+            action="Use the optimised network: the simple centre-of-gravity layout ignores "
+            "factories, rents and stock.",
+            caveat="Both networks are costed the same way.",
         ),
         Intent(
             "dc_count",
@@ -618,7 +683,10 @@ def library_intents(recommended_id: str) -> list[Intent]:
             ((compare, {"ids": ["S2_k04", "S2_k06", "S2_k08", "S2_k09", "S2_k10", "S2_k12"]}),),
             meaning="Cost alone cannot pick the DC count because the curve is flat across the "
             "middle range; the next-day promise picks it.",
-            limits="These runs have no service target; costs are exact evaluator figures.",
+            limits="These runs have no service target.",
+            action="Choose the number of warehouses by the next-day promise, not by cost alone: "
+            "cost barely moves across the middle range.",
+            caveat="These runs have no next-day target.",
         ),
         Intent(
             "cheapest",
@@ -627,6 +695,9 @@ def library_intents(recommended_id: str) -> list[Intent]:
             ((compare, {"ids": ["S1", rec]}),),
             meaning="The cheapest network saves cost by giving up next-day service for much of "
             "the market; the recommendation pays a small premium for it.",
+            action="Pay the small premium for next-day delivery: the cheapest network leaves much "
+            "of the market on slower delivery.",
+            caveat="Costs are modelled for a hypothetical client.",
         ),
         Intent(
             "as_is",
@@ -638,6 +709,9 @@ def library_intents(recommended_id: str) -> list[Intent]:
             "last-mile freight.",
             limits="Today's network is illustrative (pre-GST state depots, Grade B rents), not "
             "client data.",
+            action="Move to the recommended network: it saves money at about today's service "
+            "level.",
+            caveat="Today's network is illustrative, not real client data.",
         ),
         Intent(
             "recommended",
@@ -646,6 +720,9 @@ def library_intents(recommended_id: str) -> list[Intent]:
             (("explain_network", {"scenario_id": rec}),),
             meaning="Commit first to the sites that stay open in every stress test; confirm the "
             "central-India site (Indore or Nagpur) with real-estate diligence.",
+            action="Commit first to the warehouses that stay open in every test, and confirm the "
+            "central-India location (Indore or Nagpur) with a property search.",
+            caveat="Hypothetical client; road distances and some rents are estimates.",
         ),
     ]
     return intents
@@ -675,22 +752,6 @@ def match_intent(question: str, intents: list[Intent], last_site: str | None) ->
 WORKED_EXAMPLE_INTENTS = ("outage_BLR_HSR", "diesel_20")  # one outage, one diesel shock
 
 
-def worked_examples(library: dict) -> str:
-    """Two worked answers for the live system prompt, built from real library records by the
-    same describe() as the offline answers, so they model the structure and pass grounding."""
-    entries = {e["intent_id"]: e for e in library["entries"]}
-    intents = {i.intent_id: i for i in library_intents(library["recommended_id"])}
-    blocks = []
-    for intent_id in WORKED_EXAMPLE_INTENTS:
-        entry, intent = entries[intent_id], intents[intent_id]
-        (name, args), (_, result) = entry["calls"][0], entry["results"][0]
-        blocks.append(
-            f"Question: {entry['example']}\nTool call: {name} {json.dumps(args)}\nAnswer:\n"
-            + describe(name, result, intent.meaning, intent.limits)
-        )
-    return "\n\n---\n\n".join(blocks)
-
-
 def build_library(toolbox) -> dict:
     """Run every library call through the tools and keep the results plus agent-made records."""
     entries = []
@@ -709,8 +770,18 @@ def build_library(toolbox) -> dict:
         "recommended_id": toolbox.recommended_id,
         "assumptions_sha256": toolbox.assumptions_sha256,
         "entries": entries,
-        "records": toolbox.records,  # agent-made networks, so offline answers can be mapped
+        # agent-made networks, so offline answers can be mapped; sorted and without solver
+        # wall-clock times, so a rebuild is byte-identical with or without the result cache
+        "records": {
+            sid: without_solve_times(toolbox.records[sid]) for sid in sorted(toolbox.records)
+        },
     }
+
+
+def without_solve_times(record: dict) -> dict:
+    solve = record["solve"] | {"solve_time_s": None}
+    solve["passes"] = [p | {"solve_time_s": None} for p in solve.get("passes", [])]
+    return record | {"solve": solve}
 
 
 def main() -> None:

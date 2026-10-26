@@ -4,6 +4,31 @@ Modelling and engineering decisions, newest first. Each entry records the contex
 
 ---
 
+## 2026-10-26 — Phase 5 follow-up (plain answers, owner decision)
+
+**D-052 Owner decision: no named hiring firm, job post or recruiter in the current files.**
+- *Decision (Shubham).* Remove every reference to the consultancy, its practice name, the job post and the recruiter from all current files. Git history is not rewritten and nothing is force-pushed.
+- *Disclaimer.* One text, everywhere: "Independent portfolio project. The client and network are hypothetical; not affiliated with or endorsed by any company named in the sources." It lives in `meta.disclaimer` in `assumptions.yaml`. Charts and maps read it from there, and so do the README, the case study and the app footer.
+- *Wording.* The project's purpose is described as a portfolio project in supply-chain network design and network advisory, in `PROJECT_BRIEF.md`, `CLAUDE.md` and the spec. The angle named after the firm became "the real-estate angle".
+- *Sources and claims removed.* From `docs/sources.md`: the job post and three of the firm's market reports (India logistics and industrial leasing H1 2026, and its Pune and Mumbai market notes). From `PROJECT_BRIEF.md`: the market-context paragraph, which relied only on that report (record 36.2 mn sq ft gross leasing in the top 8 cities, +18% YoY; NCR 8.7, Chennai 6.1, Pune 5.9, Mumbai 4.7, Bengaluru 4.4 mn sq ft; 3PLs 34% of occupiers). No model input relied only on those sources: the Pune rent cites GRI Institute and Savills.
+- *Effect on results.* None. The disclaimer text changes the sha of `assumptions.yaml`, so every scenario was re-run. All 83 scenario JSON files and the summary CSV are identical apart from `assumptions_sha256` and solve times. The six charts and six maps changed only in the disclaimer footnote. The two agent-made diesel ids change suffix (it hashes the assumptions file).
+
+**D-053 Plain-English answers first; the six-part analysis behind "Show details".**
+- *Why.* The D-049 answers are written for an analyst. A business manager needs the answer, what changes, why and what to do, in plain words.
+- *The plain answer* (`src/agent_plain.py`) has four bold-labelled parts in order: In short, What changes, Why it costs more (or less), What to do. One italic line follows with the main limitation and the Source ids. An `explain_network` answer uses "Why it costs this much", since there is no before and after.
+- *Limits.* About 120 words and five numbers. The 20 library answers run 81 to 118 words with 2 to 6 numbers. Numbers are rounded for reading ("about 80%", "about 17%", "about INR 2.9 Cr"). The grounding check already accepts these roundings and still rejects invented numbers (tested).
+- *Vocabulary.* warehouse (not DC), market area (not zone), trucking from factories to warehouses (primary freight), delivery trucking (secondary freight), share of customers who get next-day delivery, cost of holding stock, running cost per warehouse, distance trucks drive (tonne-km). Places are named by city ("the Bengaluru warehouse (Hosur)"), and there are no ids except on the Source line.
+- *Live.* The prompt and both worked examples ask for the plain answer, then a line `#### Details`, then the six parts. The structure check covers both layers. A reply that fails twice is templated as plain (first result) plus details (all results).
+- *Offline and the app.* `Reply.text` is the plain answer and `Reply.details` the six parts, shown under `st.expander("Show details")`.
+- *Rejected.* Asking the LLM to simplify the six-part answer itself. The plain layer would then not be testable offline, and its numbers would drift from the details.
+
+**D-054 Display names, headline rules, and a reproducible library.**
+- *Display names.* Zone anchors that are municipal bodies or official compound names (BBMP, DMC, GHMC, GVMC, Greater Mumbai, Haora, Ahmadabad, Nanded Waghala, Sangli Miraj Kupwad, Bhiwandi Nizampur) are mapped to the names readers know. The mapping lives in one place, `agent_tools.ZONE_DISPLAY_NAMES`, and only tool output uses it. Zone ids and the data are unchanged.
+- *Headlines.* A headline never starts with a scenario id: the subject is named ("The best 4-warehouse network", "The network built for 85.1% next-day service"), and ids appear only on the Source line. Equal before-and-after values read "unchanged at X", not "X against X".
+- *Library.* `outputs/agent_library.json` now stores agent-made records sorted by id and without solver wall-clock times. A rebuild is byte-identical whether the result cache is cold or warm (checked with two cold builds and one warm build). The answers never used solve times.
+
+---
+
 ## 2026-10-26 — Phase 5 follow-up (agent answers)
 
 **D-049 Answers are explanatory and follow one six-part structure, live and offline.**

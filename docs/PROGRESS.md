@@ -186,3 +186,27 @@ The supervisor approved Phase 3 with two changes. Both are on PR #4.
 
   Fast suite: 128 tests in about 5.5 s.
 
+
+## 2026-10-26 — Phase 5 follow-up: plain-English answers, wording fixes, owner decision
+
+- **Owner decision (D-052).**
+  - *Removed.* References to the hiring firm, its practice name, the job post and the recruiter are gone from every current file; history is untouched. `git grep` and the PDF text both come back empty.
+  - *Disclaimer.* One disclaimer everywhere, read from `assumptions.yaml`.
+  - *Outputs.* The full scenario run was repeated for the new assumptions sha. All JSON and the summary CSV are numerically identical; the charts and maps changed only in the disclaimer footnote.
+  - *Regenerated.* The library, the offline transcripts and `docs/case_study.pdf`.
+- **Plain-English answers (D-053).**
+  - *The answer.* Every answer opens with In short, What changes, Why it costs more or less, and What to do, plus one line with the limitation and source. It is written in plain words, in at most about 120 words and five rounded numbers.
+  - *Details.* The six-part analysis sits under "Show details" in the app, live and offline.
+  - *Live.* The live prompt and its worked examples ask for both layers, and the structure check covers both.
+- **Wording fixes (D-054).**
+  - *Names.* Zones are shown by the names readers know (Bengaluru, not BBMP).
+  - *Headlines.* They name their subject instead of starting with a scenario id, and equal values read "unchanged at X".
+  - *Library.* The library rebuilds byte-identically from a cold or warm cache.
+- **Tests.**
+  - all 20 plain answers: parts in order, at most 120 words and six numbers, no ids or jargon before the Source line, grounded;
+  - the details: headlines without ids, no "X against X";
+  - a reply without the details goes to retry;
+  - rounding is accepted and invented numbers are rejected;
+  - display names.
+
+  Fast suite: 136 tests in about 5.3 s; slow: 2 passed.

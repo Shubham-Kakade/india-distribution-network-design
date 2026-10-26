@@ -1,30 +1,51 @@
 """The agent loop with a scripted fake client (no network, ever), and offline mode end to end.
 
-Covers the spec §10 guardrails: grounding and the six-part answer structure (pass, fail then
-retry, fail twice then template), the tool-call cap, refusals passed back to the model, provider
-retries (D-051), and the offline fallback on persistent errors and malformed tool calls.
+Covers the spec §10 guardrails: grounding and the two-layer answer structure (a plain answer,
+D-053, then the six-part details, D-049: pass, fail then retry, fail twice then template), the
+tool-call cap, refusals passed back to the model, provider retries (D-051), the offline fallback
+on persistent errors and malformed tool calls, and the plain-English rules for all 20 library
+answers.
 """
 
 import json
+import re
 from types import SimpleNamespace
 
 import openai
 import pytest
 
 from src import agent
-from src.agent import Agent, OfflineAgent, is_grounded, numbers_in_result
-from src.agent_offline import STRUCTURE, describe, library_intents, worked_examples
+from src.agent import (
+    DETAILS_MARKER,
+    IDENTIFIER,
+    Agent,
+    OfflineAgent,
+    is_grounded,
+    numbers_in_result,
+    worked_examples,
+)
+from src.agent_offline import STRUCTURE, describe, library_intents, service_clause
+from src.agent_plain import PLAIN_STRUCTURE, plain
 from src.llm_settings import LLMConfig
 
 LIVE = LLMConfig("https://llm.invalid/v1", "test-placeholder", "test-model")
-MAX_ANSWER_WORDS = 220  # "about 180 words" plus the six labels and scenario ids (D-049)
+MAX_ANSWER_WORDS = 220  # details: "about 180 words" plus the six labels and scenario ids (D-049)
+MAX_PLAIN_WORDS = 120  # the plain answer, Limits and Source line included (D-053)
+MAX_PLAIN_NUMBERS = 6  # "about five" figures, not counting the Source line
+JARGON = re.compile(r"\bzones?\b|\bDCs?\b|primary freight|secondary freight|tonne-km", re.I)
 SOURCE = {"key": "BLR_HSR rent", "value": 24.0, "unit": "INR / sq ft / month"}
 
 
 def structured(headline: str) -> str:
-    """A reply with the six labelled parts and one headline sentence (D-049)."""
+    """A two-layer reply: the plain answer led by the headline sentence (D-053), the details
+    marker, then the six labelled parts (D-049)."""
+    plain_text = "\n\n".join(
+        f"**{label}:** {headline if label == 'In short' else 'Explained.'}"
+        for label in PLAIN_STRUCTURE
+    )
     body = {"Headline": headline, "Source": "BLR_HSR rent"}
-    return "\n\n".join(f"**{label}:** {body.get(label, 'Explained.')}" for label in STRUCTURE)
+    details = "\n\n".join(f"**{label}:** {body.get(label, 'Explained.')}" for label in STRUCTURE)
+    return f"{plain_text}\n\n{DETAILS_MARKER}\n\n{details}"
 
 
 def status_error(cls, status: int, headers: dict | None = None):
@@ -148,7 +169,8 @@ def test_ungrounded_reply_is_sent_back_once(offline):
     reply = bot.ask("What rent does Hosur pay?")
     assert reply.grounding == "passed after retry"
     assert "31" in client.requests[-1]["messages"][-1]["content"]  # names the offending number
-    assert reply.text.startswith("**Headline:** Rent is INR 24.0.")
+    assert reply.text.startswith("**In short:** Rent is INR 24.0.")
+    assert reply.details.startswith("**Headline:** Rent is INR 24.0.")
 
 
 def test_reply_ungrounded_twice_is_templated_from_the_tool_results(offline):
@@ -162,8 +184,9 @@ def test_reply_ungrounded_twice_is_templated_from_the_tool_results(offline):
     )
     reply = bot.ask("What rent does Hosur pay?")
     assert reply.grounding == "templated"
-    assert reply.text == describe("get_assumption_source", SOURCE)
-    assert "31" not in reply.text and "32" not in reply.text
+    assert reply.text == plain("get_assumption_source", SOURCE)
+    assert reply.details == describe("get_assumption_source", SOURCE)
+    assert "31" not in reply.text + reply.details and "32" not in reply.text + reply.details
 
 
 def test_reply_missing_the_structure_is_sent_back_once(offline):
@@ -174,7 +197,7 @@ def test_reply_missing_the_structure_is_sent_back_once(offline):
     reply = bot.ask("What rent does Hosur pay?")
     assert reply.grounding == "passed after retry"
     retry = client.requests[-1]["messages"][-1]["content"]
-    assert "missing" in retry and "What happens in the network" in retry
+    assert "missing" in retry and "In short" in retry and DETAILS_MARKER in retry
 
 
 def test_reply_missing_the_structure_twice_is_templated(offline):
@@ -183,8 +206,19 @@ def test_reply_missing_the_structure_twice_is_templated(offline):
     )
     reply = bot.ask("What rent does Hosur pay?")
     assert reply.grounding == "templated"
-    assert reply.text == describe("get_assumption_source", SOURCE)
-    assert all(f"**{label}:**" in reply.text for label in STRUCTURE)
+    assert all(f"**{label}" in reply.text for label in PLAIN_STRUCTURE)
+    assert all(f"**{label}:**" in reply.details for label in STRUCTURE)
+
+
+def test_reply_without_the_details_is_sent_back_once(offline):
+    plain_only = structured("Rent is INR 24.").split(DETAILS_MARKER)[0]
+    bot, client = live_agent(
+        [ASK_SOURCE, text_reply(plain_only), text_reply(structured("Rent is INR 24."))], offline
+    )
+    reply = bot.ask("What rent does Hosur pay?")
+    assert reply.grounding == "passed after retry"
+    assert DETAILS_MARKER in client.requests[-1]["messages"][-1]["content"]
+    assert DETAILS_MARKER not in reply.text + reply.details
 
 
 def test_tool_calls_are_capped_at_six_per_question(offline):
@@ -311,14 +345,44 @@ def test_offline_mode_answers_the_demo_script_from_tool_numbers(offline):
 
 
 def test_every_library_answer_has_the_six_parts_and_passes_grounding(offline):
-    """All 20 offline answers: the D-049 structure, every number from a tool result, short."""
+    """All 20 offline details: the D-049 structure, every number from a tool result, short, a
+    headline that never starts with a scenario id, and no "X against X"."""
     for entry in offline.library["entries"]:
         reply = OfflineAgent(offline.library).ask(entry["example"])
-        assert [list(c) for c in reply.tool_calls] == entry["calls"], entry["intent_id"]
-        assert all(f"**{label}:**" in reply.text for label in STRUCTURE), entry["intent_id"]
+        details, intent_id = reply.details, entry["intent_id"]
+        assert [list(c) for c in reply.tool_calls] == entry["calls"], intent_id
+        assert all(f"**{label}:**" in details for label in STRUCTURE), intent_id
         evidence = numbers_in_result(entry["results"])
-        assert agent.ungrounded_numbers(reply.text, evidence) == [], entry["intent_id"]
-        assert len(reply.text.split()) <= MAX_ANSWER_WORDS, entry["intent_id"]
+        assert agent.ungrounded_numbers(details, evidence) == [], intent_id
+        assert len(details.split()) <= MAX_ANSWER_WORDS, intent_id
+        headline = details.removeprefix("**Headline:** ")
+        assert not IDENTIFIER.match(headline), intent_id
+        assert not re.search(r"(\d[\d.,]*%?) against \1\b", details), intent_id
+
+
+def test_every_library_answer_has_a_plain_english_version(offline):
+    """All 20 offline plain answers (D-053): the four parts in order, about 120 words and five
+    numbers, no internal ids or jargon before the Source line, every number grounded."""
+    for entry in offline.library["entries"]:
+        reply = OfflineAgent(offline.library).ask(entry["example"])
+        text, intent_id = reply.text, entry["intent_id"]
+        positions = [text.find(f"**{label}") for label in PLAIN_STRUCTURE]
+        assert -1 not in positions and positions == sorted(positions), intent_id
+        assert text.endswith("*") and "\n*Limits: " in text, intent_id
+        body = text.rsplit("Source:", 1)[0]
+        assert len(text.split()) <= MAX_PLAIN_WORDS, intent_id
+        assert len(agent.numbers_in_text(body)) <= MAX_PLAIN_NUMBERS, intent_id
+        assert not IDENTIFIER.search(body), (intent_id, IDENTIFIER.search(body))
+        assert not JARGON.search(body), (intent_id, JARGON.search(body))
+        evidence = numbers_in_result(entry["results"])
+        assert agent.ungrounded_numbers(text, evidence) == [], intent_id
+
+
+def test_plain_numbers_are_rounded_for_reading_and_still_grounded():
+    result = {"value": 0.801, "share": 0.1669, "cost": 2.933, "total": 244.08}
+    evidence = numbers_in_result(result)
+    assert agent.ungrounded_numbers("about 80%, about 17%, about INR 2.9 Cr, 244", evidence) == []
+    assert agent.ungrounded_numbers("about 85%, about INR 3.4 Cr", evidence) == ["85", "3.4"]
 
 
 def test_worked_examples_in_the_prompt_are_structured_and_grounded(offline):
@@ -328,7 +392,9 @@ def test_worked_examples_in_the_prompt_are_structured_and_grounded(offline):
     answers = [block.split("Answer:\n", 1)[1] for block in examples.split("\n\n---\n\n")]
     assert len(answers) == 2
     for text in answers:
-        assert all(f"**{label}:**" in text for label in STRUCTURE)
+        plain_text, details = agent.split_reply(text)
+        assert all(f"**{label}" in plain_text for label in PLAIN_STRUCTURE)
+        assert all(f"**{label}:**" in details for label in STRUCTURE)
         assert agent.ungrounded_numbers(text, evidence) == []
     bot, _ = live_agent([None], offline)
     assert examples in bot.messages[0]["content"]  # the system prompt carries them
@@ -337,3 +403,11 @@ def test_worked_examples_in_the_prompt_are_structured_and_grounded(offline):
 def test_library_intents_cover_every_library_entry(offline):
     ids = {i.intent_id for i in library_intents(offline.library["recommended_id"])}
     assert ids == {e["intent_id"] for e in offline.library["entries"]}
+
+
+def test_equal_service_reads_unchanged_and_library_names_are_plain(offline):
+    assert service_clause(0.8012, 0.8009) == "with next-day service unchanged at 80.1%"
+    assert service_clause(0.8512, 0.8009) == "with next-day service at 85.1% against 80.1%"
+    library = json.dumps(offline.library["entries"])
+    assert "Bengaluru" in library
+    assert not re.search(r'"(BBMP|DMC|GHMC|GVMC|Greater Mumbai)"', library)

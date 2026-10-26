@@ -103,3 +103,11 @@ def test_unknown_tools_and_argument_names_raise_value_error(toolbox):
         toolbox.call("explain_network", {"id": "REC"})
     with pytest.raises(ValueError, match="Unknown scenario_id"):
         toolbox.call("explain_network", {"scenario_id": "../secrets"})
+
+
+@pytest.mark.parametrize(
+    ("anchor_name", "shown"),
+    [("BBMP", "Bengaluru"), ("DMC", "Delhi"), ("GHMC", "Hyderabad"), ("Pune", "Pune")],
+)
+def test_zones_are_shown_by_the_name_readers_know(anchor_name, shown):
+    assert agent_tools.display_name(anchor_name) == shown

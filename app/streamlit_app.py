@@ -32,9 +32,6 @@ from src.llm_settings import (
 )
 from src.model import COMPONENTS
 
-DISCLAIMER = (
-    "Independent portfolio project, not affiliated with Cushman & Wakefield; hypothetical client."
-)
 MAP_HEIGHT_PX = 470
 
 
@@ -45,6 +42,11 @@ def load_toolbox() -> ToolBox:
     library = OfflineAgent.from_file().library
     toolbox.records.update(library["records"])  # agent-made networks the library answers with
     return toolbox
+
+
+def disclaimer(toolbox: ToolBox) -> str:
+    """The one disclaimer, from assumptions.yaml (meta.disclaimer)."""
+    return toolbox.params["meta"]["disclaimer"].strip()
 
 
 def new_agent(toolbox: ToolBox, public: bool) -> Agent:
@@ -117,7 +119,12 @@ def network_panel(toolbox: ToolBox, scenario_id: str) -> None:
         f" {record['service']['next_day_share_frac']:.1%} next-day"
     )
     fmap = viz.plot_network_map(
-        toolbox.data_for(record["open_dcs"]), solution, radius_km, ring_gc_km, title, DISCLAIMER
+        toolbox.data_for(record["open_dcs"]),
+        solution,
+        radius_km,
+        ring_gc_km,
+        title,
+        disclaimer(toolbox),
     )
     components.html(fmap.get_root().render(), height=MAP_HEIGHT_PX)
     rec = toolbox.recommended_record
@@ -181,6 +188,9 @@ def main() -> None:
                 if reply.notice:
                     st.warning(reply.notice)
                 st.markdown(reply.text)
+                if reply.details:
+                    with st.expander("Show details"):
+                        st.markdown(reply.details)
                 tools = ", ".join(name for name, _ in reply.tool_calls) or "none"
                 st.caption(f"{reply.mode} · tools: {tools} · grounding: {reply.grounding}")
     with network:
@@ -188,7 +198,7 @@ def main() -> None:
         network_panel(toolbox, st.session_state.scenario_id)
 
     st.divider()
-    st.caption(DISCLAIMER)
+    st.caption(disclaimer(toolbox))
 
 
 main()

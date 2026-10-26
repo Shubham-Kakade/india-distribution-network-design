@@ -37,6 +37,20 @@ DIESEL_KEY = "diesel_shock_frac"
 REBUILD_PREFIXES = ("demand.", "company.annual_volume", "distance.")
 TOP_COST_DRIVERS = 3  # cost components listed as "what moved" against the recommended network
 MIN_DRIVER_CR = 0.05  # smaller moves show as 0.0 Cr, so they are not drivers
+# Plain English for zone anchors that are municipal-body abbreviations or official compound
+# names. The only place these names are mapped; zone_ids and the data keep the official names.
+ZONE_DISPLAY_NAMES = {
+    "BBMP": "Bengaluru",
+    "DMC": "Delhi",
+    "GHMC": "Hyderabad",
+    "GVMC": "Visakhapatnam",
+    "Greater Mumbai": "Mumbai",
+    "Haora": "Howrah",
+    "Ahmadabad": "Ahmedabad",
+    "Nanded Waghala": "Nanded",
+    "Sangli Miraj Kupwad": "Sangli",
+    "Bhiwandi Nizampur": "Bhiwandi",
+}
 
 
 def rounded(value: object) -> object:
@@ -146,6 +160,11 @@ def cache_key(tool: str, arguments: dict, assumptions_sha256: str) -> str:
         {"tool": tool, "args": arguments, "yaml": assumptions_sha256}, sort_keys=True
     )
     return hashlib.sha256(payload.encode()).hexdigest()
+
+
+def display_name(anchor_name: str) -> str:
+    """A zone's name as a reader knows it: 'BBMP' -> 'Bengaluru'."""
+    return ZONE_DISPLAY_NAMES.get(anchor_name, anchor_name)
 
 
 def cost_drivers(cost_cr: dict, recommended_cr: dict) -> list[dict]:
@@ -518,7 +537,7 @@ class ToolBox:
                 "next_day_share_before_frac": extra["next_day_share_before"],
                 "next_day_share_during_frac": extra["next_day_share_during"],
                 "zones_losing_next_day_count": len(extra["zones_losing_next_day"]),
-                "zones_losing_next_day": extra["zones_losing_next_day"],
+                "zones_losing_next_day": [display_name(z) for z in extra["zones_losing_next_day"]],
                 "demand_losing_next_day_t_yr": extra["demand_losing_next_day_t_yr"],
                 "demand_losing_next_day_frac": extra["demand_losing_next_day_t_yr"] / total_t,
                 "reassigned_zones_by_site": moved.value_counts().sort_index().to_dict(),
@@ -586,7 +605,7 @@ class ToolBox:
                 site
                 | {
                     "zones_served": len(served),
-                    "largest_zones": served["anchor_name"].head(5).tolist(),
+                    "largest_zones": served["anchor_name"].head(5).map(display_name).tolist(),
                     "throughput_t_yr": float(throughput.get(j, 0.0)),
                     "share_of_volume_frac": float(throughput.get(j, 0.0) / throughput.sum()),
                     "next_day_share_of_site_frac": float(

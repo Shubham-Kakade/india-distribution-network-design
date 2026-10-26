@@ -91,6 +91,8 @@ Guardrails:
 - **Citations.** Every answer cites its scenario ids.
 - **Refusals.** Overrides more than 2× the range width outside `assumptions.yaml` are refused, with the accepted range.
 - **Caching and limits.** Results are cached by a hash of the arguments, and the agent may make at most 6 tool calls per question.
+- **Explanatory answers.** Every answer has six parts: a headline (cost and service impact), what happens in the network, why (the cost drivers and their mechanism), what it means for the client, assumptions and limits, and the source scenarios. Offline answers follow the same structure.
+- **Retries.** Rate limits and server errors (HTTP 429, 500, 502, 503, 504) are retried twice before the app falls back to offline with a notice.
 
 **Offline mode** is the default. It answers 20 pre-computed questions with no network and no key; see [`docs/agent_demo_transcripts.md`](docs/agent_demo_transcripts.md). **Live mode** works with any OpenAI-compatible chat API that supports tool calling.
 

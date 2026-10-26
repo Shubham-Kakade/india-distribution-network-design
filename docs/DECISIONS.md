@@ -4,6 +4,40 @@ Modelling and engineering decisions, newest first. Each entry records the contex
 
 ---
 
+## 2026-10-26 — Phase 5 follow-up (agent answers)
+
+**D-049 Answers are explanatory and follow one six-part structure, live and offline.**
+- *The parts.* Every answer, live, offline or templated, has six bold-labelled parts:
+  1. a one-sentence headline with the cost and service impact;
+  2. what happens in the network: sites opened, closed or swapped, zones re-assigned and to which DC, and zones and demand share losing next-day;
+  3. why: the two or three cost components that move most against the recommended network, each with its mechanism;
+  4. what it means for the client;
+  5. assumptions and limits;
+  6. the source scenario ids.
+- *Length.* About 180 words; the 20 library answers run 132 to 219 words including the labels and ids.
+- *Tool fields.* The tool results now carry everything the explanation needs, computed in `agent_tools.py`, never in the agent:
+  - the top cost drivers (components with a move of at least 0.05 Cr, largest first);
+  - sites opened and closed, with names;
+  - zones that change DC and their destinations;
+  - zones and demand share losing or gaining next-day, on base demand and distances, except for S0, whose depots share no sites with the candidates;
+  - the recommended network's next-day share;
+  - the freight multiplier and diesel share for diesel runs;
+  - cost shares for `explain_network`.
+
+  The library change is purely additive: no existing value changed, and it rebuilds byte-identically.
+- *Static text.* The "what it means" and limits lines are written per library question, consistent with `docs/scenario_insights.md`, and carry no digits. Every number therefore comes from a tool result, and all 20 answers pass the grounding check.
+- *Mechanisms.* The mechanism phrases are true whatever the cause: "more tonne-km on inbound lanes", not "longer lanes", since growth also raises tonne-km. A diesel shock states its own mechanism: the rate per tonne-km rises on the same lanes.
+
+**D-050 The live guardrail also checks the structure; the prompt carries two worked examples.** The grounding check is unchanged (D-041). A reply that fails it or leaves out any of the six labels is sent back once, naming the offending numbers and the missing parts; if it fails again, the answer is templated from the tool results by the same six-part writer. The system prompt requires the structure and plain business English, allows only numbers from tool results, and points to `explain_network` and `compare_scenarios` for more detail. It ends with two worked examples, the Hosur one-month outage and the +20% diesel shock. They are generated at start-up from the library records by the offline writer, so they always match the data and pass grounding (tested).
+
+**D-051 Provider calls retry before falling back to offline.**
+- *What retries.* HTTP 429, 500, 502, 503 and 504 are retried up to twice, waiting 2 s and then 5 s. A numeric `Retry-After` header replaces the wait, capped at 10 s; an HTTP-date value falls back to the backoff.
+- *What doesn't.* 400, 401, 403 and 404 are not retried, because the request or the key is wrong and a retry cannot help. Connection errors and timeouts are not retried either; they fall back at once.
+- *The SDK's own retries are off* (`max_retries=0`), so this is the only retry policy.
+- *The fallback notice* keeps the error class and adds the HTTP status, and the whole notice is redacted (D-045).
+
+---
+
 ## 2026-10-26 — Phase 5 (delivery)
 
 **D-044 Tests run CBC serially; India runs keep `threads: 1`.** Root cause of the occasional 10 s test: with `-threads 1`, CBC starts its threaded branch-and-bound with one worker. When the root node solves the MIP (as every tiny fixture does), the worker is never used, and CBC sometimes waits 10 s on a timed wait before exiting. Its log reads "Thread 0 used 0 times, waiting to start 10.000255". In 80 identical tiny solves this happened 2 to 4 times. The test `params` fixture now sets `solver.threads` to 0 (CBC's serial code, still deterministic), and `pytest -q` falls from about 25 s to about 5 s. Serial CBC was also tried for the India runs. It cut the full run from 656 s to 466 s and left the base case and as-is figures unchanged, but 15 scenarios moved within the 0.5% MIP gap (by up to ±0.33 Cr), including the 400 km / 85% site set behind the staging finding. So production keeps D-021's setting, and every committed output is unchanged.

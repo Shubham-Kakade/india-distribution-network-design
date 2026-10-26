@@ -165,3 +165,24 @@ The supervisor approved Phase 3 with two changes. Both are on PR #4.
   - the demo GIF (spec §13 Checkpoint E);
   - the actual deployment;
   - a run of `setup_local.ps1` on Windows.
+
+## 2026-10-26 — Phase 5 follow-up: explanatory answers and provider retries
+
+- **Explanatory answers (D-049, D-050).**
+  - *Structure.* Every live, offline and templated answer has six labelled parts: headline, what happens in the network, why, what it means for the client, assumptions and limits, source.
+  - *Tool fields.* The tool results gained the fields the explanation needs: cost drivers, sites opened and closed with names, zone moves and destinations, next-day losses and gains, the diesel mechanics and cost shares.
+  - *Library.* Rebuilt: purely additive, byte-identical across two builds.
+  - *Live prompt.* Rewritten, with two worked examples built from the library records.
+  - *Guardrail.* A structure check joins the grounding check: one retry, then the template.
+- **Retries (D-051).** HTTP 429 and 5xx are retried twice (2 s, then 5 s, or Retry-After capped at 10 s) before falling back; 400, 401, 403 and 404 are never retried.
+- **Demo transcript.** The offline section of `docs/agent_demo_transcripts.md` shows the five demo answers in the new structure. The spot-check figures are unchanged: 2.9, 245.4 and 1.3, and 261.3.
+- **Tests.** 14 more, mocked clients only:
+  - all 20 library answers have the six parts, pass grounding and stay within 220 words;
+  - both worked examples pass grounding;
+  - missing structure and ungrounded replies go to retry, then template;
+  - 503 then success is live; three 503s fall back with the status;
+  - 400, 401, 403 and 404 are not retried;
+  - Retry-After is honoured and capped.
+
+  Fast suite: 128 tests in about 5.5 s.
+

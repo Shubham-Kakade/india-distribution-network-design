@@ -238,7 +238,7 @@ The **recommendation** is the network at the knee of the S3 frontier, cross-chec
 
 **Purpose.** The agent shows the "agentic AI in supply chain optimisation" capability named in the job post. Its job is to translate a business question into a model run and explain the trade-off. The model does the computing; the agent does the explaining.
 
-**Stack.** `anthropic` Python SDK with tool use; model name read from the environment variable `ANTHROPIC_MODEL`, defaulting to `claude-sonnet-5-5`; API key from `.env` via `python-dotenv`; Streamlit front end.
+**Stack** (amended 26 Oct 2026 by owner decision D-039). The agent does **not** use the Anthropic API. It talks to any OpenAI-compatible chat-completions endpoint with tool calling through the `openai` Python SDK. Configuration comes only from the environment variables `LLM_BASE_URL`, `LLM_API_KEY` and `LLM_MODEL` (or a git-ignored `.env` read by `python-dotenv`); `.env.example` lists presets for Gemini, Groq and a local Ollama model. With `LLM_BASE_URL` or `LLM_API_KEY` unset the agent runs in offline mode. Streamlit front end.
 
 **Tools** (JSON schema in `src/agent_tools.py`, implementations calling `scenarios.py`):
 

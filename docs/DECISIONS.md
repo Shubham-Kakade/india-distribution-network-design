@@ -4,6 +4,12 @@ Modelling and engineering decisions, newest first. Each entry records the contex
 
 ---
 
+## 2026-10-26 — Phase 4 (agent)
+
+**D-039 The agent uses an OpenAI-compatible endpoint, not the Anthropic API (owner decision).** The agent talks to any OpenAI-compatible chat-completions endpoint with tool calling, through the `openai` Python SDK. `openai` replaces `anthropic` in `requirements.txt`. Configuration comes only from `LLM_BASE_URL`, `LLM_API_KEY` and `LLM_MODEL` (environment variables, or a git-ignored `.env`). `.env.example` holds placeholder presets for Gemini, Groq and a local Ollama model (`qwen2.5:7b`). In a claude.ai/code cloud session the key is a network secret that the proxy attaches to requests to the provider's host, so `LLM_API_KEY` is the placeholder `proxy-injected` and the code never sees a key. With `LLM_BASE_URL` or `LLM_API_KEY` unset, the agent runs offline. Spec §10 "Stack" is amended to match, and the approved-dependency table in `scnd-python-standards` now names `openai`. *Why:* any provider (including a free tier or a local model) can run the demo, and the repository stays provider-neutral.
+
+---
+
 ## 2026-10-25 — Phase 3 (scenarios)
 
 **D-027 The proxy fidelity limit applies to sweep runs only (supervisor decision).** The 3% limit binds where `k_ref = k` (the DC-count sweep and other fixed-k solves). Free runs size the proxy at `k_ref = 6` and report their gap as information, not pass/fail: the proxy only guides the search, and the reported cost is always the exact evaluator figure. The self-consistent re-solve was rejected because it found a worse exact base network (244.4 vs 244.1). `model.py` warns only when k is fixed. *Superseded in part by D-034:* free runs now also try the re-sized proxy, and the lower exact cost is kept, so the base case keeps the 244.1 network either way (on the single-thread solver the re-sized pass gives 244.16; the 244.4 above came from the earlier four-thread runs).

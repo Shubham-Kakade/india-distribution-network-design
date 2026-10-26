@@ -1,7 +1,7 @@
 [project]
 name = "india-network-design"
 version = "0.1.0"
-description = "India distribution network design: facility-location MILP, scenarios and a Claude tool-use agent"
+description = "India distribution network design: facility-location MILP, scenarios and an LLM tool-use agent"
 requires-python = ">=3.11"
 
 [tool.ruff]

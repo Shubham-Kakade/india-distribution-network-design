@@ -197,16 +197,26 @@ def s4_growth(params: dict, data: NetworkData, recommended: Run) -> list[Run]:
 
 
 def s5_disruption(params: dict, data: NetworkData, recommended: Run) -> list[Run]:
-    """S5a (operational outage) and S5b (permanent loss) of the busiest recommended DC (spec §9).
+    """S5a (operational outage) and S5b (permanent loss) of the busiest recommended DC (spec §9)."""
+    busiest = throughput_t_yr(recommended.solution, data).idxmax()
+    months = params["scenarios"]["disruption_months"]
+    return [
+        operational_outage(params, data, recommended, busiest, months, "S5a"),
+        permanent_loss(params, data, recommended, busiest, "S5b"),
+    ]
 
-    S5a keeps the open set, re-assigns the closed site's zones with 20% capacity surge allowed and
+
+def operational_outage(
+    params: dict, data: NetworkData, recommended: Run, dc: str, months: float, scenario_id: str
+) -> Run:
+    """A recommended DC shut for some months while the rest of the network carries on (S5a).
+
+    Keeps the open set, re-assigns the closed site's zones with the capacity surge allowed and
     no service target, and charges only the change in freight for the outage months: rent, fixed
-    cost and stock stay in place for a one-month outage (D-029). S5b re-optimises without the site.
+    cost and stock stay in place for a short outage (D-029).
     """
     rec = recommended.solution
-    busiest = throughput_t_yr(rec, data).idxmax()
     cfg = params["scenarios"]
-    months = cfg["disruption_months"]
     max_size_key = "warehousing.max_dc_size_sqft.value"
     surge = with_overrides(
         params,
@@ -216,9 +226,9 @@ def s5_disruption(params: dict, data: NetworkData, recommended: Run) -> list[Run
             * (1 + cfg["disruption_capacity_surge"]["value"]),
         },
     )
-    remaining = [j for j in rec.open_dcs if j != busiest]
+    remaining = [j for j in rec.open_dcs if j != dc]
     outage = build_and_solve(
-        surge, data, k=len(remaining), forced_open=remaining, forced_closed=[busiest]
+        surge, data, k=len(remaining), forced_open=remaining, forced_closed=[dc]
     )
     radius_km = params["service"]["next_day_radius_km"]["value"]
     before_km, after_km = assigned_km(rec, data), assigned_km(outage, data)
@@ -227,12 +237,12 @@ def s5_disruption(params: dict, data: NetworkData, recommended: Run) -> list[Run
     freight_change_inr = (outage.cost.primary_inr + outage.cost.secondary_inr) - (
         rec.cost.primary_inr + rec.cost.secondary_inr
     )
-    s5a = Run(
-        "S5a",
+    return Run(
+        scenario_id,
         "S5",
         "What if a site goes down for a month?",
         {
-            "closed_dc": busiest,
+            "closed_dc": dc,
             "open_set": "fixed",
             "capacity_surge": cfg["disruption_capacity_surge"]["value"],
             "months": months,
@@ -240,7 +250,7 @@ def s5_disruption(params: dict, data: NetworkData, recommended: Run) -> list[Run
         },
         outage,
         {
-            "closed_dc": busiest,
+            "closed_dc": dc,
             "freight_change_cr_per_yr": to_crore(freight_change_inr, params),
             "outage_cost_cr": to_crore(freight_change_inr * months / 12, params),
             "next_day_share_before": rec.cost.next_day_share_frac,
@@ -249,34 +259,48 @@ def s5_disruption(params: dict, data: NetworkData, recommended: Run) -> list[Run
             "demand_losing_next_day_t_yr": float(zones.loc[losing, "demand_t_yr"].sum()),
         },
     )
-    lost = build_and_solve(params, data, forced_closed=[busiest])
-    s5b = Run(
-        "S5b",
+
+
+def permanent_loss(
+    params: dict, data: NetworkData, recommended: Run, dc: str, scenario_id: str
+) -> Run:
+    """A recommended DC lost for good: re-optimise without it at the same service target (S5b)."""
+    rec = recommended.solution
+    lost = build_and_solve(params, data, forced_closed=[dc])
+    return Run(
+        scenario_id,
         "S5",
         "What if we lose the site permanently?",
-        {"excluded_dc": busiest},
+        {"excluded_dc": dc},
         lost,
         {
-            "excluded_dc": busiest,
+            "excluded_dc": dc,
             "penalty_cr_per_yr": to_crore(lost.cost.total_inr - rec.cost.total_inr, params)
             if lost.cost
             else None,
             **(site_changes(lost, rec) if lost.cost else {}),
         },
     )
-    return [s5a, s5b]
+
+
+def diesel_overrides(params: dict, shock: float) -> tuple[float, dict[str, float]]:
+    """Freight multiplier and rate overrides for a diesel price shock (spec §9 S6, D-032c).
+
+    Both freight rates x (1 + diesel share of freight cost x shock).
+    """
+    multiplier = 1 + params["transport"]["diesel_share_of_freight_cost"]["value"] * shock
+    overrides = {
+        f"transport.{rate}.value": params["transport"][rate]["value"] * multiplier
+        for rate in ("primary_ftl_inr_per_tkm", "secondary_inr_per_tkm")
+    }
+    return multiplier, overrides
 
 
 def s6_fuel(params: dict, data: NetworkData, recommended: Run) -> list[Run]:
     """S6: diesel shocks; freight x (1 + diesel share x shock) on both legs (spec §9)."""
     runs = []
-    share = params["transport"]["diesel_share_of_freight_cost"]["value"]
     for shock in params["scenarios"]["diesel_shock"]:
-        multiplier = 1 + share * shock
-        overrides = {
-            f"transport.{rate}.value": params["transport"][rate]["value"] * multiplier
-            for rate in ("primary_ftl_inr_per_tkm", "secondary_inr_per_tkm")
-        }
+        multiplier, overrides = diesel_overrides(params, shock)
         sol = build_and_solve(with_overrides(params, overrides), data)
         runs.append(
             Run(
@@ -372,6 +396,23 @@ def s8_plants(params: dict, data: NetworkData, recommended: Run) -> list[Run]:
     return runs
 
 
+def rebuild_data(
+    params: dict, data: NetworkData, cleaned: tuple, changed_keys: list[str]
+) -> NetworkData:
+    """Network data under overridden params: a demand or volume key rebuilds zone demand from the
+    cleaned raw data (spec §4.3), and the distances are rebuilt with the params' circuity (§5).
+
+    cleaned is the output of data_prep.clean_raw. The zone set must not change, because every
+    scenario is compared zone by zone with the recommended network.
+    """
+    zones = data.zones
+    if any(k.startswith("demand.") or k.startswith("company.annual_volume") for k in changed_keys):
+        zones = build_zones(build_demand_points(*cleaned, params), params)
+        if not zones["zone_id"].equals(data.zones["zone_id"]):
+            raise ValueError(f"Overrides {changed_keys} changed the zone set; it must stay fixed")
+    return build_network_data(zones, data.dcs, data.plants, params)
+
+
 def s9_tornado(params: dict, data: NetworkData) -> tuple[list[Run], pd.DataFrame]:
     """S9: re-optimise with each low/medium-confidence parameter at each end of its range.
 
@@ -386,14 +427,7 @@ def s9_tornado(params: dict, data: NetworkData) -> tuple[list[Run], pd.DataFrame
         ends = {}
         for end, value in zip(("low", "high"), entry["range"], strict=True):
             p = with_overrides(params, {f"{key}.value": value})
-            zones = data.zones
-            if key.startswith("demand.") or key == "company.annual_volume_tonnes":
-                zones = build_zones(build_demand_points(*cleaned, p), p)
-                if not zones["zone_id"].equals(data.zones["zone_id"]):
-                    raise ValueError(
-                        f"{key}={value} changed the zone set; tornado assumes it fixed"
-                    )
-            varied = build_network_data(zones, data.dcs, data.plants, p)
+            varied = rebuild_data(p, data, cleaned, [key])
             sol, as_is = build_and_solve(p, varied), solve_as_is(p, varied)
             saving_cr = to_crore(as_is.cost.total_inr - sol.cost.total_inr, params)
             ends[end] = (sol, saving_cr)

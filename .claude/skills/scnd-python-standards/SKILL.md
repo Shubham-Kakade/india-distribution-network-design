@@ -36,8 +36,8 @@ Before writing any new function, walk this ladder and stop at the first rung tha
 | Paths | `pathlib.Path`, anchored on one `PROJECT_ROOT` in `config.py` | string concatenation, `os.chdir` |
 | Caching scenario results | `hashlib.sha256` of sorted JSON overrides + JSON files | pickle, joblib |
 | Tests | `pytest`, `pytest.approx`, `tmp_path` | unittest classes |
-| LLM | `anthropic` SDK tool use | LangChain or other frameworks |
-| Secrets | `python-dotenv` reading `.env` | hard-coded keys |
+| LLM | `openai` SDK against any OpenAI-compatible endpoint, tool calling (D-039) | LangChain or other frameworks; the Anthropic API |
+| Secrets | environment variables, or `python-dotenv` reading a git-ignored `.env` | hard-coded keys |
 | Lint/format | `ruff check` and `ruff format` | black + flake8 + isort |
 
 **Adding a dependency** needs a one-paragraph entry in `docs/DECISIONS.md` (what it replaces, why the approved list cannot do it). Never add one for something that is a few lines with numpy or pandas. `geopy`, `scikit-learn`, `networkx`, `plotly`, `ortools` and `pyomo` are **not** needed for this project.

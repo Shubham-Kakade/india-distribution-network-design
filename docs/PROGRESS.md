@@ -102,3 +102,46 @@ The supervisor approved Phase 3 with two changes. Both are on PR #4.
 - **Write-up.** `docs/scenario_insights.md` was rewritten for the rule, the upgrade table, the staging and the D-036 answers. That includes the S5a line: lost sales and stranded stock are not costed, so the 2.4 Cr is a floor and the service drop is the headline.
 - **Re-checked figures.** S4 skew 314.2; S6 +20% gives +17.2 with no site change; S8 no-Puducherry +28.4 (11.7%); S9 fixed-cost saving 19.5–37.5.
 - **Decisions:** D-034 to D-038. Tests: 67 fast. Phase tags are created on GitHub by the owner (D-036).
+
+## 2026-10-26 — Phase 4 (agent), Checkpoint D
+
+- **Owner decision D-039.** The agent uses any OpenAI-compatible chat-completions endpoint through the `openai` SDK, configured only by `LLM_BASE_URL`, `LLM_API_KEY` and `LLM_MODEL`. `anthropic` is replaced by `openai` in `requirements.txt`, `.env.example` gives presets (Gemini, Groq, Ollama `qwen2.5:7b`, and the cloud-session `proxy-injected` placeholder), and spec §10 is amended.
+- **Connectivity check** (one call, before any code): Gemini returned HTTP 500 `INTERNAL` (not an auth error). A second check before the demo returned HTTP 403 `API_KEY_SERVICE_BLOCKED` from Google: the key's API restrictions block the Generative Language API. Per the instruction, the live demo was not run and nothing was worked around (see open issues).
+- **`src/agent_tools.py`:** the six §10 tools plus `rank_assumptions` (D-040). Each tool calls the existing code:
+  - `run_scenario` is a two-pass free solve (D-034), with S6's diesel formula and S9's data rebuild;
+  - `simulate_disruption` reuses the S5a and S5b logic for any recommended site;
+  - `compare_scenarios` and `explain_network` read the scenario JSON records.
+
+  Overrides are validated against the YAML ranges (refused beyond 2x the range width, with the accepted range in the message). Results are cached by a sha256 of tool, arguments and YAML, in `outputs/scenario_cache/` (git-ignored).
+- **`src/agent.py`:** the live loop.
+  - A cap of 6 tool calls per question; past the cap the model is asked to answer with `tool_choice="none"`.
+  - **Grounding guardrail (D-041):** every reply number must round from a tool number in the conversation. A failing reply is sent back once naming the numbers, then templated from the tool results. Scenario ids are always cited.
+  - **Fallback:** 429s (after the SDK's backoff retries), provider errors and malformed tool calls fall back to offline with a visible notice.
+  - **Demo runner:** `python -m src.agent [--offline]`.
+- **`src/agent_offline.py`:** the deterministic answers, and the 20-question library `outputs/agent_library.json`. The library is built by `python -m src.agent_offline` and rebuilds byte for byte. Offline mode is the default when the endpoint settings are unset.
+- **`app/streamlit_app.py`:**
+  - chat on the left, with the folium map and the cost-by-component chart against the recommended network on the right (new `viz.plot_cost_comparison`);
+  - a sidebar with mode, provider and model, never the key;
+  - the footer disclaimer.
+
+  It was driven headless with Playwright in offline mode. The map's Leaflet script did not load in this sandbox because the session blocks CDN hosts; it loads normally elsewhere.
+- **`src/scenarios.py`:** `operational_outage`, `permanent_loss`, `diesel_overrides` and `rebuild_data` were extracted for reuse, with no behaviour change (D-042). The recommended network, S5a, S5b, S6 at 20% and 40%, and two tornado ends re-solved identical to the committed JSON.
+- **Demo, offline** (`docs/agent_demo_transcripts.md`):
+  - Q1: 9 DCs, 244.1 Cr, 80.1% next-day.
+  - Q2, Hosur shut for a month: the outage costs about 2.9 Cr, a floor. Next-day falls from 80.1% to 63.4% and 25 zones lose next-day. The zones go to Hyderabad (14) and Mumbai (11).
+  - Q3, Hosur lost for good: 10 DCs (Chennai and Kochi open), 245.4 Cr, +1.3 Cr a year.
+  - Q4, diesel +20%: 261.3 Cr (+17.2), the same sites, identical to S6_diesel_20.
+  - Q5: the tornado; volume swings most, circuity changes the DC count (8 to 11), and fixed cost per DC moves the saving from 19.5 to 37.5 Cr.
+
+  The spot check of three numbers matches the records.
+- **Tests:** 35 new (102 fast, 2 slow), including grounding pass, retry and template; the cap; refusals; the 429 and malformed-call fallbacks; rollback during the retry; the cache; validation; and the offline demo end to end. All LLM calls in the tests go to a scripted fake client; CI never calls an LLM API.
+- **Open issues:** the live demo is blocked by the Gemini key restriction. A tiny-network CBC solve sometimes takes about 10 s in the fast suite; it is present on `main` too, in a different test each run.
+
+## 2026-10-26 — Checkpoint D approved; live demo deferred to Phase 5
+
+- **Checkpoint D approved** by the supervisor (PR #5).
+- **Live demo moved to Phase 5 (D-043).** It will run locally on Shubham's laptop with the Gemini key in a git-ignored `.env`. The cloud session's network secret is not reaching Google, so live mode could not be verified in the cloud. Until Phase 5, the live loop is covered by the mocked-client tests.
+- **Cloud connectivity errors seen** (each a single chat-completions call to `https://generativelanguage.googleapis.com/v1beta/openai/`, model `gemini-3.8-flash`; the key was never read or printed):
+  1. HTTP 500 `INTERNAL`, "Internal error encountered".
+  2. HTTP 403 `PERMISSION_DENIED`, reason `API_KEY_SERVICE_BLOCKED`, on the standard key: its API restrictions blocked the Generative Language API.
+  3. After the key was replaced with an AI Studio key in the network secret: HTTP 400 `INVALID_ARGUMENT`, "Missing or invalid Authorization header". The secret was not being attached; the proxy logged no relay failure for the host.

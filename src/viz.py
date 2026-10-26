@@ -288,6 +288,39 @@ def plot_waterfall(as_is_cr: dict[str, float], recommended_cr: dict[str, float])
     return fig
 
 
+def plot_cost_comparison(
+    scenario_cr: dict[str, float], recommended_cr: dict[str, float], scenario_id: str, rec_id: str
+) -> plt.Figure:
+    """One scenario's cost by component against the recommended network (spec §10 app).
+
+    Both dicts map component -> INR Cr. Paired horizontal bars; the scenario is blue and
+    hatched, the recommended network grey, so the pair reads in greyscale.
+    """
+    components = list(recommended_cr)
+    y = np.arange(len(components))
+    fig, ax = plt.subplots(figsize=(6.4, 3.6))
+    bars = [
+        (scenario_cr, scenario_id, SERIES[0], "//", -0.2),
+        (recommended_cr, rec_id, INK_MUTED, "", 0.2),
+    ]
+    for values, label, colour, hatch, offset in bars:
+        ax.barh(
+            y + offset,
+            [values[c] for c in components],
+            height=0.4,
+            color=colour,
+            hatch=hatch,
+            edgecolor=SURFACE,
+            label=f"{label}: INR {sum(values.values()):.1f} Cr",
+        )
+    ax.set_yticks(y, [c.title() for c in components])
+    ax.invert_yaxis()
+    ax.set_xlabel("Annual cost (INR Cr)")
+    ax.legend(loc="lower right", frameon=False, fontsize=8)
+    ax.set_title("Cost by component against the recommended network", loc="left", color=INK)
+    return fig
+
+
 def plot_tornado(tornado: pd.DataFrame, base_total_cr: float, base_saving_cr: float) -> plt.Figure:
     """S9: total cost and saving vs as-is at each parameter's range ends (spec §12, tornado.png).
 

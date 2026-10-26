@@ -38,6 +38,9 @@ def test_every_chart_saves_with_its_footnote(tmp_path):
         "waterfall": viz.plot_waterfall(
             dict.fromkeys(COMPONENTS, 10.0), dict.fromkeys(COMPONENTS, 9.0)
         ),
+        "cost_comparison": viz.plot_cost_comparison(
+            dict.fromkeys(COMPONENTS, 10.0), dict.fromkeys(COMPONENTS, 9.0), "AG_x", "REC"
+        ),
         "tornado": viz.plot_tornado(tornado, 50.0, 6.0),
         "robustness": viz.plot_site_robustness(
             pd.DataFrame({"S1": [1, 0], "S2": [1, 1]}, index=["A", "B"]), 1

@@ -1,0 +1,4748 @@
+{
+ "recommended_id": "S3_400km_80",
+ "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+ "entries": [
+  {
+   "intent_id": "loss_BLR_HSR",
+   "example": "And if we lost Hosur permanently?",
+   "calls": [
+    [
+     "simulate_disruption",
+     {
+      "dc_id": "BLR_HSR",
+      "mode": "strategic"
+     }
+    ]
+   ],
+   "results": [
+    [
+     "simulate_disruption",
+     {
+      "scenario_id": "AG_loss_BLR_HSR",
+      "question": "What if we lose the site permanently?",
+      "status": "Optimal Solution Found",
+      "n_dcs": 10,
+      "sites": [
+       {
+        "dc_id": "MUM_BHW",
+        "name": "Mumbai - Bhiwandi"
+       },
+       {
+        "dc_id": "NCR_FRN",
+        "name": "Delhi NCR - Farrukhnagar"
+       },
+       {
+        "dc_id": "CHN_SPB",
+        "name": "Chennai - Sriperumbudur / Oragadam"
+       },
+       {
+        "dc_id": "HYD_SMB",
+        "name": "Hyderabad - Shamshabad"
+       },
+       {
+        "dc_id": "AMD_CHG",
+        "name": "Ahmedabad - Changodar"
+       },
+       {
+        "dc_id": "KOL_DNK",
+        "name": "Kolkata - Dankuni"
+       },
+       {
+        "dc_id": "LKO_KNP",
+        "name": "Lucknow - Kanpur Road"
+       },
+       {
+        "dc_id": "IDR_PTH",
+        "name": "Indore - Pithampur"
+       },
+       {
+        "dc_id": "PAT_BHT",
+        "name": "Patna - Bihta"
+       },
+       {
+        "dc_id": "COK_KLM",
+        "name": "Kochi - Kalamassery / Aluva"
+       }
+      ],
+      "cost_cr_per_yr": {
+       "primary": 81.6468,
+       "secondary": 70.3121,
+       "space": 21.6686,
+       "handling": 6.6,
+       "inventory": 35.1977,
+       "fixed": 30.0,
+       "total": 245.4253
+      },
+      "next_day_share_frac": 0.8004,
+      "two_day_share_frac": 0.9842,
+      "share_of_revenue_frac": 0.0409,
+      "vs_recommended": {
+       "recommended_id": "S3_400km_80",
+       "recommended_total_cr": 244.0772,
+       "delta_total_cr": 1.3481,
+       "delta_total_frac": 0.0055,
+       "delta_by_component_cr": {
+        "primary": -3.3695,
+        "secondary": -1.135,
+        "space": 1.5164,
+        "handling": 0.0,
+        "inventory": 1.3361,
+        "fixed": 3.0
+       },
+       "next_day_change_pts": -0.0485,
+       "added": [
+        "CHN_SPB",
+        "COK_KLM"
+       ],
+       "dropped": [
+        "BLR_HSR"
+       ]
+      },
+      "closed_site": {
+       "dc_id": "BLR_HSR",
+       "name": "Bengaluru - Hosur (Attibele-Bommasandra)"
+      },
+      "mode": "strategic",
+      "permanent_loss": {
+       "penalty_cr_per_yr": 1.3481
+      }
+     }
+    ]
+   ]
+  },
+  {
+   "intent_id": "outage_BLR_HSR",
+   "example": "What if Hosur shuts for a month?",
+   "calls": [
+    [
+     "simulate_disruption",
+     {
+      "dc_id": "BLR_HSR",
+      "mode": "operational",
+      "months": 1
+     }
+    ]
+   ],
+   "results": [
+    [
+     "simulate_disruption",
+     {
+      "scenario_id": "AG_outage_BLR_HSR_1m",
+      "question": "What if a site goes down for a month?",
+      "status": "Optimal Solution Found",
+      "n_dcs": 8,
+      "sites": [
+       {
+        "dc_id": "MUM_BHW",
+        "name": "Mumbai - Bhiwandi"
+       },
+       {
+        "dc_id": "NCR_FRN",
+        "name": "Delhi NCR - Farrukhnagar"
+       },
+       {
+        "dc_id": "HYD_SMB",
+        "name": "Hyderabad - Shamshabad"
+       },
+       {
+        "dc_id": "AMD_CHG",
+        "name": "Ahmedabad - Changodar"
+       },
+       {
+        "dc_id": "KOL_DNK",
+        "name": "Kolkata - Dankuni"
+       },
+       {
+        "dc_id": "LKO_KNP",
+        "name": "Lucknow - Kanpur Road"
+       },
+       {
+        "dc_id": "IDR_PTH",
+        "name": "Indore - Pithampur"
+       },
+       {
+        "dc_id": "PAT_BHT",
+        "name": "Patna - Bihta"
+       }
+      ],
+      "cost_cr_per_yr": {
+       "primary": 91.2546,
+       "secondary": 100.4048,
+       "space": 19.3864,
+       "handling": 6.6,
+       "inventory": 32.1674,
+       "fixed": 24.0,
+       "total": 273.8133
+      },
+      "next_day_share_frac": 0.634,
+      "two_day_share_frac": 0.9266,
+      "share_of_revenue_frac": 0.0456,
+      "vs_recommended": {
+       "recommended_id": "S3_400km_80",
+       "recommended_total_cr": 244.0772,
+       "delta_total_cr": 29.7361,
+       "delta_total_frac": 0.1218,
+       "delta_by_component_cr": {
+        "primary": 6.2383,
+        "secondary": 28.9577,
+        "space": -0.7658,
+        "handling": 0.0,
+        "inventory": -1.6941,
+        "fixed": -3.0
+       },
+       "next_day_change_pts": -16.6902,
+       "added": [],
+       "dropped": [
+        "BLR_HSR"
+       ]
+      },
+      "closed_site": {
+       "dc_id": "BLR_HSR",
+       "name": "Bengaluru - Hosur (Attibele-Bommasandra)"
+      },
+      "mode": "operational",
+      "outage": {
+       "months": 1,
+       "outage_cost_cr": 2.933,
+       "freight_change_cr_per_yr": 35.196,
+       "next_day_share_before_frac": 0.8009,
+       "next_day_share_during_frac": 0.634,
+       "zones_losing_next_day_count": 25,
+       "zones_losing_next_day": [
+        "BBMP",
+        "Chennai",
+        "Coimbatore",
+        "Madurai",
+        "Mysore",
+        "Tiruchirappalli",
+        "Salem",
+        "Durgapur",
+        "Kozhikode",
+        "Nanded Waghala",
+        "Nellore",
+        "Gulbarga",
+        "Jhansi",
+        "Ambattur",
+        "Jalgaon",
+        "Tiruppur",
+        "Davanagere",
+        "Latur",
+        "Avadi",
+        "Shimoga",
+        "Junagadh",
+        "Thrissur",
+        "Parbhani",
+        "Tumkur",
+        "Ozhukarai"
+       ],
+       "demand_losing_next_day_t_yr": 50070.5146,
+       "demand_losing_next_day_frac": 0.1669,
+       "reassigned_zones_by_site": {
+        "HYD_SMB": 14,
+        "MUM_BHW": 11
+       },
+       "not_costed": "lost sales and stock stranded in the closed DC"
+      }
+     }
+    ]
+   ]
+  },
+  {
+   "intent_id": "loss_NCR_FRN",
+   "example": "And if we lost NCR permanently?",
+   "calls": [
+    [
+     "simulate_disruption",
+     {
+      "dc_id": "NCR_FRN",
+      "mode": "strategic"
+     }
+    ]
+   ],
+   "results": [
+    [
+     "simulate_disruption",
+     {
+      "scenario_id": "AG_loss_NCR_FRN",
+      "question": "What if we lose the site permanently?",
+      "status": "Optimal Solution Found",
+      "n_dcs": 9,
+      "sites": [
+       {
+        "dc_id": "MUM_BHW",
+        "name": "Mumbai - Bhiwandi"
+       },
+       {
+        "dc_id": "BLR_HSR",
+        "name": "Bengaluru - Hosur (Attibele-Bommasandra)"
+       },
+       {
+        "dc_id": "HYD_SMB",
+        "name": "Hyderabad - Shamshabad"
+       },
+       {
+        "dc_id": "AMD_CHG",
+        "name": "Ahmedabad - Changodar"
+       },
+       {
+        "dc_id": "KOL_DNK",
+        "name": "Kolkata - Dankuni"
+       },
+       {
+        "dc_id": "NAG_MHN",
+        "name": "Nagpur - MIHAN / Wardha Road"
+       },
+       {
+        "dc_id": "LKO_KNP",
+        "name": "Lucknow - Kanpur Road"
+       },
+       {
+        "dc_id": "PNJ_RJP",
+        "name": "Punjab - Rajpura"
+       },
+       {
+        "dc_id": "PAT_BHT",
+        "name": "Patna - Bihta"
+       }
+      ],
+      "cost_cr_per_yr": {
+       "primary": 86.5491,
+       "secondary": 72.5386,
+       "space": 19.5972,
+       "handling": 6.6,
+       "inventory": 33.986,
+       "fixed": 27.0,
+       "total": 246.2709
+      },
+      "next_day_share_frac": 0.8012,
+      "two_day_share_frac": 0.9908,
+      "share_of_revenue_frac": 0.041,
+      "vs_recommended": {
+       "recommended_id": "S3_400km_80",
+       "recommended_total_cr": 244.0772,
+       "delta_total_cr": 2.1937,
+       "delta_total_frac": 0.009,
+       "delta_by_component_cr": {
+        "primary": 1.5328,
+        "secondary": 1.0914,
+        "space": -0.555,
+        "handling": 0.0,
+        "inventory": 0.1245,
+        "fixed": 0.0
+       },
+       "next_day_change_pts": 0.0304,
+       "added": [
+        "NAG_MHN",
+        "PNJ_RJP"
+       ],
+       "dropped": [
+        "IDR_PTH",
+        "NCR_FRN"
+       ]
+      },
+      "closed_site": {
+       "dc_id": "NCR_FRN",
+       "name": "Delhi NCR - Farrukhnagar"
+      },
+      "mode": "strategic",
+      "permanent_loss": {
+       "penalty_cr_per_yr": 2.1937
+      }
+     }
+    ]
+   ]
+  },
+  {
+   "intent_id": "outage_NCR_FRN",
+   "example": "What if NCR shuts for a month?",
+   "calls": [
+    [
+     "simulate_disruption",
+     {
+      "dc_id": "NCR_FRN",
+      "mode": "operational",
+      "months": 1
+     }
+    ]
+   ],
+   "results": [
+    [
+     "simulate_disruption",
+     {
+      "scenario_id": "AG_outage_NCR_FRN_1m",
+      "question": "What if a site goes down for a month?",
+      "status": "Optimal Solution Found",
+      "n_dcs": 8,
+      "sites": [
+       {
+        "dc_id": "MUM_BHW",
+        "name": "Mumbai - Bhiwandi"
+       },
+       {
+        "dc_id": "BLR_HSR",
+        "name": "Bengaluru - Hosur (Attibele-Bommasandra)"
+       },
+       {
+        "dc_id": "HYD_SMB",
+        "name": "Hyderabad - Shamshabad"
+       },
+       {
+        "dc_id": "AMD_CHG",
+        "name": "Ahmedabad - Changodar"
+       },
+       {
+        "dc_id": "KOL_DNK",
+        "name": "Kolkata - Dankuni"
+       },
+       {
+        "dc_id": "LKO_KNP",
+        "name": "Lucknow - Kanpur Road"
+       },
+       {
+        "dc_id": "IDR_PTH",
+        "name": "Indore - Pithampur"
+       },
+       {
+        "dc_id": "PAT_BHT",
+        "name": "Patna - Bihta"
+       }
+      ],
+      "cost_cr_per_yr": {
+       "primary": 91.8794,
+       "secondary": 92.9674,
+       "space": 18.6951,
+       "handling": 6.6,
+       "inventory": 32.3396,
+       "fixed": 24.0,
+       "total": 266.4816
+      },
+      "next_day_share_frac": 0.6401,
+      "two_day_share_frac": 0.9669,
+      "share_of_revenue_frac": 0.0444,
+      "vs_recommended": {
+       "recommended_id": "S3_400km_80",
+       "recommended_total_cr": 244.0772,
+       "delta_total_cr": 22.4043,
+       "delta_total_frac": 0.0918,
+       "delta_by_component_cr": {
+        "primary": 6.8631,
+        "secondary": 21.5203,
+        "space": -1.4571,
+        "handling": 0.0,
+        "inventory": -1.5219,
+        "fixed": -3.0
+       },
+       "next_day_change_pts": -16.0799,
+       "added": [],
+       "dropped": [
+        "NCR_FRN"
+       ]
+      },
+      "closed_site": {
+       "dc_id": "NCR_FRN",
+       "name": "Delhi NCR - Farrukhnagar"
+      },
+      "mode": "operational",
+      "outage": {
+       "months": 1,
+       "outage_cost_cr": 2.3653,
+       "freight_change_cr_per_yr": 28.3834,
+       "next_day_share_before_frac": 0.8009,
+       "next_day_share_during_frac": 0.6401,
+       "zones_losing_next_day_count": 29,
+       "zones_losing_next_day": [
+        "DMC",
+        "Jaipur",
+        "Ghaziabad",
+        "Ludhiana",
+        "Faridabad",
+        "Meerut",
+        "Chandigarh",
+        "Gurgaon",
+        "Saharanpur",
+        "Noida",
+        "Dehradun",
+        "Durgapur",
+        "Nanded Waghala",
+        "Gulbarga",
+        "Ajmer",
+        "Loni",
+        "Jalgaon",
+        "Patiala",
+        "Kurnool",
+        "Muzaffarnagar",
+        "Latur",
+        "Rohtak",
+        "Mathura",
+        "Alwar",
+        "Junagadh",
+        "Parbhani",
+        "Hisar",
+        "Karnal",
+        "Shimla"
+       ],
+       "demand_losing_next_day_t_yr": 48239.6334,
+       "demand_losing_next_day_frac": 0.1608,
+       "reassigned_zones_by_site": {
+        "AMD_CHG": 2,
+        "IDR_PTH": 1,
+        "LKO_KNP": 30
+       },
+       "not_costed": "lost sales and stock stranded in the closed DC"
+      }
+     }
+    ]
+   ]
+  },
+  {
+   "intent_id": "loss_MUM_BHW",
+   "example": "And if we lost Mumbai permanently?",
+   "calls": [
+    [
+     "simulate_disruption",
+     {
+      "dc_id": "MUM_BHW",
+      "mode": "strategic"
+     }
+    ]
+   ],
+   "results": [
+    [
+     "simulate_disruption",
+     {
+      "scenario_id": "AG_loss_MUM_BHW",
+      "question": "What if we lose the site permanently?",
+      "status": "Optimal Solution Found",
+      "n_dcs": 9,
+      "sites": [
+       {
+        "dc_id": "PUN_CHK",
+        "name": "Pune - Chakan"
+       },
+       {
+        "dc_id": "NCR_FRN",
+        "name": "Delhi NCR - Farrukhnagar"
+       },
+       {
+        "dc_id": "BLR_HSR",
+        "name": "Bengaluru - Hosur (Attibele-Bommasandra)"
+       },
+       {
+        "dc_id": "HYD_SMB",
+        "name": "Hyderabad - Shamshabad"
+       },
+       {
+        "dc_id": "AMD_CHG",
+        "name": "Ahmedabad - Changodar"
+       },
+       {
+        "dc_id": "KOL_DNK",
+        "name": "Kolkata - Dankuni"
+       },
+       {
+        "dc_id": "LKO_KNP",
+        "name": "Lucknow - Kanpur Road"
+       },
+       {
+        "dc_id": "IDR_PTH",
+        "name": "Indore - Pithampur"
+       },
+       {
+        "dc_id": "PAT_BHT",
+        "name": "Patna - Bihta"
+       }
+      ],
+      "cost_cr_per_yr": {
+       "primary": 86.3609,
+       "secondary": 72.2706,
+       "space": 20.2008,
+       "handling": 6.6,
+       "inventory": 33.9056,
+       "fixed": 27.0,
+       "total": 246.338
+      },
+      "next_day_share_frac": 0.8,
+      "two_day_share_frac": 0.9908,
+      "share_of_revenue_frac": 0.0411,
+      "vs_recommended": {
+       "recommended_id": "S3_400km_80",
+       "recommended_total_cr": 244.0772,
+       "delta_total_cr": 2.2608,
+       "delta_total_frac": 0.0093,
+       "delta_by_component_cr": {
+        "primary": 1.3446,
+        "secondary": 0.8235,
+        "space": 0.0486,
+        "handling": 0.0,
+        "inventory": 0.0441,
+        "fixed": 0.0
+       },
+       "next_day_change_pts": -0.0887,
+       "added": [
+        "PUN_CHK"
+       ],
+       "dropped": [
+        "MUM_BHW"
+       ]
+      },
+      "closed_site": {
+       "dc_id": "MUM_BHW",
+       "name": "Mumbai - Bhiwandi"
+      },
+      "mode": "strategic",
+      "permanent_loss": {
+       "penalty_cr_per_yr": 2.2608
+      }
+     }
+    ]
+   ]
+  },
+  {
+   "intent_id": "outage_MUM_BHW",
+   "example": "What if Mumbai shuts for a month?",
+   "calls": [
+    [
+     "simulate_disruption",
+     {
+      "dc_id": "MUM_BHW",
+      "mode": "operational",
+      "months": 1
+     }
+    ]
+   ],
+   "results": [
+    [
+     "simulate_disruption",
+     {
+      "scenario_id": "AG_outage_MUM_BHW_1m",
+      "question": "What if a site goes down for a month?",
+      "status": "Optimal Solution Found",
+      "n_dcs": 8,
+      "sites": [
+       {
+        "dc_id": "NCR_FRN",
+        "name": "Delhi NCR - Farrukhnagar"
+       },
+       {
+        "dc_id": "BLR_HSR",
+        "name": "Bengaluru - Hosur (Attibele-Bommasandra)"
+       },
+       {
+        "dc_id": "HYD_SMB",
+        "name": "Hyderabad - Shamshabad"
+       },
+       {
+        "dc_id": "AMD_CHG",
+        "name": "Ahmedabad - Changodar"
+       },
+       {
+        "dc_id": "KOL_DNK",
+        "name": "Kolkata - Dankuni"
+       },
+       {
+        "dc_id": "LKO_KNP",
+        "name": "Lucknow - Kanpur Road"
+       },
+       {
+        "dc_id": "IDR_PTH",
+        "name": "Indore - Pithampur"
+       },
+       {
+        "dc_id": "PAT_BHT",
+        "name": "Patna - Bihta"
+       }
+      ],
+      "cost_cr_per_yr": {
+       "primary": 89.0883,
+       "secondary": 83.7033,
+       "space": 18.7012,
+       "handling": 6.6,
+       "inventory": 32.4486,
+       "fixed": 24.0,
+       "total": 254.5414
+      },
+      "next_day_share_frac": 0.6993,
+      "two_day_share_frac": 0.9908,
+      "share_of_revenue_frac": 0.0424,
+      "vs_recommended": {
+       "recommended_id": "S3_400km_80",
+       "recommended_total_cr": 244.0772,
+       "delta_total_cr": 10.4642,
+       "delta_total_frac": 0.0429,
+       "delta_by_component_cr": {
+        "primary": 4.072,
+        "secondary": 12.2561,
+        "space": -1.451,
+        "handling": 0.0,
+        "inventory": -1.4129,
+        "fixed": -3.0
+       },
+       "next_day_change_pts": -10.1592,
+       "added": [],
+       "dropped": [
+        "MUM_BHW"
+       ]
+      },
+      "closed_site": {
+       "dc_id": "MUM_BHW",
+       "name": "Mumbai - Bhiwandi"
+      },
+      "mode": "operational",
+      "outage": {
+       "months": 1,
+       "outage_cost_cr": 1.3607,
+       "freight_change_cr_per_yr": 16.3281,
+       "next_day_share_before_frac": 0.8009,
+       "next_day_share_during_frac": 0.6993,
+       "zones_losing_next_day_count": 19,
+       "zones_losing_next_day": [
+        "Greater Mumbai",
+        "Pune",
+        "Thane",
+        "Pimpri Chinchwad",
+        "Nashik",
+        "Kalyan-Dombivli",
+        "Vasai-Virar City",
+        "Navi Mumbai",
+        "Mira-Bhayandar",
+        "Bhiwandi Nizampur",
+        "Durgapur",
+        "Kolhapur",
+        "Ulhasnagar",
+        "Jhansi",
+        "Sangli Miraj Kupwad",
+        "Kurnool",
+        "Ahmadnagar",
+        "Chandrapur",
+        "Parbhani"
+       ],
+       "demand_losing_next_day_t_yr": 31634.1566,
+       "demand_losing_next_day_frac": 0.1054,
+       "reassigned_zones_by_site": {
+        "AMD_CHG": 13,
+        "BLR_HSR": 5,
+        "HYD_SMB": 1,
+        "IDR_PTH": 4
+       },
+       "not_costed": "lost sales and stock stranded in the closed DC"
+      }
+     }
+    ]
+   ]
+  },
+  {
+   "intent_id": "diesel_40",
+   "example": "What if diesel rises 40%?",
+   "calls": [
+    [
+     "run_scenario",
+     {
+      "name": "diesel_40",
+      "overrides": {
+       "diesel_shock_frac": 0.4
+      }
+     }
+    ]
+   ],
+   "results": [
+    [
+     "run_scenario",
+     {
+      "scenario_id": "AG_diesel_40_b2f1e8",
+      "question": "What if: diesel_40",
+      "status": "Optimal Solution Found",
+      "n_dcs": 9,
+      "sites": [
+       {
+        "dc_id": "MUM_BHW",
+        "name": "Mumbai - Bhiwandi"
+       },
+       {
+        "dc_id": "NCR_FRN",
+        "name": "Delhi NCR - Farrukhnagar"
+       },
+       {
+        "dc_id": "BLR_HSR",
+        "name": "Bengaluru - Hosur (Attibele-Bommasandra)"
+       },
+       {
+        "dc_id": "HYD_SMB",
+        "name": "Hyderabad - Shamshabad"
+       },
+       {
+        "dc_id": "AMD_CHG",
+        "name": "Ahmedabad - Changodar"
+       },
+       {
+        "dc_id": "KOL_DNK",
+        "name": "Kolkata - Dankuni"
+       },
+       {
+        "dc_id": "NAG_MHN",
+        "name": "Nagpur - MIHAN / Wardha Road"
+       },
+       {
+        "dc_id": "LKO_KNP",
+        "name": "Lucknow - Kanpur Road"
+       },
+       {
+        "dc_id": "PAT_BHT",
+        "name": "Patna - Bihta"
+       }
+      ],
+      "overrides": {
+       "diesel_shock_frac": 0.4
+      },
+      "cost_cr_per_yr": {
+       "primary": 104.946,
+       "secondary": 86.1846,
+       "space": 20.4147,
+       "handling": 6.6,
+       "inventory": 33.8048,
+       "fixed": 27.0,
+       "total": 278.95
+      },
+      "next_day_share_frac": 0.8012,
+      "two_day_share_frac": 0.9908,
+      "share_of_revenue_frac": 0.0465,
+      "vs_recommended": {
+       "recommended_id": "S3_400km_80",
+       "recommended_total_cr": 244.0772,
+       "delta_total_cr": 34.8728,
+       "delta_total_frac": 0.1429,
+       "delta_by_component_cr": {
+        "primary": 19.9297,
+        "secondary": 14.7374,
+        "space": 0.2625,
+        "handling": 0.0,
+        "inventory": -0.0567,
+        "fixed": 0.0
+       },
+       "next_day_change_pts": 0.0239,
+       "added": [
+        "NAG_MHN"
+       ],
+       "dropped": [
+        "IDR_PTH"
+       ]
+      }
+     }
+    ]
+   ]
+  },
+  {
+   "intent_id": "diesel_20",
+   "example": "Diesel just went up 20%. Should we change anything?",
+   "calls": [
+    [
+     "run_scenario",
+     {
+      "name": "diesel_20",
+      "overrides": {
+       "diesel_shock_frac": 0.2
+      }
+     }
+    ]
+   ],
+   "results": [
+    [
+     "run_scenario",
+     {
+      "scenario_id": "AG_diesel_20_f9a1ac",
+      "question": "What if: diesel_20",
+      "status": "Optimal Solution Found",
+      "n_dcs": 9,
+      "sites": [
+       {
+        "dc_id": "MUM_BHW",
+        "name": "Mumbai - Bhiwandi"
+       },
+       {
+        "dc_id": "NCR_FRN",
+        "name": "Delhi NCR - Farrukhnagar"
+       },
+       {
+        "dc_id": "BLR_HSR",
+        "name": "Bengaluru - Hosur (Attibele-Bommasandra)"
+       },
+       {
+        "dc_id": "HYD_SMB",
+        "name": "Hyderabad - Shamshabad"
+       },
+       {
+        "dc_id": "AMD_CHG",
+        "name": "Ahmedabad - Changodar"
+       },
+       {
+        "dc_id": "KOL_DNK",
+        "name": "Kolkata - Dankuni"
+       },
+       {
+        "dc_id": "LKO_KNP",
+        "name": "Lucknow - Kanpur Road"
+       },
+       {
+        "dc_id": "IDR_PTH",
+        "name": "Indore - Pithampur"
+       },
+       {
+        "dc_id": "PAT_BHT",
+        "name": "Patna - Bihta"
+       }
+      ],
+      "overrides": {
+       "diesel_shock_frac": 0.2
+      },
+      "cost_cr_per_yr": {
+       "primary": 94.3681,
+       "secondary": 79.3063,
+       "space": 20.1522,
+       "handling": 6.6,
+       "inventory": 33.8615,
+       "fixed": 27.0,
+       "total": 261.2882
+      },
+      "next_day_share_frac": 0.8009,
+      "two_day_share_frac": 0.9908,
+      "share_of_revenue_frac": 0.0435,
+      "vs_recommended": {
+       "recommended_id": "S3_400km_80",
+       "recommended_total_cr": 244.0772,
+       "delta_total_cr": 17.211,
+       "delta_total_frac": 0.0705,
+       "delta_by_component_cr": {
+        "primary": 9.3518,
+        "secondary": 7.8592,
+        "space": 0.0,
+        "handling": 0.0,
+        "inventory": 0.0,
+        "fixed": 0.0
+       },
+       "next_day_change_pts": 0.0,
+       "added": [],
+       "dropped": []
+      }
+     }
+    ]
+   ]
+  },
+  {
+   "intent_id": "service_90_95",
+   "example": "What would 90% or 95% next-day cost?",
+   "calls": [
+    [
+     "compare_scenarios",
+     {
+      "ids": [
+       "S3_400km_80",
+       "S3_400km_85",
+       "S3_400km_90",
+       "S3_400km_95"
+      ]
+     }
+    ]
+   ],
+   "results": [
+    [
+     "compare_scenarios",
+     {
+      "recommended_id": "S3_400km_80",
+      "scenarios": [
+       {
+        "scenario_id": "S3_400km_80",
+        "question": "What does service cost?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 9,
+        "open_dcs": [
+         "MUM_BHW",
+         "NCR_FRN",
+         "BLR_HSR",
+         "HYD_SMB",
+         "AMD_CHG",
+         "KOL_DNK",
+         "LKO_KNP",
+         "IDR_PTH",
+         "PAT_BHT"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 85.0163,
+         "secondary": 71.4472,
+         "space": 20.1522,
+         "handling": 6.6,
+         "inventory": 33.8615,
+         "fixed": 27.0,
+         "total": 244.0772
+        },
+        "next_day_share_frac": 0.8009,
+        "delta_total_vs_recommended_cr": 0.0
+       },
+       {
+        "scenario_id": "S3_400km_85",
+        "question": "What does service cost?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 11,
+        "open_dcs": [
+         "MUM_BHW",
+         "NCR_FRN",
+         "BLR_HSR",
+         "HYD_SMB",
+         "AMD_CHG",
+         "KOL_DNK",
+         "NAG_MHN",
+         "LKO_KNP",
+         "GAU_CHS",
+         "PNJ_RJP",
+         "PAT_BHT"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 88.96,
+         "secondary": 60.644,
+         "space": 22.9224,
+         "handling": 6.6,
+         "inventory": 36.352,
+         "fixed": 33.0,
+         "total": 248.4784
+        },
+        "next_day_share_frac": 0.8512,
+        "delta_total_vs_recommended_cr": 4.4012
+       },
+       {
+        "scenario_id": "S3_400km_90",
+        "question": "What does service cost?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 12,
+        "open_dcs": [
+         "MUM_BHW",
+         "CHN_SPB",
+         "HYD_SMB",
+         "AMD_CHG",
+         "KOL_DNK",
+         "NAG_MHN",
+         "LKO_KNP",
+         "GAU_CHS",
+         "JAI_BGR",
+         "PNJ_RJP",
+         "PAT_BHT",
+         "COK_KLM"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 90.3428,
+         "secondary": 60.9534,
+         "space": 23.703,
+         "handling": 6.6,
+         "inventory": 37.7877,
+         "fixed": 36.0,
+         "total": 255.3869
+        },
+        "next_day_share_frac": 0.9004,
+        "delta_total_vs_recommended_cr": 11.3097
+       },
+       {
+        "scenario_id": "S3_400km_95",
+        "question": "What does service cost?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 14,
+        "open_dcs": [
+         "MUM_BHW",
+         "BLR_HSR",
+         "HYD_SMB",
+         "AMD_CHG",
+         "KOL_DNK",
+         "NAG_MHN",
+         "LKO_KNP",
+         "GAU_CHS",
+         "IDR_PTH",
+         "JAI_BGR",
+         "PNJ_RJP",
+         "PAT_BHT",
+         "COK_KLM",
+         "BBS_KHD"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 95.8121,
+         "secondary": 53.5511,
+         "space": 26.773,
+         "handling": 6.6,
+         "inventory": 39.4269,
+         "fixed": 42.0,
+         "total": 264.1631
+        },
+        "next_day_share_frac": 0.9515,
+        "delta_total_vs_recommended_cr": 20.0859
+       }
+      ]
+     }
+    ]
+   ]
+  },
+  {
+   "intent_id": "service_85",
+   "example": "What would it cost to reach 85% next-day?",
+   "calls": [
+    [
+     "compare_scenarios",
+     {
+      "ids": [
+       "S3_400km_80",
+       "S3_400km_85",
+       "S3_400km_80_staged"
+      ]
+     }
+    ]
+   ],
+   "results": [
+    [
+     "compare_scenarios",
+     {
+      "recommended_id": "S3_400km_80",
+      "scenarios": [
+       {
+        "scenario_id": "S3_400km_80",
+        "question": "What does service cost?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 9,
+        "open_dcs": [
+         "MUM_BHW",
+         "NCR_FRN",
+         "BLR_HSR",
+         "HYD_SMB",
+         "AMD_CHG",
+         "KOL_DNK",
+         "LKO_KNP",
+         "IDR_PTH",
+         "PAT_BHT"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 85.0163,
+         "secondary": 71.4472,
+         "space": 20.1522,
+         "handling": 6.6,
+         "inventory": 33.8615,
+         "fixed": 27.0,
+         "total": 244.0772
+        },
+        "next_day_share_frac": 0.8009,
+        "delta_total_vs_recommended_cr": 0.0
+       },
+       {
+        "scenario_id": "S3_400km_85",
+        "question": "What does service cost?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 11,
+        "open_dcs": [
+         "MUM_BHW",
+         "NCR_FRN",
+         "BLR_HSR",
+         "HYD_SMB",
+         "AMD_CHG",
+         "KOL_DNK",
+         "NAG_MHN",
+         "LKO_KNP",
+         "GAU_CHS",
+         "PNJ_RJP",
+         "PAT_BHT"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 88.96,
+         "secondary": 60.644,
+         "space": 22.9224,
+         "handling": 6.6,
+         "inventory": 36.352,
+         "fixed": 33.0,
+         "total": 248.4784
+        },
+        "next_day_share_frac": 0.8512,
+        "delta_total_vs_recommended_cr": 4.4012
+       },
+       {
+        "scenario_id": "S3_400km_80_staged",
+        "question": "Can the recommended network stage into the next upgrade?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 9,
+        "open_dcs": [
+         "MUM_BHW",
+         "NCR_FRN",
+         "BLR_HSR",
+         "HYD_SMB",
+         "AMD_CHG",
+         "KOL_DNK",
+         "NAG_MHN",
+         "LKO_KNP",
+         "PAT_BHT"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 85.943,
+         "secondary": 70.6394,
+         "space": 20.4241,
+         "handling": 6.6,
+         "inventory": 33.8028,
+         "fixed": 27.0,
+         "total": 244.4093
+        },
+        "next_day_share_frac": 0.8004,
+        "delta_total_vs_recommended_cr": 0.332
+       }
+      ]
+     }
+    ]
+   ]
+  },
+  {
+   "intent_id": "growth",
+   "example": "What if demand grows 30%?",
+   "calls": [
+    [
+     "compare_scenarios",
+     {
+      "ids": [
+       "S3_400km_80",
+       "S4_uniform",
+       "S4_regional_skew"
+      ]
+     }
+    ]
+   ],
+   "results": [
+    [
+     "compare_scenarios",
+     {
+      "recommended_id": "S3_400km_80",
+      "scenarios": [
+       {
+        "scenario_id": "S3_400km_80",
+        "question": "What does service cost?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 9,
+        "open_dcs": [
+         "MUM_BHW",
+         "NCR_FRN",
+         "BLR_HSR",
+         "HYD_SMB",
+         "AMD_CHG",
+         "KOL_DNK",
+         "LKO_KNP",
+         "IDR_PTH",
+         "PAT_BHT"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 85.0163,
+         "secondary": 71.4472,
+         "space": 20.1522,
+         "handling": 6.6,
+         "inventory": 33.8615,
+         "fixed": 27.0,
+         "total": 244.0772
+        },
+        "next_day_share_frac": 0.8009,
+        "delta_total_vs_recommended_cr": 0.0
+       },
+       {
+        "scenario_id": "S4_uniform",
+        "question": "Does growth change the answer?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 9,
+        "open_dcs": [
+         "MUM_BHW",
+         "NCR_FRN",
+         "BLR_HSR",
+         "HYD_SMB",
+         "AMD_CHG",
+         "KOL_DNK",
+         "NAG_MHN",
+         "LKO_KNP",
+         "PAT_BHT"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 111.8636,
+         "secondary": 91.8212,
+         "space": 24.345,
+         "handling": 8.58,
+         "inventory": 43.9415,
+         "fixed": 27.0,
+         "total": 307.5513
+        },
+        "next_day_share_frac": 0.8015,
+        "delta_total_vs_recommended_cr": 63.4741
+       },
+       {
+        "scenario_id": "S4_regional_skew",
+        "question": "Does growth change the answer?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 9,
+        "open_dcs": [
+         "MUM_BHW",
+         "NCR_FRN",
+         "BLR_HSR",
+         "HYD_SMB",
+         "AMD_CHG",
+         "KOL_DNK",
+         "NAG_MHN",
+         "LKO_KNP",
+         "PAT_BHT"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 116.3095,
+         "secondary": 93.6268,
+         "space": 24.3344,
+         "handling": 8.6183,
+         "inventory": 44.316,
+         "fixed": 27.0,
+         "total": 314.2048
+        },
+        "next_day_share_frac": 0.8003,
+        "delta_total_vs_recommended_cr": 70.1276
+       }
+      ]
+     }
+    ]
+   ]
+  },
+  {
+   "intent_id": "rent",
+   "example": "What if rents rise 20%?",
+   "calls": [
+    [
+     "compare_scenarios",
+     {
+      "ids": [
+       "S3_400km_80",
+       "S7_rent_minus_20",
+       "S7_rent_plus_20"
+      ]
+     }
+    ]
+   ],
+   "results": [
+    [
+     "compare_scenarios",
+     {
+      "recommended_id": "S3_400km_80",
+      "scenarios": [
+       {
+        "scenario_id": "S3_400km_80",
+        "question": "What does service cost?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 9,
+        "open_dcs": [
+         "MUM_BHW",
+         "NCR_FRN",
+         "BLR_HSR",
+         "HYD_SMB",
+         "AMD_CHG",
+         "KOL_DNK",
+         "LKO_KNP",
+         "IDR_PTH",
+         "PAT_BHT"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 85.0163,
+         "secondary": 71.4472,
+         "space": 20.1522,
+         "handling": 6.6,
+         "inventory": 33.8615,
+         "fixed": 27.0,
+         "total": 244.0772
+        },
+        "next_day_share_frac": 0.8009,
+        "delta_total_vs_recommended_cr": 0.0
+       },
+       {
+        "scenario_id": "S7_rent_minus_20",
+        "question": "Real-estate sensitivity?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 9,
+        "open_dcs": [
+         "MUM_BHW",
+         "NCR_FRN",
+         "BLR_HSR",
+         "HYD_SMB",
+         "AMD_CHG",
+         "KOL_DNK",
+         "LKO_KNP",
+         "IDR_PTH",
+         "PAT_BHT"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 85.0163,
+         "secondary": 71.4472,
+         "space": 17.3769,
+         "handling": 6.6,
+         "inventory": 33.8615,
+         "fixed": 27.0,
+         "total": 241.3019
+        },
+        "next_day_share_frac": 0.8009,
+        "delta_total_vs_recommended_cr": -2.7753
+       },
+       {
+        "scenario_id": "S7_rent_plus_20",
+        "question": "Real-estate sensitivity?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 9,
+        "open_dcs": [
+         "MUM_BHW",
+         "NCR_FRN",
+         "BLR_HSR",
+         "HYD_SMB",
+         "AMD_CHG",
+         "KOL_DNK",
+         "LKO_KNP",
+         "IDR_PTH",
+         "PAT_BHT"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 85.1572,
+         "secondary": 71.3766,
+         "space": 22.9168,
+         "handling": 6.6,
+         "inventory": 33.8798,
+         "fixed": 27.0,
+         "total": 246.9305
+        },
+        "next_day_share_frac": 0.8025,
+        "delta_total_vs_recommended_cr": 2.8533
+       }
+      ]
+     }
+    ]
+   ]
+  },
+  {
+   "intent_id": "no_puducherry",
+   "example": "What if we close the Puducherry plant?",
+   "calls": [
+    [
+     "compare_scenarios",
+     {
+      "ids": [
+       "S3_400km_80",
+       "S8_no_puducherry"
+      ]
+     }
+    ]
+   ],
+   "results": [
+    [
+     "compare_scenarios",
+     {
+      "recommended_id": "S3_400km_80",
+      "scenarios": [
+       {
+        "scenario_id": "S3_400km_80",
+        "question": "What does service cost?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 9,
+        "open_dcs": [
+         "MUM_BHW",
+         "NCR_FRN",
+         "BLR_HSR",
+         "HYD_SMB",
+         "AMD_CHG",
+         "KOL_DNK",
+         "LKO_KNP",
+         "IDR_PTH",
+         "PAT_BHT"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 85.0163,
+         "secondary": 71.4472,
+         "space": 20.1522,
+         "handling": 6.6,
+         "inventory": 33.8615,
+         "fixed": 27.0,
+         "total": 244.0772
+        },
+        "next_day_share_frac": 0.8009,
+        "delta_total_vs_recommended_cr": 0.0
+       },
+       {
+        "scenario_id": "S8_no_puducherry",
+        "question": "Does plant footprint drive the answer?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 9,
+        "open_dcs": [
+         "MUM_BHW",
+         "NCR_FRN",
+         "BLR_HSR",
+         "HYD_SMB",
+         "AMD_CHG",
+         "KOL_DNK",
+         "NAG_MHN",
+         "LKO_KNP",
+         "PAT_BHT"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 112.8152,
+         "secondary": 71.9543,
+         "space": 20.2668,
+         "handling": 6.6,
+         "inventory": 33.8881,
+         "fixed": 27.0,
+         "total": 272.5243
+        },
+        "next_day_share_frac": 0.8001,
+        "delta_total_vs_recommended_cr": 28.4471
+       }
+      ]
+     }
+    ]
+   ]
+  },
+  {
+   "intent_id": "east_plant",
+   "example": "What if we add a plant in the East?",
+   "calls": [
+    [
+     "compare_scenarios",
+     {
+      "ids": [
+       "S3_400km_80",
+       "S8_add_east"
+      ]
+     }
+    ]
+   ],
+   "results": [
+    [
+     "compare_scenarios",
+     {
+      "recommended_id": "S3_400km_80",
+      "scenarios": [
+       {
+        "scenario_id": "S3_400km_80",
+        "question": "What does service cost?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 9,
+        "open_dcs": [
+         "MUM_BHW",
+         "NCR_FRN",
+         "BLR_HSR",
+         "HYD_SMB",
+         "AMD_CHG",
+         "KOL_DNK",
+         "LKO_KNP",
+         "IDR_PTH",
+         "PAT_BHT"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 85.0163,
+         "secondary": 71.4472,
+         "space": 20.1522,
+         "handling": 6.6,
+         "inventory": 33.8615,
+         "fixed": 27.0,
+         "total": 244.0772
+        },
+        "next_day_share_frac": 0.8009,
+        "delta_total_vs_recommended_cr": 0.0
+       },
+       {
+        "scenario_id": "S8_add_east",
+        "question": "Does plant footprint drive the answer?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 9,
+        "open_dcs": [
+         "MUM_BHW",
+         "NCR_FRN",
+         "BLR_HSR",
+         "HYD_SMB",
+         "AMD_CHG",
+         "KOL_DNK",
+         "NAG_MHN",
+         "PNJ_RJP",
+         "PAT_BHT"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 52.3518,
+         "secondary": 70.7534,
+         "space": 20.3075,
+         "handling": 6.6,
+         "inventory": 33.9224,
+         "fixed": 27.0,
+         "total": 210.9351
+        },
+        "next_day_share_frac": 0.8004,
+        "delta_total_vs_recommended_cr": -33.1421
+       }
+      ]
+     }
+    ]
+   ]
+  },
+  {
+   "intent_id": "assumptions",
+   "example": "Which of our assumptions should I worry about most?",
+   "calls": [
+    [
+     "rank_assumptions",
+     {}
+    ]
+   ],
+   "results": [
+    [
+     "rank_assumptions",
+     {
+      "source_id": "S9_tornado",
+      "recommended_id": "S3_400km_80",
+      "base_total_cr": 244.0772,
+      "base_saving_vs_as_is_cr": 28.5493,
+      "base_n_dcs": 9,
+      "rows": [
+       {
+        "parameter": "company.annual_volume_tonnes",
+        "range_label": "annual_volume_tonnes [240000 to 360000]",
+        "low_total_cr": 202.7998,
+        "high_total_cr": 286.2241,
+        "swing_cr": 83.4243,
+        "low_n_dcs": 9,
+        "high_n_dcs": 9,
+        "low_saving_vs_as_is_cr": 28.7089,
+        "high_saving_vs_as_is_cr": 28.0725
+       },
+       {
+        "parameter": "distance.circuity_factor",
+        "range_label": "circuity_factor [1.15 to 1.4]",
+        "low_total_cr": 229.3835,
+        "high_total_cr": 264.2567,
+        "swing_cr": 34.8732,
+        "low_n_dcs": 8,
+        "high_n_dcs": 11,
+        "low_saving_vs_as_is_cr": 30.9696,
+        "high_saving_vs_as_is_cr": 26.7879
+       },
+       {
+        "parameter": "transport.primary_ftl_inr_per_tkm",
+        "range_label": "primary_ftl_inr_per_tkm [4.3 to 6.5]",
+        "low_total_cr": 225.5258,
+        "high_total_cr": 259.7471,
+        "swing_cr": 34.2213,
+        "low_n_dcs": 9,
+        "high_n_dcs": 9,
+        "low_saving_vs_as_is_cr": 26.0412,
+        "high_saving_vs_as_is_cr": 30.429
+       },
+       {
+        "parameter": "transport.secondary_inr_per_tkm",
+        "range_label": "secondary_inr_per_tkm [7.0 to 11.0]",
+        "low_total_cr": 228.0591,
+        "high_total_cr": 260.1444,
+        "swing_cr": 32.0853,
+        "low_n_dcs": 9,
+        "high_n_dcs": 9,
+        "low_saving_vs_as_is_cr": 31.5383,
+        "high_saving_vs_as_is_cr": 25.5112
+       },
+       {
+        "parameter": "warehousing.fixed_cost_per_dc_cr_per_yr",
+        "range_label": "fixed_cost_per_dc_cr_per_yr [1.5 to 4.5]",
+        "low_total_cr": 230.6022,
+        "high_total_cr": 257.5772,
+        "swing_cr": 26.975,
+        "low_n_dcs": 9,
+        "high_n_dcs": 9,
+        "low_saving_vs_as_is_cr": 19.5242,
+        "high_saving_vs_as_is_cr": 37.5493
+       },
+       {
+        "parameter": "warehousing.safety_stock_days_single_dc",
+        "range_label": "safety_stock_days_single_dc [4 to 9]",
+        "low_total_cr": 234.3359,
+        "high_total_cr": 260.9855,
+        "swing_cr": 26.6496,
+        "low_n_dcs": 9,
+        "high_n_dcs": 9,
+        "low_saving_vs_as_is_cr": 27.2899,
+        "high_saving_vs_as_is_cr": 30.2148
+       },
+       {
+        "parameter": "demand.residual_share_target",
+        "range_label": "residual_share_target [0.45 to 0.65]",
+        "low_total_cr": 239.4581,
+        "high_total_cr": 249.4835,
+        "swing_cr": 10.0254,
+        "low_n_dcs": 8,
+        "high_n_dcs": 9,
+        "low_saving_vs_as_is_cr": 28.6657,
+        "high_saving_vs_as_is_cr": 27.9898
+       },
+       {
+        "parameter": "warehousing.cycle_stock_days",
+        "range_label": "cycle_stock_days [5 to 10]",
+        "low_total_cr": 240.3325,
+        "high_total_cr": 249.8851,
+        "swing_cr": 9.5526,
+        "low_n_dcs": 9,
+        "high_n_dcs": 9,
+        "low_saving_vs_as_is_cr": 29.201,
+        "high_saving_vs_as_is_cr": 27.4954
+       },
+       {
+        "parameter": "warehousing.storage_density_t_per_sqft",
+        "range_label": "storage_density_t_per_sqft [0.04 to 0.07]",
+        "low_total_cr": 247.3249,
+        "high_total_cr": 241.8232,
+        "swing_cr": 5.5017,
+        "low_n_dcs": 9,
+        "high_n_dcs": 9,
+        "low_saving_vs_as_is_cr": 26.8626,
+        "high_saving_vs_as_is_cr": 30.2197
+       },
+       {
+        "parameter": "warehousing.handling_inr_per_tonne",
+        "range_label": "handling_inr_per_tonne [150 to 300]",
+        "low_total_cr": 241.9772,
+        "high_total_cr": 246.4772,
+        "swing_cr": 4.5,
+        "low_n_dcs": 9,
+        "high_n_dcs": 9,
+        "low_saving_vs_as_is_cr": 28.5493,
+        "high_saving_vs_as_is_cr": 28.5493
+       },
+       {
+        "parameter": "warehousing.opex_inr_per_sqft_month",
+        "range_label": "opex_inr_per_sqft_month [7 to 14]",
+        "low_total_cr": 242.275,
+        "high_total_cr": 246.6643,
+        "swing_cr": 4.3893,
+        "low_n_dcs": 9,
+        "high_n_dcs": 9,
+        "low_saving_vs_as_is_cr": 27.589,
+        "high_saving_vs_as_is_cr": 29.6455
+       },
+       {
+        "parameter": "demand.metro_uplift",
+        "range_label": "metro_uplift [1.0 to 1.5]",
+        "low_total_cr": 246.5026,
+        "high_total_cr": 242.8751,
+        "swing_cr": 3.6275,
+        "low_n_dcs": 9,
+        "high_n_dcs": 9,
+        "low_saving_vs_as_is_cr": 28.2385,
+        "high_saving_vs_as_is_cr": 28.5245
+       },
+       {
+        "parameter": "demand.state_consumption_index.elasticity",
+        "range_label": "elasticity [0.6 to 1.0]",
+        "low_total_cr": 246.9702,
+        "high_total_cr": 244.0772,
+        "swing_cr": 2.893,
+        "low_n_dcs": 9,
+        "high_n_dcs": 9,
+        "low_saving_vs_as_is_cr": 29.0194,
+        "high_saving_vs_as_is_cr": 28.5493
+       },
+       {
+        "parameter": "transport.diesel_share_of_freight_cost",
+        "range_label": "diesel_share_of_freight_cost [0.35 to 0.55]",
+        "low_total_cr": 244.0772,
+        "high_total_cr": 244.0772,
+        "swing_cr": 0.0,
+        "low_n_dcs": 9,
+        "high_n_dcs": 9,
+        "low_saving_vs_as_is_cr": 28.5493,
+        "high_saving_vs_as_is_cr": 28.5493
+       }
+      ]
+     }
+    ]
+   ]
+  },
+  {
+   "intent_id": "cog",
+   "example": "Why not just use centre of gravity?",
+   "calls": [
+    [
+     "compare_scenarios",
+     {
+      "ids": [
+       "S2_k09",
+       "COG_k09"
+      ]
+     }
+    ]
+   ],
+   "results": [
+    [
+     "compare_scenarios",
+     {
+      "recommended_id": "S3_400km_80",
+      "scenarios": [
+       {
+        "scenario_id": "S2_k09",
+        "question": "How many DCs?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 9,
+        "open_dcs": [
+         "MUM_BHW",
+         "NCR_FRN",
+         "BLR_HSR",
+         "CHN_SPB",
+         "AMD_CHG",
+         "LKO_KNP",
+         "IDR_PTH",
+         "PNJ_RJP",
+         "PAT_BHT"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 66.9389,
+         "secondary": 83.4631,
+         "space": 20.0433,
+         "handling": 6.6,
+         "inventory": 34.046,
+         "fixed": 27.0,
+         "total": 238.0913
+        },
+        "next_day_share_frac": 0.6822,
+        "delta_total_vs_recommended_cr": -5.9859
+       },
+       {
+        "scenario_id": "COG_k09",
+        "question": "Why not just use centre of gravity?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 9,
+        "open_dcs": [
+         "MUM_BHW",
+         "NCR_FRN",
+         "BLR_HSR",
+         "HYD_SMB",
+         "AMD_CHG",
+         "KOL_DNK",
+         "NAG_MHN",
+         "GAU_CHS",
+         "PAT_BHT"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 100.2713,
+         "secondary": 65.4468,
+         "space": 20.1084,
+         "handling": 6.6,
+         "inventory": 33.7417,
+         "fixed": 27.0,
+         "total": 253.1683
+        },
+        "next_day_share_frac": 0.8182,
+        "delta_total_vs_recommended_cr": 9.0911
+       }
+      ]
+     }
+    ]
+   ]
+  },
+  {
+   "intent_id": "dc_count",
+   "example": "How many DCs should we run?",
+   "calls": [
+    [
+     "compare_scenarios",
+     {
+      "ids": [
+       "S2_k04",
+       "S2_k06",
+       "S2_k08",
+       "S2_k09",
+       "S2_k10",
+       "S2_k12"
+      ]
+     }
+    ]
+   ],
+   "results": [
+    [
+     "compare_scenarios",
+     {
+      "recommended_id": "S3_400km_80",
+      "scenarios": [
+       {
+        "scenario_id": "S2_k04",
+        "question": "How many DCs?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 4,
+        "open_dcs": [
+         "MUM_BHW",
+         "NCR_FRN",
+         "CHN_SPB",
+         "PAT_BHT"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 57.6768,
+         "secondary": 113.8904,
+         "space": 14.7805,
+         "handling": 6.6,
+         "inventory": 26.2033,
+         "fixed": 12.0,
+         "total": 231.151
+        },
+        "next_day_share_frac": 0.4941,
+        "delta_total_vs_recommended_cr": -12.9262
+       },
+       {
+        "scenario_id": "S2_k06",
+        "question": "How many DCs?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 6,
+        "open_dcs": [
+         "MUM_BHW",
+         "NCR_FRN",
+         "CHN_SPB",
+         "LKO_KNP",
+         "IDR_PTH",
+         "PAT_BHT"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 61.406,
+         "secondary": 100.8394,
+         "space": 16.7816,
+         "handling": 6.6,
+         "inventory": 29.3827,
+         "fixed": 18.0,
+         "total": 233.0097
+        },
+        "next_day_share_frac": 0.5692,
+        "delta_total_vs_recommended_cr": -11.0675
+       },
+       {
+        "scenario_id": "S2_k08",
+        "question": "How many DCs?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 8,
+        "open_dcs": [
+         "MUM_BHW",
+         "NCR_FRN",
+         "BLR_HSR",
+         "CHN_SPB",
+         "LKO_KNP",
+         "IDR_PTH",
+         "PNJ_RJP",
+         "PAT_BHT"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 63.9509,
+         "secondary": 89.8406,
+         "space": 18.6595,
+         "handling": 6.6,
+         "inventory": 32.6887,
+         "fixed": 24.0,
+         "total": 235.7397
+        },
+        "next_day_share_frac": 0.6401,
+        "delta_total_vs_recommended_cr": -8.3375
+       },
+       {
+        "scenario_id": "S2_k09",
+        "question": "How many DCs?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 9,
+        "open_dcs": [
+         "MUM_BHW",
+         "NCR_FRN",
+         "BLR_HSR",
+         "CHN_SPB",
+         "AMD_CHG",
+         "LKO_KNP",
+         "IDR_PTH",
+         "PNJ_RJP",
+         "PAT_BHT"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 66.9389,
+         "secondary": 83.4631,
+         "space": 20.0433,
+         "handling": 6.6,
+         "inventory": 34.046,
+         "fixed": 27.0,
+         "total": 238.0913
+        },
+        "next_day_share_frac": 0.6822,
+        "delta_total_vs_recommended_cr": -5.9859
+       },
+       {
+        "scenario_id": "S2_k10",
+        "question": "How many DCs?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 10,
+        "open_dcs": [
+         "MUM_BHW",
+         "NCR_FRN",
+         "BLR_HSR",
+         "CHN_SPB",
+         "AMD_CHG",
+         "LKO_KNP",
+         "GAU_CHS",
+         "IDR_PTH",
+         "PNJ_RJP",
+         "PAT_BHT"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 70.1419,
+         "secondary": 77.3157,
+         "space": 21.6296,
+         "handling": 6.6,
+         "inventory": 35.1331,
+         "fixed": 30.0,
+         "total": 240.8203
+        },
+        "next_day_share_frac": 0.7093,
+        "delta_total_vs_recommended_cr": -3.2569
+       },
+       {
+        "scenario_id": "S2_k12",
+        "question": "How many DCs?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 12,
+        "open_dcs": [
+         "MUM_BHW",
+         "NCR_FRN",
+         "BLR_HSR",
+         "CHN_SPB",
+         "HYD_SMB",
+         "AMD_CHG",
+         "KOL_DNK",
+         "LKO_KNP",
+         "GAU_CHS",
+         "IDR_PTH",
+         "PNJ_RJP",
+         "PAT_BHT"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 79.4296,
+         "secondary": 63.0025,
+         "space": 24.5313,
+         "handling": 6.6,
+         "inventory": 37.6217,
+         "fixed": 36.0,
+         "total": 247.1851
+        },
+        "next_day_share_frac": 0.8035,
+        "delta_total_vs_recommended_cr": 3.1079
+       }
+      ]
+     }
+    ]
+   ]
+  },
+  {
+   "intent_id": "cheapest",
+   "example": "What is the cheapest possible network?",
+   "calls": [
+    [
+     "compare_scenarios",
+     {
+      "ids": [
+       "S1",
+       "S3_400km_80"
+      ]
+     }
+    ]
+   ],
+   "results": [
+    [
+     "compare_scenarios",
+     {
+      "recommended_id": "S3_400km_80",
+      "scenarios": [
+       {
+        "scenario_id": "S1",
+        "question": "What is the cheapest possible network?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 4,
+        "open_dcs": [
+         "MUM_BHW",
+         "NCR_FRN",
+         "CHN_SPB",
+         "PAT_BHT"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 57.6768,
+         "secondary": 113.8904,
+         "space": 14.7805,
+         "handling": 6.6,
+         "inventory": 26.2033,
+         "fixed": 12.0,
+         "total": 231.151
+        },
+        "next_day_share_frac": 0.4941,
+        "delta_total_vs_recommended_cr": -12.9262
+       },
+       {
+        "scenario_id": "S3_400km_80",
+        "question": "What does service cost?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 9,
+        "open_dcs": [
+         "MUM_BHW",
+         "NCR_FRN",
+         "BLR_HSR",
+         "HYD_SMB",
+         "AMD_CHG",
+         "KOL_DNK",
+         "LKO_KNP",
+         "IDR_PTH",
+         "PAT_BHT"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 85.0163,
+         "secondary": 71.4472,
+         "space": 20.1522,
+         "handling": 6.6,
+         "inventory": 33.8615,
+         "fixed": 27.0,
+         "total": 244.0772
+        },
+        "next_day_share_frac": 0.8009,
+        "delta_total_vs_recommended_cr": 0.0
+       }
+      ]
+     }
+    ]
+   ]
+  },
+  {
+   "intent_id": "as_is",
+   "example": "What does today's network cost, and what do we save?",
+   "calls": [
+    [
+     "compare_scenarios",
+     {
+      "ids": [
+       "S0",
+       "S3_400km_80"
+      ]
+     }
+    ]
+   ],
+   "results": [
+    [
+     "compare_scenarios",
+     {
+      "recommended_id": "S3_400km_80",
+      "scenarios": [
+       {
+        "scenario_id": "S0",
+        "question": "What does today cost?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 15,
+        "open_dcs": [
+         "AS_MUM",
+         "AS_DEL",
+         "AS_LKO",
+         "AS_PAT",
+         "AS_KOL",
+         "AS_GAU",
+         "AS_BBS",
+         "AS_HYD",
+         "AS_BLR",
+         "AS_CHN",
+         "AS_COK",
+         "AS_AMD",
+         "AS_JAI",
+         "AS_IDR",
+         "AS_LDH"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 96.5227,
+         "secondary": 58.6309,
+         "space": 24.9555,
+         "handling": 6.6,
+         "inventory": 40.9173,
+         "fixed": 45.0,
+         "total": 272.6265
+        },
+        "next_day_share_frac": 0.8136,
+        "delta_total_vs_recommended_cr": 28.5493
+       },
+       {
+        "scenario_id": "S3_400km_80",
+        "question": "What does service cost?",
+        "status": "Optimal Solution Found",
+        "n_dcs": 9,
+        "open_dcs": [
+         "MUM_BHW",
+         "NCR_FRN",
+         "BLR_HSR",
+         "HYD_SMB",
+         "AMD_CHG",
+         "KOL_DNK",
+         "LKO_KNP",
+         "IDR_PTH",
+         "PAT_BHT"
+        ],
+        "cost_cr_per_yr": {
+         "primary": 85.0163,
+         "secondary": 71.4472,
+         "space": 20.1522,
+         "handling": 6.6,
+         "inventory": 33.8615,
+         "fixed": 27.0,
+         "total": 244.0772
+        },
+        "next_day_share_frac": 0.8009,
+        "delta_total_vs_recommended_cr": 0.0
+       }
+      ]
+     }
+    ]
+   ]
+  },
+  {
+   "intent_id": "recommended",
+   "example": "What's our recommended network and what does it cost?",
+   "calls": [
+    [
+     "explain_network",
+     {
+      "scenario_id": "S3_400km_80"
+     }
+    ]
+   ],
+   "results": [
+    [
+     "explain_network",
+     {
+      "scenario_id": "S3_400km_80",
+      "question": "What does service cost?",
+      "status": "Optimal Solution Found",
+      "n_dcs": 9,
+      "sites": [
+       {
+        "dc_id": "MUM_BHW",
+        "name": "Mumbai - Bhiwandi",
+        "zones_served": 23,
+        "largest_zones": [
+         "Greater Mumbai",
+         "Surat",
+         "Pune",
+         "Thane",
+         "Nashik"
+        ],
+        "throughput_t_yr": 36598.533,
+        "share_of_volume_frac": 0.122,
+        "next_day_share_of_site_frac": 0.9179
+       },
+       {
+        "dc_id": "NCR_FRN",
+        "name": "Delhi NCR - Farrukhnagar",
+        "zones_served": 33,
+        "largest_zones": [
+         "DMC",
+         "Jaipur",
+         "Bikaner",
+         "Amritsar",
+         "Ludhiana"
+        ],
+        "throughput_t_yr": 61576.164,
+        "share_of_volume_frac": 0.2053,
+        "next_day_share_of_site_frac": 0.8278
+       },
+       {
+        "dc_id": "BLR_HSR",
+        "name": "Bengaluru - Hosur (Attibele-Bommasandra)",
+        "zones_served": 25,
+        "largest_zones": [
+         "BBMP",
+         "Chennai",
+         "Kozhikode",
+         "Tiruchirappalli",
+         "Madurai"
+        ],
+        "throughput_t_yr": 56199.838,
+        "share_of_volume_frac": 0.1873,
+        "next_day_share_of_site_frac": 0.8306
+       },
+       {
+        "dc_id": "HYD_SMB",
+        "name": "Hyderabad - Shamshabad",
+        "zones_served": 15,
+        "largest_zones": [
+         "GHMC",
+         "Warangal",
+         "GVMC",
+         "Vijayawada",
+         "Brahmapur"
+        ],
+        "throughput_t_yr": 29354.233,
+        "share_of_volume_frac": 0.0978,
+        "next_day_share_of_site_frac": 0.7872
+       },
+       {
+        "dc_id": "AMD_CHG",
+        "name": "Ahmedabad - Changodar",
+        "zones_served": 9,
+        "largest_zones": [
+         "Ahmadabad",
+         "Vadodara",
+         "Jodhpur",
+         "Udaipur",
+         "Rajkot"
+        ],
+        "throughput_t_yr": 18789.393,
+        "share_of_volume_frac": 0.0626,
+        "next_day_share_of_site_frac": 0.8585
+       },
+       {
+        "dc_id": "KOL_DNK",
+        "name": "Kolkata - Dankuni",
+        "zones_served": 12,
+        "largest_zones": [
+         "Kolkata",
+         "Bhatpara",
+         "Rajpur Sonarpur",
+         "Durgapur",
+         "Barddhaman"
+        ],
+        "throughput_t_yr": 15542.762,
+        "share_of_volume_frac": 0.0518,
+        "next_day_share_of_site_frac": 1.0
+       },
+       {
+        "dc_id": "LKO_KNP",
+        "name": "Lucknow - Kanpur Road",
+        "zones_served": 8,
+        "largest_zones": [
+         "Lucknow",
+         "Varanasi",
+         "Gorakhpur",
+         "Kanpur",
+         "Allahabad"
+        ],
+        "throughput_t_yr": 21538.767,
+        "share_of_volume_frac": 0.0718,
+        "next_day_share_of_site_frac": 0.9558
+       },
+       {
+        "dc_id": "IDR_PTH",
+        "name": "Indore - Pithampur",
+        "zones_served": 12,
+        "largest_zones": [
+         "Jabalpur",
+         "Bhopal",
+         "Nagpur",
+         "Indore",
+         "Ujjain"
+        ],
+        "throughput_t_yr": 20825.497,
+        "share_of_volume_frac": 0.0694,
+        "next_day_share_of_site_frac": 0.5347
+       },
+       {
+        "dc_id": "PAT_BHT",
+        "name": "Patna - Bihta",
+        "zones_served": 21,
+        "largest_zones": [
+         "Muzaffarpur",
+         "Guwahati",
+         "Bhagalpur",
+         "Patna",
+         "Siliguri"
+        ],
+        "throughput_t_yr": 39574.812,
+        "share_of_volume_frac": 0.1319,
+        "next_day_share_of_site_frac": 0.5692
+       }
+      ],
+      "cost_cr_per_yr": {
+       "primary": 85.0163,
+       "secondary": 71.4472,
+       "space": 20.1522,
+       "handling": 6.6,
+       "inventory": 33.8615,
+       "fixed": 27.0,
+       "total": 244.0772
+      },
+      "next_day_share_frac": 0.8009,
+      "two_day_share_frac": 0.9908,
+      "share_of_revenue_frac": 0.0407,
+      "vs_recommended": {
+       "recommended_id": "S3_400km_80",
+       "recommended_total_cr": 244.0772,
+       "delta_total_cr": 0.0,
+       "delta_total_frac": 0.0,
+       "delta_by_component_cr": {
+        "primary": 0.0,
+        "secondary": 0.0,
+        "space": 0.0,
+        "handling": 0.0,
+        "inventory": 0.0,
+        "fixed": 0.0
+       },
+       "next_day_change_pts": 0.0,
+       "added": [],
+       "dropped": []
+      },
+      "next_day_radius_km": 400
+     }
+    ]
+   ]
+  }
+ ],
+ "records": {
+  "AG_outage_MUM_BHW_1m": {
+   "scenario_id": "AG_outage_MUM_BHW_1m",
+   "group": "S5",
+   "question": "What if a site goes down for a month?",
+   "inputs": {
+    "closed_dc": "MUM_BHW",
+    "open_set": "fixed",
+    "capacity_surge": 0.2,
+    "months": 1,
+    "service.min_share_within_radius.value": 0.0
+   },
+   "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+   "status": "Optimal Solution Found",
+   "solve": {
+    "objective_cr": 244.46660468890752,
+    "best_bound_cr": 244.4657429923,
+    "mip_gap_frac": 3.5248029424656085e-06,
+    "proxy_gap_frac": -0.001606919453470912,
+    "solve_time_s": 0.09716105461120605,
+    "passes": []
+   },
+   "open_dcs": [
+    "NCR_FRN",
+    "BLR_HSR",
+    "HYD_SMB",
+    "AMD_CHG",
+    "KOL_DNK",
+    "LKO_KNP",
+    "IDR_PTH",
+    "PAT_BHT"
+   ],
+   "extra": {
+    "closed_dc": "MUM_BHW",
+    "freight_change_cr_per_yr": 16.328123874076198,
+    "outage_cost_cr": 1.36067698950635,
+    "next_day_share_before": 0.8009290388988292,
+    "next_day_share_during": 0.6993370498495907,
+    "zones_losing_next_day": [
+     "Greater Mumbai",
+     "Pune",
+     "Thane",
+     "Pimpri Chinchwad",
+     "Nashik",
+     "Kalyan-Dombivli",
+     "Vasai-Virar City",
+     "Navi Mumbai",
+     "Mira-Bhayandar",
+     "Bhiwandi Nizampur",
+     "Durgapur",
+     "Kolhapur",
+     "Ulhasnagar",
+     "Jhansi",
+     "Sangli Miraj Kupwad",
+     "Kurnool",
+     "Ahmadnagar",
+     "Chandrapur",
+     "Parbhani"
+    ],
+    "demand_losing_next_day_t_yr": 31634.156574481443
+   },
+   "cost_cr": {
+    "primary": 89.08834702686642,
+    "secondary": 83.70325321680653,
+    "space": 18.70118123875013,
+    "handling": 6.6,
+    "inventory": 32.44860413540474,
+    "fixed": 24.0,
+    "total": 254.54138561782779
+   },
+   "service": {
+    "next_day_share_frac": 0.6993370498495907,
+    "two_day_share_frac": 0.9908265371141967
+   },
+   "share_of_revenue_frac": 0.04242356426963797,
+   "assignment": {
+    "Z001": "AMD_CHG",
+    "Z002": "NCR_FRN",
+    "Z003": "BLR_HSR",
+    "Z004": "HYD_SMB",
+    "Z005": "AMD_CHG",
+    "Z006": "BLR_HSR",
+    "Z007": "KOL_DNK",
+    "Z008": "AMD_CHG",
+    "Z009": "AMD_CHG",
+    "Z010": "NCR_FRN",
+    "Z011": "LKO_KNP",
+    "Z012": "LKO_KNP",
+    "Z013": "IDR_PTH",
+    "Z014": "IDR_PTH",
+    "Z015": "AMD_CHG",
+    "Z016": "IDR_PTH",
+    "Z017": "AMD_CHG",
+    "Z018": "HYD_SMB",
+    "Z019": "AMD_CHG",
+    "Z020": "PAT_BHT",
+    "Z021": "NCR_FRN",
+    "Z022": "NCR_FRN",
+    "Z023": "NCR_FRN",
+    "Z024": "AMD_CHG",
+    "Z025": "NCR_FRN",
+    "Z026": "AMD_CHG",
+    "Z027": "NCR_FRN",
+    "Z028": "AMD_CHG",
+    "Z029": "AMD_CHG",
+    "Z030": "LKO_KNP",
+    "Z031": "NCR_FRN",
+    "Z032": "IDR_PTH",
+    "Z033": "LKO_KNP",
+    "Z034": "PAT_BHT",
+    "Z035": "NCR_FRN",
+    "Z036": "AMD_CHG",
+    "Z037": "KOL_DNK",
+    "Z038": "PAT_BHT",
+    "Z039": "IDR_PTH",
+    "Z040": "AMD_CHG",
+    "Z041": "NCR_FRN",
+    "Z042": "BLR_HSR",
+    "Z043": "IDR_PTH",
+    "Z044": "HYD_SMB",
+    "Z045": "BLR_HSR",
+    "Z046": "IDR_PTH",
+    "Z047": "NCR_FRN",
+    "Z048": "PAT_BHT",
+    "Z049": "HYD_SMB",
+    "Z050": "BLR_HSR",
+    "Z051": "BLR_HSR",
+    "Z052": "NCR_FRN",
+    "Z053": "NCR_FRN",
+    "Z054": "NCR_FRN",
+    "Z055": "PAT_BHT",
+    "Z056": "NCR_FRN",
+    "Z057": "NCR_FRN",
+    "Z058": "BLR_HSR",
+    "Z059": "BLR_HSR",
+    "Z060": "BLR_HSR",
+    "Z061": "AMD_CHG",
+    "Z062": "BLR_HSR",
+    "Z063": "AMD_CHG",
+    "Z064": "NCR_FRN",
+    "Z065": "PAT_BHT",
+    "Z066": "LKO_KNP",
+    "Z067": "HYD_SMB",
+    "Z068": "IDR_PTH",
+    "Z069": "NCR_FRN",
+    "Z070": "NCR_FRN",
+    "Z071": "HYD_SMB",
+    "Z072": "IDR_PTH",
+    "Z073": "PAT_BHT",
+    "Z074": "AMD_CHG",
+    "Z075": "NCR_FRN",
+    "Z076": "BLR_HSR",
+    "Z077": "AMD_CHG",
+    "Z078": "NCR_FRN",
+    "Z079": "NCR_FRN",
+    "Z080": "PAT_BHT",
+    "Z081": "PAT_BHT",
+    "Z082": "BLR_HSR",
+    "Z083": "HYD_SMB",
+    "Z084": "BLR_HSR",
+    "Z085": "BLR_HSR",
+    "Z086": "HYD_SMB",
+    "Z087": "NCR_FRN",
+    "Z088": "NCR_FRN",
+    "Z089": "IDR_PTH",
+    "Z090": "AMD_CHG",
+    "Z091": "PAT_BHT",
+    "Z092": "AMD_CHG",
+    "Z093": "NCR_FRN",
+    "Z094": "BLR_HSR",
+    "Z095": "BLR_HSR",
+    "Z096": "BLR_HSR",
+    "Z097": "IDR_PTH",
+    "Z098": "PAT_BHT",
+    "Z099": "BLR_HSR",
+    "Z100": "BLR_HSR",
+    "Z101": "IDR_PTH",
+    "Z102": "AMD_CHG",
+    "Z103": "KOL_DNK",
+    "Z104": "NCR_FRN",
+    "Z105": "BLR_HSR",
+    "Z106": "BLR_HSR",
+    "Z107": "IDR_PTH",
+    "Z108": "BLR_HSR",
+    "Z109": "KOL_DNK",
+    "Z110": "PAT_BHT",
+    "Z111": "BLR_HSR",
+    "Z112": "KOL_DNK",
+    "Z113": "KOL_DNK",
+    "Z114": "KOL_DNK",
+    "Z115": "PAT_BHT",
+    "Z116": "PAT_BHT",
+    "Z117": "NCR_FRN",
+    "Z118": "KOL_DNK",
+    "Z119": "HYD_SMB",
+    "Z120": "KOL_DNK",
+    "Z121": "IDR_PTH",
+    "Z122": "NCR_FRN",
+    "Z123": "LKO_KNP",
+    "Z124": "AMD_CHG",
+    "Z125": "HYD_SMB",
+    "Z126": "PAT_BHT",
+    "Z127": "IDR_PTH",
+    "Z128": "BLR_HSR",
+    "Z129": "NCR_FRN",
+    "Z130": "IDR_PTH",
+    "Z131": "BLR_HSR",
+    "Z132": "HYD_SMB",
+    "Z133": "KOL_DNK",
+    "Z134": "LKO_KNP",
+    "Z135": "BLR_HSR",
+    "Z136": "NCR_FRN",
+    "Z137": "BLR_HSR",
+    "Z138": "NCR_FRN",
+    "Z139": "IDR_PTH",
+    "Z140": "PAT_BHT",
+    "Z141": "AMD_CHG",
+    "Z142": "BLR_HSR",
+    "Z143": "BLR_HSR",
+    "Z144": "KOL_DNK",
+    "Z145": "PAT_BHT",
+    "Z146": "HYD_SMB",
+    "Z147": "HYD_SMB",
+    "Z148": "IDR_PTH",
+    "Z149": "NCR_FRN",
+    "Z150": "BLR_HSR",
+    "Z151": "NCR_FRN",
+    "Z152": "BLR_HSR",
+    "Z153": "PAT_BHT",
+    "Z154": "PAT_BHT",
+    "Z155": "PAT_BHT",
+    "Z156": "NCR_FRN",
+    "Z157": "PAT_BHT",
+    "Z158": "PAT_BHT"
+   },
+   "flows_t_yr": [
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "NCR_FRN",
+     "flow_t_yr": 62218.007
+    },
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "KOL_DNK",
+     "flow_t_yr": 13579.997
+    },
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "LKO_KNP",
+     "flow_t_yr": 20896.924
+    },
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "PAT_BHT",
+     "flow_t_yr": 41305.073
+    },
+    {
+     "plant_id": "P_SLV",
+     "dc_id": "HYD_SMB",
+     "flow_t_yr": 3443.6367
+    },
+    {
+     "plant_id": "P_SLV",
+     "dc_id": "AMD_CHG",
+     "flow_t_yr": 46876.597
+    },
+    {
+     "plant_id": "P_SLV",
+     "dc_id": "IDR_PTH",
+     "flow_t_yr": 25429.766
+    },
+    {
+     "plant_id": "P_PDY",
+     "dc_id": "BLR_HSR",
+     "flow_t_yr": 61242.014
+    },
+    {
+     "plant_id": "P_PDY",
+     "dc_id": "HYD_SMB",
+     "flow_t_yr": 24775.481
+    },
+    {
+     "plant_id": "P_PDY",
+     "dc_id": "KOL_DNK",
+     "flow_t_yr": 232.50498
+    }
+   ]
+  },
+  "AG_loss_NCR_FRN": {
+   "scenario_id": "AG_loss_NCR_FRN",
+   "group": "S5",
+   "question": "What if we lose the site permanently?",
+   "inputs": {
+    "excluded_dc": "NCR_FRN"
+   },
+   "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+   "status": "Optimal Solution Found",
+   "solve": {
+    "objective_cr": 244.42747088340383,
+    "best_bound_cr": 243.5225636073,
+    "mip_gap_frac": 0.0037021504695578466,
+    "proxy_gap_frac": 0.03176317098665615,
+    "solve_time_s": 3.9219720363616943,
+    "passes": [
+     {
+      "k_ref": 6,
+      "status": "Optimal Solution Found",
+      "n_dcs": 9,
+      "open_dcs": [
+       "MUM_BHW",
+       "BLR_HSR",
+       "HYD_SMB",
+       "AMD_CHG",
+       "KOL_DNK",
+       "NAG_MHN",
+       "LKO_KNP",
+       "PNJ_RJP",
+       "PAT_BHT"
+      ],
+      "proxy_gap_frac": 0.03176317098665615,
+      "solve_time_s": 2.197521924972534,
+      "total_cr": 246.27088023027287
+     },
+     {
+      "k_ref": 9,
+      "status": "Optimal Solution Found",
+      "n_dcs": 9,
+      "open_dcs": [
+       "MUM_BHW",
+       "BLR_HSR",
+       "HYD_SMB",
+       "AMD_CHG",
+       "KOL_DNK",
+       "NAG_MHN",
+       "LKO_KNP",
+       "PNJ_RJP",
+       "PAT_BHT"
+      ],
+      "proxy_gap_frac": -0.0028028432924488422,
+      "solve_time_s": 1.7244501113891602,
+      "total_cr": 246.62610344562043
+     }
+    ]
+   },
+   "open_dcs": [
+    "MUM_BHW",
+    "BLR_HSR",
+    "HYD_SMB",
+    "AMD_CHG",
+    "KOL_DNK",
+    "NAG_MHN",
+    "LKO_KNP",
+    "PNJ_RJP",
+    "PAT_BHT"
+   ],
+   "extra": {
+    "excluded_dc": "NCR_FRN",
+    "penalty_cr_per_yr": 2.193671959975958,
+    "added": [
+     "NAG_MHN",
+     "PNJ_RJP"
+    ],
+    "dropped": [
+     "IDR_PTH",
+     "NCR_FRN"
+    ]
+   },
+   "cost_cr": {
+    "primary": 86.54909619442745,
+    "secondary": 72.53860612154334,
+    "space": 19.597164706143325,
+    "handling": 6.6,
+    "inventory": 33.98601320815875,
+    "fixed": 27.0,
+    "total": 246.27088023027287
+   },
+   "service": {
+    "next_day_share_frac": 0.8012327530328397,
+    "two_day_share_frac": 0.9908265371141967
+   },
+   "share_of_revenue_frac": 0.04104514670504548,
+   "assignment": {
+    "Z001": "MUM_BHW",
+    "Z002": "PNJ_RJP",
+    "Z003": "BLR_HSR",
+    "Z004": "HYD_SMB",
+    "Z005": "AMD_CHG",
+    "Z006": "BLR_HSR",
+    "Z007": "KOL_DNK",
+    "Z008": "MUM_BHW",
+    "Z009": "MUM_BHW",
+    "Z010": "PNJ_RJP",
+    "Z011": "LKO_KNP",
+    "Z012": "LKO_KNP",
+    "Z013": "NAG_MHN",
+    "Z014": "AMD_CHG",
+    "Z015": "MUM_BHW",
+    "Z016": "NAG_MHN",
+    "Z017": "AMD_CHG",
+    "Z018": "HYD_SMB",
+    "Z019": "MUM_BHW",
+    "Z020": "PAT_BHT",
+    "Z021": "PNJ_RJP",
+    "Z022": "PNJ_RJP",
+    "Z023": "LKO_KNP",
+    "Z024": "MUM_BHW",
+    "Z025": "PNJ_RJP",
+    "Z026": "AMD_CHG",
+    "Z027": "PNJ_RJP",
+    "Z028": "MUM_BHW",
+    "Z029": "MUM_BHW",
+    "Z030": "LKO_KNP",
+    "Z031": "PNJ_RJP",
+    "Z032": "MUM_BHW",
+    "Z033": "LKO_KNP",
+    "Z034": "PAT_BHT",
+    "Z035": "PNJ_RJP",
+    "Z036": "MUM_BHW",
+    "Z037": "KOL_DNK",
+    "Z038": "PAT_BHT",
+    "Z039": "NAG_MHN",
+    "Z040": "AMD_CHG",
+    "Z041": "LKO_KNP",
+    "Z042": "BLR_HSR",
+    "Z043": "NAG_MHN",
+    "Z044": "HYD_SMB",
+    "Z045": "BLR_HSR",
+    "Z046": "AMD_CHG",
+    "Z047": "PNJ_RJP",
+    "Z048": "PAT_BHT",
+    "Z049": "MUM_BHW",
+    "Z050": "BLR_HSR",
+    "Z051": "BLR_HSR",
+    "Z052": "LKO_KNP",
+    "Z053": "PNJ_RJP",
+    "Z054": "PNJ_RJP",
+    "Z055": "PAT_BHT",
+    "Z056": "PNJ_RJP",
+    "Z057": "PNJ_RJP",
+    "Z058": "BLR_HSR",
+    "Z059": "BLR_HSR",
+    "Z060": "MUM_BHW",
+    "Z061": "MUM_BHW",
+    "Z062": "BLR_HSR",
+    "Z063": "MUM_BHW",
+    "Z064": "PNJ_RJP",
+    "Z065": "KOL_DNK",
+    "Z066": "LKO_KNP",
+    "Z067": "HYD_SMB",
+    "Z068": "NAG_MHN",
+    "Z069": "PNJ_RJP",
+    "Z070": "PNJ_RJP",
+    "Z071": "HYD_SMB",
+    "Z072": "NAG_MHN",
+    "Z073": "PAT_BHT",
+    "Z074": "AMD_CHG",
+    "Z075": "LKO_KNP",
+    "Z076": "BLR_HSR",
+    "Z077": "AMD_CHG",
+    "Z078": "PNJ_RJP",
+    "Z079": "PNJ_RJP",
+    "Z080": "KOL_DNK",
+    "Z081": "PAT_BHT",
+    "Z082": "BLR_HSR",
+    "Z083": "HYD_SMB",
+    "Z084": "MUM_BHW",
+    "Z085": "BLR_HSR",
+    "Z086": "HYD_SMB",
+    "Z087": "PNJ_RJP",
+    "Z088": "PNJ_RJP",
+    "Z089": "AMD_CHG",
+    "Z090": "MUM_BHW",
+    "Z091": "PAT_BHT",
+    "Z092": "MUM_BHW",
+    "Z093": "LKO_KNP",
+    "Z094": "MUM_BHW",
+    "Z095": "BLR_HSR",
+    "Z096": "MUM_BHW",
+    "Z097": "MUM_BHW",
+    "Z098": "PAT_BHT",
+    "Z099": "BLR_HSR",
+    "Z100": "BLR_HSR",
+    "Z101": "MUM_BHW",
+    "Z102": "AMD_CHG",
+    "Z103": "KOL_DNK",
+    "Z104": "PNJ_RJP",
+    "Z105": "BLR_HSR",
+    "Z106": "BLR_HSR",
+    "Z107": "NAG_MHN",
+    "Z108": "HYD_SMB",
+    "Z109": "KOL_DNK",
+    "Z110": "PAT_BHT",
+    "Z111": "BLR_HSR",
+    "Z112": "KOL_DNK",
+    "Z113": "KOL_DNK",
+    "Z114": "KOL_DNK",
+    "Z115": "PAT_BHT",
+    "Z116": "PAT_BHT",
+    "Z117": "PNJ_RJP",
+    "Z118": "KOL_DNK",
+    "Z119": "HYD_SMB",
+    "Z120": "KOL_DNK",
+    "Z121": "MUM_BHW",
+    "Z122": "PNJ_RJP",
+    "Z123": "LKO_KNP",
+    "Z124": "AMD_CHG",
+    "Z125": "NAG_MHN",
+    "Z126": "PAT_BHT",
+    "Z127": "MUM_BHW",
+    "Z128": "BLR_HSR",
+    "Z129": "PNJ_RJP",
+    "Z130": "NAG_MHN",
+    "Z131": "BLR_HSR",
+    "Z132": "HYD_SMB",
+    "Z133": "KOL_DNK",
+    "Z134": "LKO_KNP",
+    "Z135": "MUM_BHW",
+    "Z136": "PNJ_RJP",
+    "Z137": "BLR_HSR",
+    "Z138": "PNJ_RJP",
+    "Z139": "NAG_MHN",
+    "Z140": "PAT_BHT",
+    "Z141": "AMD_CHG",
+    "Z142": "BLR_HSR",
+    "Z143": "BLR_HSR",
+    "Z144": "KOL_DNK",
+    "Z145": "PAT_BHT",
+    "Z146": "HYD_SMB",
+    "Z147": "HYD_SMB",
+    "Z148": "MUM_BHW",
+    "Z149": "PNJ_RJP",
+    "Z150": "BLR_HSR",
+    "Z151": "PNJ_RJP",
+    "Z152": "BLR_HSR",
+    "Z153": "PAT_BHT",
+    "Z154": "PAT_BHT",
+    "Z155": "PAT_BHT",
+    "Z156": "PNJ_RJP",
+    "Z157": "PAT_BHT",
+    "Z158": "PAT_BHT"
+   },
+   "flows_t_yr": [
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "KOL_DNK",
+     "flow_t_yr": 16276.77
+    },
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "LKO_KNP",
+     "flow_t_yr": 28337.538
+    },
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "PNJ_RJP",
+     "flow_t_yr": 54777.393
+    },
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "PAT_BHT",
+     "flow_t_yr": 38608.299
+    },
+    {
+     "plant_id": "P_SLV",
+     "dc_id": "MUM_BHW",
+     "flow_t_yr": 37757.708
+    },
+    {
+     "plant_id": "P_SLV",
+     "dc_id": "AMD_CHG",
+     "flow_t_yr": 24510.711
+    },
+    {
+     "plant_id": "P_SLV",
+     "dc_id": "NAG_MHN",
+     "flow_t_yr": 16967.748
+    },
+    {
+     "plant_id": "P_PDY",
+     "dc_id": "BLR_HSR",
+     "flow_t_yr": 56199.838
+    },
+    {
+     "plant_id": "P_PDY",
+     "dc_id": "HYD_SMB",
+     "flow_t_yr": 26331.489
+    },
+    {
+     "plant_id": "P_PDY",
+     "dc_id": "KOL_DNK",
+     "flow_t_yr": 232.50498
+    }
+   ]
+  },
+  "AG_outage_NCR_FRN_1m": {
+   "scenario_id": "AG_outage_NCR_FRN_1m",
+   "group": "S5",
+   "question": "What if a site goes down for a month?",
+   "inputs": {
+    "closed_dc": "NCR_FRN",
+    "open_set": "fixed",
+    "capacity_surge": 0.2,
+    "months": 1,
+    "service.min_share_within_radius.value": 0.0
+   },
+   "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+   "status": "Optimal Solution Found",
+   "solve": {
+    "objective_cr": 256.4899293478492,
+    "best_bound_cr": 256.4899293478492,
+    "mip_gap_frac": 0.0,
+    "proxy_gap_frac": -0.0012228688900446372,
+    "solve_time_s": 0.07657146453857422,
+    "passes": []
+   },
+   "open_dcs": [
+    "MUM_BHW",
+    "BLR_HSR",
+    "HYD_SMB",
+    "AMD_CHG",
+    "KOL_DNK",
+    "LKO_KNP",
+    "IDR_PTH",
+    "PAT_BHT"
+   ],
+   "extra": {
+    "closed_dc": "NCR_FRN",
+    "freight_change_cr_per_yr": 28.38336531611812,
+    "outage_cost_cr": 2.3652804430098433,
+    "next_day_share_before": 0.8009290388988292,
+    "next_day_share_during": 0.6401302607390194,
+    "zones_losing_next_day": [
+     "DMC",
+     "Jaipur",
+     "Ghaziabad",
+     "Ludhiana",
+     "Faridabad",
+     "Meerut",
+     "Chandigarh",
+     "Gurgaon",
+     "Saharanpur",
+     "Noida",
+     "Dehradun",
+     "Durgapur",
+     "Nanded Waghala",
+     "Gulbarga",
+     "Ajmer",
+     "Loni",
+     "Jalgaon",
+     "Patiala",
+     "Kurnool",
+     "Muzaffarnagar",
+     "Latur",
+     "Rohtak",
+     "Mathura",
+     "Alwar",
+     "Junagadh",
+     "Parbhani",
+     "Hisar",
+     "Karnal",
+     "Shimla"
+    ],
+    "demand_losing_next_day_t_yr": 48239.63344794291
+   },
+   "cost_cr": {
+    "primary": 91.87943395861915,
+    "secondary": 92.9674077270957,
+    "space": 18.695088941180014,
+    "handling": 6.6,
+    "inventory": 32.33962414871773,
+    "fixed": 24.0,
+    "total": 266.4815547756126
+   },
+   "service": {
+    "next_day_share_frac": 0.6401302607390194,
+    "two_day_share_frac": 0.9668549429311285
+   },
+   "share_of_revenue_frac": 0.0444135924626021,
+   "assignment": {
+    "Z001": "MUM_BHW",
+    "Z002": "LKO_KNP",
+    "Z003": "BLR_HSR",
+    "Z004": "HYD_SMB",
+    "Z005": "AMD_CHG",
+    "Z006": "BLR_HSR",
+    "Z007": "KOL_DNK",
+    "Z008": "MUM_BHW",
+    "Z009": "MUM_BHW",
+    "Z010": "IDR_PTH",
+    "Z011": "LKO_KNP",
+    "Z012": "LKO_KNP",
+    "Z013": "IDR_PTH",
+    "Z014": "IDR_PTH",
+    "Z015": "MUM_BHW",
+    "Z016": "IDR_PTH",
+    "Z017": "AMD_CHG",
+    "Z018": "HYD_SMB",
+    "Z019": "MUM_BHW",
+    "Z020": "PAT_BHT",
+    "Z021": "LKO_KNP",
+    "Z022": "LKO_KNP",
+    "Z023": "LKO_KNP",
+    "Z024": "MUM_BHW",
+    "Z025": "LKO_KNP",
+    "Z026": "AMD_CHG",
+    "Z027": "LKO_KNP",
+    "Z028": "MUM_BHW",
+    "Z029": "MUM_BHW",
+    "Z030": "LKO_KNP",
+    "Z031": "LKO_KNP",
+    "Z032": "MUM_BHW",
+    "Z033": "LKO_KNP",
+    "Z034": "PAT_BHT",
+    "Z035": "LKO_KNP",
+    "Z036": "MUM_BHW",
+    "Z037": "KOL_DNK",
+    "Z038": "PAT_BHT",
+    "Z039": "IDR_PTH",
+    "Z040": "AMD_CHG",
+    "Z041": "LKO_KNP",
+    "Z042": "BLR_HSR",
+    "Z043": "IDR_PTH",
+    "Z044": "HYD_SMB",
+    "Z045": "BLR_HSR",
+    "Z046": "IDR_PTH",
+    "Z047": "LKO_KNP",
+    "Z048": "PAT_BHT",
+    "Z049": "MUM_BHW",
+    "Z050": "BLR_HSR",
+    "Z051": "BLR_HSR",
+    "Z052": "LKO_KNP",
+    "Z053": "LKO_KNP",
+    "Z054": "LKO_KNP",
+    "Z055": "PAT_BHT",
+    "Z056": "LKO_KNP",
+    "Z057": "LKO_KNP",
+    "Z058": "BLR_HSR",
+    "Z059": "BLR_HSR",
+    "Z060": "MUM_BHW",
+    "Z061": "MUM_BHW",
+    "Z062": "BLR_HSR",
+    "Z063": "MUM_BHW",
+    "Z064": "LKO_KNP",
+    "Z065": "PAT_BHT",
+    "Z066": "LKO_KNP",
+    "Z067": "HYD_SMB",
+    "Z068": "IDR_PTH",
+    "Z069": "AMD_CHG",
+    "Z070": "LKO_KNP",
+    "Z071": "HYD_SMB",
+    "Z072": "IDR_PTH",
+    "Z073": "PAT_BHT",
+    "Z074": "AMD_CHG",
+    "Z075": "LKO_KNP",
+    "Z076": "BLR_HSR",
+    "Z077": "AMD_CHG",
+    "Z078": "LKO_KNP",
+    "Z079": "LKO_KNP",
+    "Z080": "PAT_BHT",
+    "Z081": "PAT_BHT",
+    "Z082": "BLR_HSR",
+    "Z083": "MUM_BHW",
+    "Z084": "MUM_BHW",
+    "Z085": "BLR_HSR",
+    "Z086": "MUM_BHW",
+    "Z087": "AMD_CHG",
+    "Z088": "LKO_KNP",
+    "Z089": "IDR_PTH",
+    "Z090": "MUM_BHW",
+    "Z091": "PAT_BHT",
+    "Z092": "MUM_BHW",
+    "Z093": "LKO_KNP",
+    "Z094": "MUM_BHW",
+    "Z095": "BLR_HSR",
+    "Z096": "MUM_BHW",
+    "Z097": "MUM_BHW",
+    "Z098": "PAT_BHT",
+    "Z099": "BLR_HSR",
+    "Z100": "BLR_HSR",
+    "Z101": "MUM_BHW",
+    "Z102": "AMD_CHG",
+    "Z103": "KOL_DNK",
+    "Z104": "LKO_KNP",
+    "Z105": "BLR_HSR",
+    "Z106": "BLR_HSR",
+    "Z107": "IDR_PTH",
+    "Z108": "BLR_HSR",
+    "Z109": "KOL_DNK",
+    "Z110": "PAT_BHT",
+    "Z111": "BLR_HSR",
+    "Z112": "KOL_DNK",
+    "Z113": "KOL_DNK",
+    "Z114": "KOL_DNK",
+    "Z115": "PAT_BHT",
+    "Z116": "PAT_BHT",
+    "Z117": "LKO_KNP",
+    "Z118": "KOL_DNK",
+    "Z119": "MUM_BHW",
+    "Z120": "KOL_DNK",
+    "Z121": "MUM_BHW",
+    "Z122": "LKO_KNP",
+    "Z123": "LKO_KNP",
+    "Z124": "AMD_CHG",
+    "Z125": "HYD_SMB",
+    "Z126": "PAT_BHT",
+    "Z127": "MUM_BHW",
+    "Z128": "BLR_HSR",
+    "Z129": "LKO_KNP",
+    "Z130": "LKO_KNP",
+    "Z131": "BLR_HSR",
+    "Z132": "HYD_SMB",
+    "Z133": "KOL_DNK",
+    "Z134": "LKO_KNP",
+    "Z135": "MUM_BHW",
+    "Z136": "LKO_KNP",
+    "Z137": "BLR_HSR",
+    "Z138": "LKO_KNP",
+    "Z139": "HYD_SMB",
+    "Z140": "PAT_BHT",
+    "Z141": "MUM_BHW",
+    "Z142": "BLR_HSR",
+    "Z143": "BLR_HSR",
+    "Z144": "KOL_DNK",
+    "Z145": "PAT_BHT",
+    "Z146": "HYD_SMB",
+    "Z147": "HYD_SMB",
+    "Z148": "MUM_BHW",
+    "Z149": "LKO_KNP",
+    "Z150": "BLR_HSR",
+    "Z151": "LKO_KNP",
+    "Z152": "BLR_HSR",
+    "Z153": "PAT_BHT",
+    "Z154": "PAT_BHT",
+    "Z155": "PAT_BHT",
+    "Z156": "LKO_KNP",
+    "Z157": "PAT_BHT",
+    "Z158": "PAT_BHT"
+   },
+   "flows_t_yr": [
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "KOL_DNK",
+     "flow_t_yr": 13812.502
+    },
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "LKO_KNP",
+     "flow_t_yr": 75069.811
+    },
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "PAT_BHT",
+     "flow_t_yr": 41305.073
+    },
+    {
+     "plant_id": "P_SLV",
+     "dc_id": "MUM_BHW",
+     "flow_t_yr": 41704.929
+    },
+    {
+     "plant_id": "P_SLV",
+     "dc_id": "AMD_CHG",
+     "flow_t_yr": 22701.091
+    },
+    {
+     "plant_id": "P_SLV",
+     "dc_id": "IDR_PTH",
+     "flow_t_yr": 23255.836
+    },
+    {
+     "plant_id": "P_PDY",
+     "dc_id": "BLR_HSR",
+     "flow_t_yr": 57453.522
+    },
+    {
+     "plant_id": "P_PDY",
+     "dc_id": "HYD_SMB",
+     "flow_t_yr": 24697.236
+    }
+   ]
+  },
+  "AG_diesel_40_b2f1e8": {
+   "scenario_id": "AG_diesel_40_b2f1e8",
+   "group": "AG",
+   "question": "What if: diesel_40",
+   "inputs": {
+    "diesel_shock_frac": 0.4
+   },
+   "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+   "status": "Optimal Solution Found",
+   "solve": {
+    "objective_cr": 268.3073930428967,
+    "best_bound_cr": 267.6918442911,
+    "mip_gap_frac": 0.002294192287494326,
+    "proxy_gap_frac": -0.003501791936557086,
+    "solve_time_s": 2.714789867401123,
+    "passes": [
+     {
+      "k_ref": 6,
+      "status": "Optimal Solution Found",
+      "n_dcs": 9,
+      "open_dcs": [
+       "MUM_BHW",
+       "NCR_FRN",
+       "BLR_HSR",
+       "HYD_SMB",
+       "AMD_CHG",
+       "KOL_DNK",
+       "NAG_MHN",
+       "LKO_KNP",
+       "PAT_BHT"
+      ],
+      "proxy_gap_frac": 0.02749182745290768,
+      "solve_time_s": 1.6130924224853516,
+      "total_cr": 279.27946861567244
+     },
+     {
+      "k_ref": 9,
+      "status": "Optimal Solution Found",
+      "n_dcs": 9,
+      "open_dcs": [
+       "MUM_BHW",
+       "NCR_FRN",
+       "BLR_HSR",
+       "HYD_SMB",
+       "AMD_CHG",
+       "KOL_DNK",
+       "NAG_MHN",
+       "LKO_KNP",
+       "PAT_BHT"
+      ],
+      "proxy_gap_frac": -0.003501791936557086,
+      "solve_time_s": 1.1016974449157715,
+      "total_cr": 278.9499712275015
+     }
+    ]
+   },
+   "open_dcs": [
+    "MUM_BHW",
+    "NCR_FRN",
+    "BLR_HSR",
+    "HYD_SMB",
+    "AMD_CHG",
+    "KOL_DNK",
+    "NAG_MHN",
+    "LKO_KNP",
+    "PAT_BHT"
+   ],
+   "extra": {},
+   "cost_cr": {
+    "primary": 104.94598428251759,
+    "secondary": 86.18455060156232,
+    "space": 20.41465790523389,
+    "handling": 6.6,
+    "inventory": 33.804778438187725,
+    "fixed": 27.0,
+    "total": 278.9499712275015
+   },
+   "service": {
+    "next_day_share_frac": 0.8011677945050476,
+    "two_day_share_frac": 0.9908265371141967
+   },
+   "share_of_revenue_frac": 0.046491661871250256,
+   "assignment": {
+    "Z001": "MUM_BHW",
+    "Z002": "NCR_FRN",
+    "Z003": "BLR_HSR",
+    "Z004": "HYD_SMB",
+    "Z005": "AMD_CHG",
+    "Z006": "BLR_HSR",
+    "Z007": "KOL_DNK",
+    "Z008": "MUM_BHW",
+    "Z009": "MUM_BHW",
+    "Z010": "NCR_FRN",
+    "Z011": "LKO_KNP",
+    "Z012": "LKO_KNP",
+    "Z013": "NAG_MHN",
+    "Z014": "AMD_CHG",
+    "Z015": "MUM_BHW",
+    "Z016": "NAG_MHN",
+    "Z017": "AMD_CHG",
+    "Z018": "HYD_SMB",
+    "Z019": "MUM_BHW",
+    "Z020": "PAT_BHT",
+    "Z021": "NCR_FRN",
+    "Z022": "NCR_FRN",
+    "Z023": "NCR_FRN",
+    "Z024": "MUM_BHW",
+    "Z025": "NCR_FRN",
+    "Z026": "AMD_CHG",
+    "Z027": "NCR_FRN",
+    "Z028": "MUM_BHW",
+    "Z029": "MUM_BHW",
+    "Z030": "LKO_KNP",
+    "Z031": "NCR_FRN",
+    "Z032": "MUM_BHW",
+    "Z033": "LKO_KNP",
+    "Z034": "PAT_BHT",
+    "Z035": "NCR_FRN",
+    "Z036": "MUM_BHW",
+    "Z037": "KOL_DNK",
+    "Z038": "PAT_BHT",
+    "Z039": "NAG_MHN",
+    "Z040": "AMD_CHG",
+    "Z041": "NCR_FRN",
+    "Z042": "BLR_HSR",
+    "Z043": "NAG_MHN",
+    "Z044": "HYD_SMB",
+    "Z045": "BLR_HSR",
+    "Z046": "NCR_FRN",
+    "Z047": "NCR_FRN",
+    "Z048": "PAT_BHT",
+    "Z049": "MUM_BHW",
+    "Z050": "BLR_HSR",
+    "Z051": "BLR_HSR",
+    "Z052": "NCR_FRN",
+    "Z053": "NCR_FRN",
+    "Z054": "NCR_FRN",
+    "Z055": "NAG_MHN",
+    "Z056": "NCR_FRN",
+    "Z057": "NCR_FRN",
+    "Z058": "BLR_HSR",
+    "Z059": "BLR_HSR",
+    "Z060": "MUM_BHW",
+    "Z061": "MUM_BHW",
+    "Z062": "BLR_HSR",
+    "Z063": "MUM_BHW",
+    "Z064": "NCR_FRN",
+    "Z065": "PAT_BHT",
+    "Z066": "LKO_KNP",
+    "Z067": "HYD_SMB",
+    "Z068": "NAG_MHN",
+    "Z069": "NCR_FRN",
+    "Z070": "NCR_FRN",
+    "Z071": "HYD_SMB",
+    "Z072": "NAG_MHN",
+    "Z073": "PAT_BHT",
+    "Z074": "AMD_CHG",
+    "Z075": "NCR_FRN",
+    "Z076": "BLR_HSR",
+    "Z077": "AMD_CHG",
+    "Z078": "NCR_FRN",
+    "Z079": "NCR_FRN",
+    "Z080": "PAT_BHT",
+    "Z081": "PAT_BHT",
+    "Z082": "BLR_HSR",
+    "Z083": "MUM_BHW",
+    "Z084": "MUM_BHW",
+    "Z085": "BLR_HSR",
+    "Z086": "HYD_SMB",
+    "Z087": "NCR_FRN",
+    "Z088": "NCR_FRN",
+    "Z089": "AMD_CHG",
+    "Z090": "MUM_BHW",
+    "Z091": "PAT_BHT",
+    "Z092": "MUM_BHW",
+    "Z093": "LKO_KNP",
+    "Z094": "MUM_BHW",
+    "Z095": "BLR_HSR",
+    "Z096": "MUM_BHW",
+    "Z097": "MUM_BHW",
+    "Z098": "PAT_BHT",
+    "Z099": "BLR_HSR",
+    "Z100": "BLR_HSR",
+    "Z101": "MUM_BHW",
+    "Z102": "AMD_CHG",
+    "Z103": "KOL_DNK",
+    "Z104": "NCR_FRN",
+    "Z105": "BLR_HSR",
+    "Z106": "BLR_HSR",
+    "Z107": "NAG_MHN",
+    "Z108": "HYD_SMB",
+    "Z109": "KOL_DNK",
+    "Z110": "PAT_BHT",
+    "Z111": "BLR_HSR",
+    "Z112": "KOL_DNK",
+    "Z113": "KOL_DNK",
+    "Z114": "KOL_DNK",
+    "Z115": "PAT_BHT",
+    "Z116": "PAT_BHT",
+    "Z117": "NCR_FRN",
+    "Z118": "KOL_DNK",
+    "Z119": "HYD_SMB",
+    "Z120": "KOL_DNK",
+    "Z121": "MUM_BHW",
+    "Z122": "NCR_FRN",
+    "Z123": "NAG_MHN",
+    "Z124": "AMD_CHG",
+    "Z125": "NAG_MHN",
+    "Z126": "PAT_BHT",
+    "Z127": "MUM_BHW",
+    "Z128": "BLR_HSR",
+    "Z129": "NCR_FRN",
+    "Z130": "NAG_MHN",
+    "Z131": "BLR_HSR",
+    "Z132": "HYD_SMB",
+    "Z133": "KOL_DNK",
+    "Z134": "LKO_KNP",
+    "Z135": "MUM_BHW",
+    "Z136": "NCR_FRN",
+    "Z137": "BLR_HSR",
+    "Z138": "NCR_FRN",
+    "Z139": "NAG_MHN",
+    "Z140": "PAT_BHT",
+    "Z141": "AMD_CHG",
+    "Z142": "BLR_HSR",
+    "Z143": "BLR_HSR",
+    "Z144": "KOL_DNK",
+    "Z145": "PAT_BHT",
+    "Z146": "HYD_SMB",
+    "Z147": "HYD_SMB",
+    "Z148": "MUM_BHW",
+    "Z149": "NCR_FRN",
+    "Z150": "BLR_HSR",
+    "Z151": "NCR_FRN",
+    "Z152": "BLR_HSR",
+    "Z153": "PAT_BHT",
+    "Z154": "PAT_BHT",
+    "Z155": "PAT_BHT",
+    "Z156": "NCR_FRN",
+    "Z157": "PAT_BHT",
+    "Z158": "PAT_BHT"
+   },
+   "flows_t_yr": [
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "NCR_FRN",
+     "flow_t_yr": 63077.057
+    },
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "KOL_DNK",
+     "flow_t_yr": 13812.502
+    },
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "LKO_KNP",
+     "flow_t_yr": 20585.716
+    },
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "PAT_BHT",
+     "flow_t_yr": 39941.197
+    },
+    {
+     "plant_id": "P_SLV",
+     "dc_id": "MUM_BHW",
+     "flow_t_yr": 38439.401
+    },
+    {
+     "plant_id": "P_SLV",
+     "dc_id": "AMD_CHG",
+     "flow_t_yr": 23009.818
+    },
+    {
+     "plant_id": "P_SLV",
+     "dc_id": "NAG_MHN",
+     "flow_t_yr": 19284.674
+    },
+    {
+     "plant_id": "P_PDY",
+     "dc_id": "BLR_HSR",
+     "flow_t_yr": 56199.838
+    },
+    {
+     "plant_id": "P_PDY",
+     "dc_id": "HYD_SMB",
+     "flow_t_yr": 25649.797
+    }
+   ]
+  },
+  "AG_loss_BLR_HSR": {
+   "scenario_id": "AG_loss_BLR_HSR",
+   "group": "S5",
+   "question": "What if we lose the site permanently?",
+   "inputs": {
+    "excluded_dc": "BLR_HSR"
+   },
+   "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+   "status": "Optimal Solution Found",
+   "solve": {
+    "objective_cr": 236.2191142013894,
+    "best_bound_cr": 236.2191142013894,
+    "mip_gap_frac": 0.0,
+    "proxy_gap_frac": 0.0018725939729582475,
+    "solve_time_s": 5.119708299636841,
+    "passes": [
+     {
+      "k_ref": 6,
+      "status": "Optimal Solution Found",
+      "n_dcs": 9,
+      "open_dcs": [
+       "MUM_BHW",
+       "NCR_FRN",
+       "CHN_SPB",
+       "HYD_SMB",
+       "AMD_CHG",
+       "KOL_DNK",
+       "NAG_MHN",
+       "PAT_BHT",
+       "COK_KLM"
+      ],
+      "proxy_gap_frac": 0.03130276379353991,
+      "solve_time_s": 1.0410852432250977,
+      "total_cr": 246.15568488542547
+     },
+     {
+      "k_ref": 9,
+      "status": "Optimal Solution Found",
+      "n_dcs": 10,
+      "open_dcs": [
+       "MUM_BHW",
+       "NCR_FRN",
+       "CHN_SPB",
+       "HYD_SMB",
+       "AMD_CHG",
+       "KOL_DNK",
+       "LKO_KNP",
+       "IDR_PTH",
+       "PAT_BHT",
+       "COK_KLM"
+      ],
+      "proxy_gap_frac": 0.0018725939729582475,
+      "solve_time_s": 4.078623056411743,
+      "total_cr": 245.4252857152051
+     }
+    ]
+   },
+   "open_dcs": [
+    "MUM_BHW",
+    "NCR_FRN",
+    "CHN_SPB",
+    "HYD_SMB",
+    "AMD_CHG",
+    "KOL_DNK",
+    "LKO_KNP",
+    "IDR_PTH",
+    "PAT_BHT",
+    "COK_KLM"
+   ],
+   "extra": {
+    "excluded_dc": "BLR_HSR",
+    "penalty_cr_per_yr": 1.3480774449081898,
+    "added": [
+     "CHN_SPB",
+     "COK_KLM"
+    ],
+    "dropped": [
+     "BLR_HSR"
+    ]
+   },
+   "cost_cr": {
+    "primary": 81.64682635739415,
+    "secondary": 70.31214955771526,
+    "space": 21.66864180000852,
+    "handling": 6.6,
+    "inventory": 35.197668000087205,
+    "fixed": 30.0,
+    "total": 245.4252857152051
+   },
+   "service": {
+    "next_day_share_frac": 0.8004443109717144,
+    "two_day_share_frac": 0.9842106945978354
+   },
+   "share_of_revenue_frac": 0.04090421428586752,
+   "assignment": {
+    "Z001": "MUM_BHW",
+    "Z002": "NCR_FRN",
+    "Z003": "CHN_SPB",
+    "Z004": "HYD_SMB",
+    "Z005": "AMD_CHG",
+    "Z006": "CHN_SPB",
+    "Z007": "KOL_DNK",
+    "Z008": "MUM_BHW",
+    "Z009": "MUM_BHW",
+    "Z010": "NCR_FRN",
+    "Z011": "LKO_KNP",
+    "Z012": "LKO_KNP",
+    "Z013": "IDR_PTH",
+    "Z014": "IDR_PTH",
+    "Z015": "MUM_BHW",
+    "Z016": "IDR_PTH",
+    "Z017": "AMD_CHG",
+    "Z018": "CHN_SPB",
+    "Z019": "MUM_BHW",
+    "Z020": "PAT_BHT",
+    "Z021": "NCR_FRN",
+    "Z022": "NCR_FRN",
+    "Z023": "NCR_FRN",
+    "Z024": "MUM_BHW",
+    "Z025": "NCR_FRN",
+    "Z026": "AMD_CHG",
+    "Z027": "NCR_FRN",
+    "Z028": "MUM_BHW",
+    "Z029": "MUM_BHW",
+    "Z030": "LKO_KNP",
+    "Z031": "NCR_FRN",
+    "Z032": "MUM_BHW",
+    "Z033": "LKO_KNP",
+    "Z034": "PAT_BHT",
+    "Z035": "NCR_FRN",
+    "Z036": "MUM_BHW",
+    "Z037": "KOL_DNK",
+    "Z038": "PAT_BHT",
+    "Z039": "IDR_PTH",
+    "Z040": "AMD_CHG",
+    "Z041": "NCR_FRN",
+    "Z042": "COK_KLM",
+    "Z043": "IDR_PTH",
+    "Z044": "HYD_SMB",
+    "Z045": "COK_KLM",
+    "Z046": "IDR_PTH",
+    "Z047": "NCR_FRN",
+    "Z048": "PAT_BHT",
+    "Z049": "MUM_BHW",
+    "Z050": "MUM_BHW",
+    "Z051": "COK_KLM",
+    "Z052": "NCR_FRN",
+    "Z053": "NCR_FRN",
+    "Z054": "NCR_FRN",
+    "Z055": "PAT_BHT",
+    "Z056": "NCR_FRN",
+    "Z057": "NCR_FRN",
+    "Z058": "CHN_SPB",
+    "Z059": "CHN_SPB",
+    "Z060": "MUM_BHW",
+    "Z061": "MUM_BHW",
+    "Z062": "COK_KLM",
+    "Z063": "MUM_BHW",
+    "Z064": "NCR_FRN",
+    "Z065": "PAT_BHT",
+    "Z066": "LKO_KNP",
+    "Z067": "CHN_SPB",
+    "Z068": "IDR_PTH",
+    "Z069": "NCR_FRN",
+    "Z070": "NCR_FRN",
+    "Z071": "HYD_SMB",
+    "Z072": "IDR_PTH",
+    "Z073": "PAT_BHT",
+    "Z074": "AMD_CHG",
+    "Z075": "NCR_FRN",
+    "Z076": "COK_KLM",
+    "Z077": "AMD_CHG",
+    "Z078": "NCR_FRN",
+    "Z079": "NCR_FRN",
+    "Z080": "KOL_DNK",
+    "Z081": "PAT_BHT",
+    "Z082": "COK_KLM",
+    "Z083": "MUM_BHW",
+    "Z084": "MUM_BHW",
+    "Z085": "CHN_SPB",
+    "Z086": "HYD_SMB",
+    "Z087": "NCR_FRN",
+    "Z088": "NCR_FRN",
+    "Z089": "IDR_PTH",
+    "Z090": "MUM_BHW",
+    "Z091": "PAT_BHT",
+    "Z092": "MUM_BHW",
+    "Z093": "LKO_KNP",
+    "Z094": "MUM_BHW",
+    "Z095": "COK_KLM",
+    "Z096": "MUM_BHW",
+    "Z097": "MUM_BHW",
+    "Z098": "PAT_BHT",
+    "Z099": "COK_KLM",
+    "Z100": "CHN_SPB",
+    "Z101": "IDR_PTH",
+    "Z102": "AMD_CHG",
+    "Z103": "KOL_DNK",
+    "Z104": "NCR_FRN",
+    "Z105": "COK_KLM",
+    "Z106": "CHN_SPB",
+    "Z107": "IDR_PTH",
+    "Z108": "HYD_SMB",
+    "Z109": "KOL_DNK",
+    "Z110": "PAT_BHT",
+    "Z111": "CHN_SPB",
+    "Z112": "KOL_DNK",
+    "Z113": "KOL_DNK",
+    "Z114": "KOL_DNK",
+    "Z115": "PAT_BHT",
+    "Z116": "PAT_BHT",
+    "Z117": "NCR_FRN",
+    "Z118": "KOL_DNK",
+    "Z119": "MUM_BHW",
+    "Z120": "KOL_DNK",
+    "Z121": "MUM_BHW",
+    "Z122": "NCR_FRN",
+    "Z123": "LKO_KNP",
+    "Z124": "AMD_CHG",
+    "Z125": "CHN_SPB",
+    "Z126": "PAT_BHT",
+    "Z127": "MUM_BHW",
+    "Z128": "COK_KLM",
+    "Z129": "NCR_FRN",
+    "Z130": "LKO_KNP",
+    "Z131": "CHN_SPB",
+    "Z132": "CHN_SPB",
+    "Z133": "KOL_DNK",
+    "Z134": "LKO_KNP",
+    "Z135": "MUM_BHW",
+    "Z136": "NCR_FRN",
+    "Z137": "CHN_SPB",
+    "Z138": "NCR_FRN",
+    "Z139": "HYD_SMB",
+    "Z140": "PAT_BHT",
+    "Z141": "AMD_CHG",
+    "Z142": "CHN_SPB",
+    "Z143": "COK_KLM",
+    "Z144": "KOL_DNK",
+    "Z145": "PAT_BHT",
+    "Z146": "CHN_SPB",
+    "Z147": "HYD_SMB",
+    "Z148": "MUM_BHW",
+    "Z149": "NCR_FRN",
+    "Z150": "CHN_SPB",
+    "Z151": "NCR_FRN",
+    "Z152": "CHN_SPB",
+    "Z153": "PAT_BHT",
+    "Z154": "PAT_BHT",
+    "Z155": "PAT_BHT",
+    "Z156": "NCR_FRN",
+    "Z157": "PAT_BHT",
+    "Z158": "PAT_BHT"
+   },
+   "flows_t_yr": [
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "NCR_FRN",
+     "flow_t_yr": 61576.164
+    },
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "KOL_DNK",
+     "flow_t_yr": 14984.641
+    },
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "LKO_KNP",
+     "flow_t_yr": 21864.383
+    },
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "PAT_BHT",
+     "flow_t_yr": 39574.812
+    },
+    {
+     "plant_id": "P_SLV",
+     "dc_id": "MUM_BHW",
+     "flow_t_yr": 40266.154
+    },
+    {
+     "plant_id": "P_SLV",
+     "dc_id": "AMD_CHG",
+     "flow_t_yr": 18789.393
+    },
+    {
+     "plant_id": "P_SLV",
+     "dc_id": "IDR_PTH",
+     "flow_t_yr": 20499.881
+    },
+    {
+     "plant_id": "P_PDY",
+     "dc_id": "CHN_SPB",
+     "flow_t_yr": 41959.445
+    },
+    {
+     "plant_id": "P_PDY",
+     "dc_id": "HYD_SMB",
+     "flow_t_yr": 19433.981
+    },
+    {
+     "plant_id": "P_PDY",
+     "dc_id": "KOL_DNK",
+     "flow_t_yr": 558.1213
+    },
+    {
+     "plant_id": "P_PDY",
+     "dc_id": "COK_KLM",
+     "flow_t_yr": 20493.025
+    }
+   ]
+  },
+  "AG_loss_MUM_BHW": {
+   "scenario_id": "AG_loss_MUM_BHW",
+   "group": "S5",
+   "question": "What if we lose the site permanently?",
+   "inputs": {
+    "excluded_dc": "MUM_BHW"
+   },
+   "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+   "status": "Optimal Solution Found",
+   "solve": {
+    "objective_cr": 244.34876800724453,
+    "best_bound_cr": 244.34876800724453,
+    "mip_gap_frac": 0.0,
+    "proxy_gap_frac": 0.031162700100162644,
+    "solve_time_s": 4.442672967910767,
+    "passes": [
+     {
+      "k_ref": 6,
+      "status": "Optimal Solution Found",
+      "n_dcs": 9,
+      "open_dcs": [
+       "PUN_CHK",
+       "NCR_FRN",
+       "BLR_HSR",
+       "HYD_SMB",
+       "AMD_CHG",
+       "KOL_DNK",
+       "LKO_KNP",
+       "IDR_PTH",
+       "PAT_BHT"
+      ],
+      "proxy_gap_frac": 0.031162700100162644,
+      "solve_time_s": 2.9820570945739746,
+      "total_cr": 246.33796529609558
+     },
+     {
+      "k_ref": 9,
+      "status": "Optimal Solution Found",
+      "n_dcs": 9,
+      "open_dcs": [
+       "PUN_CHK",
+       "NCR_FRN",
+       "BLR_HSR",
+       "HYD_SMB",
+       "AMD_CHG",
+       "KOL_DNK",
+       "LKO_KNP",
+       "IDR_PTH",
+       "PAT_BHT"
+      ],
+      "proxy_gap_frac": -0.003730142691951488,
+      "solve_time_s": 1.460615873336792,
+      "total_cr": 246.33796529609558
+     }
+    ]
+   },
+   "open_dcs": [
+    "PUN_CHK",
+    "NCR_FRN",
+    "BLR_HSR",
+    "HYD_SMB",
+    "AMD_CHG",
+    "KOL_DNK",
+    "LKO_KNP",
+    "IDR_PTH",
+    "PAT_BHT"
+   ],
+   "extra": {
+    "excluded_dc": "MUM_BHW",
+    "penalty_cr_per_yr": 2.2607570257986547,
+    "added": [
+     "PUN_CHK"
+    ],
+    "dropped": [
+     "MUM_BHW"
+    ]
+   },
+   "cost_cr": {
+    "primary": 86.36090211606057,
+    "secondary": 72.27062404163347,
+    "space": 20.200817169390113,
+    "handling": 6.6,
+    "inventory": 33.90562196901143,
+    "fixed": 27.0,
+    "total": 246.33796529609558
+   },
+   "service": {
+    "next_day_share_frac": 0.800041665388989,
+    "two_day_share_frac": 0.9908265371141967
+   },
+   "share_of_revenue_frac": 0.04105632754934926,
+   "assignment": {
+    "Z001": "PUN_CHK",
+    "Z002": "NCR_FRN",
+    "Z003": "BLR_HSR",
+    "Z004": "HYD_SMB",
+    "Z005": "AMD_CHG",
+    "Z006": "BLR_HSR",
+    "Z007": "KOL_DNK",
+    "Z008": "AMD_CHG",
+    "Z009": "PUN_CHK",
+    "Z010": "NCR_FRN",
+    "Z011": "LKO_KNP",
+    "Z012": "LKO_KNP",
+    "Z013": "IDR_PTH",
+    "Z014": "IDR_PTH",
+    "Z015": "PUN_CHK",
+    "Z016": "IDR_PTH",
+    "Z017": "AMD_CHG",
+    "Z018": "HYD_SMB",
+    "Z019": "PUN_CHK",
+    "Z020": "PAT_BHT",
+    "Z021": "NCR_FRN",
+    "Z022": "NCR_FRN",
+    "Z023": "NCR_FRN",
+    "Z024": "PUN_CHK",
+    "Z025": "NCR_FRN",
+    "Z026": "AMD_CHG",
+    "Z027": "NCR_FRN",
+    "Z028": "PUN_CHK",
+    "Z029": "PUN_CHK",
+    "Z030": "LKO_KNP",
+    "Z031": "NCR_FRN",
+    "Z032": "PUN_CHK",
+    "Z033": "LKO_KNP",
+    "Z034": "PAT_BHT",
+    "Z035": "NCR_FRN",
+    "Z036": "PUN_CHK",
+    "Z037": "KOL_DNK",
+    "Z038": "PAT_BHT",
+    "Z039": "IDR_PTH",
+    "Z040": "AMD_CHG",
+    "Z041": "NCR_FRN",
+    "Z042": "BLR_HSR",
+    "Z043": "IDR_PTH",
+    "Z044": "HYD_SMB",
+    "Z045": "BLR_HSR",
+    "Z046": "IDR_PTH",
+    "Z047": "NCR_FRN",
+    "Z048": "PAT_BHT",
+    "Z049": "PUN_CHK",
+    "Z050": "PUN_CHK",
+    "Z051": "BLR_HSR",
+    "Z052": "NCR_FRN",
+    "Z053": "NCR_FRN",
+    "Z054": "NCR_FRN",
+    "Z055": "PAT_BHT",
+    "Z056": "NCR_FRN",
+    "Z057": "NCR_FRN",
+    "Z058": "BLR_HSR",
+    "Z059": "BLR_HSR",
+    "Z060": "PUN_CHK",
+    "Z061": "PUN_CHK",
+    "Z062": "BLR_HSR",
+    "Z063": "PUN_CHK",
+    "Z064": "NCR_FRN",
+    "Z065": "PAT_BHT",
+    "Z066": "LKO_KNP",
+    "Z067": "HYD_SMB",
+    "Z068": "IDR_PTH",
+    "Z069": "NCR_FRN",
+    "Z070": "NCR_FRN",
+    "Z071": "HYD_SMB",
+    "Z072": "IDR_PTH",
+    "Z073": "PAT_BHT",
+    "Z074": "AMD_CHG",
+    "Z075": "NCR_FRN",
+    "Z076": "BLR_HSR",
+    "Z077": "AMD_CHG",
+    "Z078": "NCR_FRN",
+    "Z079": "NCR_FRN",
+    "Z080": "KOL_DNK",
+    "Z081": "PAT_BHT",
+    "Z082": "BLR_HSR",
+    "Z083": "PUN_CHK",
+    "Z084": "PUN_CHK",
+    "Z085": "BLR_HSR",
+    "Z086": "PUN_CHK",
+    "Z087": "NCR_FRN",
+    "Z088": "NCR_FRN",
+    "Z089": "IDR_PTH",
+    "Z090": "PUN_CHK",
+    "Z091": "PAT_BHT",
+    "Z092": "PUN_CHK",
+    "Z093": "LKO_KNP",
+    "Z094": "PUN_CHK",
+    "Z095": "BLR_HSR",
+    "Z096": "PUN_CHK",
+    "Z097": "PUN_CHK",
+    "Z098": "PAT_BHT",
+    "Z099": "BLR_HSR",
+    "Z100": "BLR_HSR",
+    "Z101": "IDR_PTH",
+    "Z102": "AMD_CHG",
+    "Z103": "KOL_DNK",
+    "Z104": "NCR_FRN",
+    "Z105": "BLR_HSR",
+    "Z106": "BLR_HSR",
+    "Z107": "IDR_PTH",
+    "Z108": "HYD_SMB",
+    "Z109": "KOL_DNK",
+    "Z110": "PAT_BHT",
+    "Z111": "BLR_HSR",
+    "Z112": "KOL_DNK",
+    "Z113": "KOL_DNK",
+    "Z114": "KOL_DNK",
+    "Z115": "PAT_BHT",
+    "Z116": "PAT_BHT",
+    "Z117": "NCR_FRN",
+    "Z118": "KOL_DNK",
+    "Z119": "PUN_CHK",
+    "Z120": "KOL_DNK",
+    "Z121": "PUN_CHK",
+    "Z122": "NCR_FRN",
+    "Z123": "LKO_KNP",
+    "Z124": "AMD_CHG",
+    "Z125": "HYD_SMB",
+    "Z126": "PAT_BHT",
+    "Z127": "PUN_CHK",
+    "Z128": "BLR_HSR",
+    "Z129": "NCR_FRN",
+    "Z130": "IDR_PTH",
+    "Z131": "BLR_HSR",
+    "Z132": "HYD_SMB",
+    "Z133": "KOL_DNK",
+    "Z134": "LKO_KNP",
+    "Z135": "PUN_CHK",
+    "Z136": "NCR_FRN",
+    "Z137": "BLR_HSR",
+    "Z138": "NCR_FRN",
+    "Z139": "HYD_SMB",
+    "Z140": "PAT_BHT",
+    "Z141": "AMD_CHG",
+    "Z142": "BLR_HSR",
+    "Z143": "BLR_HSR",
+    "Z144": "KOL_DNK",
+    "Z145": "PAT_BHT",
+    "Z146": "HYD_SMB",
+    "Z147": "HYD_SMB",
+    "Z148": "PUN_CHK",
+    "Z149": "NCR_FRN",
+    "Z150": "BLR_HSR",
+    "Z151": "NCR_FRN",
+    "Z152": "BLR_HSR",
+    "Z153": "PAT_BHT",
+    "Z154": "PAT_BHT",
+    "Z155": "PAT_BHT",
+    "Z156": "NCR_FRN",
+    "Z157": "PAT_BHT",
+    "Z158": "PAT_BHT"
+   },
+   "flows_t_yr": [
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "NCR_FRN",
+     "flow_t_yr": 61576.164
+    },
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "KOL_DNK",
+     "flow_t_yr": 15310.257
+    },
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "LKO_KNP",
+     "flow_t_yr": 21538.767
+    },
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "PAT_BHT",
+     "flow_t_yr": 39574.812
+    },
+    {
+     "plant_id": "P_SLV",
+     "dc_id": "PUN_CHK",
+     "flow_t_yr": 37478.013
+    },
+    {
+     "plant_id": "P_SLV",
+     "dc_id": "AMD_CHG",
+     "flow_t_yr": 22887.791
+    },
+    {
+     "plant_id": "P_SLV",
+     "dc_id": "IDR_PTH",
+     "flow_t_yr": 20825.497
+    },
+    {
+     "plant_id": "P_PDY",
+     "dc_id": "BLR_HSR",
+     "flow_t_yr": 54625.274
+    },
+    {
+     "plant_id": "P_PDY",
+     "dc_id": "HYD_SMB",
+     "flow_t_yr": 25950.92
+    },
+    {
+     "plant_id": "P_PDY",
+     "dc_id": "KOL_DNK",
+     "flow_t_yr": 232.50498
+    }
+   ]
+  },
+  "AG_outage_BLR_HSR_1m": {
+   "scenario_id": "AG_outage_BLR_HSR_1m",
+   "group": "S5",
+   "question": "What if a site goes down for a month?",
+   "inputs": {
+    "closed_dc": "BLR_HSR",
+    "open_set": "fixed",
+    "capacity_surge": 0.2,
+    "months": 1,
+    "service.min_share_within_radius.value": 0.0
+   },
+   "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+   "status": "Optimal Solution Found",
+   "solve": {
+    "objective_cr": 263.4409950840291,
+    "best_bound_cr": 263.4409950840291,
+    "mip_gap_frac": 0.0,
+    "proxy_gap_frac": -0.0025802687384361978,
+    "solve_time_s": 0.1077568531036377,
+    "passes": []
+   },
+   "open_dcs": [
+    "MUM_BHW",
+    "NCR_FRN",
+    "HYD_SMB",
+    "AMD_CHG",
+    "KOL_DNK",
+    "LKO_KNP",
+    "IDR_PTH",
+    "PAT_BHT"
+   ],
+   "extra": {
+    "closed_dc": "BLR_HSR",
+    "freight_change_cr_per_yr": 35.1959742390568,
+    "outage_cost_cr": 2.9329978532547334,
+    "next_day_share_before": 0.8009290388988292,
+    "next_day_share_during": 0.63402732349188,
+    "zones_losing_next_day": [
+     "BBMP",
+     "Chennai",
+     "Coimbatore",
+     "Madurai",
+     "Mysore",
+     "Tiruchirappalli",
+     "Salem",
+     "Durgapur",
+     "Kozhikode",
+     "Nanded Waghala",
+     "Nellore",
+     "Gulbarga",
+     "Jhansi",
+     "Ambattur",
+     "Jalgaon",
+     "Tiruppur",
+     "Davanagere",
+     "Latur",
+     "Avadi",
+     "Shimoga",
+     "Junagadh",
+     "Thrissur",
+     "Parbhani",
+     "Tumkur",
+     "Ozhukarai"
+    ],
+    "demand_losing_next_day_t_yr": 50070.51462208471
+   },
+   "cost_cr": {
+    "primary": 91.25464384661095,
+    "secondary": 100.4048067620426,
+    "space": 19.386375895166797,
+    "handling": 6.6,
+    "inventory": 32.16743380059911,
+    "fixed": 24.0,
+    "total": 273.81326030441943
+   },
+   "service": {
+    "next_day_share_frac": 0.63402732349188,
+    "two_day_share_frac": 0.926627069241162
+   },
+   "share_of_revenue_frac": 0.0456355433840699,
+   "assignment": {
+    "Z001": "MUM_BHW",
+    "Z002": "NCR_FRN",
+    "Z003": "HYD_SMB",
+    "Z004": "HYD_SMB",
+    "Z005": "AMD_CHG",
+    "Z006": "HYD_SMB",
+    "Z007": "KOL_DNK",
+    "Z008": "MUM_BHW",
+    "Z009": "MUM_BHW",
+    "Z010": "NCR_FRN",
+    "Z011": "LKO_KNP",
+    "Z012": "LKO_KNP",
+    "Z013": "IDR_PTH",
+    "Z014": "IDR_PTH",
+    "Z015": "MUM_BHW",
+    "Z016": "IDR_PTH",
+    "Z017": "AMD_CHG",
+    "Z018": "HYD_SMB",
+    "Z019": "MUM_BHW",
+    "Z020": "PAT_BHT",
+    "Z021": "NCR_FRN",
+    "Z022": "NCR_FRN",
+    "Z023": "NCR_FRN",
+    "Z024": "MUM_BHW",
+    "Z025": "NCR_FRN",
+    "Z026": "AMD_CHG",
+    "Z027": "NCR_FRN",
+    "Z028": "MUM_BHW",
+    "Z029": "MUM_BHW",
+    "Z030": "LKO_KNP",
+    "Z031": "NCR_FRN",
+    "Z032": "MUM_BHW",
+    "Z033": "LKO_KNP",
+    "Z034": "PAT_BHT",
+    "Z035": "NCR_FRN",
+    "Z036": "MUM_BHW",
+    "Z037": "KOL_DNK",
+    "Z038": "PAT_BHT",
+    "Z039": "IDR_PTH",
+    "Z040": "AMD_CHG",
+    "Z041": "NCR_FRN",
+    "Z042": "MUM_BHW",
+    "Z043": "IDR_PTH",
+    "Z044": "HYD_SMB",
+    "Z045": "HYD_SMB",
+    "Z046": "IDR_PTH",
+    "Z047": "NCR_FRN",
+    "Z048": "PAT_BHT",
+    "Z049": "MUM_BHW",
+    "Z050": "MUM_BHW",
+    "Z051": "MUM_BHW",
+    "Z052": "NCR_FRN",
+    "Z053": "NCR_FRN",
+    "Z054": "NCR_FRN",
+    "Z055": "PAT_BHT",
+    "Z056": "NCR_FRN",
+    "Z057": "NCR_FRN",
+    "Z058": "HYD_SMB",
+    "Z059": "HYD_SMB",
+    "Z060": "MUM_BHW",
+    "Z061": "MUM_BHW",
+    "Z062": "MUM_BHW",
+    "Z063": "MUM_BHW",
+    "Z064": "NCR_FRN",
+    "Z065": "PAT_BHT",
+    "Z066": "LKO_KNP",
+    "Z067": "HYD_SMB",
+    "Z068": "IDR_PTH",
+    "Z069": "NCR_FRN",
+    "Z070": "NCR_FRN",
+    "Z071": "HYD_SMB",
+    "Z072": "IDR_PTH",
+    "Z073": "PAT_BHT",
+    "Z074": "AMD_CHG",
+    "Z075": "NCR_FRN",
+    "Z076": "MUM_BHW",
+    "Z077": "AMD_CHG",
+    "Z078": "NCR_FRN",
+    "Z079": "NCR_FRN",
+    "Z080": "PAT_BHT",
+    "Z081": "PAT_BHT",
+    "Z082": "MUM_BHW",
+    "Z083": "MUM_BHW",
+    "Z084": "MUM_BHW",
+    "Z085": "HYD_SMB",
+    "Z086": "MUM_BHW",
+    "Z087": "NCR_FRN",
+    "Z088": "NCR_FRN",
+    "Z089": "IDR_PTH",
+    "Z090": "MUM_BHW",
+    "Z091": "PAT_BHT",
+    "Z092": "MUM_BHW",
+    "Z093": "NCR_FRN",
+    "Z094": "MUM_BHW",
+    "Z095": "MUM_BHW",
+    "Z096": "MUM_BHW",
+    "Z097": "MUM_BHW",
+    "Z098": "PAT_BHT",
+    "Z099": "HYD_SMB",
+    "Z100": "HYD_SMB",
+    "Z101": "MUM_BHW",
+    "Z102": "AMD_CHG",
+    "Z103": "KOL_DNK",
+    "Z104": "NCR_FRN",
+    "Z105": "HYD_SMB",
+    "Z106": "MUM_BHW",
+    "Z107": "IDR_PTH",
+    "Z108": "HYD_SMB",
+    "Z109": "KOL_DNK",
+    "Z110": "PAT_BHT",
+    "Z111": "HYD_SMB",
+    "Z112": "KOL_DNK",
+    "Z113": "KOL_DNK",
+    "Z114": "KOL_DNK",
+    "Z115": "PAT_BHT",
+    "Z116": "PAT_BHT",
+    "Z117": "NCR_FRN",
+    "Z118": "KOL_DNK",
+    "Z119": "MUM_BHW",
+    "Z120": "KOL_DNK",
+    "Z121": "MUM_BHW",
+    "Z122": "NCR_FRN",
+    "Z123": "LKO_KNP",
+    "Z124": "AMD_CHG",
+    "Z125": "HYD_SMB",
+    "Z126": "PAT_BHT",
+    "Z127": "MUM_BHW",
+    "Z128": "MUM_BHW",
+    "Z129": "NCR_FRN",
+    "Z130": "IDR_PTH",
+    "Z131": "HYD_SMB",
+    "Z132": "HYD_SMB",
+    "Z133": "KOL_DNK",
+    "Z134": "LKO_KNP",
+    "Z135": "MUM_BHW",
+    "Z136": "NCR_FRN",
+    "Z137": "MUM_BHW",
+    "Z138": "NCR_FRN",
+    "Z139": "HYD_SMB",
+    "Z140": "PAT_BHT",
+    "Z141": "MUM_BHW",
+    "Z142": "HYD_SMB",
+    "Z143": "MUM_BHW",
+    "Z144": "KOL_DNK",
+    "Z145": "PAT_BHT",
+    "Z146": "HYD_SMB",
+    "Z147": "HYD_SMB",
+    "Z148": "MUM_BHW",
+    "Z149": "NCR_FRN",
+    "Z150": "HYD_SMB",
+    "Z151": "NCR_FRN",
+    "Z152": "HYD_SMB",
+    "Z153": "PAT_BHT",
+    "Z154": "PAT_BHT",
+    "Z155": "PAT_BHT",
+    "Z156": "NCR_FRN",
+    "Z157": "PAT_BHT",
+    "Z158": "PAT_BHT"
+   },
+   "flows_t_yr": [
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "NCR_FRN",
+     "flow_t_yr": 62218.007
+    },
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "KOL_DNK",
+     "flow_t_yr": 13579.997
+    },
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "LKO_KNP",
+     "flow_t_yr": 20896.924
+    },
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "PAT_BHT",
+     "flow_t_yr": 41305.073
+    },
+    {
+     "plant_id": "P_SLV",
+     "dc_id": "MUM_BHW",
+     "flow_t_yr": 59699.967
+    },
+    {
+     "plant_id": "P_SLV",
+     "dc_id": "AMD_CHG",
+     "flow_t_yr": 17743.731
+    },
+    {
+     "plant_id": "P_SLV",
+     "dc_id": "IDR_PTH",
+     "flow_t_yr": 20168.077
+    },
+    {
+     "plant_id": "P_PDY",
+     "dc_id": "HYD_SMB",
+     "flow_t_yr": 64155.72
+    },
+    {
+     "plant_id": "P_PDY",
+     "dc_id": "KOL_DNK",
+     "flow_t_yr": 232.50498
+    }
+   ]
+  },
+  "AG_diesel_20_f9a1ac": {
+   "scenario_id": "AG_diesel_20_f9a1ac",
+   "group": "AG",
+   "question": "What if: diesel_20",
+   "inputs": {
+    "diesel_shock_frac": 0.2
+   },
+   "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+   "status": "Optimal Solution Found",
+   "solve": {
+    "objective_cr": 250.73019364420904,
+    "best_bound_cr": 250.2783934834,
+    "mip_gap_frac": 0.0018019375897350167,
+    "proxy_gap_frac": -0.0034147873265715223,
+    "solve_time_s": 4.655075311660767,
+    "passes": [
+     {
+      "k_ref": 6,
+      "status": "Optimal Solution Found",
+      "n_dcs": 9,
+      "open_dcs": [
+       "MUM_BHW",
+       "NCR_FRN",
+       "BLR_HSR",
+       "HYD_SMB",
+       "AMD_CHG",
+       "KOL_DNK",
+       "NAG_MHN",
+       "LKO_KNP",
+       "PAT_BHT"
+      ],
+      "proxy_gap_frac": 0.029064455677600298,
+      "solve_time_s": 3.5016849040985107,
+      "total_cr": 261.6936210821666
+     },
+     {
+      "k_ref": 9,
+      "status": "Optimal Solution Found",
+      "n_dcs": 9,
+      "open_dcs": [
+       "MUM_BHW",
+       "NCR_FRN",
+       "BLR_HSR",
+       "HYD_SMB",
+       "AMD_CHG",
+       "KOL_DNK",
+       "LKO_KNP",
+       "IDR_PTH",
+       "PAT_BHT"
+      ],
+      "proxy_gap_frac": -0.0034147873265715223,
+      "solve_time_s": 1.1533904075622559,
+      "total_cr": 261.28819067095253
+     }
+    ]
+   },
+   "open_dcs": [
+    "MUM_BHW",
+    "NCR_FRN",
+    "BLR_HSR",
+    "HYD_SMB",
+    "AMD_CHG",
+    "KOL_DNK",
+    "LKO_KNP",
+    "IDR_PTH",
+    "PAT_BHT"
+   ],
+   "extra": {},
+   "cost_cr": {
+    "primary": 94.36811504765039,
+    "secondary": 79.306343722602,
+    "space": 20.15220625861803,
+    "handling": 6.6,
+    "inventory": 33.86152564208216,
+    "fixed": 27.0,
+    "total": 261.28819067095253
+   },
+   "service": {
+    "next_day_share_frac": 0.8009290388988292,
+    "two_day_share_frac": 0.9908265371141967
+   },
+   "share_of_revenue_frac": 0.04354803177849209,
+   "assignment": {
+    "Z001": "MUM_BHW",
+    "Z002": "NCR_FRN",
+    "Z003": "BLR_HSR",
+    "Z004": "HYD_SMB",
+    "Z005": "AMD_CHG",
+    "Z006": "BLR_HSR",
+    "Z007": "KOL_DNK",
+    "Z008": "MUM_BHW",
+    "Z009": "MUM_BHW",
+    "Z010": "NCR_FRN",
+    "Z011": "LKO_KNP",
+    "Z012": "LKO_KNP",
+    "Z013": "IDR_PTH",
+    "Z014": "IDR_PTH",
+    "Z015": "MUM_BHW",
+    "Z016": "IDR_PTH",
+    "Z017": "AMD_CHG",
+    "Z018": "HYD_SMB",
+    "Z019": "MUM_BHW",
+    "Z020": "PAT_BHT",
+    "Z021": "NCR_FRN",
+    "Z022": "NCR_FRN",
+    "Z023": "NCR_FRN",
+    "Z024": "MUM_BHW",
+    "Z025": "NCR_FRN",
+    "Z026": "AMD_CHG",
+    "Z027": "NCR_FRN",
+    "Z028": "MUM_BHW",
+    "Z029": "MUM_BHW",
+    "Z030": "LKO_KNP",
+    "Z031": "NCR_FRN",
+    "Z032": "MUM_BHW",
+    "Z033": "LKO_KNP",
+    "Z034": "PAT_BHT",
+    "Z035": "NCR_FRN",
+    "Z036": "MUM_BHW",
+    "Z037": "KOL_DNK",
+    "Z038": "PAT_BHT",
+    "Z039": "IDR_PTH",
+    "Z040": "AMD_CHG",
+    "Z041": "NCR_FRN",
+    "Z042": "BLR_HSR",
+    "Z043": "IDR_PTH",
+    "Z044": "HYD_SMB",
+    "Z045": "BLR_HSR",
+    "Z046": "IDR_PTH",
+    "Z047": "NCR_FRN",
+    "Z048": "PAT_BHT",
+    "Z049": "MUM_BHW",
+    "Z050": "BLR_HSR",
+    "Z051": "BLR_HSR",
+    "Z052": "NCR_FRN",
+    "Z053": "NCR_FRN",
+    "Z054": "NCR_FRN",
+    "Z055": "PAT_BHT",
+    "Z056": "NCR_FRN",
+    "Z057": "NCR_FRN",
+    "Z058": "BLR_HSR",
+    "Z059": "BLR_HSR",
+    "Z060": "MUM_BHW",
+    "Z061": "MUM_BHW",
+    "Z062": "BLR_HSR",
+    "Z063": "MUM_BHW",
+    "Z064": "NCR_FRN",
+    "Z065": "PAT_BHT",
+    "Z066": "LKO_KNP",
+    "Z067": "HYD_SMB",
+    "Z068": "IDR_PTH",
+    "Z069": "NCR_FRN",
+    "Z070": "NCR_FRN",
+    "Z071": "HYD_SMB",
+    "Z072": "IDR_PTH",
+    "Z073": "PAT_BHT",
+    "Z074": "AMD_CHG",
+    "Z075": "NCR_FRN",
+    "Z076": "BLR_HSR",
+    "Z077": "AMD_CHG",
+    "Z078": "NCR_FRN",
+    "Z079": "NCR_FRN",
+    "Z080": "KOL_DNK",
+    "Z081": "PAT_BHT",
+    "Z082": "BLR_HSR",
+    "Z083": "HYD_SMB",
+    "Z084": "MUM_BHW",
+    "Z085": "BLR_HSR",
+    "Z086": "HYD_SMB",
+    "Z087": "NCR_FRN",
+    "Z088": "NCR_FRN",
+    "Z089": "IDR_PTH",
+    "Z090": "MUM_BHW",
+    "Z091": "PAT_BHT",
+    "Z092": "MUM_BHW",
+    "Z093": "LKO_KNP",
+    "Z094": "MUM_BHW",
+    "Z095": "BLR_HSR",
+    "Z096": "MUM_BHW",
+    "Z097": "MUM_BHW",
+    "Z098": "PAT_BHT",
+    "Z099": "BLR_HSR",
+    "Z100": "BLR_HSR",
+    "Z101": "IDR_PTH",
+    "Z102": "AMD_CHG",
+    "Z103": "KOL_DNK",
+    "Z104": "NCR_FRN",
+    "Z105": "BLR_HSR",
+    "Z106": "BLR_HSR",
+    "Z107": "IDR_PTH",
+    "Z108": "HYD_SMB",
+    "Z109": "KOL_DNK",
+    "Z110": "PAT_BHT",
+    "Z111": "BLR_HSR",
+    "Z112": "KOL_DNK",
+    "Z113": "KOL_DNK",
+    "Z114": "KOL_DNK",
+    "Z115": "PAT_BHT",
+    "Z116": "PAT_BHT",
+    "Z117": "NCR_FRN",
+    "Z118": "KOL_DNK",
+    "Z119": "HYD_SMB",
+    "Z120": "KOL_DNK",
+    "Z121": "MUM_BHW",
+    "Z122": "NCR_FRN",
+    "Z123": "LKO_KNP",
+    "Z124": "AMD_CHG",
+    "Z125": "HYD_SMB",
+    "Z126": "PAT_BHT",
+    "Z127": "MUM_BHW",
+    "Z128": "BLR_HSR",
+    "Z129": "NCR_FRN",
+    "Z130": "IDR_PTH",
+    "Z131": "BLR_HSR",
+    "Z132": "HYD_SMB",
+    "Z133": "KOL_DNK",
+    "Z134": "LKO_KNP",
+    "Z135": "MUM_BHW",
+    "Z136": "NCR_FRN",
+    "Z137": "BLR_HSR",
+    "Z138": "NCR_FRN",
+    "Z139": "HYD_SMB",
+    "Z140": "PAT_BHT",
+    "Z141": "AMD_CHG",
+    "Z142": "BLR_HSR",
+    "Z143": "BLR_HSR",
+    "Z144": "KOL_DNK",
+    "Z145": "PAT_BHT",
+    "Z146": "HYD_SMB",
+    "Z147": "HYD_SMB",
+    "Z148": "HYD_SMB",
+    "Z149": "NCR_FRN",
+    "Z150": "BLR_HSR",
+    "Z151": "NCR_FRN",
+    "Z152": "BLR_HSR",
+    "Z153": "PAT_BHT",
+    "Z154": "PAT_BHT",
+    "Z155": "PAT_BHT",
+    "Z156": "NCR_FRN",
+    "Z157": "PAT_BHT",
+    "Z158": "PAT_BHT"
+   },
+   "flows_t_yr": [
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "NCR_FRN",
+     "flow_t_yr": 61576.164
+    },
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "KOL_DNK",
+     "flow_t_yr": 15310.257
+    },
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "LKO_KNP",
+     "flow_t_yr": 21538.767
+    },
+    {
+     "plant_id": "P_HDW",
+     "dc_id": "PAT_BHT",
+     "flow_t_yr": 39574.812
+    },
+    {
+     "plant_id": "P_SLV",
+     "dc_id": "MUM_BHW",
+     "flow_t_yr": 36598.533
+    },
+    {
+     "plant_id": "P_SLV",
+     "dc_id": "AMD_CHG",
+     "flow_t_yr": 18789.393
+    },
+    {
+     "plant_id": "P_SLV",
+     "dc_id": "IDR_PTH",
+     "flow_t_yr": 20825.497
+    },
+    {
+     "plant_id": "P_PDY",
+     "dc_id": "BLR_HSR",
+     "flow_t_yr": 56199.838
+    },
+    {
+     "plant_id": "P_PDY",
+     "dc_id": "HYD_SMB",
+     "flow_t_yr": 29354.233
+    },
+    {
+     "plant_id": "P_PDY",
+     "dc_id": "KOL_DNK",
+     "flow_t_yr": 232.50498
+    }
+   ]
+  }
+ }
+}

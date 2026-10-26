@@ -5,14 +5,14 @@
  "inputs": {
   "transport.primary_ftl_inr_per_tkm.value": 6.5
  },
- "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+ "assumptions_sha256": "912e99df374330db1d1ca5917e5174c7e4df4bb1f2f3c1b3fbbc583e6d7443f9",
  "status": "Optimal Solution Found",
  "solve": {
   "objective_cr": 257.74282227767327,
   "best_bound_cr": 256.6197812073,
   "mip_gap_frac": 0.004357215694500958,
   "proxy_gap_frac": 0.029495982082558436,
-  "solve_time_s": 7.509738445281982,
+  "solve_time_s": 4.894766092300415,
   "passes": [
    {
     "k_ref": 6,
@@ -30,7 +30,7 @@
      "PAT_BHT"
     ],
     "proxy_gap_frac": 0.029495982082558436,
-    "solve_time_s": 4.977623224258423,
+    "solve_time_s": 3.2580385208129883,
     "total_cr": 259.74708047076814
    },
    {
@@ -49,7 +49,7 @@
      "PAT_BHT"
     ],
     "proxy_gap_frac": -0.00407187042629753,
-    "solve_time_s": 2.5321152210235596,
+    "solve_time_s": 1.6367275714874268,
     "total_cr": 260.0452333141546
    }
   ]

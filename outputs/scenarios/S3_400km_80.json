@@ -6,14 +6,14 @@
   "service.next_day_radius_km.value": 400,
   "service.min_share_within_radius.value": 0.8
  },
- "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+ "assumptions_sha256": "912e99df374330db1d1ca5917e5174c7e4df4bb1f2f3c1b3fbbc583e6d7443f9",
  "status": "Optimal Solution Found",
  "solve": {
   "objective_cr": 242.1042117909698,
   "best_bound_cr": 242.03433457519998,
   "mip_gap_frac": 0.0002886245359091344,
   "proxy_gap_frac": 0.031517719330890204,
-  "solve_time_s": 6.718194246292114,
+  "solve_time_s": 4.720900058746338,
   "passes": [
    {
     "k_ref": 6,
@@ -31,7 +31,7 @@
      "PAT_BHT"
     ],
     "proxy_gap_frac": 0.031517719330890204,
-    "solve_time_s": 3.664020538330078,
+    "solve_time_s": 2.4644758701324463,
     "total_cr": 244.07720827029692
    },
    {
@@ -50,7 +50,7 @@
      "PAT_BHT"
     ],
     "proxy_gap_frac": -0.003677508009015451,
-    "solve_time_s": 3.054173707962036,
+    "solve_time_s": 2.2564241886138916,
     "total_cr": 244.1561005923439
    }
   ]

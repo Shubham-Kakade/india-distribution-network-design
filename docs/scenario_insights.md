@@ -79,7 +79,7 @@ Moving **every rent ±20%** changes cost by only **±2.8–2.9 Cr (1.2%)** and *
 - Mumbai could pay 127% more before it drops out; Bengaluru–Hosur 95%, NCR 94%, Ahmedabad 88% and Lucknow 73%.
 - Hyderabad–Shamshabad only 40% (about INR 33.6 per sq ft). Pithampur only **22%**: at about INR 21.9 per sq ft the model moves the central site elsewhere.
 
-This is the C&W angle in one chart. The low-confidence rent for Patna, flagged in spec §3, **does not matter**, because Patna is chosen for its location (the Gangetic plain's demand) whatever it costs. The central-India site is the one where a rent survey would change the answer. It is the first location to send real-estate diligence to, and the staging choice (Indore now, or Nagpur toward 85%) depends on it.
+This is the real-estate angle in one chart. The low-confidence rent for Patna, flagged in spec §3, **does not matter**, because Patna is chosen for its location (the Gangetic plain's demand) whatever it costs. The central-India site is the one where a rent survey would change the answer. It is the first location to send real-estate diligence to, and the staging choice (Indore now, or Nagpur toward 85%) depends on it.
 
 ## S8: Does plant footprint drive the answer?
 

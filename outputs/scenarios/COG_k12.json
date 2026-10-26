@@ -6,14 +6,14 @@
   "k": 12,
   "method": "k-centre-of-gravity, snapped to candidates"
  },
- "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+ "assumptions_sha256": "912e99df374330db1d1ca5917e5174c7e4df4bb1f2f3c1b3fbbc583e6d7443f9",
  "status": "Optimal Solution Found",
  "solve": {
   "objective_cr": 246.61090646533037,
   "best_bound_cr": 246.61090646533037,
   "mip_gap_frac": 0.0,
   "proxy_gap_frac": -0.011688345307410808,
-  "solve_time_s": 0.1369922161102295,
+  "solve_time_s": 0.07338714599609375,
   "passes": []
  },
  "open_dcs": [

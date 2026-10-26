@@ -5,14 +5,14 @@
  "inputs": {
   "distance.circuity_factor.value": 1.4
  },
- "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+ "assumptions_sha256": "912e99df374330db1d1ca5917e5174c7e4df4bb1f2f3c1b3fbbc583e6d7443f9",
  "status": "Optimal Solution Found",
  "solve": {
   "objective_cr": 252.21766331796064,
   "best_bound_cr": 251.851151181,
   "mip_gap_frac": 0.0014531580863097696,
   "proxy_gap_frac": -0.00898100456795381,
-  "solve_time_s": 5.919493198394775,
+  "solve_time_s": 3.9886810779571533,
   "passes": [
    {
     "k_ref": 6,
@@ -32,7 +32,7 @@
      "COK_KLM"
     ],
     "proxy_gap_frac": 0.047380026859303426,
-    "solve_time_s": 5.006251811981201,
+    "solve_time_s": 3.3971621990203857,
     "total_cr": 264.32517834807805
    },
    {
@@ -53,7 +53,7 @@
      "COK_KLM"
     ],
     "proxy_gap_frac": -0.00898100456795381,
-    "solve_time_s": 0.9132413864135742,
+    "solve_time_s": 0.5915188789367676,
     "total_cr": 264.25670743924246
    }
   ]

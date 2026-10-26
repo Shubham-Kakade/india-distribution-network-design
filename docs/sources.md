@@ -1,12 +1,8 @@
 # Sources gathered (25 Oct 2026)
 
-- Job post: Arun Sridharan, LinkedIn — https://www.linkedin.com/posts/arun-sridharan_cushmanwakefield-supplychain-networkmodeling-share-7519108934713040896-nM9d/
 - Knight Frank, India Warehousing Market Report 2025 — https://content.knightfrank.com/research/3084/documents/en/india-warehousing-market-report-2025-12733.pdf
-- Cushman & Wakefield, India logistics & industrial leasing H1 2026 — https://www.cushmanwakefield.com/en/india/news/2026/08/india-logistics-and-industrial-leasing-hits-in-h1-2026
 - Business Standard, DHL Bhiwandi lease (Nov 2025) — https://www.business-standard.com/finance/personal-finance/92-lakh-monthly-rent-dhl-takes-4-2l-sq-ft-warehouse-on-lease-in-bhiwandi-125111900283_1.html
 - Leasewarehouse.in, warehouse rental rates by city 2026 (broker, indicative only) — https://leasewarehouse.in/blog/post_detailsbyslug/warehouse-rental-rates-india-by-city
-- C&W Pune MarketBeat — https://www.cushmanwakefield.com/en/india/insights/pune-marketbeat
-- C&W Mumbai MarketBeat — https://www.cushmanwakefield.com/en/india/insights/mumbai-marketbeat
 - Kaggle Top 500 Indian Cities — https://baselight.app/u/kaggle/dataset/zed9941_top_500_indian_cities
 - GitHub recurze/IndianCities — https://github.com/recurze/IndianCities
 - Brunel Supply Chain Logistics Problem Dataset (alternative) — https://brunel.figshare.com/articles/dataset/Supply_Chain_Logistics_Problem_Dataset/7558679

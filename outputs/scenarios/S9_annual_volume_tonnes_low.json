@@ -5,14 +5,14 @@
  "inputs": {
   "company.annual_volume_tonnes.value": 240000
  },
- "assumptions_sha256": "36a43254466ea14e16f543bd398dc9377943e41c99edf2fc2a6933ca8916ce07",
+ "assumptions_sha256": "912e99df374330db1d1ca5917e5174c7e4df4bb1f2f3c1b3fbbc583e6d7443f9",
  "status": "Optimal Solution Found",
  "solve": {
   "objective_cr": 192.2153696128605,
   "best_bound_cr": 191.8742982612,
   "mip_gap_frac": 0.0017744228900501715,
   "proxy_gap_frac": -0.014062454392538615,
-  "solve_time_s": 7.982809066772461,
+  "solve_time_s": 5.378182411193848,
   "passes": [
    {
     "k_ref": 6,
@@ -30,7 +30,7 @@
      "PAT_BHT"
     ],
     "proxy_gap_frac": 0.01975896701813351,
-    "solve_time_s": 3.579413890838623,
+    "solve_time_s": 2.3453335762023926,
     "total_cr": 202.80480853006307
    },
    {
@@ -49,7 +49,7 @@
      "PAT_BHT"
     ],
     "proxy_gap_frac": -0.014062454392538615,
-    "solve_time_s": 4.403395175933838,
+    "solve_time_s": 3.032848834991455,
     "total_cr": 202.7998357942576
    }
   ]

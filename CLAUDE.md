@@ -4,7 +4,7 @@ This file is loaded at the start of every Claude Code session in this folder. Re
 
 ## What this project is
 
-This is a portfolio-grade supply-chain network design study for a job application (Cushman & Wakefield SCLA Analytics, Senior Analyst). It decides how many distribution centres a hypothetical national FMCG brand should run in India, where, and which demand zones each serves, at minimum landed cost subject to a next-day service target. On top of the model sits a Claude tool-use agent that answers "what if" questions. The code will be read by hiring managers, and the owner, Shubham, must be able to explain every line in an interview.
+This is a portfolio project in supply-chain network design and network advisory. It decides how many distribution centres a hypothetical national FMCG brand should run in India, where, and which demand zones each serves, at minimum landed cost subject to a next-day service target. On top of the model sits a Claude tool-use agent that answers "what if" questions. The code will be read by reviewers, and the owner, Shubham, must be able to explain every line in an interview.
 
 ## Documents, in order of authority
 

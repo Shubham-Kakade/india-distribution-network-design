@@ -4,6 +4,8 @@
 
 > Independent portfolio project. Not affiliated with or endorsed by Cushman & Wakefield or any client. The company, its plants and today's network are hypothetical. All costs are in INR Cr a year.
 
+**Live demo:** https://india-distribution-network-design-kz6nnhvwavjuo6opn7kappq.streamlit.app/ (it opens in offline mode; live mode needs your own free key entered in the sidebar, which is never stored)
+
 **Read the two-page summary:** [`docs/case_study.pdf`](docs/case_study.pdf) · **Full scenario write-up:** [`docs/scenario_insights.md`](docs/scenario_insights.md)
 
 ---
@@ -142,6 +144,13 @@ The app reads only committed files: `data/processed/`, `outputs/scenarios/` and 
    **Do not add any API key secret.** With `PUBLIC_DEMO=1` the app ignores every `LLM_*` variable and `.env`, hides the local Ollama option, and only calls `https` endpoints on public hosts. It can therefore only ever use a visitor's own key.
 4. Press **Deploy**. The first build installs `requirements.txt` (a few minutes).
 5. Check the sidebar. It should show *Mode: offline* and *Key: none*, and the provider list should not include Local Ollama.
+
+## Troubleshooting
+
+- **macOS:** if the CBC solver is not found, run `brew install cbc`.
+- **Windows:** create the venv outside OneDrive (the setup script does this by default).
+- **Gemini:** keys must be AI Studio auth keys; otherwise Google returns 403 `API_KEY_SERVICE_BLOCKED`.
+- **Free tiers may return 429** (rate limited); the app then falls back to offline with a notice.
 
 ## Limitations
 

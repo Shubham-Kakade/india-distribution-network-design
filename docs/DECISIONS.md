@@ -4,6 +4,29 @@ Modelling and engineering decisions, newest first. Each entry records the contex
 
 ---
 
+## 2026-10-26 — Phase 5 (delivery)
+
+**D-044 Tests run CBC serially; India runs keep `threads: 1`.** Root cause of the occasional 10 s test: with `-threads 1`, CBC starts its threaded branch-and-bound with one worker. When the root node solves the MIP (as every tiny fixture does), the worker is never used, and CBC sometimes waits 10 s on a timed wait before exiting. Its log reads "Thread 0 used 0 times, waiting to start 10.000255". In 80 identical tiny solves this happened 2 to 4 times. The test `params` fixture now sets `solver.threads` to 0 (CBC's serial code, still deterministic), and `pytest -q` falls from about 25 s to about 5 s. Serial CBC was also tried for the India runs. It cut the full run from 656 s to 466 s and left the base case and as-is figures unchanged, but 15 scenarios moved within the 0.5% MIP gap (by up to ±0.33 Cr), including the 400 km / 85% site set behind the staging finding. So production keeps D-021's setting, and every committed output is unchanged.
+
+**D-045 Bring-your-own-key live mode (owner requirement).** The public app must never use the owner's key.
+- *The key.* A visitor's key lives only in `st.session_state`. It is never written to disk, logs, the result cache, cache keys, error text, transcripts or the URL; the config repr omits it, and the password field is cleared once the key is in use. Provider errors are shown with the key and anything key-like (`AIza…`, `sk-…`, `gsk_…`, `Bearer …`) redacted.
+- *Public mode.* `PUBLIC_DEMO=1`, set only in the hosting platform's settings, ignores `LLM_*` variables and `.env` entirely and hides Local Ollama. It also only calls `https` endpoints on public hosts. Without that, a visitor could point the server at localhost, a private network or a cloud metadata address.
+- *Local use.* Without `PUBLIC_DEMO`, `.env` and environment keys work as before, and the sidebar names the active source ("your .env" or "key entered here"), never the key.
+- *No key* means offline mode.
+- *Code.* `src/llm_settings.py` holds the settings logic and `LLMConfig` (moved from `agent.py`); the app only wires it to widgets.
+
+**D-046 Hosting on Streamlit Community Cloud.** The app runs from `app/streamlit_app.py` with `requirements.txt` only. At start-up it reads committed files (`data/processed/`, `outputs/scenarios/`, `outputs/agent_library.json`) and rebuilds nothing. From a clean clone in public mode the first page rendered in 4.1 s and the app wrote no files. PuLP 3.3.2 (pinned below 4) bundles CBC for Linux x86-64 and arm64, so no system packages are needed. `.streamlit/config.toml` sets the theme (the charts' blue) and turns usage statistics off. Deployment adds only the secret `PUBLIC_DEMO = "1"` and no API key; Streamlit exposes root-level secrets as environment variables.
+
+**D-047 Local setup scripts.**
+- `scripts/setup_local.sh` (macOS/Linux) creates a venv (default `.venv/`, path configurable).
+- `scripts/setup_local.ps1` (Windows) creates one outside OneDrive by default (`C:\venvs\scnd`, `-VenvPath` to change) and warns if the path is inside OneDrive.
+
+Both install `requirements.txt`, check that CBC is available, and copy `.env.example` to `.env` only if `.env` does not exist, so `LLM_API_KEY` is left empty. The shell script was run twice on a fresh clone: the second run left `.env` untouched. The PowerShell script could not be run here (no PowerShell in the Linux container). `.env.example` holds placeholders only, with Gemini as the default preset (`gemini-3.8-flash`, editable), an empty key, and a note that Gemini keys must be AI Studio keys.
+
+**D-048 Case-study PDF tooling stays out of requirements.** `docs/case_study.pdf` (two A4 pages) is rendered from `docs/case_study.md` by the one-off `scripts/build_case_study_pdf.py`. The script converts the Markdown with the `markdown` package and prints the HTML to PDF with the Chromium that Playwright installs. Neither tool is needed to run the model or the app, so neither is in `requirements.txt`; the script's docstring says to `pip install markdown` first. Every number in the README and the case study was checked with the agent's own grounding function against the scenario records, the summary CSV, the insights and `data/processed/zones.csv`.
+
+---
+
 ## 2026-10-26 — Phase 4 (agent)
 
 **D-039 The agent uses an OpenAI-compatible endpoint, not the Anthropic API (owner decision).** The agent talks to any OpenAI-compatible chat-completions endpoint with tool calling, through the `openai` Python SDK. `openai` replaces `anthropic` in `requirements.txt`. Configuration comes only from `LLM_BASE_URL`, `LLM_API_KEY` and `LLM_MODEL` (environment variables, or a git-ignored `.env`). `.env.example` holds placeholder presets for Gemini, Groq and a local Ollama model (`qwen2.5:7b`). In a claude.ai/code cloud session the key is a network secret that the proxy attaches to requests to the provider's host, so `LLM_API_KEY` is the placeholder `proxy-injected` and the code never sees a key. With `LLM_BASE_URL` or `LLM_API_KEY` unset, the agent runs offline. Spec §10 "Stack" is amended to match, and the approved-dependency table in `scnd-python-standards` now names `openai`. *Why:* any provider (including a free tier or a local model) can run the demo, and the repository stays provider-neutral.

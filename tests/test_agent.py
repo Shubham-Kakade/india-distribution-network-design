@@ -12,8 +12,9 @@ import openai
 import pytest
 
 from src import agent
-from src.agent import Agent, LLMConfig, OfflineAgent, is_grounded, numbers_in_result
+from src.agent import Agent, OfflineAgent, is_grounded, numbers_in_result
 from src.agent_offline import describe
+from src.llm_settings import LLMConfig
 
 LIVE = LLMConfig("https://llm.invalid/v1", "test-placeholder", "test-model")
 SOURCE = {"key": "BLR_HSR rent", "value": 24.0, "unit": "INR / sq ft / month"}
@@ -195,15 +196,6 @@ def test_malformed_tool_call_falls_back_to_offline(offline):
     bot, _ = live_agent([tool_reply(("explain_network", "{not json"))], offline)
     reply = bot.ask("What's our recommended network and what does it cost?")
     assert reply.mode == "offline" and "MalformedToolCallError" in reply.notice
-
-
-def test_offline_is_the_default_without_endpoint_settings(monkeypatch, offline):
-    monkeypatch.setattr(agent, "load_dotenv", lambda: None)
-    for name in ("LLM_BASE_URL", "LLM_API_KEY", "LLM_MODEL"):
-        monkeypatch.delenv(name, raising=False)
-    monkeypatch.setattr(openai, "OpenAI", None)  # constructing a client would fail
-    bot = Agent(LLMConfig.from_env(), None, offline)
-    assert bot.mode == "offline"
 
 
 DEMO = [

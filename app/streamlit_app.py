@@ -1,8 +1,10 @@
 """What-if agent front end (spec §10): chat on the left, the current network on the right.
 
 Run from the project root: streamlit run app/streamlit_app.py
-Live mode needs LLM_BASE_URL, LLM_API_KEY and LLM_MODEL (D-039); without them the app answers
-from the offline library. The sidebar shows the mode, provider and model, never the key.
+Live mode uses the visitor's own key, typed into the sidebar and held only in this browser
+session; locally it can also come from LLM_* variables or a git-ignored .env. With PUBLIC_DEMO=1
+the environment is ignored, so a public deployment never uses the owner's key (D-045). Without a
+key the app answers from the offline library. The key itself is never shown, logged or stored.
 """
 
 import sys
@@ -16,11 +18,18 @@ import streamlit.components.v1 as components
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # `streamlit run` from the root
 
 from src import viz
-from src.agent import Agent, LLMConfig, OfflineAgent
+from src.agent import Agent, OfflineAgent
 from src.agent_offline import LIBRARY_PATH
 from src.agent_tools import ToolBox
 from src.config import load_params
 from src.data_prep import load_network_data
+from src.llm_settings import (
+    KEY_NOTICE,
+    active_config,
+    is_public_demo,
+    provider_presets,
+    user_config,
+)
 from src.model import COMPONENTS
 
 DISCLAIMER = (
@@ -38,9 +47,57 @@ def load_toolbox() -> ToolBox:
     return toolbox
 
 
-def new_agent(toolbox: ToolBox) -> Agent:
-    config = LLMConfig.from_env()
+def new_agent(toolbox: ToolBox, public: bool) -> Agent:
+    """An agent on the visitor's key, else (outside public mode) the .env, else offline."""
+    config = active_config(st.session_state.get("user_config"), public)
     return Agent(config, toolbox if config.live else None, OfflineAgent.from_file())
+
+
+# --- Live mode panel: the key lives only in st.session_state (D-045) ----------------------
+
+
+def fill_preset(public: bool) -> None:
+    base_url, model = provider_presets(public)[st.session_state.provider]
+    st.session_state.base_url, st.session_state.model = base_url, model
+
+
+def use_key(toolbox: ToolBox, public: bool) -> None:
+    try:
+        st.session_state.user_config = user_config(
+            st.session_state.base_url, st.session_state.key_input, st.session_state.model, public
+        )
+        st.session_state.key_error = None
+    except ValueError as err:  # messages never echo the key
+        st.session_state.key_error = str(err)
+        return
+    finally:
+        st.session_state.key_input = ""  # the key is kept once, in user_config, not in the field
+    st.session_state.agent = new_agent(toolbox, public)
+
+
+def forget_key(toolbox: ToolBox, public: bool) -> None:
+    st.session_state.user_config = None
+    st.session_state.key_input = ""
+    st.session_state.key_error = None
+    st.session_state.agent = new_agent(toolbox, public)
+
+
+def live_mode_panel(toolbox: ToolBox, public: bool) -> None:
+    presets = provider_presets(public)
+    if "provider" not in st.session_state:
+        st.session_state.provider = next(iter(presets))
+        fill_preset(public)
+    st.subheader("Live mode")
+    st.caption(KEY_NOTICE)
+    st.selectbox("Provider", list(presets), key="provider", on_change=fill_preset, args=(public,))
+    st.text_input("Base URL", key="base_url")
+    st.text_input("Model", key="model")
+    st.text_input("API key", key="key_input", type="password", autocomplete="off")
+    use, forget = st.columns(2)
+    use.button("Use this key", on_click=use_key, args=(toolbox, public))
+    forget.button("Forget key", on_click=forget_key, args=(toolbox, public))
+    if st.session_state.get("key_error"):
+        st.error(st.session_state.key_error)
 
 
 def network_panel(toolbox: ToolBox, scenario_id: str) -> None:
@@ -81,8 +138,9 @@ def network_panel(toolbox: ToolBox, scenario_id: str) -> None:
 def main() -> None:
     st.set_page_config(page_title="India DC network: what-if agent", layout="wide")
     toolbox = load_toolbox()
+    public = is_public_demo()
     if "agent" not in st.session_state:
-        st.session_state.agent = new_agent(toolbox)
+        st.session_state.agent = new_agent(toolbox, public)
         st.session_state.turns = []
         st.session_state.scenario_id = toolbox.recommended_id
     agent: Agent = st.session_state.agent
@@ -90,10 +148,13 @@ def main() -> None:
     with st.sidebar:
         st.header("Agent")
         config = agent.config
+        live = agent.mode == "live"
         st.write(f"**Mode:** {agent.mode}")
-        st.write(f"**Provider:** {config.provider if agent.mode == 'live' else 'offline library'}")
-        st.write(f"**Model:** {config.model if agent.mode == 'live' else 'none (no network)'}")
+        st.write(f"**Provider:** {config.provider if live else 'offline library'}")
+        st.write(f"**Model:** {config.model if live else 'none (no network)'}")
+        st.write(f"**Key:** {config.source if live else 'none'}")  # the source, never the key
         st.caption(f"Offline library: {LIBRARY_PATH.name}, 20 pre-computed questions.")
+        live_mode_panel(toolbox, public)
         st.subheader("Try")
         for entry in agent.offline.library["entries"][:8]:
             st.caption(entry["example"])

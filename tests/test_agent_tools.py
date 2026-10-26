@@ -1,38 +1,12 @@
 """Agent tools on the tiny network: argument validation, the cache and the S5 reuse (spec §10)."""
 
-import hashlib
-import json
-
 import pytest
 
 from src import agent_tools
 from src.agent_tools import ToolBox, validate_overrides
-from src.config import ASSUMPTIONS_PATH, with_overrides
+from src.config import with_overrides
 from src.model import build_and_solve
-from src.reporting import run_record
-from src.scenarios import Run, diesel_overrides
-
-
-@pytest.fixture
-def full_service(params):
-    # alpha = 1 forces two sites on the tiny network (D2 plus D1 or D3), so an outage has a
-    # remaining site to fall back on
-    return with_overrides(params, {"service.min_share_within_radius.value": 1.0})
-
-
-@pytest.fixture
-def toolbox(full_service, tiny, tmp_path):
-    """A ToolBox over the tiny network, with its recommended record in a temporary folder."""
-    scenario_dir = tmp_path / "scenarios"
-    scenario_dir.mkdir()
-    sha = hashlib.sha256(ASSUMPTIONS_PATH.read_bytes()).hexdigest()
-    rec = Run("REC", "S3", "q", {}, build_and_solve(full_service, tiny))
-    record = run_record(rec, full_service, sha)
-    (scenario_dir / "REC.json").write_text(json.dumps(record, default=float))
-    (scenario_dir / "S3_upgrade_options.json").write_text(
-        json.dumps({"recommended": {"scenario_id": "REC"}})
-    )
-    return ToolBox(full_service, tiny, scenario_dir=scenario_dir, cache_dir=tmp_path / "cache")
+from src.scenarios import diesel_overrides
 
 
 def test_overrides_inside_the_widened_range_are_accepted(params):

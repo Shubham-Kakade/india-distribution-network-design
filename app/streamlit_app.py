@@ -71,6 +71,11 @@ def network_panel(toolbox: ToolBox, scenario_id: str) -> None:
         toolbox.recommended_id,
     )
     st.pyplot(fig)
+    if "outage_cost_cr" in record["extra"]:
+        st.caption(
+            "Annual run rate while the site is shut. The outage itself is charged only the extra "
+            "freight for its months; rent, fixed cost and stock stay in place (D-029)."
+        )
 
 
 def main() -> None:

@@ -75,7 +75,7 @@ class LLMConfig:
     """Endpoint settings from the environment (D-039). The key is never logged or displayed."""
 
     base_url: str | None
-    api_key: str | None
+    api_key: str | None = field(repr=False)
     model: str | None
 
     @classmethod
@@ -129,12 +129,14 @@ def is_grounded(token: str, evidence: list[float]) -> bool:
 
     The tool number may be a fraction shown as a percentage (0.801 -> 80.1) and may have lost
     its sign ("falls by 33.1" for -33.1). A round number with trailing zeros also matches at its
-    own magnitude (48,000 for 48,013).
+    own magnitude (48,000 for 48,013), keeping two significant figures, so "100" is not
+    grounded by 80.1.
     """
     x = float(token.replace(",", ""))
     decimals = len(token.split(".")[1]) if "." in token else 0
     digits = token.replace(",", "").split(".")[0]
     zeros = len(digits) - len(digits.rstrip("0")) if decimals == 0 and x >= 100 else 0
+    zeros = min(zeros, len(digits) - 2)
     for t in evidence:
         for v in (abs(t), abs(100 * t)):
             if math.isclose(round(v, decimals), x, abs_tol=1e-9):
@@ -250,6 +252,7 @@ class Agent:
         if self.mode == "offline":
             return self.offline.ask(question)
         self.offline.last_site = mentioned_site(question) or self.offline.last_site
+        history_len = len(self.messages)  # rolled back to here if the provider fails
         self.messages.append({"role": "user", "content": question})
         results: list[tuple[str, dict]] = []
         calls: list[tuple[str, dict]] = []
@@ -270,6 +273,7 @@ class Agent:
                     self.messages.append({"role": "assistant", "content": text})
                     grounding = "templated"
         except (openai.APIError, MalformedToolCallError) as err:
+            del self.messages[history_len:]  # the next turn starts from a well-formed history
             return self.fall_back(question, err)
         ids = scenario_ids(results) or scenario_ids(self.last_results)
         self.last_results = results or self.last_results
@@ -328,10 +332,6 @@ class Agent:
         if status:
             reason += f" (HTTP {status})"
         logger.warning("Live model unavailable: %s; answering offline", reason)
-        # Drop the unanswered question so the live history stays well formed for the next turn
-        while self.messages and self.messages[-1]["role"] != "system":
-            if self.messages.pop()["role"] == "user":
-                break
         reply = self.offline.ask(question)
         reply.notice = f"Live model unavailable ({reason}); answered from the offline library."
         return reply

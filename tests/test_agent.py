@@ -94,6 +94,7 @@ ASK_SOURCE = tool_reply(("get_assumption_source", '{"key": "BLR_HSR"}'))
         ("48,000", [48013.4], True),  # a round figure
         ("2.4", [2.37], True),
         ("17", [244.08, 0.8012], False),
+        ("100", [0.8012], False),  # a round figure keeps two significant figures
         ("244.2", [244.08], False),
     ],
 )
@@ -174,7 +175,20 @@ def test_rate_limit_falls_back_to_offline_with_a_notice(offline):
     reply = bot.ask("What's our recommended network and what does it cost?")
     assert reply.mode == "offline"
     assert "RateLimitError (HTTP 429)" in reply.notice
-    assert bot.messages[-1]["role"] == "system"  # the unanswered question was dropped
+    assert [m["role"] for m in bot.messages] == ["system"]  # the question was rolled back
+
+
+def test_failure_during_the_grounding_retry_rolls_back_the_whole_turn(offline):
+    response = SimpleNamespace(status_code=503, headers={}, request=None)
+    outage = openai.InternalServerError("unavailable", response=response, body=None)
+    bot, _ = live_agent([ASK_SOURCE, text_reply("Rent is INR 31."), outage], offline)
+    reply = bot.ask("What's our recommended network and what does it cost?")
+    assert reply.mode == "offline" and "HTTP 503" in reply.notice
+    assert [m["role"] for m in bot.messages] == ["system"]
+
+
+def test_the_key_never_appears_in_the_config_repr():
+    assert "test-placeholder" not in repr(LIVE)
 
 
 def test_malformed_tool_call_falls_back_to_offline(offline):

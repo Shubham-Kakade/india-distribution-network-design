@@ -24,10 +24,13 @@ import openai
 
 from src.agent_offline import (
     LIBRARY_PATH,
+    STRUCTURE,
     describe,
     library_intents,
     match_intent,
     mentioned_site,
+    result_ids,
+    worked_examples,
 )
 from src.agent_tools import TOOL_SCHEMAS, ToolBox
 from src.llm_settings import OFFLINE, LLMConfig, env_config, redact
@@ -35,20 +38,34 @@ from src.llm_settings import OFFLINE, LLMConfig, env_config, redact
 logger = logging.getLogger(__name__)
 
 MAX_TOOL_CALLS = 6  # per user question (spec §10)
-MAX_RETRIES = 4  # SDK retries on 429 / 5xx, with exponential backoff that honours Retry-After
 REQUEST_TIMEOUT_S = 90
 MAX_ERROR_CHARS = 200  # provider error text shown in the fallback notice
 
-SYSTEM_PROMPT = """You are a supply-chain network analyst presenting a distribution network \
-study for a hypothetical Indian FMCG client to its leadership. The optimisation model does all \
-the computing through your tools; your job is to pick the right tool and explain the trade-off.
+SYSTEM_PROMPT = """You are a supply-chain consultant briefing the leadership of a hypothetical \
+Indian FMCG client on its distribution network. The optimisation model does all the computing \
+through your tools; your job is to pick the right tool and explain the result in plain business \
+English: what changes, why, and what it means.
+
+Answer every question with these six parts, each starting with its bold label:
+**Headline:** one sentence that answers the question directly: the cost impact and the service \
+impact.
+**What happens in the network:** which sites open, close or swap; which zones move and to which \
+DC; how many zones, and what share of demand, lose next-day service.
+**Why:** the two or three cost components that move most against the recommended network \
+(primary freight, secondary freight, space, inventory, fixed cost) and the mechanism, e.g. \
+"zones served from Hyderabad are further away, so secondary freight rises".
+**What it means for the client:** one or two sentences of business implication.
+**Assumptions and limits:** one line on what the number does not include.
+**Source:** the scenario_id(s) you used.
+Keep it under about 180 words unless the user asks for detail.
 
 Rules:
-- Every number in your reply must come from a tool result in this conversation. Never estimate, \
-convert currencies, or do arithmetic of your own; if a figure is not in a tool result, call a \
-tool or leave the figure out.
-- Cite the scenario_id of every result you use, in brackets, e.g. [{rec}].
-- Costs are INR Cr per year; next-day share is the share of demand within the next-day radius.
+- Use ONLY numbers that appear in tool results in this conversation (rounding is fine). Never \
+estimate, convert or do arithmetic of your own; if a figure is not in a tool result, call a \
+tool (explain_network or compare_scenarios give more detail) or leave the figure out.
+- Costs are INR Cr per year; next-day share is the share of demand within the next-day radius. \
+Cost moves come from vs_recommended.cost_drivers and delta_by_component_cr; zone moves from \
+vs_recommended.zones or, for an outage, the outage block.
 - The recommended network is scenario {rec}. Recorded scenarios: S0 (today's network), S1 \
 (cheapest, no service target), S2_kNN (NN DCs), S3_<radius>km_<target> (service frontier), \
 S4_uniform and S4_regional_skew (growth), S6_diesel_20 and S6_diesel_40, S7_rent_minus_20 and \
@@ -58,12 +75,22 @@ for good is mode "strategic". The recommended Bengaluru site is Hosur (BLR_HSR).
 - A fuel price change is run_scenario with overrides {{"diesel_shock_frac": <rise as a \
 fraction>}}. Which assumptions matter most is rank_assumptions.
 - If a tool refuses an input, explain the refusal and the accepted range.
-- Answer in 3 to 6 short sentences or bullets, for a steering committee."""
 
-GROUNDING_RETRY = (
-    "Your reply contains numbers that are not in any tool result: {numbers}. Rewrite it using "
-    "only numbers that appear in the tool results (rounding is fine), and cite scenario ids."
+Two worked examples. Their numbers come from those tool results only; never reuse them for \
+another question.
+
+{examples}"""
+
+ANSWER_RETRY = (
+    "Rewrite your reply. {problems} Use the six bold-labelled parts (Headline, What happens in "
+    "the network, Why, What it means for the client, Assumptions and limits, Source) and only "
+    "numbers that appear in the tool results (rounding is fine)."
 )
+
+# Provider errors worth retrying before falling back offline (D-051); 400/401/403/404 are not
+RETRY_STATUS = frozenset({429, 500, 502, 503, 504})
+RETRY_BACKOFF_S = (2.0, 5.0)  # one wait per retry
+MAX_RETRY_AFTER_S = 10.0
 
 
 # --- Grounding check ------------------------------------------------------------------------
@@ -122,15 +149,7 @@ def ungrounded_numbers(text: str, evidence: list[float]) -> list[str]:
 
 def scenario_ids(results: list[tuple[str, dict]]) -> list[str]:
     """Scenario ids named by tool results, in first-seen order."""
-    ids = []
-    for _, result in results:
-        for key in ("scenario_id", "source_id"):
-            if key in result and result[key] not in ids:
-                ids.append(result[key])
-        for row in result.get("scenarios", []):
-            if row["scenario_id"] not in ids:
-                ids.append(row["scenario_id"])
-    return ids
+    return list(dict.fromkeys(i for _, result in results for i in result_ids(result)))
 
 
 def with_citation(text: str, ids: list[str]) -> str:
@@ -138,6 +157,27 @@ def with_citation(text: str, ids: list[str]) -> str:
     if not ids or any(i in text for i in ids):
         return text
     return f"{text}\n\nSource: {', '.join(ids)}"
+
+
+def missing_parts(text: str) -> list[str]:
+    """The labelled parts (D-049) a reply leaves out."""
+    return [label for label in STRUCTURE if not re.search(re.escape(label), text, re.IGNORECASE)]
+
+
+def retry_delay(err: Exception, attempt: int) -> float | None:
+    """Seconds to wait before retrying a provider call, or None to give up (D-051).
+
+    Retries only RETRY_STATUS codes, once per RETRY_BACKOFF_S entry. A numeric Retry-After
+    header replaces the backoff, capped at MAX_RETRY_AFTER_S.
+    """
+    if getattr(err, "status_code", None) not in RETRY_STATUS or attempt >= len(RETRY_BACKOFF_S):
+        return None
+    headers = getattr(getattr(err, "response", None), "headers", None) or {}
+    try:
+        wait_s = float(headers.get("retry-after"))
+    except (TypeError, ValueError):  # absent, or an HTTP date
+        wait_s = RETRY_BACKOFF_S[attempt]
+    return min(wait_s, MAX_RETRY_AFTER_S)
 
 
 class MalformedToolCallError(Exception):
@@ -184,7 +224,9 @@ class OfflineAgent:
             )
         entry = self.entries[intent.intent_id]
         results = [(name, result) for name, result in entry["results"]]
-        text = "\n\n".join(describe(name, result) for name, result in results)
+        text = "\n\n".join(
+            describe(name, result, intent.meaning, intent.limits) for name, result in results
+        )
         return Reply(
             text,
             "offline",
@@ -206,11 +248,14 @@ class Agent:
             self.client = openai.OpenAI(
                 base_url=config.base_url,
                 api_key=config.api_key,
-                max_retries=MAX_RETRIES,
+                max_retries=0,  # retries follow RETRY_STATUS / RETRY_BACKOFF_S instead (D-051)
                 timeout=REQUEST_TIMEOUT_S,
             )
-        rec = offline.library["recommended_id"]
-        self.messages: list[dict] = [{"role": "system", "content": SYSTEM_PROMPT.format(rec=rec)}]
+        self.sleep = time.sleep  # replaced in tests
+        prompt = SYSTEM_PROMPT.format(
+            rec=offline.library["recommended_id"], examples=worked_examples(offline.library)
+        )
+        self.messages: list[dict] = [{"role": "system", "content": prompt}]
         self.evidence: list[float] = []  # every number from every tool result so far
         self.last_results: list[tuple[str, dict]] = []  # for citations on follow-up answers
 
@@ -228,15 +273,15 @@ class Agent:
         calls: list[tuple[str, dict]] = []
         try:
             text = self.complete(results, calls)
-            offending = ungrounded_numbers(text, self.evidence)
             grounding = "passed"
-            if offending:
-                logger.info("Grounding check failed on %s; asking once more", offending)
-                retry = GROUNDING_RETRY.format(numbers=", ".join(offending))
+            problems = self.answer_problems(text)
+            if problems:
+                logger.info("Answer check failed (%s); asking once more", problems)
+                retry = ANSWER_RETRY.format(problems=problems)
                 self.messages.append({"role": "user", "content": retry})
                 text = self.complete(results, calls)
                 grounding = "passed after retry"
-                if ungrounded_numbers(text, self.evidence):
+                if self.answer_problems(text):
                     text = "\n\n".join(describe(n, r) for n, r in results) or (
                         "I could not ground an answer in the model results; please rephrase."
                     )
@@ -249,11 +294,39 @@ class Agent:
         self.last_results = results or self.last_results
         return Reply(with_citation(text, ids), "live", calls, ids, grounding=grounding)
 
+    def answer_problems(self, text: str) -> str:
+        """Why a reply fails the guardrail: ungrounded numbers (the grounding check, D-041) or
+        missing parts of the answer structure (D-050). Empty when it passes."""
+        problems = []
+        offending = ungrounded_numbers(text, self.evidence)
+        if offending:
+            problems.append(f"These numbers are not in any tool result: {', '.join(offending)}.")
+        missing = missing_parts(text)
+        if missing:
+            problems.append(f"These parts are missing: {', '.join(missing)}.")
+        return " ".join(problems)
+
+    def create(self, **request) -> object:
+        """One chat-completions call, retried on rate limits and server errors (D-051)."""
+        attempt = 0
+        while True:
+            try:
+                return self.client.chat.completions.create(**request)
+            except openai.APIStatusError as err:
+                wait_s = retry_delay(err, attempt)  # None once retries are spent
+                if wait_s is None:
+                    raise
+                attempt += 1
+                logger.info(
+                    "Provider HTTP %s; retry %d in %.0f s", err.status_code, attempt, wait_s
+                )
+                self.sleep(wait_s)
+
     def complete(self, results: list, calls: list) -> str:
         """Call the model until it answers in text, running tools within the per-question cap."""
         while True:
             capped = len(calls) >= MAX_TOOL_CALLS
-            response = self.client.chat.completions.create(
+            response = self.create(
                 model=self.config.model,
                 messages=self.messages,
                 tools=TOOL_SCHEMAS,
@@ -302,8 +375,8 @@ class Agent:
         if status:
             reason += f" (HTTP {status})"
         # The provider's own words help the visitor fix a bad key; never echo a key (D-045)
-        detail = redact(getattr(err, "message", None) or str(err), self.config.api_key)
-        reason += f": {detail[:MAX_ERROR_CHARS]}"
+        detail = getattr(err, "message", None) or str(err)
+        reason = redact(f"{reason}: {detail[:MAX_ERROR_CHARS]}", self.config.api_key)
         logger.warning("Live model unavailable: %s; answering offline", reason)
         reply = self.offline.ask(question)
         reply.notice = f"Live model unavailable ({reason}); answered from the offline library."

@@ -90,12 +90,57 @@
         "fixed": 3.0
        },
        "next_day_change_pts": -0.0485,
+       "recommended_next_day_share_frac": 0.8009,
        "added": [
         "CHN_SPB",
         "COK_KLM"
        ],
        "dropped": [
         "BLR_HSR"
+       ],
+       "cost_drivers": [
+        {
+         "component": "primary",
+         "delta_cr": -3.3695
+        },
+        {
+         "component": "fixed",
+         "delta_cr": 3.0
+        },
+        {
+         "component": "space",
+         "delta_cr": 1.5164
+        }
+       ],
+       "zones": {
+        "moved_count": 34,
+        "moved_demand_frac": 0.2215,
+        "moved_to": {
+         "CHN_SPB": 18,
+         "COK_KLM": 11,
+         "LKO_KNP": 1,
+         "MUM_BHW": 4
+        },
+        "losing_next_day_count": 7,
+        "losing_next_day_demand_frac": 0.0234,
+        "gaining_next_day_count": 4,
+        "gaining_next_day_demand_frac": 0.0229
+       },
+       "added_sites": [
+        {
+         "dc_id": "CHN_SPB",
+         "name": "Chennai - Sriperumbudur / Oragadam"
+        },
+        {
+         "dc_id": "COK_KLM",
+         "name": "Kochi - Kalamassery / Aluva"
+        }
+       ],
+       "dropped_sites": [
+        {
+         "dc_id": "BLR_HSR",
+         "name": "Bengaluru - Hosur (Attibele-Bommasandra)"
+        }
        ]
       },
       "closed_site": {
@@ -191,9 +236,45 @@
         "fixed": -3.0
        },
        "next_day_change_pts": -16.6902,
+       "recommended_next_day_share_frac": 0.8009,
        "added": [],
        "dropped": [
         "BLR_HSR"
+       ],
+       "cost_drivers": [
+        {
+         "component": "secondary",
+         "delta_cr": 28.9577
+        },
+        {
+         "component": "primary",
+         "delta_cr": 6.2383
+        },
+        {
+         "component": "fixed",
+         "delta_cr": -3.0
+        }
+       ],
+       "zones": {
+        "moved_count": 33,
+        "moved_demand_frac": 0.2123,
+        "moved_to": {
+         "HYD_SMB": 14,
+         "MUM_BHW": 17,
+         "NCR_FRN": 1,
+         "PAT_BHT": 1
+        },
+        "losing_next_day_count": 25,
+        "losing_next_day_demand_frac": 0.1669,
+        "gaining_next_day_count": 0,
+        "gaining_next_day_demand_frac": 0.0
+       },
+       "added_sites": [],
+       "dropped_sites": [
+        {
+         "dc_id": "BLR_HSR",
+         "name": "Bengaluru - Hosur (Attibele-Bommasandra)"
+        }
        ]
       },
       "closed_site": {
@@ -331,6 +412,7 @@
         "fixed": 0.0
        },
        "next_day_change_pts": 0.0304,
+       "recommended_next_day_share_frac": 0.8009,
        "added": [
         "NAG_MHN",
         "PNJ_RJP"
@@ -338,6 +420,56 @@
        "dropped": [
         "IDR_PTH",
         "NCR_FRN"
+       ],
+       "cost_drivers": [
+        {
+         "component": "primary",
+         "delta_cr": 1.5328
+        },
+        {
+         "component": "secondary",
+         "delta_cr": 1.0914
+        },
+        {
+         "component": "space",
+         "delta_cr": -0.555
+        }
+       ],
+       "zones": {
+        "moved_count": 49,
+        "moved_demand_frac": 0.288,
+        "moved_to": {
+         "AMD_CHG": 3,
+         "KOL_DNK": 1,
+         "LKO_KNP": 4,
+         "MUM_BHW": 2,
+         "NAG_MHN": 10,
+         "PNJ_RJP": 29
+        },
+        "losing_next_day_count": 10,
+        "losing_next_day_demand_frac": 0.0521,
+        "gaining_next_day_count": 8,
+        "gaining_next_day_demand_frac": 0.0524
+       },
+       "added_sites": [
+        {
+         "dc_id": "NAG_MHN",
+         "name": "Nagpur - MIHAN / Wardha Road"
+        },
+        {
+         "dc_id": "PNJ_RJP",
+         "name": "Punjab - Rajpura"
+        }
+       ],
+       "dropped_sites": [
+        {
+         "dc_id": "IDR_PTH",
+         "name": "Indore - Pithampur"
+        },
+        {
+         "dc_id": "NCR_FRN",
+         "name": "Delhi NCR - Farrukhnagar"
+        }
        ]
       },
       "closed_site": {
@@ -433,9 +565,47 @@
         "fixed": -3.0
        },
        "next_day_change_pts": -16.0799,
+       "recommended_next_day_share_frac": 0.8009,
        "added": [],
        "dropped": [
         "NCR_FRN"
+       ],
+       "cost_drivers": [
+        {
+         "component": "secondary",
+         "delta_cr": 21.5203
+        },
+        {
+         "component": "primary",
+         "delta_cr": 6.8631
+        },
+        {
+         "component": "fixed",
+         "delta_cr": -3.0
+        }
+       ],
+       "zones": {
+        "moved_count": 42,
+        "moved_demand_frac": 0.2333,
+        "moved_to": {
+         "AMD_CHG": 2,
+         "BLR_HSR": 1,
+         "IDR_PTH": 1,
+         "LKO_KNP": 31,
+         "MUM_BHW": 6,
+         "PAT_BHT": 1
+        },
+        "losing_next_day_count": 29,
+        "losing_next_day_demand_frac": 0.1608,
+        "gaining_next_day_count": 0,
+        "gaining_next_day_demand_frac": 0.0
+       },
+       "added_sites": [],
+       "dropped_sites": [
+        {
+         "dc_id": "NCR_FRN",
+         "name": "Delhi NCR - Farrukhnagar"
+        }
        ]
       },
       "closed_site": {
@@ -578,11 +748,46 @@
         "fixed": 0.0
        },
        "next_day_change_pts": -0.0887,
+       "recommended_next_day_share_frac": 0.8009,
        "added": [
         "PUN_CHK"
        ],
        "dropped": [
         "MUM_BHW"
+       ],
+       "cost_drivers": [
+        {
+         "component": "primary",
+         "delta_cr": 1.3446
+        },
+        {
+         "component": "secondary",
+         "delta_cr": 0.8235
+        }
+       ],
+       "zones": {
+        "moved_count": 28,
+        "moved_demand_frac": 0.1386,
+        "moved_to": {
+         "AMD_CHG": 1,
+         "PUN_CHK": 27
+        },
+        "losing_next_day_count": 2,
+        "losing_next_day_demand_frac": 0.0066,
+        "gaining_next_day_count": 2,
+        "gaining_next_day_demand_frac": 0.0058
+       },
+       "added_sites": [
+        {
+         "dc_id": "PUN_CHK",
+         "name": "Pune - Chakan"
+        }
+       ],
+       "dropped_sites": [
+        {
+         "dc_id": "MUM_BHW",
+         "name": "Mumbai - Bhiwandi"
+        }
        ]
       },
       "closed_site": {
@@ -678,9 +883,47 @@
         "fixed": -3.0
        },
        "next_day_change_pts": -10.1592,
+       "recommended_next_day_share_frac": 0.8009,
        "added": [],
        "dropped": [
         "MUM_BHW"
+       ],
+       "cost_drivers": [
+        {
+         "component": "secondary",
+         "delta_cr": 12.2561
+        },
+        {
+         "component": "primary",
+         "delta_cr": 4.072
+        },
+        {
+         "component": "fixed",
+         "delta_cr": -3.0
+        }
+       ],
+       "zones": {
+        "moved_count": 28,
+        "moved_demand_frac": 0.1375,
+        "moved_to": {
+         "AMD_CHG": 13,
+         "BLR_HSR": 6,
+         "HYD_SMB": 1,
+         "IDR_PTH": 6,
+         "NCR_FRN": 1,
+         "PAT_BHT": 1
+        },
+        "losing_next_day_count": 19,
+        "losing_next_day_demand_frac": 0.1054,
+        "gaining_next_day_count": 1,
+        "gaining_next_day_demand_frac": 0.0039
+       },
+       "added_sites": [],
+       "dropped_sites": [
+        {
+         "dc_id": "MUM_BHW",
+         "name": "Mumbai - Bhiwandi"
+        }
        ]
       },
       "closed_site": {
@@ -819,12 +1062,58 @@
         "fixed": 0.0
        },
        "next_day_change_pts": 0.0239,
+       "recommended_next_day_share_frac": 0.8009,
        "added": [
         "NAG_MHN"
        ],
        "dropped": [
         "IDR_PTH"
+       ],
+       "cost_drivers": [
+        {
+         "component": "primary",
+         "delta_cr": 19.9297
+        },
+        {
+         "component": "secondary",
+         "delta_cr": 14.7374
+        },
+        {
+         "component": "space",
+         "delta_cr": 0.2625
+        }
+       ],
+       "zones": {
+        "moved_count": 19,
+        "moved_demand_frac": 0.0953,
+        "moved_to": {
+         "AMD_CHG": 2,
+         "MUM_BHW": 3,
+         "NAG_MHN": 12,
+         "NCR_FRN": 1,
+         "PAT_BHT": 1
+        },
+        "losing_next_day_count": 7,
+        "losing_next_day_demand_frac": 0.031,
+        "gaining_next_day_count": 4,
+        "gaining_next_day_demand_frac": 0.0312
+       },
+       "added_sites": [
+        {
+         "dc_id": "NAG_MHN",
+         "name": "Nagpur - MIHAN / Wardha Road"
+        }
+       ],
+       "dropped_sites": [
+        {
+         "dc_id": "IDR_PTH",
+         "name": "Indore - Pithampur"
+        }
        ]
+      },
+      "diesel": {
+       "diesel_share_of_freight_cost_frac": 0.55,
+       "freight_multiplier": 1.22
       }
      }
     ]
@@ -919,8 +1208,34 @@
         "fixed": 0.0
        },
        "next_day_change_pts": 0.0,
+       "recommended_next_day_share_frac": 0.8009,
        "added": [],
-       "dropped": []
+       "dropped": [],
+       "cost_drivers": [
+        {
+         "component": "primary",
+         "delta_cr": 9.3518
+        },
+        {
+         "component": "secondary",
+         "delta_cr": 7.8592
+        }
+       ],
+       "zones": {
+        "moved_count": 0,
+        "moved_demand_frac": 0.0,
+        "moved_to": {},
+        "losing_next_day_count": 0,
+        "losing_next_day_demand_frac": 0.0,
+        "gaining_next_day_count": 0,
+        "gaining_next_day_demand_frac": 0.0
+       },
+       "added_sites": [],
+       "dropped_sites": []
+      },
+      "diesel": {
+       "diesel_share_of_freight_cost_frac": 0.55,
+       "freight_multiplier": 1.11
       }
      }
     ]
@@ -974,7 +1289,20 @@
          "total": 244.0772
         },
         "next_day_share_frac": 0.8009,
-        "delta_total_vs_recommended_cr": 0.0
+        "delta_total_vs_recommended_cr": 0.0,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [],
+        "dropped_sites": [],
+        "cost_drivers": [],
+        "zones": {
+         "moved_count": 0,
+         "moved_demand_frac": 0.0,
+         "moved_to": {},
+         "losing_next_day_count": 0,
+         "losing_next_day_demand_frac": 0.0,
+         "gaining_next_day_count": 0,
+         "gaining_next_day_demand_frac": 0.0
+        }
        },
        {
         "scenario_id": "S3_400km_85",
@@ -1004,7 +1332,58 @@
          "total": 248.4784
         },
         "next_day_share_frac": 0.8512,
-        "delta_total_vs_recommended_cr": 4.4012
+        "delta_total_vs_recommended_cr": 4.4012,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "GAU_CHS",
+          "name": "Guwahati - Changsari (NH-27)"
+         },
+         {
+          "dc_id": "NAG_MHN",
+          "name": "Nagpur - MIHAN / Wardha Road"
+         },
+         {
+          "dc_id": "PNJ_RJP",
+          "name": "Punjab - Rajpura"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "IDR_PTH",
+          "name": "Indore - Pithampur"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "secondary",
+          "delta_cr": -10.8032
+         },
+         {
+          "component": "fixed",
+          "delta_cr": 6.0
+         },
+         {
+          "component": "primary",
+          "delta_cr": 3.9437
+         }
+        ],
+        "zones": {
+         "moved_count": 36,
+         "moved_demand_frac": 0.1809,
+         "moved_to": {
+          "AMD_CHG": 2,
+          "GAU_CHS": 7,
+          "MUM_BHW": 3,
+          "NAG_MHN": 11,
+          "NCR_FRN": 1,
+          "PNJ_RJP": 12
+         },
+         "losing_next_day_count": 6,
+         "losing_next_day_demand_frac": 0.026,
+         "gaining_next_day_count": 14,
+         "gaining_next_day_demand_frac": 0.0762
+        }
        },
        {
         "scenario_id": "S3_400km_90",
@@ -1035,7 +1414,83 @@
          "total": 255.3869
         },
         "next_day_share_frac": 0.9004,
-        "delta_total_vs_recommended_cr": 11.3097
+        "delta_total_vs_recommended_cr": 11.3097,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "CHN_SPB",
+          "name": "Chennai - Sriperumbudur / Oragadam"
+         },
+         {
+          "dc_id": "COK_KLM",
+          "name": "Kochi - Kalamassery / Aluva"
+         },
+         {
+          "dc_id": "GAU_CHS",
+          "name": "Guwahati - Changsari (NH-27)"
+         },
+         {
+          "dc_id": "JAI_BGR",
+          "name": "Jaipur - Bagru / Ajmer Road"
+         },
+         {
+          "dc_id": "NAG_MHN",
+          "name": "Nagpur - MIHAN / Wardha Road"
+         },
+         {
+          "dc_id": "PNJ_RJP",
+          "name": "Punjab - Rajpura"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "BLR_HSR",
+          "name": "Bengaluru - Hosur (Attibele-Bommasandra)"
+         },
+         {
+          "dc_id": "IDR_PTH",
+          "name": "Indore - Pithampur"
+         },
+         {
+          "dc_id": "NCR_FRN",
+          "name": "Delhi NCR - Farrukhnagar"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "secondary",
+          "delta_cr": -10.4938
+         },
+         {
+          "component": "fixed",
+          "delta_cr": 9.0
+         },
+         {
+          "component": "primary",
+          "delta_cr": 5.3265
+         }
+        ],
+        "zones": {
+         "moved_count": 88,
+         "moved_demand_frac": 0.54,
+         "moved_to": {
+          "AMD_CHG": 2,
+          "CHN_SPB": 16,
+          "COK_KLM": 11,
+          "GAU_CHS": 7,
+          "HYD_SMB": 1,
+          "JAI_BGR": 11,
+          "KOL_DNK": 1,
+          "LKO_KNP": 2,
+          "MUM_BHW": 2,
+          "NAG_MHN": 12,
+          "PNJ_RJP": 23
+         },
+         "losing_next_day_count": 5,
+         "losing_next_day_demand_frac": 0.0231,
+         "gaining_next_day_count": 22,
+         "gaining_next_day_demand_frac": 0.1226
+        }
        },
        {
         "scenario_id": "S3_400km_95",
@@ -1068,7 +1523,74 @@
          "total": 264.1631
         },
         "next_day_share_frac": 0.9515,
-        "delta_total_vs_recommended_cr": 20.0859
+        "delta_total_vs_recommended_cr": 20.0859,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "BBS_KHD",
+          "name": "Bhubaneswar - Khurda"
+         },
+         {
+          "dc_id": "COK_KLM",
+          "name": "Kochi - Kalamassery / Aluva"
+         },
+         {
+          "dc_id": "GAU_CHS",
+          "name": "Guwahati - Changsari (NH-27)"
+         },
+         {
+          "dc_id": "JAI_BGR",
+          "name": "Jaipur - Bagru / Ajmer Road"
+         },
+         {
+          "dc_id": "NAG_MHN",
+          "name": "Nagpur - MIHAN / Wardha Road"
+         },
+         {
+          "dc_id": "PNJ_RJP",
+          "name": "Punjab - Rajpura"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "NCR_FRN",
+          "name": "Delhi NCR - Farrukhnagar"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "secondary",
+          "delta_cr": -17.896
+         },
+         {
+          "component": "fixed",
+          "delta_cr": 15.0
+         },
+         {
+          "component": "primary",
+          "delta_cr": 10.7958
+         }
+        ],
+        "zones": {
+         "moved_count": 63,
+         "moved_demand_frac": 0.3564,
+         "moved_to": {
+          "BBS_KHD": 4,
+          "COK_KLM": 6,
+          "GAU_CHS": 7,
+          "HYD_SMB": 2,
+          "JAI_BGR": 11,
+          "KOL_DNK": 1,
+          "LKO_KNP": 2,
+          "MUM_BHW": 1,
+          "NAG_MHN": 6,
+          "PNJ_RJP": 23
+         },
+         "losing_next_day_count": 0,
+         "losing_next_day_demand_frac": 0.0,
+         "gaining_next_day_count": 28,
+         "gaining_next_day_demand_frac": 0.1505
+        }
        }
       ]
      }
@@ -1122,7 +1644,20 @@
          "total": 244.0772
         },
         "next_day_share_frac": 0.8009,
-        "delta_total_vs_recommended_cr": 0.0
+        "delta_total_vs_recommended_cr": 0.0,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [],
+        "dropped_sites": [],
+        "cost_drivers": [],
+        "zones": {
+         "moved_count": 0,
+         "moved_demand_frac": 0.0,
+         "moved_to": {},
+         "losing_next_day_count": 0,
+         "losing_next_day_demand_frac": 0.0,
+         "gaining_next_day_count": 0,
+         "gaining_next_day_demand_frac": 0.0
+        }
        },
        {
         "scenario_id": "S3_400km_85",
@@ -1152,7 +1687,58 @@
          "total": 248.4784
         },
         "next_day_share_frac": 0.8512,
-        "delta_total_vs_recommended_cr": 4.4012
+        "delta_total_vs_recommended_cr": 4.4012,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "GAU_CHS",
+          "name": "Guwahati - Changsari (NH-27)"
+         },
+         {
+          "dc_id": "NAG_MHN",
+          "name": "Nagpur - MIHAN / Wardha Road"
+         },
+         {
+          "dc_id": "PNJ_RJP",
+          "name": "Punjab - Rajpura"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "IDR_PTH",
+          "name": "Indore - Pithampur"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "secondary",
+          "delta_cr": -10.8032
+         },
+         {
+          "component": "fixed",
+          "delta_cr": 6.0
+         },
+         {
+          "component": "primary",
+          "delta_cr": 3.9437
+         }
+        ],
+        "zones": {
+         "moved_count": 36,
+         "moved_demand_frac": 0.1809,
+         "moved_to": {
+          "AMD_CHG": 2,
+          "GAU_CHS": 7,
+          "MUM_BHW": 3,
+          "NAG_MHN": 11,
+          "NCR_FRN": 1,
+          "PNJ_RJP": 12
+         },
+         "losing_next_day_count": 6,
+         "losing_next_day_demand_frac": 0.026,
+         "gaining_next_day_count": 14,
+         "gaining_next_day_demand_frac": 0.0762
+        }
        },
        {
         "scenario_id": "S3_400km_80_staged",
@@ -1180,7 +1766,49 @@
          "total": 244.4093
         },
         "next_day_share_frac": 0.8004,
-        "delta_total_vs_recommended_cr": 0.332
+        "delta_total_vs_recommended_cr": 0.332,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "NAG_MHN",
+          "name": "Nagpur - MIHAN / Wardha Road"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "IDR_PTH",
+          "name": "Indore - Pithampur"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "primary",
+          "delta_cr": 0.9267
+         },
+         {
+          "component": "secondary",
+          "delta_cr": -0.8078
+         },
+         {
+          "component": "space",
+          "delta_cr": 0.2719
+         }
+        ],
+        "zones": {
+         "moved_count": 19,
+         "moved_demand_frac": 0.096,
+         "moved_to": {
+          "AMD_CHG": 2,
+          "MUM_BHW": 3,
+          "NAG_MHN": 12,
+          "NCR_FRN": 1,
+          "PAT_BHT": 1
+         },
+         "losing_next_day_count": 7,
+         "losing_next_day_demand_frac": 0.0317,
+         "gaining_next_day_count": 4,
+         "gaining_next_day_demand_frac": 0.0312
+        }
        }
       ]
      }
@@ -1234,7 +1862,20 @@
          "total": 244.0772
         },
         "next_day_share_frac": 0.8009,
-        "delta_total_vs_recommended_cr": 0.0
+        "delta_total_vs_recommended_cr": 0.0,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [],
+        "dropped_sites": [],
+        "cost_drivers": [],
+        "zones": {
+         "moved_count": 0,
+         "moved_demand_frac": 0.0,
+         "moved_to": {},
+         "losing_next_day_count": 0,
+         "losing_next_day_demand_frac": 0.0,
+         "gaining_next_day_count": 0,
+         "gaining_next_day_demand_frac": 0.0
+        }
        },
        {
         "scenario_id": "S4_uniform",
@@ -1262,7 +1903,49 @@
          "total": 307.5513
         },
         "next_day_share_frac": 0.8015,
-        "delta_total_vs_recommended_cr": 63.4741
+        "delta_total_vs_recommended_cr": 63.4741,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "NAG_MHN",
+          "name": "Nagpur - MIHAN / Wardha Road"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "IDR_PTH",
+          "name": "Indore - Pithampur"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "primary",
+          "delta_cr": 26.8473
+         },
+         {
+          "component": "secondary",
+          "delta_cr": 20.374
+         },
+         {
+          "component": "inventory",
+          "delta_cr": 10.08
+         }
+        ],
+        "zones": {
+         "moved_count": 18,
+         "moved_demand_frac": 0.093,
+         "moved_to": {
+          "AMD_CHG": 2,
+          "MUM_BHW": 3,
+          "NAG_MHN": 11,
+          "NCR_FRN": 1,
+          "PAT_BHT": 1
+         },
+         "losing_next_day_count": 7,
+         "losing_next_day_demand_frac": 0.0306,
+         "gaining_next_day_count": 4,
+         "gaining_next_day_demand_frac": 0.0312
+        }
        },
        {
         "scenario_id": "S4_regional_skew",
@@ -1290,7 +1973,49 @@
          "total": 314.2048
         },
         "next_day_share_frac": 0.8003,
-        "delta_total_vs_recommended_cr": 70.1276
+        "delta_total_vs_recommended_cr": 70.1276,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "NAG_MHN",
+          "name": "Nagpur - MIHAN / Wardha Road"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "IDR_PTH",
+          "name": "Indore - Pithampur"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "primary",
+          "delta_cr": 31.2932
+         },
+         {
+          "component": "secondary",
+          "delta_cr": 22.1796
+         },
+         {
+          "component": "inventory",
+          "delta_cr": 10.4544
+         }
+        ],
+        "zones": {
+         "moved_count": 20,
+         "moved_demand_frac": 0.1047,
+         "moved_to": {
+          "AMD_CHG": 3,
+          "HYD_SMB": 1,
+          "MUM_BHW": 2,
+          "NAG_MHN": 13,
+          "PAT_BHT": 1
+         },
+         "losing_next_day_count": 6,
+         "losing_next_day_demand_frac": 0.0301,
+         "gaining_next_day_count": 5,
+         "gaining_next_day_demand_frac": 0.0331
+        }
        }
       ]
      }
@@ -1344,7 +2069,20 @@
          "total": 244.0772
         },
         "next_day_share_frac": 0.8009,
-        "delta_total_vs_recommended_cr": 0.0
+        "delta_total_vs_recommended_cr": 0.0,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [],
+        "dropped_sites": [],
+        "cost_drivers": [],
+        "zones": {
+         "moved_count": 0,
+         "moved_demand_frac": 0.0,
+         "moved_to": {},
+         "losing_next_day_count": 0,
+         "losing_next_day_demand_frac": 0.0,
+         "gaining_next_day_count": 0,
+         "gaining_next_day_demand_frac": 0.0
+        }
        },
        {
         "scenario_id": "S7_rent_minus_20",
@@ -1372,7 +2110,25 @@
          "total": 241.3019
         },
         "next_day_share_frac": 0.8009,
-        "delta_total_vs_recommended_cr": -2.7753
+        "delta_total_vs_recommended_cr": -2.7753,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [],
+        "dropped_sites": [],
+        "cost_drivers": [
+         {
+          "component": "space",
+          "delta_cr": -2.7753
+         }
+        ],
+        "zones": {
+         "moved_count": 0,
+         "moved_demand_frac": 0.0,
+         "moved_to": {},
+         "losing_next_day_count": 0,
+         "losing_next_day_demand_frac": 0.0,
+         "gaining_next_day_count": 0,
+         "gaining_next_day_demand_frac": 0.0
+        }
        },
        {
         "scenario_id": "S7_rent_plus_20",
@@ -1400,7 +2156,36 @@
          "total": 246.9305
         },
         "next_day_share_frac": 0.8025,
-        "delta_total_vs_recommended_cr": 2.8533
+        "delta_total_vs_recommended_cr": 2.8533,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [],
+        "dropped_sites": [],
+        "cost_drivers": [
+         {
+          "component": "space",
+          "delta_cr": 2.7646
+         },
+         {
+          "component": "primary",
+          "delta_cr": 0.1409
+         },
+         {
+          "component": "secondary",
+          "delta_cr": -0.0705
+         }
+        ],
+        "zones": {
+         "moved_count": 2,
+         "moved_demand_frac": 0.0049,
+         "moved_to": {
+          "KOL_DNK": 1,
+          "MUM_BHW": 1
+         },
+         "losing_next_day_count": 1,
+         "losing_next_day_demand_frac": 0.0017,
+         "gaining_next_day_count": 1,
+         "gaining_next_day_demand_frac": 0.0032
+        }
        }
       ]
      }
@@ -1453,7 +2238,20 @@
          "total": 244.0772
         },
         "next_day_share_frac": 0.8009,
-        "delta_total_vs_recommended_cr": 0.0
+        "delta_total_vs_recommended_cr": 0.0,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [],
+        "dropped_sites": [],
+        "cost_drivers": [],
+        "zones": {
+         "moved_count": 0,
+         "moved_demand_frac": 0.0,
+         "moved_to": {},
+         "losing_next_day_count": 0,
+         "losing_next_day_demand_frac": 0.0,
+         "gaining_next_day_count": 0,
+         "gaining_next_day_demand_frac": 0.0
+        }
        },
        {
         "scenario_id": "S8_no_puducherry",
@@ -1481,7 +2279,49 @@
          "total": 272.5243
         },
         "next_day_share_frac": 0.8001,
-        "delta_total_vs_recommended_cr": 28.4471
+        "delta_total_vs_recommended_cr": 28.4471,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "NAG_MHN",
+          "name": "Nagpur - MIHAN / Wardha Road"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "IDR_PTH",
+          "name": "Indore - Pithampur"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "primary",
+          "delta_cr": 27.7989
+         },
+         {
+          "component": "secondary",
+          "delta_cr": 0.5071
+         },
+         {
+          "component": "space",
+          "delta_cr": 0.1145
+         }
+        ],
+        "zones": {
+         "moved_count": 22,
+         "moved_demand_frac": 0.111,
+         "moved_to": {
+          "AMD_CHG": 2,
+          "HYD_SMB": 2,
+          "MUM_BHW": 7,
+          "NAG_MHN": 10,
+          "NCR_FRN": 1
+         },
+         "losing_next_day_count": 8,
+         "losing_next_day_demand_frac": 0.032,
+         "gaining_next_day_count": 4,
+         "gaining_next_day_demand_frac": 0.0312
+        }
        }
       ]
      }
@@ -1534,7 +2374,20 @@
          "total": 244.0772
         },
         "next_day_share_frac": 0.8009,
-        "delta_total_vs_recommended_cr": 0.0
+        "delta_total_vs_recommended_cr": 0.0,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [],
+        "dropped_sites": [],
+        "cost_drivers": [],
+        "zones": {
+         "moved_count": 0,
+         "moved_demand_frac": 0.0,
+         "moved_to": {},
+         "losing_next_day_count": 0,
+         "losing_next_day_demand_frac": 0.0,
+         "gaining_next_day_count": 0,
+         "gaining_next_day_demand_frac": 0.0
+        }
        },
        {
         "scenario_id": "S8_add_east",
@@ -1562,7 +2415,59 @@
          "total": 210.9351
         },
         "next_day_share_frac": 0.8004,
-        "delta_total_vs_recommended_cr": -33.1421
+        "delta_total_vs_recommended_cr": -33.1421,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "NAG_MHN",
+          "name": "Nagpur - MIHAN / Wardha Road"
+         },
+         {
+          "dc_id": "PNJ_RJP",
+          "name": "Punjab - Rajpura"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "IDR_PTH",
+          "name": "Indore - Pithampur"
+         },
+         {
+          "dc_id": "LKO_KNP",
+          "name": "Lucknow - Kanpur Road"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "primary",
+          "delta_cr": -32.6645
+         },
+         {
+          "component": "secondary",
+          "delta_cr": -0.6938
+         },
+         {
+          "component": "space",
+          "delta_cr": 0.1553
+         }
+        ],
+        "zones": {
+         "moved_count": 54,
+         "moved_demand_frac": 0.3161,
+         "moved_to": {
+          "AMD_CHG": 2,
+          "KOL_DNK": 21,
+          "MUM_BHW": 3,
+          "NAG_MHN": 8,
+          "NCR_FRN": 5,
+          "PAT_BHT": 3,
+          "PNJ_RJP": 12
+         },
+         "losing_next_day_count": 8,
+         "losing_next_day_demand_frac": 0.053,
+         "gaining_next_day_count": 8,
+         "gaining_next_day_demand_frac": 0.0524
+        }
        }
       ]
      }
@@ -1793,7 +2698,59 @@
          "total": 238.0913
         },
         "next_day_share_frac": 0.6822,
-        "delta_total_vs_recommended_cr": -5.9859
+        "delta_total_vs_recommended_cr": -5.9859,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "CHN_SPB",
+          "name": "Chennai - Sriperumbudur / Oragadam"
+         },
+         {
+          "dc_id": "PNJ_RJP",
+          "name": "Punjab - Rajpura"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "HYD_SMB",
+          "name": "Hyderabad - Shamshabad"
+         },
+         {
+          "dc_id": "KOL_DNK",
+          "name": "Kolkata - Dankuni"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "primary",
+          "delta_cr": -18.0774
+         },
+         {
+          "component": "secondary",
+          "delta_cr": 12.0159
+         },
+         {
+          "component": "inventory",
+          "delta_cr": 0.1845
+         }
+        ],
+        "zones": {
+         "moved_count": 51,
+         "moved_demand_frac": 0.2892,
+         "moved_to": {
+          "CHN_SPB": 17,
+          "IDR_PTH": 1,
+          "LKO_KNP": 1,
+          "MUM_BHW": 7,
+          "NCR_FRN": 1,
+          "PAT_BHT": 12,
+          "PNJ_RJP": 12
+         },
+         "losing_next_day_count": 26,
+         "losing_next_day_demand_frac": 0.1367,
+         "gaining_next_day_count": 3,
+         "gaining_next_day_demand_frac": 0.018
+        }
        },
        {
         "scenario_id": "COG_k09",
@@ -1821,7 +2778,60 @@
          "total": 253.1683
         },
         "next_day_share_frac": 0.8182,
-        "delta_total_vs_recommended_cr": 9.0911
+        "delta_total_vs_recommended_cr": 9.0911,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "GAU_CHS",
+          "name": "Guwahati - Changsari (NH-27)"
+         },
+         {
+          "dc_id": "NAG_MHN",
+          "name": "Nagpur - MIHAN / Wardha Road"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "IDR_PTH",
+          "name": "Indore - Pithampur"
+         },
+         {
+          "dc_id": "LKO_KNP",
+          "name": "Lucknow - Kanpur Road"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "primary",
+          "delta_cr": 15.255
+         },
+         {
+          "component": "secondary",
+          "delta_cr": -6.0003
+         },
+         {
+          "component": "inventory",
+          "delta_cr": -0.1198
+         }
+        ],
+        "zones": {
+         "moved_count": 42,
+         "moved_demand_frac": 0.2427,
+         "moved_to": {
+          "AMD_CHG": 3,
+          "GAU_CHS": 8,
+          "HYD_SMB": 3,
+          "KOL_DNK": 9,
+          "MUM_BHW": 1,
+          "NAG_MHN": 10,
+          "NCR_FRN": 4,
+          "PAT_BHT": 4
+         },
+         "losing_next_day_count": 7,
+         "losing_next_day_demand_frac": 0.0499,
+         "gaining_next_day_count": 14,
+         "gaining_next_day_demand_frac": 0.0672
+        }
        }
       ]
      }
@@ -1873,7 +2883,68 @@
          "total": 231.151
         },
         "next_day_share_frac": 0.4941,
-        "delta_total_vs_recommended_cr": -12.9262
+        "delta_total_vs_recommended_cr": -12.9262,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "CHN_SPB",
+          "name": "Chennai - Sriperumbudur / Oragadam"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "AMD_CHG",
+          "name": "Ahmedabad - Changodar"
+         },
+         {
+          "dc_id": "BLR_HSR",
+          "name": "Bengaluru - Hosur (Attibele-Bommasandra)"
+         },
+         {
+          "dc_id": "HYD_SMB",
+          "name": "Hyderabad - Shamshabad"
+         },
+         {
+          "dc_id": "IDR_PTH",
+          "name": "Indore - Pithampur"
+         },
+         {
+          "dc_id": "KOL_DNK",
+          "name": "Kolkata - Dankuni"
+         },
+         {
+          "dc_id": "LKO_KNP",
+          "name": "Lucknow - Kanpur Road"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "secondary",
+          "delta_cr": 42.4432
+         },
+         {
+          "component": "primary",
+          "delta_cr": -27.3395
+         },
+         {
+          "component": "fixed",
+          "delta_cr": -15.0
+         }
+        ],
+        "zones": {
+         "moved_count": 83,
+         "moved_demand_frac": 0.5539,
+         "moved_to": {
+          "CHN_SPB": 35,
+          "MUM_BHW": 25,
+          "NCR_FRN": 8,
+          "PAT_BHT": 15
+         },
+         "losing_next_day_count": 49,
+         "losing_next_day_demand_frac": 0.3068,
+         "gaining_next_day_count": 0,
+         "gaining_next_day_demand_frac": 0.0
+        }
        },
        {
         "scenario_id": "S2_k06",
@@ -1898,7 +2969,62 @@
          "total": 233.0097
         },
         "next_day_share_frac": 0.5692,
-        "delta_total_vs_recommended_cr": -11.0675
+        "delta_total_vs_recommended_cr": -11.0675,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "CHN_SPB",
+          "name": "Chennai - Sriperumbudur / Oragadam"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "AMD_CHG",
+          "name": "Ahmedabad - Changodar"
+         },
+         {
+          "dc_id": "BLR_HSR",
+          "name": "Bengaluru - Hosur (Attibele-Bommasandra)"
+         },
+         {
+          "dc_id": "HYD_SMB",
+          "name": "Hyderabad - Shamshabad"
+         },
+         {
+          "dc_id": "KOL_DNK",
+          "name": "Kolkata - Dankuni"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "secondary",
+          "delta_cr": 29.3922
+         },
+         {
+          "component": "primary",
+          "delta_cr": -23.6103
+         },
+         {
+          "component": "fixed",
+          "delta_cr": -9.0
+         }
+        ],
+        "zones": {
+         "moved_count": 66,
+         "moved_demand_frac": 0.4181,
+         "moved_to": {
+          "CHN_SPB": 35,
+          "IDR_PTH": 2,
+          "LKO_KNP": 1,
+          "MUM_BHW": 13,
+          "NCR_FRN": 3,
+          "PAT_BHT": 12
+         },
+         "losing_next_day_count": 39,
+         "losing_next_day_demand_frac": 0.2318,
+         "gaining_next_day_count": 0,
+         "gaining_next_day_demand_frac": 0.0
+        }
        },
        {
         "scenario_id": "S2_k08",
@@ -1925,7 +3051,63 @@
          "total": 235.7397
         },
         "next_day_share_frac": 0.6401,
-        "delta_total_vs_recommended_cr": -8.3375
+        "delta_total_vs_recommended_cr": -8.3375,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "CHN_SPB",
+          "name": "Chennai - Sriperumbudur / Oragadam"
+         },
+         {
+          "dc_id": "PNJ_RJP",
+          "name": "Punjab - Rajpura"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "AMD_CHG",
+          "name": "Ahmedabad - Changodar"
+         },
+         {
+          "dc_id": "HYD_SMB",
+          "name": "Hyderabad - Shamshabad"
+         },
+         {
+          "dc_id": "KOL_DNK",
+          "name": "Kolkata - Dankuni"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "primary",
+          "delta_cr": -21.0654
+         },
+         {
+          "component": "secondary",
+          "delta_cr": 18.3934
+         },
+         {
+          "component": "fixed",
+          "delta_cr": -3.0
+         }
+        ],
+        "zones": {
+         "moved_count": 60,
+         "moved_demand_frac": 0.3568,
+         "moved_to": {
+          "CHN_SPB": 18,
+          "IDR_PTH": 3,
+          "LKO_KNP": 1,
+          "MUM_BHW": 12,
+          "NCR_FRN": 2,
+          "PAT_BHT": 12,
+          "PNJ_RJP": 12
+         },
+         "losing_next_day_count": 30,
+         "losing_next_day_demand_frac": 0.1788,
+         "gaining_next_day_count": 3,
+         "gaining_next_day_demand_frac": 0.018
+        }
        },
        {
         "scenario_id": "S2_k09",
@@ -1953,7 +3135,59 @@
          "total": 238.0913
         },
         "next_day_share_frac": 0.6822,
-        "delta_total_vs_recommended_cr": -5.9859
+        "delta_total_vs_recommended_cr": -5.9859,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "CHN_SPB",
+          "name": "Chennai - Sriperumbudur / Oragadam"
+         },
+         {
+          "dc_id": "PNJ_RJP",
+          "name": "Punjab - Rajpura"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "HYD_SMB",
+          "name": "Hyderabad - Shamshabad"
+         },
+         {
+          "dc_id": "KOL_DNK",
+          "name": "Kolkata - Dankuni"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "primary",
+          "delta_cr": -18.0774
+         },
+         {
+          "component": "secondary",
+          "delta_cr": 12.0159
+         },
+         {
+          "component": "inventory",
+          "delta_cr": 0.1845
+         }
+        ],
+        "zones": {
+         "moved_count": 51,
+         "moved_demand_frac": 0.2892,
+         "moved_to": {
+          "CHN_SPB": 17,
+          "IDR_PTH": 1,
+          "LKO_KNP": 1,
+          "MUM_BHW": 7,
+          "NCR_FRN": 1,
+          "PAT_BHT": 12,
+          "PNJ_RJP": 12
+         },
+         "losing_next_day_count": 26,
+         "losing_next_day_demand_frac": 0.1367,
+         "gaining_next_day_count": 3,
+         "gaining_next_day_demand_frac": 0.018
+        }
        },
        {
         "scenario_id": "S2_k10",
@@ -1982,7 +3216,64 @@
          "total": 240.8203
         },
         "next_day_share_frac": 0.7093,
-        "delta_total_vs_recommended_cr": -3.2569
+        "delta_total_vs_recommended_cr": -3.2569,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "CHN_SPB",
+          "name": "Chennai - Sriperumbudur / Oragadam"
+         },
+         {
+          "dc_id": "GAU_CHS",
+          "name": "Guwahati - Changsari (NH-27)"
+         },
+         {
+          "dc_id": "PNJ_RJP",
+          "name": "Punjab - Rajpura"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "HYD_SMB",
+          "name": "Hyderabad - Shamshabad"
+         },
+         {
+          "dc_id": "KOL_DNK",
+          "name": "Kolkata - Dankuni"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "primary",
+          "delta_cr": -14.8745
+         },
+         {
+          "component": "secondary",
+          "delta_cr": 5.8685
+         },
+         {
+          "component": "fixed",
+          "delta_cr": 3.0
+         }
+        ],
+        "zones": {
+         "moved_count": 58,
+         "moved_demand_frac": 0.3163,
+         "moved_to": {
+          "CHN_SPB": 17,
+          "GAU_CHS": 7,
+          "IDR_PTH": 1,
+          "LKO_KNP": 1,
+          "MUM_BHW": 7,
+          "NCR_FRN": 1,
+          "PAT_BHT": 12,
+          "PNJ_RJP": 12
+         },
+         "losing_next_day_count": 26,
+         "losing_next_day_demand_frac": 0.1367,
+         "gaining_next_day_count": 10,
+         "gaining_next_day_demand_frac": 0.045
+        }
        },
        {
         "scenario_id": "S2_k12",
@@ -2013,7 +3304,54 @@
          "total": 247.1851
         },
         "next_day_share_frac": 0.8035,
-        "delta_total_vs_recommended_cr": 3.1079
+        "delta_total_vs_recommended_cr": 3.1079,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "CHN_SPB",
+          "name": "Chennai - Sriperumbudur / Oragadam"
+         },
+         {
+          "dc_id": "GAU_CHS",
+          "name": "Guwahati - Changsari (NH-27)"
+         },
+         {
+          "dc_id": "PNJ_RJP",
+          "name": "Punjab - Rajpura"
+         }
+        ],
+        "dropped_sites": [],
+        "cost_drivers": [
+         {
+          "component": "fixed",
+          "delta_cr": 9.0
+         },
+         {
+          "component": "secondary",
+          "delta_cr": -8.4447
+         },
+         {
+          "component": "primary",
+          "delta_cr": -5.5867
+         }
+        ],
+        "zones": {
+         "moved_count": 43,
+         "moved_demand_frac": 0.2221,
+         "moved_to": {
+          "CHN_SPB": 15,
+          "GAU_CHS": 7,
+          "LKO_KNP": 1,
+          "MUM_BHW": 6,
+          "NCR_FRN": 1,
+          "PAT_BHT": 1,
+          "PNJ_RJP": 12
+         },
+         "losing_next_day_count": 11,
+         "losing_next_day_demand_frac": 0.0425,
+         "gaining_next_day_count": 10,
+         "gaining_next_day_demand_frac": 0.045
+        }
        }
       ]
      }
@@ -2061,7 +3399,68 @@
          "total": 231.151
         },
         "next_day_share_frac": 0.4941,
-        "delta_total_vs_recommended_cr": -12.9262
+        "delta_total_vs_recommended_cr": -12.9262,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "CHN_SPB",
+          "name": "Chennai - Sriperumbudur / Oragadam"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "AMD_CHG",
+          "name": "Ahmedabad - Changodar"
+         },
+         {
+          "dc_id": "BLR_HSR",
+          "name": "Bengaluru - Hosur (Attibele-Bommasandra)"
+         },
+         {
+          "dc_id": "HYD_SMB",
+          "name": "Hyderabad - Shamshabad"
+         },
+         {
+          "dc_id": "IDR_PTH",
+          "name": "Indore - Pithampur"
+         },
+         {
+          "dc_id": "KOL_DNK",
+          "name": "Kolkata - Dankuni"
+         },
+         {
+          "dc_id": "LKO_KNP",
+          "name": "Lucknow - Kanpur Road"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "secondary",
+          "delta_cr": 42.4432
+         },
+         {
+          "component": "primary",
+          "delta_cr": -27.3395
+         },
+         {
+          "component": "fixed",
+          "delta_cr": -15.0
+         }
+        ],
+        "zones": {
+         "moved_count": 83,
+         "moved_demand_frac": 0.5539,
+         "moved_to": {
+          "CHN_SPB": 35,
+          "MUM_BHW": 25,
+          "NCR_FRN": 8,
+          "PAT_BHT": 15
+         },
+         "losing_next_day_count": 49,
+         "losing_next_day_demand_frac": 0.3068,
+         "gaining_next_day_count": 0,
+         "gaining_next_day_demand_frac": 0.0
+        }
        },
        {
         "scenario_id": "S3_400km_80",
@@ -2089,7 +3488,20 @@
          "total": 244.0772
         },
         "next_day_share_frac": 0.8009,
-        "delta_total_vs_recommended_cr": 0.0
+        "delta_total_vs_recommended_cr": 0.0,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [],
+        "dropped_sites": [],
+        "cost_drivers": [],
+        "zones": {
+         "moved_count": 0,
+         "moved_demand_frac": 0.0,
+         "moved_to": {},
+         "losing_next_day_count": 0,
+         "losing_next_day_demand_frac": 0.0,
+         "gaining_next_day_count": 0,
+         "gaining_next_day_demand_frac": 0.0
+        }
        }
       ]
      }
@@ -2148,7 +3560,123 @@
          "total": 272.6265
         },
         "next_day_share_frac": 0.8136,
-        "delta_total_vs_recommended_cr": 28.5493
+        "delta_total_vs_recommended_cr": 28.5493,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [
+         {
+          "dc_id": "AS_AMD",
+          "name": "Ahmedabad"
+         },
+         {
+          "dc_id": "AS_BBS",
+          "name": "Bhubaneswar"
+         },
+         {
+          "dc_id": "AS_BLR",
+          "name": "Bengaluru"
+         },
+         {
+          "dc_id": "AS_CHN",
+          "name": "Chennai"
+         },
+         {
+          "dc_id": "AS_COK",
+          "name": "Kochi"
+         },
+         {
+          "dc_id": "AS_DEL",
+          "name": "Kundli"
+         },
+         {
+          "dc_id": "AS_GAU",
+          "name": "Guwahati"
+         },
+         {
+          "dc_id": "AS_HYD",
+          "name": "Hyderabad"
+         },
+         {
+          "dc_id": "AS_IDR",
+          "name": "Indore"
+         },
+         {
+          "dc_id": "AS_JAI",
+          "name": "Jaipur"
+         },
+         {
+          "dc_id": "AS_KOL",
+          "name": "Dankuni"
+         },
+         {
+          "dc_id": "AS_LDH",
+          "name": "Ludhiana"
+         },
+         {
+          "dc_id": "AS_LKO",
+          "name": "Lucknow"
+         },
+         {
+          "dc_id": "AS_MUM",
+          "name": "Bhiwandi"
+         },
+         {
+          "dc_id": "AS_PAT",
+          "name": "Patna"
+         }
+        ],
+        "dropped_sites": [
+         {
+          "dc_id": "AMD_CHG",
+          "name": "Ahmedabad - Changodar"
+         },
+         {
+          "dc_id": "BLR_HSR",
+          "name": "Bengaluru - Hosur (Attibele-Bommasandra)"
+         },
+         {
+          "dc_id": "HYD_SMB",
+          "name": "Hyderabad - Shamshabad"
+         },
+         {
+          "dc_id": "IDR_PTH",
+          "name": "Indore - Pithampur"
+         },
+         {
+          "dc_id": "KOL_DNK",
+          "name": "Kolkata - Dankuni"
+         },
+         {
+          "dc_id": "LKO_KNP",
+          "name": "Lucknow - Kanpur Road"
+         },
+         {
+          "dc_id": "MUM_BHW",
+          "name": "Mumbai - Bhiwandi"
+         },
+         {
+          "dc_id": "NCR_FRN",
+          "name": "Delhi NCR - Farrukhnagar"
+         },
+         {
+          "dc_id": "PAT_BHT",
+          "name": "Patna - Bihta"
+         }
+        ],
+        "cost_drivers": [
+         {
+          "component": "fixed",
+          "delta_cr": 18.0
+         },
+         {
+          "component": "secondary",
+          "delta_cr": -12.8163
+         },
+         {
+          "component": "primary",
+          "delta_cr": 11.5064
+         }
+        ],
+        "zones": null
        },
        {
         "scenario_id": "S3_400km_80",
@@ -2176,7 +3704,20 @@
          "total": 244.0772
         },
         "next_day_share_frac": 0.8009,
-        "delta_total_vs_recommended_cr": 0.0
+        "delta_total_vs_recommended_cr": 0.0,
+        "recommended_next_day_share_frac": 0.8009,
+        "added_sites": [],
+        "dropped_sites": [],
+        "cost_drivers": [],
+        "zones": {
+         "moved_count": 0,
+         "moved_demand_frac": 0.0,
+         "moved_to": {},
+         "losing_next_day_count": 0,
+         "losing_next_day_demand_frac": 0.0,
+         "gaining_next_day_count": 0,
+         "gaining_next_day_demand_frac": 0.0
+        }
        }
       ]
      }
@@ -2365,10 +3906,31 @@
         "fixed": 0.0
        },
        "next_day_change_pts": 0.0,
+       "recommended_next_day_share_frac": 0.8009,
        "added": [],
-       "dropped": []
+       "dropped": [],
+       "cost_drivers": [],
+       "zones": {
+        "moved_count": 0,
+        "moved_demand_frac": 0.0,
+        "moved_to": {},
+        "losing_next_day_count": 0,
+        "losing_next_day_demand_frac": 0.0,
+        "gaining_next_day_count": 0,
+        "gaining_next_day_demand_frac": 0.0
+       },
+       "added_sites": [],
+       "dropped_sites": []
       },
-      "next_day_radius_km": 400
+      "next_day_radius_km": 400,
+      "cost_share_frac": {
+       "primary": 0.3483,
+       "secondary": 0.2927,
+       "space": 0.0826,
+       "handling": 0.027,
+       "inventory": 0.1387,
+       "fixed": 0.1106
+      }
      }
     ]
    ]

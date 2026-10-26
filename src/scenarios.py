@@ -1,14 +1,13 @@
 """Scenarios S0-S9, R and the k-COG comparison (spec §9): every result in the study, from raw data.
 
 Run from the project root: python -m src.scenarios
-It rebuilds data/processed from data/raw (src.data_prep), solves every scenario, and writes
-outputs/scenarios/<id>.json, outputs/scenario_summary.csv, the spec §12 charts and network maps.
+It rebuilds data/processed from data/raw (src.data_prep), solves every scenario in dependency
+order, then hands the results to reporting.py, which writes outputs/scenarios/<id>.json,
+outputs/scenario_summary.csv, the spec §12 charts and the network maps.
 Every cost comes from costs.evaluate_network through model.build_and_solve.
 """
 
 import dataclasses
-import hashlib
-import json
 import logging
 import time
 from dataclasses import dataclass, field
@@ -16,13 +15,11 @@ from dataclasses import dataclass, field
 import numpy as np
 import pandas as pd
 
-from src import data_prep, viz
-from src.baseline import as_is_network, solve_as_is
-from src.cog import k_centres_of_gravity
-from src.config import ASSUMPTIONS_PATH, entries_with_range, load_params, with_overrides
+from src import data_prep, reporting
+from src.baseline import solve_as_is
+from src.config import entries_with_range, load_params, with_overrides
 from src.costs import to_crore
 from src.data_prep import (
-    OUTPUTS_DIR,
     NetworkData,
     build_network_data,
     clean_raw,
@@ -30,13 +27,11 @@ from src.data_prep import (
     plant_table,
 )
 from src.demand import build_demand_points, build_zones
-from src.geo import haversine_km
-from src.model import COMPONENTS, Solution, build_and_solve, dc_capacity_t_yr
+from src.model import Solution, build_and_solve, dc_capacity_t_yr
+from src.robustness import cog_network, knee_alpha, site_robustness
 
 logger = logging.getLogger(__name__)
 
-SCENARIO_DIR = OUTPUTS_DIR / "scenarios"
-CHART_DIR = OUTPUTS_DIR / "charts"
 RADIUS_KEY = "service.next_day_radius_km.value"
 ALPHA_KEY = "service.min_share_within_radius.value"
 TORNADO_CONFIDENCE = ("low", "medium")
@@ -88,20 +83,6 @@ def site_changes(solution: Solution, reference: Solution) -> dict[str, list[str]
         "added": sorted(set(solution.open_dcs) - set(reference.open_dcs)),
         "dropped": sorted(set(reference.open_dcs) - set(solution.open_dcs)),
     }
-
-
-def knee_alpha(curve: pd.DataFrame) -> float:
-    """Knee of one radius's cost-vs-service curve (spec §9 S3; D-028).
-
-    With both axes scaled to 0-1 between the first and last feasible points, the knee is the
-    point furthest below the straight line joining them: past it, each further point of service
-    costs more than the average point before it (the "Kneedle" rule).
-    curve: columns alpha, total (NaN when infeasible).
-    """
-    feasible = curve.dropna(subset=["total"]).sort_values("alpha")
-    x = (feasible["alpha"] - feasible["alpha"].min()) / np.ptp(feasible["alpha"])
-    y = (feasible["total"] - feasible["total"].min()) / np.ptp(feasible["total"])
-    return float(feasible["alpha"].iloc[int(np.argmax(x - y))])
 
 
 # --- Scenarios ------------------------------------------------------------------------------
@@ -429,31 +410,11 @@ def s9_tornado(params: dict, data: NetworkData) -> tuple[list[Run], pd.DataFrame
 
 
 def cog_networks(params: dict, data: NetworkData, sweep: list[Run]) -> list[Run]:
-    """k-centre-of-gravity networks costed on the same engine, against the MILP at each k (§16).
-
-    Each centre snaps to the nearest candidate whose metro group is still free (heaviest
-    cluster first); every zone goes to its nearest chosen site; plant flows come from the MILP
-    with that network pinned.
-    """
-    zones, dcs = data.zones, data.dcs
-    unconstrained = with_overrides(params, {ALPHA_KEY: 0.0})
+    """k-centre-of-gravity networks against the MILP at each k of the S2 sweep (§16; D-033)."""
     milp_total = {run.inputs["k"]: run.solution.cost.total_inr for run in sweep}
     runs = []
     for k in params["scenarios"]["dc_count_sweep"]:
-        centres, labels = k_centres_of_gravity(zones["lat"], zones["lon"], zones["demand_t_yr"], k)
-        cluster_t = zones["demand_t_yr"].groupby(labels).sum().sort_values(ascending=False)
-        chosen, groups = [], set()
-        for c in cluster_t.index:
-            km = haversine_km(centres[c, 0], centres[c, 1], dcs["lat"], dcs["lon"])
-            for i in np.argsort(km.to_numpy(), kind="stable"):
-                if dcs["metro_group"].iloc[i] not in groups:
-                    chosen.append(dcs["dc_id"].iloc[i])
-                    groups.add(dcs["metro_group"].iloc[i])
-                    break
-        nearest = data.zone_dc_km[chosen].idxmin(axis=1)
-        sol = build_and_solve(
-            unconstrained, data, k=k, forced_open=chosen, fixed_assignment=nearest
-        )
+        sol, centres = cog_network(params, data, k)
         runs.append(
             Run(
                 f"COG_k{k:02d}",
@@ -471,245 +432,25 @@ def cog_networks(params: dict, data: NetworkData, sweep: list[Run]) -> list[Run]
     return runs
 
 
-def site_robustness(recommended: Run, context: list[Run], stress: list[Run]) -> dict:
-    """R: open/closed matrix for every site, and no-regret core vs swing sites (spec §9).
-
-    The core is open in the recommended network and in every stress scenario at its service
-    target (S4, S6, S7, S8); swing sites are open in some of them. Context columns (S1, S3, S5b)
-    are shown but do not classify: S1 and S3 ask for other service levels, and S5b removes a
-    site by design (D-030).
-    """
-    feasible = [r for r in [recommended, *stress, *context] if r.solution.cost is not None]
-    columns = list(dict.fromkeys(r.scenario_id for r in feasible))
-    sites = sorted({j for r in feasible for j in r.solution.open_dcs})
-    matrix = pd.DataFrame(
-        {r.scenario_id: [int(j in r.solution.open_dcs) for j in sites] for r in feasible},
-        index=pd.Index(sites, name="dc_id"),
-    )[columns]
-    stress_ids = [recommended.scenario_id] + [r.scenario_id for r in stress if r.solution.cost]
-    share = matrix[stress_ids].mean(axis=1)
-    return {
-        "matrix": matrix,
-        "core": sorted(share.index[share == 1]),
-        "swing": sorted(share.index[(share > 0) & (share < 1)]),
-        "stress_scenarios": stress_ids,
-    }
+def open_sets(runs: list[Run]) -> dict[str, tuple[str, ...]]:
+    """Open sites of each feasible run, by scenario id (the input R classifies on)."""
+    return {r.scenario_id: r.solution.open_dcs for r in runs if r.solution.cost is not None}
 
 
-# --- Outputs --------------------------------------------------------------------------------
-
-
-def run_record(run: Run, params: dict, assumptions_sha256: str) -> dict:
-    """The JSON record of one scenario: inputs, solve statistics, network and cost (spec §9)."""
-    sol, cost = run.solution, run.solution.cost
-    record = {
-        "scenario_id": run.scenario_id,
-        "group": run.group,
-        "question": run.question,
-        "inputs": run.inputs,
-        "assumptions_sha256": assumptions_sha256,
-        "status": sol.status,
-        "solve": {
-            "objective_cr": to_crore(sol.objective_inr, params) if sol.objective_inr else None,
-            "best_bound_cr": to_crore(sol.best_bound_inr, params) if sol.best_bound_inr else None,
-            "mip_gap_frac": sol.gap_frac,
-            "proxy_gap_frac": sol.proxy_gap_frac,
-            "solve_time_s": sol.solve_time_s,
-        },
-        "open_dcs": list(sol.open_dcs),
-        "extra": run.extra,
-    }
-    if cost is not None:
-        record["cost_cr"] = {
-            **{c: to_crore(getattr(cost, f"{c}_inr"), params) for c in COMPONENTS},
-            "total": to_crore(cost.total_inr, params),
-        }
-        record["service"] = {
-            "next_day_share_frac": cost.next_day_share_frac,
-            "two_day_share_frac": cost.two_day_share_frac,
-        }
-        record["share_of_revenue_frac"] = cost.share_of_revenue_frac
-        record["assignment"] = sol.assignment.to_dict()
-        record["flows_t_yr"] = sol.flows.to_dict("records")
-    return record
-
-
-def summary_row(run: Run, params: dict, recommended_total_inr: float) -> dict:
-    """One row of outputs/scenario_summary.csv; costs blank when the scenario is infeasible."""
-    sol, cost = run.solution, run.solution.cost
-    row = {
-        "scenario_id": run.scenario_id,
-        "group": run.group,
-        "question": run.question,
-        "status": sol.status,
-        "n_dcs": len(sol.open_dcs),
-        "open_dcs": " ".join(sol.open_dcs),
-    }
-    if cost is not None:
-        row |= {f"{c}_cr": to_crore(getattr(cost, f"{c}_inr"), params) for c in COMPONENTS}
-        row |= {
-            "total_cr": to_crore(cost.total_inr, params),
-            "delta_vs_recommended_cr": to_crore(cost.total_inr - recommended_total_inr, params),
-            "next_day_share_frac": cost.next_day_share_frac,
-            "two_day_share_frac": cost.two_day_share_frac,
-            "share_of_revenue_frac": cost.share_of_revenue_frac,
-        }
-    row |= {"mip_gap_frac": sol.gap_frac, "proxy_gap_frac": sol.proxy_gap_frac}
-    return row | {"solve_time_s": sol.solve_time_s}
-
-
-def write_outputs(results: dict, params: dict, data: NetworkData) -> None:
-    """Scenario JSON files, the summary CSV, the §12 charts and the network maps."""
-    SCENARIO_DIR.mkdir(parents=True, exist_ok=True)
-    CHART_DIR.mkdir(parents=True, exist_ok=True)
-    for stale in SCENARIO_DIR.glob("*.json"):
-        stale.unlink()
-    sha = hashlib.sha256(ASSUMPTIONS_PATH.read_bytes()).hexdigest()
-    runs, rec = results["runs"], results["recommended"]
-    for run in runs:
-        record = run_record(run, params, sha)
-        (SCENARIO_DIR / f"{run.scenario_id}.json").write_text(
-            json.dumps(record, indent=1, default=float)
-        )
-    robustness = results["robustness"]
-    (SCENARIO_DIR / "R.json").write_text(
-        json.dumps(
-            {
-                "scenario_id": "R",
-                "question": "Which sites are no-regret?",
-                "core": robustness["core"],
-                "swing": robustness["swing"],
-                "stress_scenarios": robustness["stress_scenarios"],
-                "open_matrix": robustness["matrix"].to_dict(),
-            },
-            indent=1,
-        )
-    )
-    (SCENARIO_DIR / "S7_switching_rents.json").write_text(
-        results["headroom"].to_json(orient="records", indent=1)
-    )
-    (SCENARIO_DIR / "S9_tornado.json").write_text(
-        results["tornado"].to_json(orient="records", indent=1)
-    )
-    summary = pd.DataFrame([summary_row(r, params, rec.solution.cost.total_inr) for r in runs])
-    summary.to_csv(OUTPUTS_DIR / "scenario_summary.csv", index=False, float_format="%.6g")
-    logger.info("Wrote %d scenario JSON files and outputs/scenario_summary.csv", len(runs))
-    write_charts(results, params)
-    write_network_maps(results, params, data)
-
-
-def breakdown_cr(solution: Solution, params: dict) -> dict[str, float]:
-    return {c: to_crore(getattr(solution.cost, f"{c}_inr"), params) for c in COMPONENTS}
-
-
-def write_charts(results: dict, params: dict) -> None:
-    """The six spec §12 charts."""
-    disclaimer = params["meta"]["disclaimer"].strip()
-    sweep_cr = pd.DataFrame(
-        {
-            r.inputs["k"]: {
-                **breakdown_cr(r.solution, params),
-                "total": to_crore(r.solution.cost.total_inr, params),
-            }
-            for r in results["sweep"]
-        }
-    ).T
-    cog_cr = pd.Series(
-        {r.inputs["k"]: to_crore(r.solution.cost.total_inr, params) for r in results["cog"]}
-    )
-    viz.save_chart(
-        viz.plot_cost_curve(sweep_cr, cog_cr),
-        CHART_DIR / "cost_curve.png",
-        "S2: cheapest network for each fixed DC count, no service target; dashed: "
-        "k-centre-of-gravity network costed on the same engine.",
-        disclaimer,
-    )
-    frontier = pd.DataFrame(
+def frontier_table(frontier: list[Run]) -> pd.DataFrame:
+    """S3 as a table: one row per radius x target, total NaN where infeasible."""
+    return pd.DataFrame(
         [
             {
+                "scenario_id": r.scenario_id,
                 "radius_km": r.inputs[RADIUS_KEY],
                 "alpha": r.inputs[ALPHA_KEY],
-                "total": to_crore(r.solution.cost.total_inr, params) if r.solution.cost else np.nan,
+                "total_inr": r.solution.cost.total_inr if r.solution.cost else np.nan,
+                "open_dcs": r.solution.open_dcs,
             }
-            for r in results["frontier"]
+            for r in frontier
         ]
     )
-    rec = results["recommended"]
-    knee = (
-        rec.inputs[RADIUS_KEY],
-        rec.inputs[ALPHA_KEY],
-        to_crore(rec.solution.cost.total_inr, params),
-    )
-    viz.save_chart(
-        viz.plot_service_frontier(frontier, knee),
-        CHART_DIR / "service_frontier.png",
-        "S3: free DC count; service = share of demand whose DC is within the radius by road "
-        "(haversine x 1.25).",
-        disclaimer,
-    )
-    viz.save_chart(
-        viz.plot_waterfall(
-            breakdown_cr(results["as_is"].solution, params), breakdown_cr(rec.solution, params)
-        ),
-        CHART_DIR / "as_is_vs_recommended.png",
-        f"As-is: 15 state depots, Grade B rents (illustrative baseline, spec §8). Recommended: "
-        f"{rec.scenario_id}.",
-        disclaimer,
-    )
-    viz.save_chart(
-        viz.plot_tornado(
-            results["tornado"],
-            to_crore(rec.solution.cost.total_inr, params),
-            to_crore(
-                results["as_is"].solution.cost.total_inr - rec.solution.cost.total_inr, params
-            ),
-        ),
-        CHART_DIR / "tornado.png",
-        "S9: each low/medium-confidence parameter at its range ends (data/assumptions.yaml); "
-        "network re-optimised, as-is re-costed.",
-        disclaimer,
-    )
-    viz.save_chart(
-        viz.plot_site_robustness(
-            results["robustness"]["matrix"], len(results["robustness"]["stress_scenarios"])
-        ),
-        CHART_DIR / "site_robustness.png",
-        f"No-regret core (open in {results['recommended'].scenario_id} and every S4-S8 stress "
-        f"scenario): {', '.join(results['robustness']['core'])}.",
-        disclaimer,
-    )
-    viz.save_chart(
-        viz.plot_rent_headroom(
-            results["headroom"], params["scenarios"]["rent_switch_search"]["max_multiplier"]
-        ),
-        CHART_DIR / "rent_headroom.png",
-        "S7: one site's rent raised at a time, network re-optimised; bisection to INR 0.25.",
-        disclaimer,
-    )
-    logger.info("Wrote 6 charts to outputs/charts/")
-
-
-def write_network_maps(results: dict, params: dict, data: NetworkData) -> None:
-    """outputs/network_<scenario>.html for the as-is, cost-only, recommended and S5 networks."""
-    disclaimer = params["meta"]["disclaimer"].strip()
-    radius_km = results["recommended"].inputs[RADIUS_KEY]
-    ring_gc_km = radius_km / params["distance"]["circuity_factor"]["value"]
-    by_id = {r.scenario_id: r for r in results["runs"]}
-    as_is_data, _ = as_is_network(params, data)
-    maps = [("S0", as_is_data), ("S1", data), (results["recommended"].scenario_id, data)]
-    maps += [("S5a", data), ("S5b", data)]
-    for scenario_id, network in maps:
-        run = by_id[scenario_id]
-        cost = run.solution.cost
-        title = (
-            f"{scenario_id}: {run.question} {len(run.solution.open_dcs)} DCs, "
-            f"INR {to_crore(cost.total_inr, params):.1f} Cr/yr, "
-            f"{cost.next_day_share_frac:.0%} of demand within {radius_km} km"
-        )
-        viz.plot_network_map(network, run.solution, radius_km, ring_gc_km, title, disclaimer).save(
-            OUTPUTS_DIR / f"network_{scenario_id}.html"
-        )
-    logger.info("Wrote %d network maps", len(maps))
 
 
 # --- Orchestration --------------------------------------------------------------------------
@@ -723,17 +464,10 @@ def run_all(params: dict, data: NetworkData) -> dict:
     sweep = s2_dc_count(params, data)
     frontier = s3_service_frontier(params, data)
     radius_km = params["service"]["next_day_radius_km"]["value"]
-    curve = pd.DataFrame(
-        [
-            {
-                "alpha": r.inputs[ALPHA_KEY],
-                "total": r.solution.cost.total_inr if r.solution.cost else np.nan,
-            }
-            for r in frontier
-            if r.inputs[RADIUS_KEY] == radius_km
-        ]
+    table = frontier_table(frontier)
+    alpha = knee_alpha(
+        table[table["radius_km"] == radius_km].rename(columns={"total_inr": "total"})
     )
-    alpha = knee_alpha(curve)
     recommended = next(
         r for r in frontier if r.inputs[RADIUS_KEY] == radius_km and r.inputs[ALPHA_KEY] == alpha
     )
@@ -749,11 +483,10 @@ def run_all(params: dict, data: NetworkData) -> dict:
     headroom = rent_switching_points(target, data, recommended)
     tornado_runs, tornado = s9_tornado(target, data)
     cog = cog_networks(params, data, sweep)
-    # S5 forces the busiest site out by design, so it is shown but does not classify
+    # S5 forces the busiest site out by design, so it is shown but does not classify (D-030)
     robustness = site_robustness(
-        recommended,
-        [cost_only, *frontier, *(r for r in stress if r.group == "S5" and r.scenario_id != "S5a")],
-        [r for r in stress if r.group != "S5"],
+        open_sets([recommended, *(r for r in stress if r.group != "S5")]),
+        open_sets([cost_only, *frontier, *(r for r in stress if r.scenario_id == "S5b")]),
     )
     runs = [as_is, cost_only, *sweep, *frontier, *stress, *tornado_runs, *cog]
     return {
@@ -761,78 +494,14 @@ def run_all(params: dict, data: NetworkData) -> dict:
         "as_is": as_is,
         "sweep": sweep,
         "frontier": frontier,
+        "frontier_table": table,
         "recommended": recommended,
+        "target": (radius_km, alpha),
         "headroom": headroom,
         "tornado": tornado,
         "cog": cog,
         "robustness": robustness,
     }
-
-
-def print_report(results: dict, params: dict, elapsed_s: float) -> None:
-    """Print the Checkpoint C summary: headline results and every infeasible combination."""
-    rec, as_is = results["recommended"], results["as_is"]
-    cr = lambda x_inr: to_crore(x_inr, params)  # noqa: E731
-    infeasible = [r.scenario_id for r in results["runs"] if r.solution.cost is None]
-    by_id = {r.scenario_id: r for r in results["runs"]}
-    lines = [
-        "",
-        "=" * 96,
-        f"CHECKPOINT C REPORT (spec §9, §12, §13): {len(results['runs'])} runs, {elapsed_s:.0f} s",
-        "=" * 96,
-        f"Recommended ({rec.scenario_id}, knee of the frontier): {len(rec.solution.open_dcs)} DCs, "
-        f"INR {cr(rec.solution.cost.total_inr):.1f} Cr, "
-        f"next-day {rec.solution.cost.next_day_share_frac:.1%}",
-        f"  Sites: {', '.join(rec.solution.open_dcs)}",
-        f"  Saving vs as-is (S0, INR {cr(as_is.solution.cost.total_inr):.1f} Cr): "
-        f"INR {cr(as_is.solution.cost.total_inr - rec.solution.cost.total_inr):.1f} Cr per year",
-        f"  No-regret core: {', '.join(results['robustness']['core'])}",
-        f"  Swing sites: {', '.join(results['robustness']['swing'])}",
-        f"Infeasible combinations: {', '.join(infeasible) or 'none'}",
-        "",
-        f"  {'scenario':<26}{'status':<24}{'DCs':>4}{'total Cr':>10}{'d rec':>8}"
-        f"{'next-day':>10}  notes",
-    ]
-    for run in results["runs"]:
-        if run.group in ("S9", "COG", "S2"):
-            continue  # summarised below
-        cost = run.solution.cost
-        if cost is None:
-            lines.append(f"  {run.scenario_id:<26}{run.solution.status:<24}")
-            continue
-        notes = {k: v for k, v in run.extra.items() if k in ("added", "dropped") and v}
-        lines.append(
-            f"  {run.scenario_id:<26}{run.solution.status:<24}{len(run.solution.open_dcs):>4}"
-            f"{cr(cost.total_inr):>10.1f}{cr(cost.total_inr - rec.solution.cost.total_inr):>+8.1f}"
-            f"{cost.next_day_share_frac:>10.1%}  {notes or ''}"
-        )
-    s5a = by_id["S5a"].extra
-    lines += [
-        "",
-        f"S5a outage of {s5a['closed_dc']}: freight "
-        f"+INR {s5a['freight_change_cr_per_yr']:.1f} Cr/yr "
-        f"(INR {s5a['outage_cost_cr']:.2f} Cr for the outage); next-day "
-        f"{s5a['next_day_share_before']:.1%} -> {s5a['next_day_share_during']:.1%}; "
-        f"{len(s5a['zones_losing_next_day'])} zones lose next-day",
-        "",
-        "S7 rent headroom (INR/sq ft/month; blank = stays open at the search bound):",
-        results["headroom"].round(2).to_string(index=False),
-        "",
-        "S9 tornado (INR Cr; widest swing first):",
-        results["tornado"][
-            ["label", "low_total", "high_total", "low_dcs", "high_dcs", "low_saving", "high_saving"]
-        ]
-        .round(1)
-        .to_string(index=False),
-        "",
-        "k-COG vs MILP at the same k (premium of the COG network):",
-        "  "
-        + ", ".join(
-            f"k={r.inputs['k']}: {r.extra['premium_vs_milp_frac']:+.1%}" for r in results["cog"]
-        ),
-        "=" * 96,
-    ]
-    print("\n".join(lines))  # noqa: T201
 
 
 def main() -> None:
@@ -841,8 +510,8 @@ def main() -> None:
     params = load_params()
     data = load_network_data()
     results = run_all(params, data)
-    write_outputs(results, params, data)
-    print_report(results, params, time.perf_counter() - start)
+    reporting.write_outputs(results, params, data)
+    reporting.print_report(results, params, time.perf_counter() - start)
 
 
 if __name__ == "__main__":

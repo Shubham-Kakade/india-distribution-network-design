@@ -1,7 +1,5 @@
 """Scenario building blocks on the tiny network in conftest.py."""
 
-import numpy as np
-import pandas as pd
 import pytest
 
 from src.config import with_overrides
@@ -9,10 +7,9 @@ from src.model import Solution, build_and_solve
 from src.scenarios import (
     Run,
     grown_demand,
-    knee_alpha,
+    open_sets,
     rent_switching_points,
     s5_disruption,
-    site_robustness,
     with_rents,
 )
 
@@ -21,14 +18,6 @@ def fake_run(scenario_id: str, open_dcs: tuple[str, ...], feasible: bool = True)
     cost = object() if feasible else None  # only "is the scenario feasible" is read
     sol = Solution("x", None, None, None, 0.0, open_dcs, None, None, cost, None)
     return Run(scenario_id, scenario_id[:2], "q", {}, sol)
-
-
-def test_knee_is_the_point_furthest_below_the_chord():
-    # Flat to 80%, then steep: the knee is 80%. Infeasible cells are ignored.
-    curve = pd.DataFrame(
-        {"alpha": [0.70, 0.75, 0.80, 0.85, 0.90, 0.95], "total": [100, 101, 102, 110, 125, np.nan]}
-    )
-    assert knee_alpha(curve) == 0.80
 
 
 def test_with_rents_scales_only_the_named_sites(tiny):
@@ -56,14 +45,13 @@ def test_regional_growth_follows_the_state_lists(params, tiny):
     )
 
 
-def test_robustness_core_and_swing_come_from_stress_runs_only():
-    rec = fake_run("S3_rec", ("A", "B", "C"))
-    stress = [fake_run("S4_x", ("A", "B", "C")), fake_run("S6_x", ("A", "B", "D"))]
-    context = [fake_run("S1", ("A",)), fake_run("S3_bad", (), feasible=False)]
-    r = site_robustness(rec, context, stress)
-    assert r["core"] == ["A", "B"]  # open in the recommended network and every stress run
-    assert r["swing"] == ["C", "D"]
-    assert list(r["matrix"].columns) == ["S3_rec", "S4_x", "S6_x", "S1"]  # infeasible dropped
+def test_open_sets_keep_feasible_runs_in_order():
+    runs = [
+        fake_run("S4_x", ("A", "B")),
+        fake_run("S3_bad", (), feasible=False),
+        fake_run("S1", ("A",)),
+    ]
+    assert open_sets(runs) == {"S4_x": ("A", "B"), "S1": ("A",)}
 
 
 def test_operational_outage_keeps_the_open_set_and_charges_freight_for_the_months(params, tiny):

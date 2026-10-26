@@ -20,6 +20,7 @@ from src.agent import (
     IDENTIFIER,
     Agent,
     OfflineAgent,
+    check_connection,
     is_grounded,
     numbers_in_result,
     worked_examples,
@@ -48,10 +49,24 @@ def structured(headline: str) -> str:
     return f"{plain_text}\n\n{DETAILS_MARKER}\n\n{details}"
 
 
-def status_error(cls, status: int, headers: dict | None = None):
+def status_error(cls, status: int, headers: dict | None = None, body=None):
     # Only the attributes the SDK error reads; avoids depending on its HTTP library
     response = SimpleNamespace(status_code=status, headers=headers or {}, request=None)
-    return cls(f"HTTP {status} from the provider", response=response, body=None)
+    return cls(f"Error code: {status}", response=response, body=body)
+
+
+# Gemini's error body shape; the key-like text is assembled so the key scan stays quiet
+FAKE_KEY = "AI" + "za" + "x" * 35
+GEMINI_400 = [
+    {
+        "error": {
+            "code": 400,
+            "message": f"* GenerateContentRequest.tools[0].function_declarations[0].parameters"
+            f".properties: should be non-empty for OBJECT type (key {FAKE_KEY})",
+            "status": "INVALID_ARGUMENT",
+        }
+    }
+]
 
 
 def text_reply(content: str):
@@ -239,7 +254,12 @@ def test_tool_calls_are_capped_at_six_per_question(offline):
 def test_refused_override_goes_back_to_the_model(offline):
     toolbox = FakeToolBox(error="circuity_factor = 9 is refused: accepted values are [0.65, 1.9]")
     script = [
-        tool_reply(("run_scenario", '{"name": "x", "overrides": {"distance.circuity_factor": 9}}')),
+        tool_reply(
+            (
+                "run_scenario",
+                '{"name": "x", "overrides": [{"key": "distance.circuity_factor", "value": 9}]}',
+            )
+        ),
         text_reply(structured("That is refused: the accepted circuity range is 0.65 to 1.9.")),
     ]
     bot, client = live_agent(script, offline, toolbox)
@@ -411,3 +431,26 @@ def test_equal_service_reads_unchanged_and_library_names_are_plain(offline):
     library = json.dumps(offline.library["entries"])
     assert "Bengaluru" in library
     assert not re.search(r'"(BBMP|DMC|GHMC|GVMC|Greater Mumbai)"', library)
+
+
+def test_fallback_notice_and_log_carry_the_provider_message_redacted(offline, caplog):
+    error = status_error(openai.BadRequestError, 400, body=GEMINI_400)
+    bot, _ = live_agent([error], offline)
+    reply = bot.ask("What's our recommended network and what does it cost?")
+    assert "should be non-empty for OBJECT type" in reply.notice
+    assert "BadRequestError (HTTP 400)" in reply.notice
+    assert FAKE_KEY not in reply.notice
+    assert any("non-empty for OBJECT" in r.getMessage() for r in caplog.records)
+    assert all(FAKE_KEY not in r.getMessage() for r in caplog.records)
+
+
+def test_check_connection_reports_success_and_the_provider_error():
+    ok = FakeClient([text_reply("OK")])
+    assert check_connection(LIVE, ok) == "Connected: test-model accepted tools"
+    assert ok.requests[0]["tools"] == agent.TOOL_SCHEMAS  # the real schemas are what is tested
+    failing = FakeClient([status_error(openai.BadRequestError, 400, body=GEMINI_400)])
+    message = check_connection(LIVE, failing)
+    assert message.startswith("Connection failed: BadRequestError (HTTP 400): ")
+    assert "non-empty for OBJECT type" in message and FAKE_KEY not in message
+    assert len(failing.requests) == 1  # one tiny request, no retries
+    assert check_connection(agent.OFFLINE).startswith("No live settings")

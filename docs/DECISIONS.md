@@ -4,6 +4,25 @@ Modelling and engineering decisions, newest first. Each entry records the contex
 
 ---
 
+## 2026-10-26 — Fix: tool schemas Gemini accepts, and provider errors you can read
+
+**D-055 Tool schemas stay inside the subset Gemini accepts.**
+- *Bug.* The hosted app reported HTTP 400 on every live call with a valid AI Studio key. Gemini's OpenAI-compatible endpoint rejects an object schema whose `properties` is empty or missing. We sent two of those (`list_parameters` and `rank_assumptions`, with `"properties": {}`) and one free-form object (`run_scenario.overrides`, `{"type": "object"}`).
+- *No-argument tools omit `parameters`.* `parameters` is optional in the OpenAI function-calling format, and a tool without it is a no-argument tool:
+  - Gemini maps it to a function declaration without parameters, which it accepts;
+  - Groq and OpenAI accept it too.
+
+  The alternative, one optional dummy property, works everywhere as well. It was rejected because it invites the model to invent an argument, and a stray argument breaks `ToolBox.call`, which passes arguments as keywords.
+- *Overrides are a list.* `run_scenario.overrides` is now an array of `{"key": string, "value": number}` items, both required. `overrides_from_items` turns it into the same `{key: value}` dict as before, refusing a malformed list or a repeated key. Validation, the cache key (built from the validated dict) and the agent-made ids are unchanged. The library changed only in the two diesel call arguments. The live prompt, the worked examples, the demo transcript and spec §10 use the new form.
+- *Test.* Every tool schema is checked against the strict subset: each object has non-empty `properties`, each array has `items`, and there is no `additionalProperties`, `default`, `oneOf`, `anyOf`, `$ref` or `format`.
+
+**D-056 Provider errors keep the provider's own message; a sidebar connection test.**
+- *Problem.* The fallback notice showed only "Error code: 400". Gemini sends its error body as a one-item list, which the SDK reduces to the status code, so the reason never reached the screen or the log.
+- *Fix.* `provider_error` takes the message from the response body (`error.message`, else the body, else the SDK message). It is redacted with `llm_settings.redact`, cut to about 200 characters, and appears in both the server log and the fallback notice.
+- *Test connection.* A sidebar button sends one tiny request carrying every tool schema, with no retries. It shows "Connected: <model> accepted tools", or the redacted provider error.
+
+---
+
 ## 2026-10-26 — Phase 5 follow-up (plain answers, owner decision)
 
 **D-052 Owner decision: no named hiring firm, job post or recruiter in the current files.**

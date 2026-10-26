@@ -38,7 +38,10 @@ def test_repeated_run_is_served_from_the_cache(toolbox, full_service, tiny, monk
         return build_and_solve(*args, **kwargs)
 
     monkeypatch.setattr(agent_tools, "build_and_solve", counting_solve)
-    args = {"name": "dearer freight", "overrides": {"transport.secondary_inr_per_tkm": 10}}
+    args = {
+        "name": "dearer freight",
+        "overrides": [{"key": "transport.secondary_inr_per_tkm", "value": 10}],
+    }
     first = toolbox.call("run_scenario", args)
     second = toolbox.call("run_scenario", args)
     reopened = ToolBox(
@@ -52,7 +55,8 @@ def test_repeated_run_is_served_from_the_cache(toolbox, full_service, tiny, monk
 
 def test_diesel_shock_reuses_the_s6_freight_overrides(toolbox, full_service, tiny):
     result = toolbox.call(
-        "run_scenario", {"name": "diesel", "overrides": {"diesel_shock_frac": 0.2}}
+        "run_scenario",
+        {"name": "diesel", "overrides": [{"key": "diesel_shock_frac", "value": 0.2}]},
     )
     expected = build_and_solve(
         with_overrides(full_service, diesel_overrides(full_service, 0.2)[1]), tiny
@@ -111,3 +115,40 @@ def test_unknown_tools_and_argument_names_raise_value_error(toolbox):
 )
 def test_zones_are_shown_by_the_name_readers_know(anchor_name, shown):
     assert agent_tools.display_name(anchor_name) == shown
+
+
+GEMINI_BANNED_KEYS = {"additionalProperties", "default", "oneOf", "anyOf", "$ref", "format"}
+
+
+def gemini_problems(schema: object, path: str = "") -> list[str]:
+    """Where a JSON schema leaves the strict subset Gemini's OpenAI-compatible endpoint accepts."""
+    problems = []
+    if isinstance(schema, dict):
+        problems += [f"{path}: '{k}'" for k in GEMINI_BANNED_KEYS & set(schema)]
+        if schema.get("type") == "object" and not schema.get("properties"):
+            problems.append(f"{path}: object without properties")
+        if schema.get("type") == "array" and "items" not in schema:
+            problems.append(f"{path}: array without items")
+        for key, value in schema.items():
+            problems += gemini_problems(value, f"{path}.{key}")
+    elif isinstance(schema, list):
+        for i, value in enumerate(schema):
+            problems += gemini_problems(value, f"{path}[{i}]")
+    return problems
+
+
+def test_every_tool_schema_is_in_the_subset_gemini_accepts():
+    """D-055: Gemini answers HTTP 400 to an object with empty or missing properties."""
+    for tool in agent_tools.TOOL_SCHEMAS:
+        function = tool["function"]
+        assert gemini_problems(function.get("parameters", {}), function["name"]) == []
+    assert gemini_problems({"type": "object", "properties": {}}) == [": object without properties"]
+    assert gemini_problems({"type": "array"}) == [": array without items"]
+
+
+def test_override_items_become_the_validated_dict(params):
+    items = [{"key": "diesel_shock_frac", "value": 0.2}]
+    assert agent_tools.overrides_from_items(items) == {"diesel_shock_frac": 0.2}
+    for bad in ({"diesel_shock_frac": 0.2}, [{"key": "diesel_shock_frac"}], items + items):
+        with pytest.raises(ValueError, match="overrides"):
+            agent_tools.overrides_from_items(bad)

@@ -210,3 +210,20 @@ The supervisor approved Phase 3 with two changes. Both are on PR #4.
   - display names.
 
   Fast suite: 136 tests in about 5.3 s; slow: 2 passed.
+
+## 2026-10-26 — Fix: Gemini tool schemas and readable provider errors
+
+- **Schemas (D-055).**
+  - `list_parameters` and `rank_assumptions` no longer send an empty `parameters` object.
+  - `run_scenario.overrides` is a list of `{key, value}` items, converted to the old dict before the unchanged validation and cache.
+  - A test holds every schema to the subset Gemini accepts.
+  - The library changed only in the two diesel call arguments, and it rebuilds byte-identically.
+- **Diagnosability (D-056).**
+  - Fallback notices and the server log carry the provider's own error message, redacted, instead of "Error code: 400".
+  - A sidebar "Test connection" button sends one tiny tool-enabled request.
+- **Live check.** Not possible from the cloud session: Google rejects this environment's key with "Missing or invalid Authorization header", even with no tools. The fix still has to be confirmed on the hosted app with a real AI Studio key.
+- **Tests.** 140 fast tests pass in about 6.4 s (12 new or updated). The new ones cover:
+  - the schema subset;
+  - the override list (accepted, malformed, duplicate);
+  - the provider message in the notice and log, redacted;
+  - the connection check (success, provider error, no settings).

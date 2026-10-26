@@ -153,6 +153,7 @@ The app reads only committed files: `data/processed/`, `outputs/scenarios/` and 
 - **Windows:** create the venv outside OneDrive (the setup script does this by default).
 - **Gemini:** keys must be AI Studio auth keys; otherwise Google returns 403 `API_KEY_SERVICE_BLOCKED`.
 - **Free tiers may return 429** (rate limited); the app then falls back to offline with a notice.
+- **Test connection** in the sidebar sends one tiny request with every tool schema and shows either "Connected" or the provider's own error message (key redacted). A fallback notice carries the same message.
 
 ## Limitations
 

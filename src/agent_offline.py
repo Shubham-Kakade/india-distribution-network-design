@@ -572,13 +572,29 @@ def library_intents(recommended_id: str) -> list[Intent]:
             "diesel_40",
             "What if diesel rises 40%?",
             (r"diesel|fuel", r"\b40\b"),
-            (("run_scenario", {"name": "diesel_40", "overrides": {"diesel_shock_frac": 0.4}}),),
+            (
+                (
+                    "run_scenario",
+                    {
+                        "name": "diesel_40",
+                        "overrides": [{"key": "diesel_shock_frac", "value": 0.4}],
+                    },
+                ),
+            ),
         ),
         Intent(
             "diesel_20",
             "Diesel just went up 20%. Should we change anything?",
             (r"diesel|fuel",),
-            (("run_scenario", {"name": "diesel_20", "overrides": {"diesel_shock_frac": 0.2}}),),
+            (
+                (
+                    "run_scenario",
+                    {
+                        "name": "diesel_20",
+                        "overrides": [{"key": "diesel_shock_frac", "value": 0.2}],
+                    },
+                ),
+            ),
         ),
         Intent(
             "service_90_95",

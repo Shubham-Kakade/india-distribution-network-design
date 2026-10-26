@@ -245,7 +245,7 @@ The **recommendation** is the network at the knee of the S3 frontier, cross-chec
 | Tool | Arguments | Returns |
 |---|---|---|
 | `list_parameters()` | none | Editable parameters with current values, bounds and confidence |
-| `run_scenario(name, overrides)` | dict of parameter overrides, validated against bounds | scenario_id, sites, cost breakdown, service, deltas against base |
+| `run_scenario(name, overrides)` | list of `{key, value}` parameter overrides (D-055), validated against bounds | scenario_id, sites, cost breakdown, service, deltas against base |
 | `simulate_disruption(dc_id, months, mode)` | mode ∈ {operational, strategic} | Cost and service impact, re-assigned zones |
 | `compare_scenarios(ids)` | list of scenario_ids | Side-by-side table |
 | `explain_network(scenario_id)` | id | Structured facts: each site's zones, throughput, share of cost, next-day share |

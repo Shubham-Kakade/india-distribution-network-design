@@ -981,9 +981,12 @@
      "run_scenario",
      {
       "name": "diesel_40",
-      "overrides": {
-       "diesel_shock_frac": 0.4
-      }
+      "overrides": [
+       {
+        "key": "diesel_shock_frac",
+        "value": 0.4
+       }
+      ]
      }
     ]
    ],
@@ -1127,9 +1130,12 @@
      "run_scenario",
      {
       "name": "diesel_20",
-      "overrides": {
-       "diesel_shock_frac": 0.2
-      }
+      "overrides": [
+       {
+        "key": "diesel_shock_frac",
+        "value": 0.2
+       }
+      ]
      }
     ]
    ],
